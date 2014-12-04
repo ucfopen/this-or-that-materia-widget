@@ -59,17 +59,17 @@
 #icon-alert          { content : "\e006"; }
 
 // Color palette.
-@a : #584B4B;
-@b : #44382A;
-@c : #6B6263;
-@d : #543F3D;
-@e : #A45B5B;
-@f : #87735F;
+$a : #584B4B;
+$b : #44382A;
+$c : #6B6263;
+$d : #543F3D;
+$e : #A45B5B;
+$f : #87735F;
 
 body {
 	position         : absolute;
 	color            : #FFF;
-	background-color : @a !important;
+	background-color : $a !important;
 	padding          : 0;
 	margin           : 0;
 	width            : 800px;
@@ -111,7 +111,7 @@ body {
 		&.shown { opacity : 1; }
 		.box {
 			position         : absolute;
-			background-color : @e;
+			background-color : $e;
 			padding          : 5px 10px;
 			border-radius    : 5px;
 		}
@@ -122,11 +122,11 @@ body {
 				position : absolute;
 				top      : 195px;
 				path {
-					stroke       : @e;
+					stroke       : $e;
 					stroke-width : 3;
 				}
 				circle {
-					fill         : @e;
+					fill         : $e;
 					stroke-width : 0;
 				}
 			}
@@ -708,44 +708,44 @@ body {
 	}
 }
 .error-notice-container {
-	position   : absolute;
-	left       : 0;
-	right      : 0;
-	top        : 0;
-	bottom     : 0;
-	background : #2f3944;
-	display    : none;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: #2f3944;
+	display: none;
 	.error-notice {
-		background : #fceead url('../img/error-icon.png') center 26px no-repeat;
-		width      : 625px;
-		height     : 295px;
-		margin     : 140px auto 0 auto;
-		text-align : center;
+		background: #fceead url('../img/error-icon.png') center 26px no-repeat;
+		width: 625px;
+		height: 295px;
+		margin: 140px auto 0 auto;
+		text-align: center;
 
 		h1 {
-			color       : #f78348;
-			font-size   : 13pt;
-			padding-top : 130px;
-			font-weight : normal;
+			color: #f78348;
+			font-size: 13pt;
+			padding-top: 130px;
+			font-weight: normal;
 		}
 
 		h2 {
-			font-size   : 16pt;
-			color       : #282828;
-			padding-top : 16px;
-			font-weight : normal;
+			font-size: 16pt;
+			color: #282828;
+			padding-top: 16px;
+			font-weight: normal;
 		}
 	}
 }
 
 .instructions {
-	position   : absolute;
-	left       : 0;
-	right      : 0;
-	top        : 0;
-	bottom     : 0;
-	background : rgba(0,0,0,0.8);
-	display    : block;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: url('./assets/img/curtains.png') repeat-x center bottom;
+	display: block;
 	color: #fff;
 	padding: 115px 50px;
 
@@ -754,7 +754,7 @@ body {
 	z-index: 1000;
 
 	&.hide {
-		display    : none;
+		display: none;
 	}
 
 	h2 {

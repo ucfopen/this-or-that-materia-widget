@@ -3,15 +3,15 @@
 Materia
 It's a thing
 
-Widget  : Flashcards, Engine
-Authors : Micheal Parks
+Widget  : This or That, Engine
+Authors : Eric Colon
 
 ###
 
-Namespace('Flashcards').Card        = [] # Array of objects that holds active cards.
-Namespace('Flashcards').DiscardPile = [] # Array of objects that holds discards.
+Namespace('ThisOrThat').Card        = [] # Array of objects that holds active cards.
+Namespace('ThisOrThat').DiscardPile = [] # Array of objects that holds discards.
 
-Namespace('Flashcards').Engine = do ->
+Namespace('ThisOrThat').Engine = do ->
 	Nodes = {} # DOM Elements.
 
 	currentCardId = 0       # Specifies the main card that the user is interacting with.
@@ -73,7 +73,7 @@ Namespace('Flashcards').Engine = do ->
 			]
 			complete : () ->
 				atari = true
-				Flashcards.Atari.start()
+				ThisOrThat.Atari.start()
 		)
 
 	# Reference commonly accessed nodes.
@@ -104,8 +104,8 @@ Namespace('Flashcards').Engine = do ->
 		_cardNodes = document.getElementsByClassName 'flashcard'
 
 		for i in [0..numCards-1]
-			Flashcards.Card.push {}
-			_card = Flashcards.Card[i]
+			ThisOrThat.Card.push {}
+			_card = ThisOrThat.Card[i]
 
 			# Single flashcard specific data.
 			_card.node      = _cardNodes[i]
@@ -137,15 +137,15 @@ Namespace('Flashcards').Engine = do ->
 		if face is 'reverse'
 			rotation = '-rotated'
 			for i in [0..numCards-1]
-				if i is currentCardId     then Flashcards.Card[i].node.className = 'flashcard rotated'
-				else if i < currentCardId then Flashcards.Card[i].node.className = 'flashcard left-rotated'
-				else if i > currentCardId then Flashcards.Card[i].node.className = 'flashcard right-rotated'
+				if i is currentCardId     then ThisOrThat.Card[i].node.className = 'flashcard rotated'
+				else if i < currentCardId then ThisOrThat.Card[i].node.className = 'flashcard left-rotated'
+				else if i > currentCardId then ThisOrThat.Card[i].node.className = 'flashcard right-rotated'
 		else
 			rotation = ''
 			for i in [0..numCards-1]
-				if i is currentCardId     then Flashcards.Card[i].node.className = 'flashcard'
-				else if i < currentCardId then Flashcards.Card[i].node.className = 'flashcard left'
-				else if i > currentCardId then Flashcards.Card[i].node.className = 'flashcard right'
+				if i is currentCardId     then ThisOrThat.Card[i].node.className = 'flashcard'
+				else if i < currentCardId then ThisOrThat.Card[i].node.className = 'flashcard left'
+				else if i > currentCardId then ThisOrThat.Card[i].node.className = 'flashcard right'
 
 	_addEventListeners = () ->
 		# document.oncontextmenu = -> false                # Disables right click.
@@ -237,16 +237,16 @@ Namespace('Flashcards').Engine = do ->
 	# @direction : The direction we wish to shift the cards.
 	_shiftCards = (direction) ->
 		if not animating
-			if atari then Flashcards.Atari.playButton()
+			if atari then ThisOrThat.Atari.playButton()
 
 			# Move the current card in the specified direction.
-			Flashcards.Card[currentCardId].node.className = 'flashcard '+direction+rotation
+			ThisOrThat.Card[currentCardId].node.className = 'flashcard '+direction+rotation
 
 			# Increment or decrement the current card ID.
 			currentCardId = if direction is 'left' then currentCardId+1 else currentCardId-1
 
 			# Animate the new current card to the center.
-			Flashcards.Card[currentCardId].node.className = "flashcard "+(if rotation is '' then '' else 'rotated')
+			ThisOrThat.Card[currentCardId].node.className = "flashcard "+(if rotation is '' then '' else 'rotated')
 
 			_setArrowState()
 
@@ -258,13 +258,13 @@ Namespace('Flashcards').Engine = do ->
 	# Rotates the current card 180 degrees.
 	_flipCard = () ->
 		if numCards > 0
-			if atari then Flashcards.Atari.playFlip()
+			if atari then ThisOrThat.Atari.playFlip()
 			# The back is currently showing.
-			if Flashcards.Card[currentCardId].node.className is 'flashcard rotated'
-				Flashcards.Card[currentCardId].node.className = 'flashcard'
+			if ThisOrThat.Card[currentCardId].node.className is 'flashcard rotated'
+				ThisOrThat.Card[currentCardId].node.className = 'flashcard'
 			# The front is currently showing.
 			else
-				Flashcards.Card[currentCardId].node.className = 'flashcard rotated'
+				ThisOrThat.Card[currentCardId].node.className = 'flashcard rotated'
 
 	# Shuffles the entire deck.
 	_shuffleCards = () ->
@@ -275,23 +275,23 @@ Namespace('Flashcards').Engine = do ->
 					animating = false
 				, 1200
 
-				if atari then Flashcards.Atari.playIcon 'shuffle'
+				if atari then ThisOrThat.Atari.playIcon 'shuffle'
 
 				_posArr = [0, 1, 2, 3, 4]
 
-				# Access 5 flashcards: two from the left, the current card, and two from the right.
+				# Access 5 ThisOrThat: two from the left, the current card, and two from the right.
 				# Then stage them.
 				for i in [-2..2]
-					if Flashcards.Card[currentCardId+i]?
-						Flashcards.Card[currentCardId+i].node.className = 'flashcard stage-sh-'+(_posArr[(i+2)])+rotation
+					if ThisOrThat.Card[currentCardId+i]?
+						ThisOrThat.Card[currentCardId+i].node.className = 'flashcard stage-sh-'+(_posArr[(i+2)])+rotation
 
 				_shuffle(_posArr)
 
 				setTimeout ->
 					for i in [-2..2]
-						if Flashcards.Card[currentCardId+i]?
-							_stageShufflePt1(Flashcards.Card[currentCardId+i].node, i+2)
-							_stageShufflePt2(Flashcards.Card[currentCardId+i].node, i+2, _posArr[i+2])
+						if ThisOrThat.Card[currentCardId+i]?
+							_stageShufflePt1(ThisOrThat.Card[currentCardId+i].node, i+2)
+							_stageShufflePt2(ThisOrThat.Card[currentCardId+i].node, i+2, _posArr[i+2])
 				, 600
 
 				setTimeout ->
@@ -300,7 +300,7 @@ Namespace('Flashcards').Engine = do ->
 
 				# Shuffle and reset the card data, then conclude the animation.
 				setTimeout ->
-					Flashcards.Card = _shuffle(Flashcards.Card)
+					ThisOrThat.Card = _shuffle(ThisOrThat.Card)
 					_setCardPositions(if rotation is '' then null else 'reverse')
 					Nodes.icons[3].className = 'icon'
 				, 1500
@@ -330,30 +330,30 @@ Namespace('Flashcards').Engine = do ->
 			if not animating
 				animating = true
 
-				if atari then Flashcards.Atari.playIcon 'rotate'
+				if atari then ThisOrThat.Atari.playIcon 'rotate'
 
 				Nodes.icons[2].className = 'icon focused' # Focus the rotate icon.
 
 				_rotation        = if rotation is '' then '' else '-rotated'
 				_reverseRotation = if rotation is '' then '-rotated' else ''
 
-				# Access 5 flashcards: two from the left, the current card, and two from the right.
+				# Access 5 ThisOrThat: two from the left, the current card, and two from the right.
 				# Then stage them.
 				for i in [-2..2]
-					if Flashcards.Card[currentCardId+i]?
-						Flashcards.Card[currentCardId+i].node.className = 'flashcard stage-'+(i+2)+_rotation
+					if ThisOrThat.Card[currentCardId+i]?
+						ThisOrThat.Card[currentCardId+i].node.className = 'flashcard stage-'+(i+2)+_rotation
 
-				# At this point, the flashcards are staged and must be given a rotation animation.
+				# At this point, the ThisOrThat are staged and must be given a rotation animation.
 				setTimeout ->
 					j = 0 # A counter to allot staging positions to cards.
 					timer = setInterval ->
-						if Flashcards.Card[currentCardId+(j-2)]?
-							Flashcards.Card[currentCardId+(j-2)].node.className = 'flashcard stage-'+j+_reverseRotation
+						if ThisOrThat.Card[currentCardId+(j-2)]?
+							ThisOrThat.Card[currentCardId+(j-2)].node.className = 'flashcard stage-'+j+_reverseRotation
 						if j < 4 then j++
 					, 100
 				, 600
 
-				# Now it's time to bring the flashcards back to their default positions.
+				# Now it's time to bring the ThisOrThat back to their default positions.
 				setTimeout ->
 					animating = false
 					clearInterval(timer)
@@ -378,18 +378,18 @@ Namespace('Flashcards').Engine = do ->
 
 				Nodes.icons[1].className = "icon"
 
-				if atari then Flashcards.Atari.playDiscard()
+				if atari then ThisOrThat.Atari.playDiscard()
 
 				# Store a record of the latest discard.
-				_moveCardObject(Flashcards.Card, Flashcards.DiscardPile, currentCardId)
+				_moveCardObject(ThisOrThat.Card, ThisOrThat.DiscardPile, currentCardId)
 
 				# Animate the card into the discard pile.
-				_len = Flashcards.DiscardPile.length
-				if _len > 3 then Flashcards.DiscardPile[_len-1].node.className = 'flashcard discarded-pos-3'
-				else Flashcards.DiscardPile[_len-1].node.className = 'flashcard discarded-pos-'+(_len-1)
+				_len = ThisOrThat.DiscardPile.length
+				if _len > 3 then ThisOrThat.DiscardPile[_len-1].node.className = 'flashcard discarded-pos-3'
+				else ThisOrThat.DiscardPile[_len-1].node.className = 'flashcard discarded-pos-'+(_len-1)
 
 				if _len > 4 then setTimeout ->
-					Flashcards.DiscardPile[_len-1].node.className = 'flashcard hidden'
+					ThisOrThat.DiscardPile[_len-1].node.className = 'flashcard hidden'
 				, 710
 
 				# If the user has discarded the entire deck, prompt them to restore it.
@@ -398,11 +398,11 @@ Namespace('Flashcards').Engine = do ->
 					_showElement Nodes.finishMssg, true
 					Nodes.container.className = 'hidden'
 				else
-					if Flashcards.Card[currentCardId]?
-						Flashcards.Card[currentCardId].node.className = "flashcard "+(if rotation is '' then '' else 'rotated')
+					if ThisOrThat.Card[currentCardId]?
+						ThisOrThat.Card[currentCardId].node.className = "flashcard "+(if rotation is '' then '' else 'rotated')
 					else
 						currentCardId--
-						Flashcards.Card[currentCardId].node.className = "flashcard "+(if rotation is '' then '' else 'rotated')
+						ThisOrThat.Card[currentCardId].node.className = "flashcard "+(if rotation is '' then '' else 'rotated')
 
 				_setArrowState()
 
@@ -433,22 +433,22 @@ Namespace('Flashcards').Engine = do ->
 				if numDiscard is 0 then Nodes.icons[1].className = "icon unselectable"
 
 				# Move last discarded from discard to active pile.
-				_moveCardObject(Flashcards.DiscardPile, Flashcards.Card, Flashcards.DiscardPile.length-1)
+				_moveCardObject(ThisOrThat.DiscardPile, ThisOrThat.Card, ThisOrThat.DiscardPile.length-1)
 
 				# Animate the card from one pile to another, then shift to its position.
-				_len = Flashcards.DiscardPile.length
-				if _len > 2 then Flashcards.Card[Flashcards.Card.length-1].node.className = 'flashcard discarded-pos-3'
-				else Flashcards.Card[Flashcards.Card.length-1].node.className = 'flashcard discarded-pos-'+(_len-1)
+				_len = ThisOrThat.DiscardPile.length
+				if _len > 2 then ThisOrThat.Card[ThisOrThat.Card.length-1].node.className = 'flashcard discarded-pos-3'
+				else ThisOrThat.Card[ThisOrThat.Card.length-1].node.className = 'flashcard discarded-pos-'+(_len-1)
 
 				setTimeout ->
-					Flashcards.Card[Flashcards.Card.length-1].node.className = 'flashcard ' + rotation
-					_dif = Flashcards.Card.length-2-currentCardId
+					ThisOrThat.Card[ThisOrThat.Card.length-1].node.className = 'flashcard ' + rotation
+					_dif = ThisOrThat.Card.length-2-currentCardId
 					_shiftCards 'left' for i in [0.._dif]
 					_setArrowState()
 				, 20
 
 	_restoreTriggered = () ->
-		if atari then Flashcards.Atari.playIcon 'restore'
+		if atari then ThisOrThat.Atari.playIcon 'restore'
 
 		_showIcons()
 		Nodes.icons[0].className = 'icon focused'
@@ -467,24 +467,24 @@ Namespace('Flashcards').Engine = do ->
 				_restoreTriggered()
 
 				# Move all cards from the discard pile into the active pile.
-				for i in [0..Flashcards.DiscardPile.length-1]
-					_moveCardObject(Flashcards.DiscardPile, Flashcards.Card, Flashcards.DiscardPile.length-1)
+				for i in [0..ThisOrThat.DiscardPile.length-1]
+					_moveCardObject(ThisOrThat.DiscardPile, ThisOrThat.Card, ThisOrThat.DiscardPile.length-1)
 
 				# Reset discard data.
 				if numCards is 0 then currentCardId = 0
 				numDiscard = 0
-				numCards = Flashcards.Card.length
+				numCards = ThisOrThat.Card.length
 				for i in [0..numCards-1]
-					Flashcards.Card[i].node.className = 'flashcard discarded-pos-3'
+					ThisOrThat.Card[i].node.className = 'flashcard discarded-pos-3'
 
 				setTimeout ->
 					for i in [0..numCards-1]
-						Flashcards.Card[i].node.className = "flashcard right"+rotation
+						ThisOrThat.Card[i].node.className = "flashcard right"+rotation
 
 					# Stage the cards.
 					for i in [-2..2]
-						if Flashcards.Card[currentCardId+i]?
-							Flashcards.Card[currentCardId+i].node.className = 'flashcard stage-'+(i+2)+rotation
+						if ThisOrThat.Card[currentCardId+i]?
+							ThisOrThat.Card[currentCardId+i].node.className = 'flashcard stage-'+(i+2)+rotation
 
 					_hideElement(Nodes.finishMssg, true) # Hide the finish message.
 					Nodes.container.className = ''       # Make sure the card container is shown.

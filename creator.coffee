@@ -3,16 +3,16 @@
 Materia
 It's a thing
 
-Widget  : Flashcards, Creator
+Widget  : Flashquestions, Creator
 Authors : Jonathan Warner, Brandon Stull, Micheal Parks
 Updated : 5/14
 
 ###
 
 # Create an angular module to import the animation module and house our controller
-Flashcards = angular.module 'FlashcardsCreator', ['ngAnimate', 'ngSanitize']
+ThisOrThat = angular.module 'ThisOrThatCreator', ['ngAnimate', 'ngSanitize']
 
-Flashcards.directive('ngEnter', ->
+ThisOrThat.directive('ngEnter', ->
     return (scope, element, attrs) ->
         element.bind("keydown keypress", (event) ->
             if(event.which == 13)
@@ -21,7 +21,7 @@ Flashcards.directive('ngEnter', ->
                 event.preventDefault()
         )
 )
-Flashcards.directive('focusMe', ['$timeout', '$parse', ($timeout, $parse) ->
+ThisOrThat.directive('focusMe', ['$timeout', '$parse', ($timeout, $parse) ->
 	link: (scope, element, attrs) ->
 		model = $parse(attrs.focusMe)
 		scope.$watch model, (value) ->
@@ -33,7 +33,7 @@ Flashcards.directive('focusMe', ['$timeout', '$parse', ($timeout, $parse) ->
 
 
 # The 'Resource' service contains all app logic that does pertain to DOM manipulation
-Flashcards.factory 'Resource', ['$sanitize', ($sanitize) ->
+ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 	buildQset: (title, items) ->
 		qsetItems = []
 		qset = {}
@@ -75,10 +75,10 @@ Flashcards.factory 'Resource', ['$sanitize', ($sanitize) ->
 ]
 
 # Set the controller for the scope of the document body.
-Flashcards.controller 'FlashcardsCreatorCtrl', ['$scope', '$sanitize', 'Resource',
+ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$sanitize', 'Resource',
 ($scope, $sanitize, Resource) ->
-	$scope.title = "My Flash Cards widget"
-	$scope.cards = []
+	$scope.title = "My This or That widget"
+	$scope.questions = []
 	_imgRef = []
 
 	# View actions
@@ -92,7 +92,7 @@ Flashcards.controller 'FlashcardsCreatorCtrl', ['$scope', '$sanitize', 'Resource
 
 	$scope.initNewWidget = (widget, baseUrl) ->
 		$scope.$apply ->
-			$scope.showIntroDialog = true
+			$scope.showIntroDialog = false
 
 	$scope.initExistingWidget = (title, widget, qset, version, baseUrl) ->
 		$scope.title = title
@@ -100,7 +100,7 @@ Flashcards.controller 'FlashcardsCreatorCtrl', ['$scope', '$sanitize', 'Resource
 
 	$scope.onSaveClicked = (mode = 'save') ->
 		# Create a qset to save
-		qset = Resource.buildQset $sanitize($scope.title), $scope.cards
+		qset = Resource.buildQset $sanitize($scope.title), $scope.questions
 		if qset then Materia.CreatorCore.save $sanitize($scope.title), qset
 
 	$scope.onSaveComplete = () -> true
@@ -108,20 +108,20 @@ Flashcards.controller 'FlashcardsCreatorCtrl', ['$scope', '$sanitize', 'Resource
 	$scope.onQuestionImportComplete = (items) ->
 		# Add each imported question to the DOM
 		for i in [0..items.length-1]
-			$scope.addCard items[i].questions[0].text.replace(/\&\#10\;/g, '\n'), items[i].answers[0].text.replace(/\&\#10\;/g, '\n'), items[i].assets, items[i].id, items[i].questions[0].id, items[i].answers[0].id
-			if items[i].assets?[0] and items[i].assets[0] != '-1' then $scope.cards[i].URLs[0] = Materia.CreatorCore.getMediaUrl items[i].assets[0]
-			if items[i].assets?[1] and items[i].assets[1] != '-1' then $scope.cards[i].URLs[1] = Materia.CreatorCore.getMediaUrl items[i].assets[1]
+			$scope.addPair items[i].questions[0].text.replace(/\&\#10\;/g, '\n'), items[i].answers[0].text.replace(/\&\#10\;/g, '\n'), items[i].assets, items[i].id, items[i].questions[0].id, items[i].answers[0].id
+			if items[i].assets?[0] and items[i].assets[0] != '-1' then $scope.questions[i].URLs[0] = Materia.CreatorCore.getMediaUrl items[i].assets[0]
+			if items[i].assets?[1] and items[i].assets[1] != '-1' then $scope.questions[i].URLs[1] = Materia.CreatorCore.getMediaUrl items[i].assets[1]
 		$scope.$apply()
 
 	$scope.onMediaImportComplete = (media) ->
 		$scope.setURL Materia.CreatorCore.getMediaUrl(media[0].id), media[0].id
 		$scope.$apply()
 
-	$scope.addCard = (front = "", back = "", assets = ["",""], id = "", qid = "", ansid = "") ->
-		$scope.cards.push { front:front, back:back, URLs:["",""], assets: assets, id: id, qid: qid, ansid: ansid }
+	$scope.addPair = (front = "", back = "", assets = ["",""], id = "", qid = "", ansid = "") ->
+		$scope.questions.push { front:front, back:back, URLs:["",""], assets: assets, id: id, qid: qid, ansid: ansid }
 
 	$scope.removeCard = (index) ->
-		$scope.cards.splice index, 1
+		$scope.questions.splice index, 1
 
 	$scope.requestImage = (index, face) ->
 		Materia.CreatorCore.showMediaImporter()
@@ -131,11 +131,11 @@ Flashcards.controller 'FlashcardsCreatorCtrl', ['$scope', '$sanitize', 'Resource
 
 	$scope.setURL = (URL,id) ->
 		# Bind the image URL to the DOM
-		$scope.cards[_imgRef[0]].URLs[_imgRef[1]] = URL
-		$scope.cards[_imgRef[0]].assets[_imgRef[1]] = id
+		$scope.questions[_imgRef[0]].URLs[_imgRef[1]] = URL
+		$scope.questions[_imgRef[0]].assets[_imgRef[1]] = id
 
 	$scope.deleteImage = (index, face) ->
-		$scope.cards[index].URLs[face] = ""
+		$scope.questions[index].URLs[face] = ""
 
 	Materia.CreatorCore.start $scope
 ]

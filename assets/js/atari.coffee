@@ -1,4 +1,4 @@
-Namespace("Flashcards").Atari =
+Namespace("ThisOrThat").Atari =
 	Nodes : {}
 	Sound : {}
 	start : ->
@@ -58,13 +58,13 @@ Namespace("Flashcards").Atari =
 
 	playShuffle : ->
 		setTimeout ->
-			T("perc", {r:300}, Flashcards.Atari.Sound.saw1).on("ended", -> @pause()).bang().play()
+			T("perc", {r:300}, ThisOrThat.Atari.Sound.saw1).on("ended", -> @pause()).bang().play()
 			setTimeout ->
-				T("perc", {r:300}, Flashcards.Atari.Sound.saw2).on("ended", -> @pause()).bang().play()
+				T("perc", {r:300}, ThisOrThat.Atari.Sound.saw2).on("ended", -> @pause()).bang().play()
 				setTimeout ->
-					T("perc", {r:300}, Flashcards.Atari.Sound.saw3).on("ended", -> @pause()).bang().play()
+					T("perc", {r:300}, ThisOrThat.Atari.Sound.saw3).on("ended", -> @pause()).bang().play()
 					setTimeout ->
-						T("perc", {r:300}, Flashcards.Atari.Sound.saw4).on("ended", -> @pause()).bang().play()
+						T("perc", {r:300}, ThisOrThat.Atari.Sound.saw4).on("ended", -> @pause()).bang().play()
 					, 100
 				, 100
 			, 100
@@ -72,9 +72,9 @@ Namespace("Flashcards").Atari =
 
 	playRotate : ->
 		setTimeout ->
-			T("perc", {r:700}, Flashcards.Atari.Sound.saw6).on("ended", -> @pause()).bang().play()
-			T("perc", {r:700}, Flashcards.Atari.Sound.saw1).on("ended", -> @pause()).bang().play()
-			T("perc", {r:700}, Flashcards.Atari.Sound.saw3).on("ended", -> @pause()).bang().play()
+			T("perc", {r:700}, ThisOrThat.Atari.Sound.saw6).on("ended", -> @pause()).bang().play()
+			T("perc", {r:700}, ThisOrThat.Atari.Sound.saw1).on("ended", -> @pause()).bang().play()
+			T("perc", {r:700}, ThisOrThat.Atari.Sound.saw3).on("ended", -> @pause()).bang().play()
 		, 600
 
 	playRestore : ->
@@ -103,17 +103,17 @@ Namespace("Flashcards").Atari =
 		T("perc", {r:100}, @Sound.saw0).on("ended", -> @pause()).bang().play();
 
 	playFlip : ->
-		T("perc", {r:50}, Flashcards.Atari.Sound.saw1).on("ended", -> @pause()).bang().play()
+		T("perc", {r:50}, ThisOrThat.Atari.Sound.saw1).on("ended", -> @pause()).bang().play()
 		setTimeout ->
-			T("perc", {r:50}, Flashcards.Atari.Sound.saw2).on("ended", -> @pause()).bang().play()
+			T("perc", {r:50}, ThisOrThat.Atari.Sound.saw2).on("ended", -> @pause()).bang().play()
 			setTimeout ->
-				T("perc", {r:50}, Flashcards.Atari.Sound.saw3).on("ended", -> @pause()).bang().play()
+				T("perc", {r:50}, ThisOrThat.Atari.Sound.saw3).on("ended", -> @pause()).bang().play()
 				setTimeout ->
-					T("perc", {r:50}, Flashcards.Atari.Sound.saw4).on("ended", -> @pause()).bang().play()
+					T("perc", {r:50}, ThisOrThat.Atari.Sound.saw4).on("ended", -> @pause()).bang().play()
 					setTimeout ->
-						T("perc", {r:50}, Flashcards.Atari.Sound.saw5).on("ended", -> @pause()).bang().play()
+						T("perc", {r:50}, ThisOrThat.Atari.Sound.saw5).on("ended", -> @pause()).bang().play()
 						setTimeout ->
-							T("perc", {r:50}, Flashcards.Atari.Sound.saw6).on("ended", -> @pause()).bang().play()
+							T("perc", {r:50}, ThisOrThat.Atari.Sound.saw6).on("ended", -> @pause()).bang().play()
 						, 50
 					, 50
 				, 50

@@ -4,7 +4,7 @@
 <!--[if IE 9 ]>    <html class="IE9"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html class=""> <!--<![endif]-->
 	<head>
-		<title>Flashcards Engine</title>
+		<title>This Or That Engine</title>
 		<meta charset="utf-8" />
 
 		<!-- STYLESHEETS -->
@@ -102,7 +102,7 @@
 				<div id="icon-left" class="arrow"></div>
 				<div id="icon-right" class="arrow shown"></div>
 
-				<!-- Holds flashcards -->
+				<!-- Holds ThisOrThat -->
 				<div id="container"></div>
 
 				<!-- FOR IE -->
@@ -124,23 +124,9 @@
 		</section>
 
 		<div id="instructions" class="instructions">
-			<h2>Flashcards Study Aid</h2>
+			<h2>This Or That</h2>
 
-			<p>
-				Flip through and study the cards.
-			</p>
-			<p>
-				You may wish to shuffle the cards before you use them.
-			</p>
-
-			<p>
-				Stop when you feel confident in your knowledge.
-			</p>
-
-			<p>
-				This widget is not scored.
-			</p>
-
+			<button class="btn">Start!</button>
 			<div class="gotit">Got it!</div>
 		</div>
 
@@ -188,6 +174,6 @@
 
 <!-- INITIALIZE -->
 <script>
-	Materia.Engine.start(Flashcards.Engine);
+	Materia.Engine.start(ThisOrThat.Engine);
 </script>
 </html>
