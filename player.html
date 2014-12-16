@@ -47,9 +47,9 @@
 				<!-- Holds ThisOrThat -->
 				<div id="choices">
 					<div class="stand-container for-this"
-						 ng-class="{'raised': inGame}">
+						 ng-class="{'raised': gameState.ingame && !questions.transition}">
 						<a class="img-frame"
-						   ng-class="{'correct': correct.this == true, 'incorrect': correct.this == false, 'disabled': choiceSelected}"
+						   ng-class="{'correct': questions.correct[0] == 1, 'incorrect': questions.correct[0] == 0, 'disabled': questions.selected}"
 						   ng-click="checkChoice(0)"
 						   ng-mouseenter="hands.thisRaised = true"
 						   ng-mouseleave="hands.thisRaised = false"
@@ -60,9 +60,9 @@
 					</div>
 
 					<div class="stand-container for-that"
-						 ng-class="{'raised': inGame}">
+						 ng-class="{'raised': gameState.ingame && !questions.transition}">
 						<a class="img-frame"
-						   ng-class="{'correct': correct.that == true, 'incorrect': correct.that == false, 'disabled': choiceSelected}"
+						   ng-class="{'correct': questions.correct[1] == 1, 'incorrect': questions.correct[1] == 0, 'disabled': questions.selected}"
 						   ng-click="checkChoice(1)"
 						   ng-mouseenter="hands.thatRaised = true"
 						   ng-mouseleave="hands.thatRaised = false"
@@ -73,23 +73,23 @@
 					</div>
 				</div>
 
-				<div id="hands" ng-class="{'raised': inGame == true}" aria-hidden="true">
+				<div id="hands" ng-class="{'raised': gameState.ingame == true}" aria-hidden="true">
 					<div class="hand this-hand"
-						 ng-class="{'raised': hands.thisRaised || choice == 0, 'correct': correct.this == true, 'incorrect': correct.this == false}"></div>
+						 ng-class="{'raised': hands.thisRaised || questions.choice == 0, 'correct': questions.correct[0] == 1, 'incorrect': questions.correct[0] == 0}"></div>
 					<div class="hand that-hand"
-						 ng-class="{'raised': hands.thatRaised || choice == 1, 'correct': correct.that == true, 'incorrect': correct.that == false}"></div>
+						 ng-class="{'raised': hands.thatRaised || questions.choice == 1, 'correct': questions.correct[1] == 1, 'incorrect': questions.correct[1] == 0}"></div>
 				</div>
 
-				<div id="next-container" ng-class="{'raised': showNext == true}">
+				<div id="next-container" ng-class="{'raised': gameState.showNext}">
 					<button class="btn"
 							id="next"
 							ng-click="incrementAnswer()">Next</button>
 				</div>
 			</section>
 
-			<div class="intro-splash" ng-class="{'raised': inGame == true}">
-				<div class="title" ng-class="{'raised': inGame == true}">
-					<h1>This Or That</h1>
+			<div id="splash" ng-class="{'raised': gameState.ingame}">
+				<div class="sign" ng-class="{'raised': gameState.ingame, 'end': gameState.endgame}">
+					<h1>{{gameState.splashtext}}</h1>
 
 					<div class="text-center">
 						<button class="btn" id="start" ng-click="launchGame()">Start!</button>

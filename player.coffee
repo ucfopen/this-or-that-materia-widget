@@ -11,79 +11,85 @@ Authors : Eric Colon
 ThisOrThatEngine = angular.module 'ThisOrThatEngine', ['ngAnimate', 'hammer']
 
 ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($scope, $timeout) ->
-	$scope.inGame = false
-	$scope.curQuestion = -1
-	$scope.curAnswer = -1
-	$scope.qset = []
-	$scope.choice = -1
-	$scope.correct = 
-		this: null
-		that: null
+	$scope.gameState =
+		ingame: false
+		endgame: false
+		score: 0
+		showNext: false
+
+	$scope.questions =
+		answer: -1
+		choice: -1
+		current: -1
+		correct: [-1,-1]
+		qset: {}
+		selected: false
+		transition: false
+
 	# the stage hands
 	$scope.hands =
 		thisRaised: false
 		thatRaised: false
-	$scope.choiceSelected = false
-	gameScore = 0
 
 	$scope.launchGame = ->
-		$scope.inGame = true
+		$scope.gameState.ingame = true
 
 	$scope.endGame = ->
 		Materia.Engine.end()
 
 	$scope.start = (instance, qset, version) ->
-		$scope.qset = qset
+		$scope.questions.qset = qset
 		incrementQuestion()
 
 	$scope.checkChoice = (value) ->
-		correctValue = $scope.qset.items[$scope.curQuestion].answers[$scope.curAnswer].correct
-		$scope.choice = value
+		correctValue = $scope.questions.qset.items[$scope.questions.current].answers[$scope.questions.answer].correct
+		$scope.questions.choice = value
+
 		switch value
 			when 0
-				if value == correctValue
-					$scope.correct.this = true
-					gameScore += 100
+				if value is correctValue
+					$scope.questions.correct[0] = 1
+					$scope.gameState.score += 100
 				else
-					$scope.correct.this = false
+					$scope.questions.correct[0] = 0
 			when 1
-				if value == correctValue
-					$scope.correct.that = true
-					gameScore += 100
+				if value is correctValue
+					$scope.questions.correct[1] = 1
+					$scope.gameState.score += 100
 				else
-					$scope.correct.that = false
+					$scope.questions.correct[1] = 0
 
-		$scope.choiceSelected = true
-		$scope.showNext = true
+		$scope.questions.selected = true
+		$scope.gameState.showNext = true
 
 	$scope.incrementAnswer = ->
-		$scope.curAnswer++
+		$scope.questions.answer++
 
-		$scope.showNext     = false
-		$scope.correct.this = null
-		$scope.correct.that = null
-		$scope.choice = -1
+		$scope.gameState.showNext = false
+		$scope.questions.correct  = [-1,-1]
+		$scope.questions.choice   = -1
 
-		if $scope.qset.items[$scope.curQuestion].answers[$scope.curAnswer]
-			$scope.answers = $scope.qset.items[$scope.curQuestion].answers[$scope.curAnswer].choices
+		if $scope.questions.qset.items[$scope.questions.current].answers[$scope.questions.answer]
+			$scope.answers = $scope.questions.qset.items[$scope.questions.current].answers[$scope.questions.answer].choices
 
 			for answer in $scope.answers
 				answer.image = Materia.Engine.getImageAssetUrl(answer.image)
 
-			$scope.choiceSelected = false
+			$scope.questions.selected = false
 		else
-			$scope.curAnswer = -1
+			$scope.questions.answer = -1
 			incrementQuestion()
 
 	incrementQuestion = ->
-		$scope.curQuestion++
+		$scope.questions.current++
 
-		if $scope.qset.items[$scope.curQuestion]
-			$scope.question = $scope.qset.items[$scope.curQuestion].questions[0].text
+		if $scope.questions.qset.items[$scope.questions.current]
+			$scope.question = $scope.questions.qset.items[$scope.questions.current].questions[0].text
 
 			$scope.incrementAnswer()
 		else
-			$scope.inGame = false
+			$scope.gameState.ingame  = false
+			$scope.gameState.endgame = true
 
 	Materia.Engine.start($scope)
 ]
