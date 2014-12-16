@@ -57,7 +57,7 @@ qset:
                 alt: A lobster dinner
                 value: 0
               -
-                image: <%MEDIA="assets/img/demo/sundae.png"%>
+                image: <%MEDIA="assets/img/demo/sundae.jpg"%>
                 alt: An ice cream sundae
                 value: 100
           -

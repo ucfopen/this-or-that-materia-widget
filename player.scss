@@ -128,7 +128,7 @@ body {
 	
 	height: 520px;
 	width: 83px;
-	z-index: 999;
+	z-index: 998;
 
 	&.left {
 		left: 0;
@@ -193,7 +193,7 @@ body {
 	}
 }
 
-.intro-splash {
+#splash {
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -208,7 +208,7 @@ body {
 	z-index: 1000;
 	transition: max-height ease .5s;
 
-	.title {
+	.sign {
 		padding-top: 40px;
 
 		text-align: center;
@@ -231,10 +231,12 @@ body {
 		&.raised {
 			animation: bouncy 1.5s;
 			margin-top: -500px;
-		}		
+		}
+
+		&.end h1 { background: url('assets/img/fin.png') no-repeat center top; }	
 	}
 
-	&.raised { max-height: 60px }
+	&.raised { max-height: 60px; }
 }
 
 #choices {
