@@ -35,6 +35,10 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		$scope.gameState.ingame = true
 
 	$scope.endGame = ->
+		$scope.gameState.ingame  = false
+		$scope.gameState.endgame = true
+
+	$scope.viewScores = ->
 		Materia.Engine.end()
 
 	$scope.start = (instance, qset, version) ->
@@ -62,12 +66,16 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		$scope.questions.selected = true
 		$scope.gameState.showNext = true
 
-	$scope.incrementAnswer = ->
-		$scope.questions.answer++
+	$scope.nextClicked = ->
+		$scope.gameState.showNext   = false
+		$scope.questions.correct    = [-1,-1]
+		$scope.questions.choice     = -1
+		$scope.questions.transition = true
 
-		$scope.gameState.showNext = false
-		$scope.questions.correct  = [-1,-1]
-		$scope.questions.choice   = -1
+		$timeout(incrementAnswer, 1000)
+
+	incrementAnswer = ->
+		$scope.questions.answer++
 
 		if $scope.questions.qset.items[$scope.questions.current].answers[$scope.questions.answer]
 			$scope.answers = $scope.questions.qset.items[$scope.questions.current].answers[$scope.questions.answer].choices
@@ -76,6 +84,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 				answer.image = Materia.Engine.getImageAssetUrl(answer.image)
 
 			$scope.questions.selected = false
+			$scope.questions.transition = false
 		else
 			$scope.questions.answer = -1
 			incrementQuestion()
@@ -86,10 +95,9 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		if $scope.questions.qset.items[$scope.questions.current]
 			$scope.question = $scope.questions.qset.items[$scope.questions.current].questions[0].text
 
-			$scope.incrementAnswer()
+			incrementAnswer()
 		else
-			$scope.gameState.ingame  = false
-			$scope.gameState.endgame = true
+			$scope.endGame()
 
 	Materia.Engine.start($scope)
 ]

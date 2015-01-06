@@ -26,9 +26,6 @@ meta_data:
   supported_data:
     - Question/Answer
   about: >
-    ThisOrThat is a study tool that allows
-    students to use a virtual deck of cards
-    to study concepts paired with definitions
-    or images.
+    This or That is a game in which students must answer questions by choosing one of two images.
   excerpt: >
-    A study tool featuring a deck of ThisOrThat.
+    Students must answer a question by choosing one of two images.
