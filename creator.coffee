@@ -92,7 +92,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$sanitize', 'Resource
 
 	$scope.initNewWidget = (widget, baseUrl) ->
 		$scope.$apply ->
-			$scope.showIntroDialog = false
+			$scope.showIntroDialog = true
 
 	$scope.initExistingWidget = (title, widget, qset, version, baseUrl) ->
 		$scope.title = title
@@ -117,25 +117,27 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$sanitize', 'Resource
 		$scope.setURL Materia.CreatorCore.getMediaUrl(media[0].id), media[0].id
 		$scope.$apply()
 
-	$scope.addPair = (front = "", back = "", assets = ["",""], id = "", qid = "", ansid = "") ->
-		$scope.questions.push { front:front, back:back, URLs:["",""], assets: assets, id: id, qid: qid, ansid: ansid }
+	$scope.addQuestion = (title = "", answers = [], assets = ["",""], id = "", qid = "", ansid = "") ->
+		$scope.questions.push { title: title, answers: answers, assets: assets, id: id, qid: qid, ansid: ansid }
+		$
+		console.log $scope.questions
 
-	$scope.removeCard = (index) ->
+	$scope.removeQuestion = (index) ->
 		$scope.questions.splice index, 1
 
-	$scope.requestImage = (index, face) ->
+	$scope.requestImage = (index, choice) ->
 		Materia.CreatorCore.showMediaImporter()
 		# Save the card/face that requested the image
 		_imgRef[0] = index
-		_imgRef[1] = face
+		_imgRef[1] = choice
 
 	$scope.setURL = (URL,id) ->
 		# Bind the image URL to the DOM
 		$scope.questions[_imgRef[0]].URLs[_imgRef[1]] = URL
 		$scope.questions[_imgRef[0]].assets[_imgRef[1]] = id
 
-	$scope.deleteImage = (index, face) ->
-		$scope.questions[index].URLs[face] = ""
+	$scope.clearImage = (index, choice) ->
+		$scope.questions[index].answers[choice] = "http://placehold.it/300x250&text=+"
 
 	Materia.CreatorCore.start $scope
 ]

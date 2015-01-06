@@ -2,7 +2,7 @@
 <!-- INJECTS IE CLASSES ONTO HTML TAG -->
 <!--[if IE 8 ]>    <html class="IE8"> <![endif]-->
 <!--[if IE 9 ]>    <html class="IE9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="end" ng-app="ThisOrThatEngine" ng-controller="ThisOrThatEngineCtrl"> <!--<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" ng-app="ThisOrThatEngine" ng-controller="ThisOrThatEngineCtrl"> <!--<![endif]-->
 	<head>
 		<title>This Or That Engine</title>
 		<meta charset="utf-8">
@@ -39,15 +39,17 @@
 		</div> -->
 		<main id="game" role="main">
 			<section id="board">
-				<div class="side-curtain left" aria-hidden="true"></div>
-				<div class="side-curtain right" aria-hidden="true"></div>
+				<div class="side-curtain upper left" aria-hidden="true"></div>
+				<div class="side-curtain upper right" aria-hidden="true"></div>
+				<div class="side-curtain lower left" aria-hidden="true"></div>
+				<div class="side-curtain lower right" aria-hidden="true"></div>
 
 				<h1 id="question">{{question}}</h1>
 
 				<!-- Holds ThisOrThat -->
 				<div id="choices">
 					<div class="stand-container for-this"
-						 ng-class="{'raised': gameState.ingame && !questions.transition}">
+						 ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
 						<a class="img-frame"
 						   ng-class="{'correct': questions.correct[0] == 1, 'incorrect': questions.correct[0] == 0, 'disabled': questions.selected}"
 						   ng-click="checkChoice(0)"
@@ -60,7 +62,7 @@
 					</div>
 
 					<div class="stand-container for-that"
-						 ng-class="{'raised': gameState.ingame && !questions.transition}">
+						 ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
 						<a class="img-frame"
 						   ng-class="{'correct': questions.correct[1] == 1, 'incorrect': questions.correct[1] == 0, 'disabled': questions.selected}"
 						   ng-click="checkChoice(1)"
@@ -83,7 +85,8 @@
 				<div id="next-container" ng-class="{'raised': gameState.showNext}">
 					<button class="btn"
 							id="next"
-							ng-click="incrementAnswer()">Next</button>
+							ng-click="nextClicked()"
+							ng-disabled="!gameState.showNext">Next</button>
 				</div>
 			</section>
 
@@ -92,7 +95,14 @@
 					<h1>{{gameState.splashtext}}</h1>
 
 					<div class="text-center">
-						<button class="btn" id="start" ng-click="launchGame()">Start!</button>
+						<button class="btn"
+								id="start"
+								ng-click="launchGame()"
+								ng-hide="gameState.endgame">Start!</button>
+						<button class="btn"
+								id="reset"
+								ng-click="viewScores()"
+								ng-show="gameState.endgame">Continue to scores</button>
 					</div>
 				</div>
 			</div>

@@ -13,9 +13,9 @@
 		<script src="materia.creatorcore.js"></script>
 
 		<!-- YOUR PREREQUISITES -->
-		<script src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js'></script>
-		<script src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-animate.min.js'></script>
-		<script src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-sanitize.min.js'></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-animate.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-sanitize.min.js"></script>
 		<script src="assets/js/modernizr.js"></script>
 
 		<!-- MAIN CREATOR SCRIPT -->
@@ -28,154 +28,62 @@
 			<div class="logo"></div>
 			<h1 id="title" ng-bind="title" ng-click="showTitleDialog = true"></h1>
 			<div class="link" ng-click="showTitleDialog = true">Edit...</div>
-			<div class="right">{{cards.length}} Questions</div>
+			<div class="right">{{questions.length}} Questions</div>
 		</div>
 
 		<main class="container" role="main">
-			<div id="questions">
-				<section class="question"
-						 ng-repeat="question in questions">
-					<header class="question-header">
-						<h1><span>Group {{$index + 1}}:</span> Question title goes here...</h1>
+			<div class="message warning">
+				<p>Images uploaded should be 300x250 pixels</p>
+			</div>
 
-						<button class="delete"
+			<div id="questions">
+				<section class="question" ng-repeat="question in questions">
+					<header class="question-header">
+						<button class="btn delete"
 								aria-label="Delete card."
-								ng-click="removeCard($index)">
+								ng-click="removeQuestion($index)">
 							<span class="icon-close"></span>
-							<span class="descript">remove card</span>
 						</button>
+
+						<h1>Question {{$index + 1}}:</h1>
+
+						<input class="title"
+							   type="text"
+							   placeholder="Ex: Which of these video games is for casuals?"
+							   ng-model="questions[$index].title">
 					</header>
 
-					<ul class="pairs">
-						<li class="pair">
-							<div class="img-card" aria-label="This image">
-								<button class="add-img"
-										aria-label="Add Image."
-										ng-click="requestImage($index, 1)">
-									<span class="icon-image"></span>
-									<span class="descript add">add image</span>
-								</button>
-							</div>
+					<div class="choices">
+						<div class="img-frame correct" aria-label="The correct image">
+							<p class="desc">The correct image</p>
+							<img class="choice-img" ng-src="{{questions[$index].answers[0]}}"  alt="">
 
-							<div class="img-card" aria-label="That image">
-								<button class="add-img"
-										aria-label="Add Image."
-										ng-click="requestImage($index, 1)">
-									<span class="icon-image"></span>
-									<span class="descript add">add image</span>
-								</button>
+							<div class="img-controls">
+								<button class="btn small blue" ng-click="requestImage($image, 0)">Upload</button>
+								<button class="btn small blue" ng-click="clearImage($index, 0)">Clear</button>
 							</div>
-						</li>
-					</ul>
+						</div>
 
-					<p class="no-margin text-center">
-						<button ng-click="addPair()"><span class="icon-plus"></span> Add Pair</button>
+						<div class="img-frame incorrect" aria-label="The incorrect image">
+							<p class="desc">The incorrect image</p>
+							<img class="choice-img" ng-src="{{questions[$index].answers[1]}}" alt="">
+
+							<div class="img-controls">
+								<button class="btn small blue" ng-click="requestImage($image, 1)">Upload</button>
+								<button class="btn small blue" ng-click="clearImage($index, 1)">Clear</button>
+							</div>
+						</div>
+					</div>
+
+					<p class="no-margin" style="text-align:right">
+						<button class="btn small transparent" ng-click="addQuestion(questions[$index].title, questions[$index].answers)">Duplicate</button>
 					</p>
 				</section>
 			</div>
 
-			<div class="add-container">
-				<button id="add-question"
-						class="add"
-						aria-label="Add Pair"
-						ng-click="addPair()"
-						tabindex='{{cards.length + 1}}'>
-					<span class="icon-plus"></span> Add Group, 60,92,275
-				</button>
+			<div class="add-container text-center ">
+				<button id="add-question" class="btn add" aria-label="Add Pair" ng-click="addQuestion()">Add Question</button>
 			</div>
-<!-- 			<ul id="pair-listing" aria-label="cards">
-				<li
-				class="card"
-				role="flashcard"
-				ng-repeat="card in cards">
-					<span class="num">{{$index+1}}</span>
-					<span class="face" aria-label="Card back.">
-						<center>
-						<input
-						placeholder='Enter a picture header here.'
-						value="{{card.back}}"
-						ng-hide=" card.URLs[1] == '' "
-						ng-model="card.back"/>
-						<textarea
-						placeholder='Enter text here.'
-						value="{{card.back}}"
-						ng-class="{title : card.URLs[1] != ''}"
-						ng-hide=" card.URLs[1] != '' "
-						ng-model="card.back" tabindex='{{$index+2}}'></textarea>
-						<img
-						ng-hide=" card.URLs[1] == '' "
-						ng-src="{{card.URLs[1]}}"/>
-						<button
-						class="del-img"
-						aria-label="Delete image."
-						ng-hide=" card.URLs[1] == '' "
-						ng-click="deleteImage($index, 1)">
-							<span class="icon-close"></span>
-							<span class="descript del">remove image</span>
-						</button>
-						</center>
-						<div
-						class="alert"
-						ng-class="{hide : card.back.length < 51 || card.URLs[1] == '' }">
-							<span class="icon-alert"></span> 
-							Reduce your text to fit the card.
-						</div>
-						<button
-						aria-label="Add Image."
-						ng-hide=" card.URLs[1] != '' "
-						ng-click="requestImage($index, 1)">
-							<span class="icon-image"></span>
-							<span class="descript add">add image</span>
-						</button>
-					</span>
-					<span class="face" aria-label="Card front.">
-						<center>
-						<input
-						placeholder='Enter a picture header here.'
-						value="{{card.front}}"
-						ng-hide=" card.URLs[0] == '' "
-						ng-model="card.front"/>
-						<textarea
-						placeholder='Enter text here.'
-						value="{{card.front}}"
-						ng-class="{title : card.URLs[0] != ''}"
-						ng-hide=" card.URLs[0] != '' "
-						ng-model="card.front" focus-me="true" tabindex="{{$index+1}}"></textarea>
-						<img
-						ng-hide=" card.URLs[0] == '' "
-						ng-src="{{card.URLs[0]}}"/>
-						<button
-						class="del-img"
-						aria-label="Delete image."
-						ng-hide=" card.URLs[0] == '' "
-						ng-click="deleteImage($index, 0)">
-							<span class="icon-close"></span>
-							<span class="descript del">remove image</span>
-						</button>
-						</center>
-						<div
-						class="alert"
-						ng-class="{hide : card.front.length < 51 || card.URLs[0] == '' }">
-							<span class="icon-alert"></span> 
-							Reduce your text to fit the card.
-						</div>
-						<button
-						aria-label="Add Image."
-						ng-hide=" card.URLs[0] != '' "
-						ng-click="requestImage($index, 0)">
-							<span class="icon-image"></span>
-							<span class="descript add">add image</span>
-						</button>
-					</span>
-					<button
-					class="delete"
-					aria-label="Delete card."
-					ng-click="removeCard($index)">
-						<span class="icon-close"></span>
-						<span class="descript">remove card</span>
-					</button>
-				</li>
-			</ul> -->
 		</main>
 
 		<div id='backgroundcover' ng-click='hideCover()' ng-class='{ show: showTitleDialog || showIntroDialog }'></div>
@@ -195,8 +103,8 @@
 			<input type='text' placeholder='My This or That widget' ng-model='title' ng-enter='hideCover()' focus-me='showTitleDialog'>
 			<input type='submit' value='Done' ng-click='hideCover()'>
 		</div>
-		<div class='arrow_box' ng-show='!cards.length && step'>
-			<span>Click here to add your first card</span>
+		<div class='arrow-box' ng-show='!questions.length && step'>
+			<span>Click here to add your first question</span>
 		</div>
 	</body>
 </html>
