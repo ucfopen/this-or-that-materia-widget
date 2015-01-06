@@ -45,7 +45,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		incrementQuestion()
 
 	$scope.checkChoice = (value) ->
-		correctValue            = $scope.questions.qset.items[$scope.questions.current].answers.value
+		correctValue            = $scope.questions.qset.items[$scope.questions.current].answers[0].value
 		$scope.questions.choice = value
 
 		switch value
@@ -77,8 +77,8 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		$scope.questions.current++
 
 		if $scope.questions.qset.items[$scope.questions.current]
-			$scope.question = $scope.questions.qset.items[$scope.questions.current].questions.text
-			$scope.answers  = $scope.questions.qset.items[$scope.questions.current].answers.options
+			$scope.question = $scope.questions.qset.items[$scope.questions.current].questions[0].text
+			$scope.answers  = $scope.questions.qset.items[$scope.questions.current].answers[0].options
 
 			for answer in $scope.answers
 				answer.image = Materia.Engine.getImageAssetUrl(answer.image)

@@ -9,8 +9,10 @@ qset:
         id: null
         type: QA
         questions:
+          -
             text: Which of these animals is a dog?
         answers:
+          -
             value: 1
             options:
               -
@@ -26,8 +28,10 @@ qset:
         id: null
         type: QA
         questions:
+          -
             text: Which of these animals is a cat?
         answers:
+          -
             value: 1
             options:
               -
@@ -43,8 +47,10 @@ qset:
         id: null
         type: QA
         questions:
+          -
             text: Which of these dishes is an ice cream sundae?
         answers:
+          -
             value: 1
             options:
               -
@@ -60,8 +66,10 @@ qset:
         id: null
         type: QA
         questions:
+          -
             text: Which of these dishes is an ice cream sundae?
         answers:
+          -
             value: 0
             options:
               -
@@ -77,8 +85,10 @@ qset:
         id: null
         type: QA
         questions:
+          -
             text: 'What are you?'
         answers:
+          -
             value: 1
             options:
               -
