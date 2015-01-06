@@ -92,7 +92,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$sanitize', 'Resource
 
 	$scope.initNewWidget = (widget, baseUrl) ->
 		$scope.$apply ->
-			$scope.showIntroDialog = true
+			$scope.showIntroDialog = false
 
 	$scope.initExistingWidget = (title, widget, qset, version, baseUrl) ->
 		$scope.title = title
@@ -119,7 +119,6 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$sanitize', 'Resource
 
 	$scope.addQuestion = (title = "", answers = [], assets = ["",""], id = "", qid = "", ansid = "") ->
 		$scope.questions.push { title: title, answers: answers, assets: assets, id: id, qid: qid, ansid: ansid }
-		$
 		console.log $scope.questions
 
 	$scope.removeQuestion = (index) ->
@@ -137,7 +136,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$sanitize', 'Resource
 		$scope.questions[_imgRef[0]].assets[_imgRef[1]] = id
 
 	$scope.clearImage = (index, choice) ->
-		$scope.questions[index].answers[choice] = "http://placehold.it/300x250&text=+"
+		$scope.questions[index].answers[choice] = ""
 
 	Materia.CreatorCore.start $scope
 ]

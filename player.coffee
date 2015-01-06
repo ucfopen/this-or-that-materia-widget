@@ -18,7 +18,6 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		showNext: false
 
 	$scope.questions =
-		answer: -1
 		choice: -1
 		current: -1
 		correct: [-1,-1]
@@ -46,7 +45,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		incrementQuestion()
 
 	$scope.checkChoice = (value) ->
-		correctValue = $scope.questions.qset.items[$scope.questions.current].answers[$scope.questions.answer].correct
+		correctValue            = $scope.questions.qset.items[$scope.questions.current].answers.value
 		$scope.questions.choice = value
 
 		switch value
@@ -72,30 +71,20 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		$scope.questions.choice     = -1
 		$scope.questions.transition = true
 
-		$timeout(incrementAnswer, 1000)
-
-	incrementAnswer = ->
-		$scope.questions.answer++
-
-		if $scope.questions.qset.items[$scope.questions.current].answers[$scope.questions.answer]
-			$scope.answers = $scope.questions.qset.items[$scope.questions.current].answers[$scope.questions.answer].choices
-
-			for answer in $scope.answers
-				answer.image = Materia.Engine.getImageAssetUrl(answer.image)
-
-			$scope.questions.selected = false
-			$scope.questions.transition = false
-		else
-			$scope.questions.answer = -1
-			incrementQuestion()
+		$timeout(incrementQuestion, 1000)
 
 	incrementQuestion = ->
 		$scope.questions.current++
 
 		if $scope.questions.qset.items[$scope.questions.current]
-			$scope.question = $scope.questions.qset.items[$scope.questions.current].questions[0].text
+			$scope.question = $scope.questions.qset.items[$scope.questions.current].questions.text
+			$scope.answers  = $scope.questions.qset.items[$scope.questions.current].answers.options
 
-			incrementAnswer()
+			for answer in $scope.answers
+				answer.image = Materia.Engine.getImageAssetUrl(answer.image)
+
+			$scope.questions.selected   = false
+			$scope.questions.transition = false
 		else
 			$scope.endGame()
 
