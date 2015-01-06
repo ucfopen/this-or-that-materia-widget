@@ -56,7 +56,7 @@
 					<div class="choices">
 						<div class="img-frame correct" aria-label="The correct image">
 							<p class="desc">The correct image</p>
-							<img class="choice-img" ng-src="{{questions[$index].answers[0]}}"  alt="">
+							<img class="choice-img" src="http://placehold.it/300x250&text=+" ng-src="{{questions[$index].answers[0]}}"  alt="">
 
 							<div class="img-controls">
 								<button class="btn small blue" ng-click="requestImage($image, 0)">Upload</button>
@@ -66,7 +66,7 @@
 
 						<div class="img-frame incorrect" aria-label="The incorrect image">
 							<p class="desc">The incorrect image</p>
-							<img class="choice-img" ng-src="{{questions[$index].answers[1]}}" alt="">
+							<img class="choice-img" src="http://placehold.it/300x250&text=+" ng-src="{{questions[$index].answers[1]}}" alt="">
 
 							<div class="img-controls">
 								<button class="btn small blue" ng-click="requestImage($image, 1)">Upload</button>

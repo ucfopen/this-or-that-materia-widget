@@ -9,12 +9,10 @@ qset:
         id: null
         type: QA
         questions:
-          - 
             text: Which of these animals is a dog?
         answers:
-          -
-            correct: 1
-            choices:
+            value: 1
+            options:
               -
                 image: <%MEDIA="assets/img/demo/kimbo.jpg"%>
                 alt: An image of kimbo the cat
@@ -28,30 +26,27 @@ qset:
         id: null
         type: QA
         questions:
-          - 
             text: Which of these animals is a cat?
         answers:
-          -
-            correct: 1
-            choices:
+            value: 1
+            options:
               -
                 image: <%MEDIA="assets/img/demo/chance.jpg"%>
                 alt: A labrador retreiver named Chance
                 value: 0
               -
                 image: <%MEDIA="assets/img/demo/winston.jpg"%>
+                alt: A tiger cat named Winston
                 value: 100
       -
         materiaType: question
         id: null
         type: QA
         questions:
-          -
             text: Which of these dishes is an ice cream sundae?
         answers:
-          -
-            correct: 1
-            choices:
+            value: 1
+            options:
               -
                 image: <%MEDIA="assets/img/demo/lobster.jpg"%>
                 alt: A lobster dinner
@@ -60,9 +55,15 @@ qset:
                 image: <%MEDIA="assets/img/demo/sundae.jpg"%>
                 alt: An ice cream sundae
                 value: 100
-          -
-            correct: 0
-            choices:
+      -
+        materiaType: question
+        id: null
+        type: QA
+        questions:
+            text: Which of these dishes is an ice cream sundae?
+        answers:
+            value: 0
+            options:
               -
                 image: <%MEDIA="assets/img/demo/banana_split.jpg"%>
                 alt: A banana split sundae
@@ -76,12 +77,10 @@ qset:
         id: null
         type: QA
         questions:
-          -
             text: 'What are you?'
         answers:
-          -
-            correct: 1
-            choices:
+            value: 1
+            options:
               -
                 image: <%MEDIA="assets/img/demo/cabbage.jpg"%>
                 alt: Cabbage
