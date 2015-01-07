@@ -53,10 +53,10 @@
 					</header>
 
 					<div class="choices">
-						<div class="frame-container left">
+						<section class="frame-container left">
+							<h2 class="desc">The correct image</h2>
 							<div class="img-frame correct" aria-label="The correct image">
-								<p class="desc">The correct image</p>
-								<img class="choice-img" src="http://placehold.it/300x250&text=+" ng-src="{{questions[$index].URLs[0]}}"  alt="{{questions[$index].answers.options[0].alt}}">
+								<img class="choice-img" src="http://placehold.it/300x250" ng-src="{{questions[$index].URLs[0]}}"  alt="{{questions[$index].answers.options[0].alt}}">
 							</div>
 
 							<div class="img-controls">
@@ -69,12 +69,12 @@
 									   placeholder="Alt text for the correct image"
 									   ng-model="questions[$index].answers.options[0].alt">
 							</div>
-						</div>
+						</section>
 
-						<div class="frame-container right">
+						<section class="frame-container right">
+							<h2 class="desc">The incorrect image</h2>
 							<div class="img-frame incorrect" aria-label="The incorrect image">
-								<p class="desc">The incorrect image</p>
-								<img class="choice-img" src="http://placehold.it/300x250&text=+" ng-src="{{questions[$index].URLs[1]}}"  alt="{{questions[$index].answers.options[1].alt}}">
+								<img class="choice-img" src="http://placehold.it/300x250" ng-src="{{questions[$index].URLs[1]}}"  alt="{{questions[$index].answers.options[1].alt}}">
 							</div>
 
 							<div class="img-controls">
@@ -87,7 +87,7 @@
 									   placeholder="Alt text for the incorrect image"
 									   ng-model="questions[$index].answers.options[1].alt">
 							</div>
-						</div>
+						</section>
 					</div>
 
 					<p class="no-margin" style="text-align:right">
