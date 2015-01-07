@@ -36,7 +36,7 @@ ThisOrThat.directive('focusMe', ['$timeout', '$parse', ($timeout, $parse) ->
 ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 	buildQset: (title, items) ->
 		qsetItems = []
-		qset = {}
+		qset      = {}
 
 		# Decide if it is ok to save
 		if title is ''
@@ -52,9 +52,9 @@ ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 					return false
 
 		qset.options = {}
-		qset.assets = []
-		qset.rand = false
-		qset.name = ''
+		qset.assets  = []
+		qset.rand    = false
+		qset.name    = ''
 
 		qsetItems.push @processQsetItem items[i] for i in [0..items.length-1]
 		qset.items = [{ items: qsetItems }]
@@ -64,7 +64,7 @@ ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 	processQsetItem: (item) ->
 		# Remove any dangerous content
 		item.ques = $sanitize item.front
-		item.ans = $sanitize item.back
+		item.ans  = $sanitize item.back
 
 		materiaType: "question"
 		id: item.id
@@ -77,14 +77,15 @@ ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 # Set the controller for the scope of the document body.
 ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$sanitize', 'Resource',
 ($scope, $sanitize, Resource) ->
-	$scope.title = "My This or That widget"
+	$scope.title     = "My This or That widget"
 	$scope.questions = []
-	_imgRef = []
+	$scope.showAlt   = {form: false, correct: false, incorrect: false}
+	_imgRef          = []
 
 	# View actions
 	$scope.setTitle = ->
 		$scope.title = $scope.introTitle or $scope.title
-		$scope.step = 1
+		$scope.step  = 1
 		$scope.hideCover()
 
 	$scope.hideCover = ->
@@ -117,26 +118,25 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$sanitize', 'Resource
 		$scope.setURL Materia.CreatorCore.getMediaUrl(media[0].id), media[0].id
 		$scope.$apply()
 
-	$scope.addQuestion = (title = "", answers = [], assets = ["",""], id = "", qid = "", ansid = "") ->
-		$scope.questions.push { title: title, answers: answers, assets: assets, id: id, qid: qid, ansid: ansid }
-		console.log $scope.questions
+	$scope.addQuestion = (title = "", answers = [{value: "", options: [{image: "", alt: "", value: ""},{image: "", alt: "", value: ""}]}], assets = ["",""], id = "", qid = "", ansid = "") ->
+		$scope.questions.push { title: title, URLs: ["",""], answers: answers, assets: assets, id: id, qid: qid, ansid: ansid }
 
 	$scope.removeQuestion = (index) ->
 		$scope.questions.splice index, 1
 
-	$scope.requestImage = (index, choice) ->
+	$scope.requestImage = (index, which) ->
 		Materia.CreatorCore.showMediaImporter()
-		# Save the card/face that requested the image
+		# Save the image and which choice it's for
 		_imgRef[0] = index
-		_imgRef[1] = choice
+		_imgRef[1] = which
 
-	$scope.setURL = (URL,id) ->
+	$scope.setURL = (URL, id) ->
 		# Bind the image URL to the DOM
 		$scope.questions[_imgRef[0]].URLs[_imgRef[1]] = URL
-		$scope.questions[_imgRef[0]].assets[_imgRef[1]] = id
+		$scope.questions[_imgRef[0]].answers[0].options[_imgRef[1]].image = id
 
-	$scope.clearImage = (index, choice) ->
-		$scope.questions[index].answers[choice] = ""
+	$scope.clearImage = (index, which) ->
+		$scope.questions[index].URLs[which] = "http://placehold.it/300x250&text=+"
 
 	Materia.CreatorCore.start $scope
 ]

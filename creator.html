@@ -47,30 +47,45 @@
 
 						<h1>Question {{$index + 1}}:</h1>
 
-						<input class="title"
-							   type="text"
-							   placeholder="Ex: Which of these video games is for casuals?"
-							   ng-model="questions[$index].title">
+						<div class="input-wrap title">
+							<input type="text" ng-model="questions[$index].title" placeholder="Ex: Which of these video games is for casuals?">
+						</div>
 					</header>
 
 					<div class="choices">
-						<div class="img-frame correct" aria-label="The correct image">
-							<p class="desc">The correct image</p>
-							<img class="choice-img" src="http://placehold.it/300x250&text=+" ng-src="{{questions[$index].answers[0]}}"  alt="">
+						<div class="frame-container left">
+							<div class="img-frame correct" aria-label="The correct image">
+								<p class="desc">The correct image</p>
+								<img class="choice-img" src="http://placehold.it/300x250&text=+" ng-src="{{questions[$index].URLs[0]}}"  alt="{{questions[$index].answers.options[0].alt}}">
+							</div>
 
 							<div class="img-controls">
-								<button class="btn small blue" ng-click="requestImage($image, 0)">Upload</button>
+								<button class="btn small blue" ng-click="requestImage($index, 0)">Upload</button>
 								<button class="btn small blue" ng-click="clearImage($index, 0)">Clear</button>
+							</div>
+
+							<div class="input-wrap">
+								<input type="text"
+									   placeholder="Alt text for the correct image"
+									   ng-model="questions[$index].answers.options[0].alt">
 							</div>
 						</div>
 
-						<div class="img-frame incorrect" aria-label="The incorrect image">
-							<p class="desc">The incorrect image</p>
-							<img class="choice-img" src="http://placehold.it/300x250&text=+" ng-src="{{questions[$index].answers[1]}}" alt="">
+						<div class="frame-container right">
+							<div class="img-frame incorrect" aria-label="The incorrect image">
+								<p class="desc">The incorrect image</p>
+								<img class="choice-img" src="http://placehold.it/300x250&text=+" ng-src="{{questions[$index].URLs[1]}}"  alt="{{questions[$index].answers.options[1].alt}}">
+							</div>
 
 							<div class="img-controls">
-								<button class="btn small blue" ng-click="requestImage($image, 1)">Upload</button>
+								<button class="btn small blue" ng-click="requestImage($index, 1)">Upload</button>
 								<button class="btn small blue" ng-click="clearImage($index, 1)">Clear</button>
+							</div>
+
+							<div class="input-wrap">
+								<input type="text"
+									   placeholder="Alt text for the incorrect image"
+									   ng-model="questions[$index].answers.options[1].alt">
 							</div>
 						</div>
 					</div>
@@ -82,27 +97,43 @@
 			</div>
 
 			<div class="add-container text-center ">
-				<button id="add-question" class="btn add" aria-label="Add Pair" ng-click="addQuestion()">Add Question</button>
+				<button id="add-question" class="btn add" aria-label="Add Question" ng-click="addQuestion()">Add Question</button>
 			</div>
 		</main>
 
-		<div id='backgroundcover' ng-click='hideCover()' ng-class='{ show: showTitleDialog || showIntroDialog }'></div>
+		<div id='backgroundcover'
+			 ng-click='hideCover()'
+			 ng-class='{ show: showTitleDialog || showIntroDialog }'></div>
+
 		<div class='box intro' ng-class='{ show: showIntroDialog }'>
 			<img src='assets/creatorexample.png'>
+
 			<h1>This or That</h1>
+
 			<p>Compare two images against a subject.</p>
 			<p>Students can remove cards and shuffle cards to help them study.</p>
 			<p>A score may be recorded for this widget.</p>
+
 			<hr>
+
 			<p class="no-margin"><strong>Start by giving your This or That widget a title</strong></p>
-			<input type='text' placeholder='My This or That widget' ng-model='introTitle' autofocus='1' ng-enter='setTitle()' focus-me='showIntroDialog'>
+
+			<input type='text'
+					placeholder='My This or That widget'
+					ng-model='introTitle'
+					autofocus='1'
+					ng-enter='setTitle()'
+					focus-me='showIntroDialog'>
+
 			<input type='button' value='Get Started' ng-click='setTitle()'>
 		</div>
+
 		<div class='box title' ng-class='{ show: showTitleDialog }'>
 			<strong>Give your This or That widget a title</strong><br>
 			<input type='text' placeholder='My This or That widget' ng-model='title' ng-enter='hideCover()' focus-me='showTitleDialog'>
 			<input type='submit' value='Done' ng-click='hideCover()'>
 		</div>
+
 		<div class='arrow-box' ng-show='!questions.length && step'>
 			<span>Click here to add your first question</span>
 		</div>

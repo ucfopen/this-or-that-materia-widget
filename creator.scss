@@ -54,6 +54,7 @@
 .icon-rdio-c:before {content: "\e003";}
 
 // Color palette.
+$light-blue: #223766;
 $green: #70bd34;
 $a : #223863;
 $b : #44382A;
@@ -98,7 +99,7 @@ ul { list-style-type : none; }
 	background: #5fac4b;
 	border: 0;
 	border-radius: 4px;
-	box-shadow: 0 6px 6px rgba(0,0,0,0.3);
+	box-shadow: 0 3px 6px rgba(0,0,0,0.3);
 
 	cursor: pointer;
 	-webkit-appearance: none;
@@ -202,6 +203,7 @@ body {
 
 	background-color: #fff;
 	border-radius: 4px;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.3);
 
 	p:last-of-type { margin: 0; }
 
@@ -215,6 +217,7 @@ body {
 
 		background: rgba(0,0,0,0.4);
 		border-radius: 8px;
+		box-shadow: 0 3px 6px rgba(0,0,0,0.3);
 
 		@include clearfix;
 
@@ -224,24 +227,15 @@ body {
 
 			font-family: 'fha_nicholson_french_ncvRg', serif;
 
-			border-bottom: 1px solid rgba(0,0,0,0.3);
+			border-bottom: 2px solid $light-blue;
 
 			@include clearfix;
 
 			.title {
-				box-sizing: border-box;
 				display: inline-block;
-				max-width: 575px;
+				margin: 0;
+				max-width: 560px;
 				width: 100%;
-
-				padding: 6px 12px;
-
-				color: #fff;
-				font-size: 1.2em;
-
-				background: #223766;
-				border: 0;
-				border-radius: 4px;
 			}
 
 			h1 {
@@ -268,14 +262,14 @@ body {
 		.choices {
 			position: relative;
 
-			height: 302px;
 			margin: 0 auto 16px;
-			width: 750px;
+			max-width: 750px;
+
+			@include clearfix;
+
+			.frame-container { max-width: 340px; }
 
 			.img-frame {
-				position: absolute;
-				top: 0;
-
 				box-sizing: border-box;
 				height: 302px;
 				padding: 20px;
@@ -288,29 +282,15 @@ body {
 
 				&:hover { background: url('assets/img/frame-hover.png') no-repeat center; }
 
-				&.correct {
-					background: url('assets/img/correct-frame.png') no-repeat center;
+				&.correct { background: url('assets/img/correct-frame.png') no-repeat center; }
 
-					left: 0;
-				}
-
-				&.incorrect {
-					background: url('assets/img/incorrect-frame.png') no-repeat center;
-
-					right: 0;
-				}
+				&.incorrect { background: url('assets/img/incorrect-frame.png') no-repeat center; }
 
 				.choice-img {
 					height: 250px;
 					width: 300px;
 
 					border-radius: 4px;
-				}
-
-				.img-controls {
-					margin-top: 15px;
-
-					text-align: center;
 				}
 
 				.desc {
@@ -324,7 +304,36 @@ body {
 					text-align: center;
 				}
 			}
+
+			.img-controls {
+				margin-top: -15px;
+
+				text-align: center;
+			}
 		}
+	}
+}
+
+.input-wrap {
+	margin: 16px 0 0;
+	padding: 4px;
+
+	border: 2px solid $light-blue;
+	border-radius: 8px;
+
+	input {
+		box-sizing: border-box;
+		display: inline-block;
+		width: 100%;
+
+		padding: 6px 12px;
+
+		color: #fff;
+		font-size: 1em;
+
+		background: $light-blue;
+		border: 0;
+		border-radius: 4px;
 	}
 }
 
@@ -444,5 +453,7 @@ body {
 	}
 }
 
+.left { float: left !important; }
+.right { float: right !important; }
 .no-margin { margin: 0 !important; }
 .text-center { text-align: center !important; }
