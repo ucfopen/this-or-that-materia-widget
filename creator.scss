@@ -269,6 +269,15 @@ body {
 
 			.frame-container { max-width: 340px; }
 
+			.desc {
+				margin: 0;
+
+				font-size: 1.3em;
+				font-family: 'fha_nicholson_french_ncvRg';
+				color: #fff;
+				text-align: center;
+			}
+
 			.img-frame {
 				box-sizing: border-box;
 				height: 302px;
@@ -291,17 +300,6 @@ body {
 					width: 300px;
 
 					border-radius: 4px;
-				}
-
-				.desc {
-					position: absolute;
-
-					width: 300px;
-
-					font-size: 18px;
-					font-family: 'fha_nicholson_french_ncvRg';
-					color: #666;
-					text-align: center;
 				}
 			}
 
