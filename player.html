@@ -44,7 +44,7 @@
 				<div class="side-curtain lower left" aria-hidden="true"></div>
 				<div class="side-curtain lower right" aria-hidden="true"></div>
 
-				<h1 id="question">{{question}}</h1>
+				<h1 id="question">{{title}}</h1>
 
 				<!-- Holds ThisOrThat -->
 				<div id="choices">
@@ -98,7 +98,7 @@
 						<button class="btn"
 								id="start"
 								ng-click="launchGame()"
-								ng-hide="gameState.endgame">Start!</button>
+								ng-show="!gameState.ingame && !gameState.endgame">Start!</button>
 						<button class="btn"
 								id="reset"
 								ng-click="viewScores()"

@@ -21,7 +21,6 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		choice: -1
 		current: -1
 		correct: [-1,-1]
-		qset: {}
 		selected: false
 		transition: false
 
@@ -30,63 +29,73 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		thisRaised: false
 		thatRaised: false
 
+	_qset = null
+
 	$scope.launchGame = ->
 		$scope.gameState.ingame = true
 
 	$scope.endGame = ->
-		$scope.gameState.ingame  = false
+		$scope.gameState.ingame = false
 		$scope.gameState.endgame = true
 
 	$scope.viewScores = ->
 		Materia.Engine.end()
 
 	$scope.start = (instance, qset, version) ->
-		$scope.questions.qset = qset
-		incrementQuestion()
+		console.log 'PLEASE'
+		_qset = qset
+		_incrementQuestion()
 
 	$scope.checkChoice = (value) ->
-		correctValue            = $scope.questions.qset.items[$scope.questions.current].answers[0].value
+		_value = _qset.items[$scope.questions.current].answers[value].value
 		$scope.questions.choice = value
 
-		switch value
+		switch _value
 			when 0
-				if value is correctValue
-					$scope.questions.correct[0] = 1
-					$scope.gameState.score += 100
-				else
-					$scope.questions.correct[0] = 0
-			when 1
-				if value is correctValue
-					$scope.questions.correct[1] = 1
-					$scope.gameState.score += 100
-				else
-					$scope.questions.correct[1] = 0
+				$scope.questions.correct[value] = 0
+			when 100
+				$scope.questions.correct[value] = 1
+				$scope.gameState.score += 100
 
 		$scope.questions.selected = true
 		$scope.gameState.showNext = true
 
 	$scope.nextClicked = ->
-		$scope.gameState.showNext   = false
-		$scope.questions.correct    = [-1,-1]
-		$scope.questions.choice     = -1
+		$scope.gameState.showNext = false
+		$scope.questions.correct = [-1,-1]
+		$scope.questions.choice = -1
 		$scope.questions.transition = true
 
-		$timeout(incrementQuestion, 1000)
+		$timeout(_incrementQuestion, 1000)
 
-	incrementQuestion = ->
+	_incrementQuestion = ->
 		$scope.questions.current++
 
-		if $scope.questions.qset.items[$scope.questions.current]
-			$scope.question = $scope.questions.qset.items[$scope.questions.current].questions[0].text
-			$scope.answers  = $scope.questions.qset.items[$scope.questions.current].answers[0].options
+		if _qset.items[$scope.questions.current]
+			$scope.title = _qset.items[$scope.questions.current].questions[0].text
+			$scope.answers = _randomizeChoices _qset.items[$scope.questions.current].answers
 
 			for answer in $scope.answers
-				answer.image = Materia.Engine.getImageAssetUrl(answer.image)
+				answer.image = Materia.Engine.getImageAssetUrl answer.options.asset.id
 
-			$scope.questions.selected   = false
+			$scope.questions.selected = false
 			$scope.questions.transition = false
 		else
 			$scope.endGame()
+
+	_randomizeChoices = (array) ->
+		i = array.length
+
+		if i == 0 then return false
+	 
+		while --i
+			j = Math.floor(Math.random() * (i + 1))
+			tempi = array[i]
+			tempj = array[j]
+			array[i] = tempj
+			array[j] = tempi
+
+		return array
 
 	Materia.Engine.start($scope)
 ]
