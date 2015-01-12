@@ -16,7 +16,7 @@
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-animate.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-sanitize.min.js"></script>
-		<script src="assets/js/modernizr.js"></script>
+		<script src="assets/js/modernizr.min.js"></script>
 
 		<!-- MAIN CREATOR SCRIPT -->
 		<script src="creator.js"></script>
@@ -32,10 +32,6 @@
 		</div>
 
 		<main class="container" role="main">
-			<div class="message warning">
-				<p>Images uploaded should be 300x250 pixels</p>
-			</div>
-
 			<div id="questions">
 				<section class="question" ng-repeat="question in questions">
 					<header class="question-header">
@@ -56,7 +52,7 @@
 						<section class="frame-container left">
 							<h2 class="desc">The correct image</h2>
 							<div class="img-frame correct" aria-label="The correct image">
-								<img class="choice-img" src="http://placehold.it/300x250" ng-src="{{questions[$index].URLs[0]}}"  alt="{{questions[$index].answers.options[0].alt}}">
+								<img class="choice-img" src="http://placehold.it/300x250" ng-src="{{questions[$index].URLs[0]}}"  alt="{{questions[$index].alt[0]}}">
 							</div>
 
 							<div class="img-controls">
@@ -67,14 +63,14 @@
 							<div class="input-wrap">
 								<input type="text"
 									   placeholder="Alt text for the correct image"
-									   ng-model="questions[$index].answers.options[0].alt">
+									   ng-model="questions[$index].alt[0]">
 							</div>
 						</section>
 
 						<section class="frame-container right">
 							<h2 class="desc">The incorrect image</h2>
 							<div class="img-frame incorrect" aria-label="The incorrect image">
-								<img class="choice-img" src="http://placehold.it/300x250" ng-src="{{questions[$index].URLs[1]}}"  alt="{{questions[$index].answers.options[1].alt}}">
+								<img class="choice-img" src="http://placehold.it/300x250" ng-src="{{questions[$index].URLs[1]}}"  alt="{{questions[$index].alt[1]}}">
 							</div>
 
 							<div class="img-controls">
@@ -85,7 +81,7 @@
 							<div class="input-wrap">
 								<input type="text"
 									   placeholder="Alt text for the incorrect image"
-									   ng-model="questions[$index].answers.options[1].alt">
+									   ng-model="questions[$index].alt[1]">
 							</div>
 						</section>
 					</div>
