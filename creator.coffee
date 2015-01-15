@@ -43,11 +43,11 @@ ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 			Materia.CreatorCore.cancelSave 'Please enter a title.'
 			return false
 
-		qset.version = 1
+		for i in [0..items.length-1]
+			item = @processQsetItem items[i]
+			qsetItems.push item if item
 
-		qsetItems.push @processQsetItem items[i] for i in [0..items.length-1]
-
-		qset.data = { items: qsetItems }
+		qset.items = qsetItems
 
 		qset
 
@@ -58,27 +58,21 @@ ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 		materiaType: "question"
 		id: item.id
 		type: 'MC'
-		questions: [ { text: item.ques } ]
-		answers: [
-			{
-				text: item.alt[0]
-				value: 100
-				options: {
-					asset: {
-						materiaType: 'asset'
-						id: item.image[0]
-					}
-				}
-			}
-			{
-				text: item.alt[1]
-				value: 0
-				options: {
-					asset: {
-						materiaType: 'asset'
-						id: item.image[1]
-					}
-				}
+		questions: [{ text: item.ques }]
+		answers: [{
+			text: item.alt[0]
+			value: 100
+			options:
+				asset:
+					materiaType: 'asset'
+					id: item.images[0]
+			}, {
+			text: item.alt[1]
+			value: 0
+			options:
+				asset:
+					materiaType: 'asset'
+					id: item.images[1]
 			}
 		]
 ]
@@ -88,6 +82,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$sanitize', 'Resource
 ($scope, $sanitize, Resource) ->
 	$scope.title     = "My This or That widget"
 	$scope.questions = []
+	$scope.currIndex = 0
 	_imgRef          = []
 
 	# View actions
@@ -100,13 +95,14 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$sanitize', 'Resource
 		$scope.showTitleDialog = $scope.showIntroDialog = false
 
 	$scope.initNewWidget = (widget, baseUrl) ->
-		console.log 'WHYYYYYYYYYY'
 		$scope.$apply ->
-			$scope.showIntroDialog = true
+			$scope.showIntroDialog = false
+			$scope.addQuestion()
+		
 
 	$scope.initExistingWidget = (title, widget, qset, version, baseUrl) ->
 		$scope.title = title
-		$scope.onQuestionImportComplete qset.items[0].items
+		$scope.onQuestionImportComplete qset.items
 
 	$scope.onSaveClicked = (mode = 'save') ->
 		# Create a qset to save
@@ -118,18 +114,22 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$sanitize', 'Resource
 	$scope.onQuestionImportComplete = (items) ->
 		# Add each imported question to the DOM
 		for i in [0..items.length-1]
-			$scope.addPair items[i].questions[0].text.replace(/\&\#10\;/g, '\n'), items[i].answers[0].text.replace(/\&\#10\;/g, '\n'), items[i].assets, items[i].id, items[i].questions[0].id, items[i].answers[0].id
-			if items[i].assets?[0] and items[i].assets[0] != '-1' then $scope.questions[i].URLs[0] = Materia.CreatorCore.getMediaUrl items[i].assets[0]
-			if items[i].assets?[1] and items[i].assets[1] != '-1' then $scope.questions[i].URLs[1] = Materia.CreatorCore.getMediaUrl items[i].assets[1]
+			$scope.addQuestion items[i].questions[0].text.replace(/\&\#10\;/g, '\n'), [items[i].answers[0].options.asset.id, items[i].answers[1].options.asset.id], [items[i].answers[0].text, items[i].answers[1].text], ["", ""], items[i].id, items[i].questions[0].id, items[i].answers[0].id
+
+			if items[i].answers?[0].options?.asset
+				$scope.questions[i].URLs[0] = Materia.CreatorCore.getMediaUrl items[i].answers[0].options.asset.id
+
+			if items[i].answers?[1].options?.asset
+				$scope.questions[i].URLs[1] = Materia.CreatorCore.getMediaUrl items[i].answers[1].options.asset.id
+		
 		$scope.$apply()
 
 	$scope.onMediaImportComplete = (media) ->
-		console.log media
 		$scope.setURL Materia.CreatorCore.getMediaUrl(media[0].id), media[0].id
 		$scope.$apply()
 
-	$scope.addQuestion = (title = "", image = ["",""], alt = ["",""], URLs = ["",""], answers = "", images = ["",""], id = "", qid = "", ansid = "") ->
-		$scope.questions.push { title: title, image: image, alt: alt, URLs: ["",""], answers: answers, id: id, qid: qid, ansid: ansid }
+	$scope.addQuestion = (title = "", images = ["",""], alt = ["",""], URLs = ["http://placehold.it/300x250","http://placehold.it/300x250"], answers = "", id = "", qid = "", ansid = "") ->
+		$scope.questions.push { title: title, images: images, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
 
 	$scope.removeQuestion = (index) ->
 		$scope.questions.splice index, 1
@@ -147,6 +147,15 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$sanitize', 'Resource
 
 	$scope.clearImage = (index, which) ->
 		$scope.questions[index].URLs[which] = "http://placehold.it/300x250"
+
+	$scope.next = () ->
+		if $scope.currIndex < $scope.questions.length - 1 then $scope.currIndex++ else index_ = 0
+
+	$scope.prev = () ->
+		if $scope.currIndex > 0 then $scope.currIndex-- else $scope.currIndex = $scope.questions.length - 1;
+
+	$scope.updateDong = (index) ->
+		$scope.currIndex = index
 
 	Materia.CreatorCore.start $scope
 ]

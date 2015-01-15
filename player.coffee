@@ -42,20 +42,22 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		Materia.Engine.end()
 
 	$scope.start = (instance, qset, version) ->
-		console.log 'PLEASE'
 		_qset = qset
 		_incrementQuestion()
 
 	$scope.checkChoice = (value) ->
+		#get the value of the chosen answer
 		_value = _qset.items[$scope.questions.current].answers[value].value
+		#track which image the user selected in the game
 		$scope.questions.choice = value
 
 		switch _value
 			when 0
 				$scope.questions.correct[value] = 0
+				Materia.Score.submitQuestionForScoring _qset.items[$scope.questions.current].id, 0
 			when 100
 				$scope.questions.correct[value] = 1
-				$scope.gameState.score += 100
+				Materia.Score.submitQuestionForScoring _qset.items[$scope.questions.current].id, 100
 
 		$scope.questions.selected = true
 		$scope.gameState.showNext = true

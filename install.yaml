@@ -16,7 +16,7 @@ files:
   player: player.html
   flash_version: 10
 score:
-  is_scorable: No
+  is_scorable: Yes
   score_module: ThisOrThat
 meta_data:
   features:
