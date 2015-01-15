@@ -32,19 +32,20 @@
 		</div>
 
 		<main class="container" role="main">
-			<div id="questions">
-				<section class="question" ng-repeat="question in questions">
+			<div class="question-slider">
+				<section class="question">
 					<header class="question-header">
 						<button class="btn delete"
 								aria-label="Delete card."
-								ng-click="removeQuestion($index)">
-							<span class="icon-close"></span>
+								ng-click="removeQuestion(currIndex)">
+							<span class="icon-cross" aria-hidden="true"></span>
+							<span class="sr-only">Remove question</span>
 						</button>
 
-						<h1>Question {{$index + 1}}:</h1>
+						<h1>Question {{currIndex + 1}}:</h1>
 
 						<div class="input-wrap title">
-							<input type="text" ng-model="questions[$index].title" placeholder="Ex: Which of these video games is for casuals?">
+							<input type="text" ng-model="questions[currIndex].title" placeholder="Ex: Which of these video games is for casuals?">
 						</div>
 					</header>
 
@@ -52,54 +53,68 @@
 						<section class="frame-container left">
 							<h2 class="desc">The correct image</h2>
 							<div class="img-frame correct" aria-label="The correct image">
-								<img class="choice-img" src="http://placehold.it/300x250" ng-src="{{questions[$index].URLs[0]}}"  alt="{{questions[$index].alt[0]}}">
+								<img class="choice-img" ng-src="{{questions[currIndex].URLs[0]}}"  alt="{{questions[currIndex].alt[0]}}">
 							</div>
 
 							<div class="img-controls">
-								<button class="btn small blue" ng-click="requestImage($index, 0)">Upload</button>
-								<button class="btn small blue" ng-click="clearImage($index, 0)">Clear</button>
+								<button class="btn small blue" ng-click="requestImage(currIndex, 0)">Upload</button>
+								<button class="btn small blue" ng-click="clearImage(currIndex, 0)">Clear</button>
 							</div>
 
 							<div class="input-wrap">
 								<input type="text"
 									   placeholder="Alt text for the correct image"
-									   ng-model="questions[$index].alt[0]">
+									   ng-model="questions[currIndex].alt[0]">
 							</div>
+
+							<button class="prev" type="button" ng-click="prev()">
+								<span class="icon-backward2" aria-hidden="true"></span>
+								<span class="sr-only">Back</span>
+							</button>
 						</section>
 
 						<section class="frame-container right">
 							<h2 class="desc">The incorrect image</h2>
 							<div class="img-frame incorrect" aria-label="The incorrect image">
-								<img class="choice-img" src="http://placehold.it/300x250" ng-src="{{questions[$index].URLs[1]}}"  alt="{{questions[$index].alt[1]}}">
+								<img class="choice-img" ng-src="{{questions[currIndex].URLs[1]}}"  alt="{{questions[currIndex].alt[1]}}">
 							</div>
 
 							<div class="img-controls">
-								<button class="btn small blue" ng-click="requestImage($index, 1)">Upload</button>
-								<button class="btn small blue" ng-click="clearImage($index, 1)">Clear</button>
+								<button class="btn small blue" ng-click="requestImage(currIndex, 1)">Upload</button>
+								<button class="btn small blue" ng-click="clearImage(currIndex, 1)">Clear</button>
 							</div>
 
 							<div class="input-wrap">
 								<input type="text"
 									   placeholder="Alt text for the incorrect image"
-									   ng-model="questions[$index].alt[1]">
+									   ng-model="questions[currIndex].alt[1]">
 							</div>
+
+							<button class="next" type="button" ng-click="next()">
+								<span class="icon-forward3" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</button>
 						</section>
 					</div>
 
 					<p class="no-margin" style="text-align:right">
-						<button class="btn small transparent" ng-click="addQuestion(questions[$index].title, questions[$index].answers)">Duplicate</button>
+						<button class="btn small transparent" ng-click="">Duplicate</button>
 					</p>
 				</section>
-			</div>
 
-			<div class="add-container text-center ">
-				<button id="add-question" class="btn add" aria-label="Add Question" ng-click="addQuestion()">Add Question</button>
+				<div class="text-center">
+					<ul class="dots">
+						<li ng-repeat="question in questions">
+							<button type="button" ng-class="{active: currIndex == $index}" ng-click="updateDong($index)">{{$index + 1}}</button>
+						</li>
+					</ul>
+
+					<button id="add-question" class="btn add" aria-label="Add Question" ng-click="addQuestion()">Add Question</button>
+				</div>
 			</div>
 		</main>
 
-		<div id='backgroundcover'
-			 ng-click='hideCover()'
-			 ng-class='{ show: showTitleDialog || showIntroDialog }'></div>
+		<div id='backgroundcover' ng-class='{ show: showTitleDialog || showIntroDialog }'></div>
 
 		<div class='box intro' ng-class='{ show: showIntroDialog }'>
 			<img src='assets/creatorexample.png'>
@@ -108,7 +123,7 @@
 
 			<p>Compare two images against a subject.</p>
 			<p>Students can remove cards and shuffle cards to help them study.</p>
-			<p>A score may be recorded for this widget.</p>
+			<p class="no-margin">A score may be recorded for this widget.</p>
 
 			<hr>
 
