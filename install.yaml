@@ -24,7 +24,7 @@ meta_data:
     - Media
     - Mobile Friendly
   supported_data:
-    - Question/Answer
+    - Multiple Choice
   about: >
     This or That is a game in which students must answer questions by choosing one of two images.
   excerpt: >
