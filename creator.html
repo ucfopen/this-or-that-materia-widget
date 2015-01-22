@@ -32,8 +32,9 @@
 		</div>
 
 		<main class="container" role="main">
-			<div class="question-slider">
-				<section class="question">
+			<div class="question-slider" ng-show="questions[0]">
+				<section class="question"
+						 ng-class="{'transitioning': actions.transition, 'sliding': actions.slide, 'remove': actions.remove, 'adding': actions.add}">
 					<header class="question-header">
 						<button class="btn delete"
 								aria-label="Delete card."
@@ -102,15 +103,17 @@
 					</p>
 				</section>
 
-				<div class="text-center">
-					<ul class="dots">
-						<li ng-repeat="question in questions">
-							<button type="button" ng-class="{active: currIndex == $index}" ng-click="updateDong($index)">{{$index + 1}}</button>
-						</li>
-					</ul>
+				<ul class="dots text-center">
+					<li ng-repeat="question in questions">
+						<button type="button"
+								ng-class="{active: currIndex == $index}"
+								ng-click="selectCurrent($index)">{{$index + 1}}</button>
+					</li>
+				</ul>
+			</div>
 
-					<button id="add-question" class="btn add" aria-label="Add Question" ng-click="addQuestion()">Add Question</button>
-				</div>
+			<div class="text-center">
+				<button id="add-question" class="btn add" aria-label="Add Question" ng-click="addQuestion()">Add Question</button>
 			</div>
 		</main>
 

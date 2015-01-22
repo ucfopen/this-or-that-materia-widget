@@ -351,11 +351,19 @@ body {
 		max-width: 820px;
 		width: 100%;
 
-		background: rgba(0,0,0,0.4);
+		background-color: rgba(0,0,0,0.4);
 		border-radius: 8px;
 		box-shadow: 0 3px 6px rgba(0,0,0,0.3);
 
 		@include clearfix;
+
+		&.transitioning {
+			animation: fancy-fade 1s;
+
+			&.sliding  {  }
+			&.removing { background-color: red; }
+			&.adding   { background-color: green; }
+		}
 
 		.question-header {
 			margin-bottom: 10px;
@@ -508,6 +516,11 @@ body {
 			}
 		}
 	}
+}
+
+@keyframes fancy-fade {
+	0%   { opacity: 0; }
+	100% { opacity: 1; }
 }
 
 .left { float: left !important; }
