@@ -12,26 +12,6 @@ Updated : 1/20/2014
 # Create an angular module to import the animation module and house our controller
 ThisOrThat = angular.module 'ThisOrThatCreator', ['ngAnimate', 'ngSanitize']
 
-ThisOrThat.directive('ngEnter', ->
-    return (scope, element, attrs) ->
-        element.bind("keydown keypress", (event) ->
-            if(event.which == 13)
-                scope.$apply ->
-                    scope.$eval(attrs.ngEnter)
-                event.preventDefault()
-        )
-)
-ThisOrThat.directive('focusMe', ['$timeout', '$parse', ($timeout, $parse) ->
-	link: (scope, element, attrs) ->
-		model = $parse(attrs.focusMe)
-		scope.$watch model, (value) ->
-			if value
-				$timeout ->
-					element[0].focus()
-			value
-])
-
-
 # The 'Resource' service contains all app logic that does pertain to DOM manipulation
 ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 	buildQset: (title, items) ->
@@ -81,7 +61,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	$scope.title      = "My This or That widget"
 	$scope.questions  = []
 	$scope.currIndex  = -1
-	$scope.actions    = { transition: false, slide: false, add: false, remove: false }
+	$scope.actions    = { slideleft: false, slideright: false, add: false, remove: false, removelast: false }
 	_imgRef           = []
 
 	# View actions
@@ -127,19 +107,29 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		$scope.$apply()
 
 	$scope.addQuestion = (title = "", images = ["",""], alt = ["",""], URLs = ["http://placehold.it/300x250","http://placehold.it/300x250"], answers = "", id = "", qid = "", ansid = "") ->
-		$scope.actions.transition = $scope.actions.add = true
-		$timeout _noTransition, 500, true
+		if $scope.questions.length > 0
+			$scope.actions.add = true
+			$timeout _noTransition, 660, true
 
-		$scope.questions.push { title: title, images: images, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
-		$scope.currIndex = $scope.questions.length - 1
+		$timeout(
+			() ->
+				$scope.questions.push { title: title, images: images, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
+				$scope.currIndex = $scope.questions.length - 1
+			330
+			true)
 
 	$scope.removeQuestion = (index) ->
-		$scope.actions.transition = $scope.actions.remove = true
-		$timeout _noTransition, 500, true
+		if $scope.currIndex + 1 == $scope.questions.length then $scope.actions.removelast = true else $scope.actions.remove = true
 
+		$timeout _noTransition, 660, true
 		$scope.questions.splice index, 1
 
-		if $scope.currIndex == $scope.questions.length then $scope.currIndex--
+		if $scope.currIndex == $scope.questions.length
+			$timeout(
+				() ->
+					$scope.currIndex--
+				330
+				true)
 
 	$scope.requestImage = (index, which) ->
 		Materia.CreatorCore.showMediaImporter()
@@ -156,16 +146,29 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		$scope.questions[index].URLs[which] = "http://placehold.it/300x250"
 
 	$scope.next = () ->
-		if $scope.currIndex < $scope.questions.length - 1 then $scope.currIndex++ else $scope.currIndex = 0
+		if $scope.currIndex < $scope.questions.length - 1
+			$scope.currIndex++
+		else
+			$scope.currIndex = 0
 
 	$scope.prev = () ->
-		if $scope.currIndex > 0 then $scope.currIndex-- else $scope.currIndex = $scope.questions.length - 1
+		if $scope.currIndex > 0
+			$scope.currIndex--
+		else
+			$scope.currIndex = $scope.questions.length - 1
 
 	$scope.selectCurrent = (index) ->
-		$scope.actions.transition = $scope.actions.slide = true
-		$timeout _noTransition, 500, true
+		_index = index
 
-		$scope.currIndex = index
+		if index > $scope.currIndex then $scope.actions.slideright = true
+		if index < $scope.currIndex then $scope.actions.slideleft = true
+
+		$timeout(
+			(index) ->
+				$scope.currIndex = _index
+			300
+			true)
+		$timeout _noTransition, 660, true
 
 	_noTransition = ->
 		for action of $scope.actions
