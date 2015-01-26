@@ -32,14 +32,15 @@
 		</div>
 
 		<main class="container" role="main">
-			<div class="question-container" ng-show="questions[0]">
-				<div class="question-slider">
+			<div class="question-container">
+				<div class="question-slider" ng-class="{ 'activated': questions[0] }">
 					<section class="question"
-							 ng-class="{'sliding-left': actions.slideleft, 'sliding-right': actions.slideright, 'removing': actions.remove, 'removing-last': actions.removelast, 'adding': actions.add}">
+							 ng-class="{ 'sliding-in': actions.slidein, 'sliding-left': actions.slideleft, 'sliding-right': actions.slideright, 'removing': actions.remove, 'removing-last': actions.removelast, 'adding': actions.add }">
 						<header class="question-header">
 							<button class="btn delete"
 									aria-label="Delete card."
-									ng-click="removeQuestion(currIndex)">
+									ng-click="removeQuestion(currIndex)"
+									ng-disabled="questions.length < 2">
 								<span class="icon-cross" aria-hidden="true"></span>
 								<span class="sr-only">Remove question</span>
 							</button>
@@ -95,12 +96,12 @@
 					</section>
 				</div>
 
-				<button class="prev" type="button" ng-click="prev()">
+				<button class="prev" type="button" ng-click="prev()" ng-disabled="questions.length < 2">
 					<span class="icon-backward2" aria-hidden="true"></span>
 					<span class="sr-only">Back</span>
 				</button>
 
-				<button class="next" type="button" ng-click="next()">
+				<button class="next" type="button" ng-click="next()" ng-disabled="questions.length < 2">
 					<span class="icon-forward3" aria-hidden="true"></span>
 					<span class="sr-only">Next</span>
 				</button>
@@ -111,7 +112,8 @@
 					<li ng-repeat="question in questions">
 						<button type="button"
 								ng-class="{active: currIndex == $index}"
-								ng-click="selectCurrent($index)">{{$index + 1}}</button>
+								ng-click="selectCurrent($index)"
+								ng-disabled="questions.length < 2">{{$index + 1}}</button>
 					</li>
 				</ul>
 

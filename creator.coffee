@@ -46,6 +46,7 @@ ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 				asset:
 					materiaType: 'asset'
 					id: item.images[0]
+		,
 			text: item.alt[1]
 			value: 0
 			options:
@@ -61,7 +62,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	$scope.title      = "My This or That widget"
 	$scope.questions  = []
 	$scope.currIndex  = -1
-	$scope.actions    = { slideleft: false, slideright: false, add: false, remove: false, removelast: false }
+	$scope.actions    = { slidein: false, slideleft: false, slideright: false, add: false, remove: false, removelast: false }
 	_imgRef           = []
 
 	# View actions
@@ -76,6 +77,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	$scope.initNewWidget = (widget, baseUrl) ->
 		$scope.$apply ->
 			$scope.showIntroDialog = false
+			$scope.addQuestion()
 
 	$scope.initExistingWidget = (title, widget, qset, version, baseUrl) ->
 		$scope.title = title
@@ -106,17 +108,20 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		$scope.setURL Materia.CreatorCore.getMediaUrl(media[0].id), media[0].id
 		$scope.$apply()
 
-	$scope.addQuestion = (title = "", images = ["",""], alt = ["",""], URLs = ["http://placehold.it/300x250","http://placehold.it/300x250"], answers = "", id = "", qid = "", ansid = "") ->
+	$scope.addQuestion = (title = "", images = ["",""], alt = ["",""], URLs = ["http://placehold.it/300x250","http://placehold.it/300x250"], answers = [], id = "", qid = "", ansid = "") ->
+		console.log 'hello'
 		if $scope.questions.length > 0
 			$scope.actions.add = true
 			$timeout _noTransition, 660, true
 
-		$timeout(
-			() ->
-				$scope.questions.push { title: title, images: images, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
-				$scope.currIndex = $scope.questions.length - 1
-			330
-			true)
+			$timeout ->
+					$scope.questions.push { title: title, images: images, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
+					$scope.currIndex = $scope.questions.length - 1
+					330
+					true
+		else
+			$scope.questions.push { title: title, images: images, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
+			$scope.currIndex = $scope.questions.length - 1
 
 	$scope.removeQuestion = (index) ->
 		if $scope.currIndex + 1 == $scope.questions.length then $scope.actions.removelast = true else $scope.actions.remove = true
@@ -125,11 +130,10 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		$scope.questions.splice index, 1
 
 		if $scope.currIndex == $scope.questions.length
-			$timeout(
-				() ->
+			$timeout ->
 					$scope.currIndex--
-				330
-				true)
+					330
+					true
 
 	$scope.requestImage = (index, which) ->
 		Materia.CreatorCore.showMediaImporter()
@@ -145,34 +149,51 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	$scope.clearImage = (index, which) ->
 		$scope.questions[index].URLs[which] = "http://placehold.it/300x250"
 
-	$scope.next = () ->
-		if $scope.currIndex < $scope.questions.length - 1
-			$scope.currIndex++
-		else
-			$scope.currIndex = 0
+	$scope.next = ->
+		$scope.actions.slideright = true
 
-	$scope.prev = () ->
-		if $scope.currIndex > 0
-			$scope.currIndex--
+		if $scope.currIndex < $scope.questions.length - 1
+			$timeout ->
+					$scope.currIndex++
+					330
+					true
 		else
-			$scope.currIndex = $scope.questions.length - 1
+			$timeout ->
+					$scope.currIndex = 0
+					330
+					true
+
+		$timeout _noTransition, 660, true
+
+	$scope.prev = ->
+		$scope.actions.slideleft = true
+
+		if $scope.currIndex > 0
+			$timeout ->
+					$scope.currIndex--
+					330
+					true
+		else
+			$timeout ->
+					$scope.currIndex = $scope.questions.length - 1
+					330
+					true
+
+		$timeout _noTransition, 660, true
 
 	$scope.selectCurrent = (index) ->
-		_index = index
-
 		if index > $scope.currIndex then $scope.actions.slideright = true
 		if index < $scope.currIndex then $scope.actions.slideleft = true
 
-		$timeout(
-			(index) ->
-				$scope.currIndex = _index
-			300
-			true)
+		$timeout ->
+				$scope.currIndex = index
+				330
+				true
 		$timeout _noTransition, 660, true
 
 	_noTransition = ->
 		for action of $scope.actions
-			$scope.actions[action] = false
+			if action != 'activate' then $scope.actions[action] = false
 
 	Materia.CreatorCore.start $scope
 ]

@@ -97,6 +97,11 @@ ul { list-style-type : none; }
 
 		&:hover { background: #62A0B9; }
 	}
+
+	&[disabled] {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
 }
 
 #header {
@@ -341,153 +346,159 @@ body {
 .question-slider {
 	position: relative;
 
-	display: block;
 	box-sizing: border-box;
-	padding: 6px;
 	margin-bottom: 24px;
+	padding: 6px;
 
 	border: 4px solid $darker;
 	border-radius: 12px;
 	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 
 	overflow: hidden;
-}
 
-.question {
-	max-width: 820px;
+	transition: max-height ease 0.3s;
 
-	padding: 10px;
+	.question {
+		max-width: 820px;
 
-	background-color: $darker;
-	border-radius: 8px;
-	box-sizing: border-box;
-	transition: background-color ease 5s;
+		padding: 10px;
 
-	@include clearfix;
-
-	&.sliding-left  { animation: question-out-right 0.2s, question-in-left 0.2s 0.2s; }
-	&.sliding-right { animation: question-out-left 0.2s, question-in-right 0.2s 0.2s; }
-	&.adding        { animation: question-out-left 0.3s, question-in-up 0.3s 0.3s; }
-	&.removing      { animation: question-out-down 0.3s, question-in-right 0.3s 0.3s; }
-	&.removing-last { animation: question-out-down 0.3s, question-in-left 0.3s 0.3s; }
-
-	//transition animations
-	@keyframes question-out-left {
-		from  { transform: translate(0, 0); }
-		to    { transform: translate(-100%, 0); }
-	}
-
-	@keyframes question-out-right {
-		from  { transform: translate(0, 0); }
-		to    { transform: translate(100%, 0); }
-	}
-
-	@keyframes question-in-left {
-		from  { transform: translate(-100%, 0); }
-		to    { transform: translate(0, 0); }
-	}
-
-	@keyframes question-in-right {
-		from  { transform: translate(100%, 0); }
-		to    { transform: translate(0, 0); }
-	}
-
-	@keyframes question-in-up {
-		from  { background: fade-out($green, 0.1); transform: translate(0, -100%); }
-		to    { background: $darker; transform: translate(0, 0); }
-	}
-
-	@keyframes question-out-down {
-		from  { background: fade-out($red, 0.1); transform: translate(0, 0); }
-		to    { background: $darker; transform: translate(0, 100%); }
-	}
-
-	.question-header {
-		margin-bottom: 10px;
-		padding: 0 0 10px;
-
-		font-family: 'fha_nicholson_french_ncvRg', serif;
-
-		border-bottom: 2px solid $lighter;
+		background-color: $darker;
+		border-radius: 8px;
+		box-sizing: border-box;
 
 		@include clearfix;
 
-		.title {
-			display: inline-block;
-			margin: 0;
-			max-width: 540px;
-			width: 100%;
+		&.sliding-in { animation: activate-questions 0.3s 0.3s; animation-fill-mode: forwards; }
+		&.sliding-left  { animation: question-out-right 0.2s, question-in-left 0.2s 0.2s; }
+		&.sliding-right { animation: question-out-left 0.2s, question-in-right 0.2s 0.2s; }
+		&.adding        { animation: question-out-left 0.3s, question-in-up 0.3s 0.3s; }
+		&.removing      { animation: question-out-down 0.3s, question-in-right 0.3s 0.3s; }
+		&.removing-last { animation: question-out-down 0.3s, question-in-left 0.3s 0.3s; }
+
+		//transition animations
+		@keyframes activate-questions {
+			from { transform: translate(0, -101%); }
+			to   { transform: translate(0, 0); }
 		}
 
-		h1 {
-			display: inline-block;
-			margin: 0;
-			width: 200px;
+		@keyframes question-out-left {
+			from  { transform: translate(0, 0); }
+			to    { transform: translate(-100%, 0); }
+		}
 
-			line-height: 1;
+		@keyframes question-out-right {
+			from  { transform: translate(0, 0); }
+			to    { transform: translate(100%, 0); }
+		}
 
-			span {
-				margin-right: 8px;
+		@keyframes question-in-left {
+			from  { transform: translate(-100%, 0); }
+			to    { transform: translate(0, 0); }
+		}
 
-				color: rgba(255,255,255,0.5);
+		@keyframes question-in-right {
+			from  { transform: translate(100%, 0); }
+			to    { transform: translate(0, 0); }
+		}
+
+		@keyframes question-in-up {
+			from  { background: fade-out($green, 0.1); transform: translate(0, -100%); }
+			to    { background: $darker; transform: translate(0, 0); }
+		}
+
+		@keyframes question-out-down {
+			from  { background: fade-out($red, 0.1); transform: translate(0, 0); }
+			to    { background: $darker; transform: translate(0, 100%); }
+		}
+
+		.question-header {
+			margin-bottom: 10px;
+			padding: 0 0 10px;
+
+			font-family: 'fha_nicholson_french_ncvRg', serif;
+
+			border-bottom: 2px solid $lighter;
+
+			@include clearfix;
+
+			.title {
+				display: inline-block;
+				margin: 0;
+				max-width: 540px;
+				width: 100%;
+			}
+
+			h1 {
+				display: inline-block;
+				margin: 0;
+				width: 200px;
+
+				line-height: 1;
+
+				span {
+					margin-right: 8px;
+
+					color: rgba(255,255,255,0.5);
+				}
+			}
+
+			.delete {
+				float: right;
+
+				background: #e42b20;
 			}
 		}
 
-		.delete {
-			float: right;
+		.choices {
+			position: relative;
 
-			background: #e42b20;
-		}
-	}
+			margin: 0 auto 10px;
+			max-width: 750px;
 
-	.choices {
-		position: relative;
+			@include clearfix;
 
-		margin: 0 auto 10px;
-		max-width: 750px;
+			.frame-container { max-width: 340px; }
 
-		@include clearfix;
+			.desc {
+				margin: 0;
 
-		.frame-container { max-width: 340px; }
-
-		.desc {
-			margin: 0;
-
-			font-size: 1.3em;
-			font-family: 'fha_nicholson_french_ncvRg';
-			color: #fff;
-			text-align: center;
-		}
-
-		.img-frame {
-			box-sizing: border-box;
-			height: 302px;
-			padding: 20px;
-			width: 340px;
-
-			background: url('assets/img/frame.png') no-repeat center;
-
-			cursor: pointer;
-			transition: background ease .5s;
-
-			&:hover { background: url('assets/img/frame-hover.png') no-repeat center; }
-
-			&.correct { background: url('assets/img/correct-frame.png') no-repeat center; }
-
-			&.incorrect { background: url('assets/img/incorrect-frame.png') no-repeat center; }
-
-			.choice-img {
-				height: 250px;
-				width: 300px;
-
-				border-radius: 4px;
+				font-size: 1.3em;
+				font-family: 'fha_nicholson_french_ncvRg';
+				color: #fff;
+				text-align: center;
 			}
-		}
 
-		.img-controls {
-			margin-top: -15px;
+			.img-frame {
+				box-sizing: border-box;
+				height: 302px;
+				padding: 20px;
+				width: 340px;
 
-			text-align: center;
+				background: url('assets/img/frame.png') no-repeat center;
+
+				cursor: pointer;
+				transition: background ease .5s;
+
+				&:hover { background: url('assets/img/frame-hover.png') no-repeat center; }
+
+				&.correct { background: url('assets/img/correct-frame.png') no-repeat center; }
+
+				&.incorrect { background: url('assets/img/incorrect-frame.png') no-repeat center; }
+
+				.choice-img {
+					height: 250px;
+					width: 300px;
+
+					border-radius: 4px;
+				}
+			}
+
+			.img-controls {
+				margin-top: -15px;
+
+				text-align: center;
+			}
 		}
 	}
 }
@@ -498,12 +509,12 @@ body {
 	top: 50%;
 
 	display: block;
-	height: 32px;
+	height: 40px;
 	margin-top: -10px;
-	width: 32px;
+	width: 40px;
 
 	font-family: 'fha_nicholson_french_ncvRg';
-	font-size: 14px;
+	font-size: 24px;
 	line-height: 1;
 
 	background: $green;
@@ -515,10 +526,15 @@ body {
 	text-shadow: 0 3px 3px rgba(0,0,0,0.3);
 
 	cursor: pointer;
+
+	&[disabled] {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
 }
 
-.prev { left: -40px; }
-.next { right: -40px; }
+.prev { left: -50px; }
+.next { right: -50px; }
 
 .dots {
 	margin: 0 0 10px;
@@ -554,6 +570,11 @@ body {
 			cursor: pointer;
 
 			&.active { background: $green; }
+
+			&[disabled] {
+				opacity: 0.5;
+				cursor: not-allowed;
+			}
 		}
 	}
 }
