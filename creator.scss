@@ -376,41 +376,6 @@ body {
 		&.removing      { animation: question-out-down 0.3s, question-in-right 0.3s 0.3s; }
 		&.removing-last { animation: question-out-down 0.3s, question-in-left 0.3s 0.3s; }
 
-		//transition animations
-		@keyframes activate-questions {
-			from { transform: translate(0, -101%); }
-			to   { transform: translate(0, 0); }
-		}
-
-		@keyframes question-out-left {
-			from  { transform: translate(0, 0); }
-			to    { transform: translate(-100%, 0); }
-		}
-
-		@keyframes question-out-right {
-			from  { transform: translate(0, 0); }
-			to    { transform: translate(100%, 0); }
-		}
-
-		@keyframes question-in-left {
-			from  { transform: translate(-100%, 0); }
-			to    { transform: translate(0, 0); }
-		}
-
-		@keyframes question-in-right {
-			from  { transform: translate(100%, 0); }
-			to    { transform: translate(0, 0); }
-		}
-
-		@keyframes question-in-up {
-			from  { background: fade-out($green, 0.1); transform: translate(0, -100%); }
-			to    { background: $darker; transform: translate(0, 0); }
-		}
-
-		@keyframes question-out-down {
-			from  { background: fade-out($red, 0.1); transform: translate(0, 0); }
-			to    { background: $darker; transform: translate(0, 100%); }
-		}
 
 		.question-header {
 			margin-bottom: 10px;
@@ -598,3 +563,40 @@ body {
 	clip: rect(0,0,0,0);
 	border: 0;
 }
+
+//transition animations
+@keyframes activate-questions {
+	from { transform: translate(0, -101%); }
+	to   { transform: translate(0, 0); }
+}
+
+@keyframes question-out-left {
+	from  { transform: translate(0, 0); }
+	to    { transform: translate(-100%, 0); }
+}
+
+@keyframes question-out-right {
+	from  { transform: translate(0, 0); }
+	to    { transform: translate(100%, 0); }
+}
+
+@keyframes question-in-left {
+	from  { transform: translate(-100%, 0); }
+	to    { transform: translate(0, 0); }
+}
+
+@keyframes question-in-right {
+	from  { transform: translate(100%, 0); }
+	to    { transform: translate(0, 0); }
+}
+
+@keyframes question-in-up {
+	from  { background: fade-out($green, 0.1); transform: translate(0, -100%); }
+	to    { background: $darker; transform: translate(0, 0); }
+}
+
+@keyframes question-out-down {
+	from  { background: fade-out($red, 0.1); transform: translate(0, 0); }
+	to    { background: $darker; transform: translate(0, 100%); }
+}
+
