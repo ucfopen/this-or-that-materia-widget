@@ -76,7 +76,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 
 	$scope.initNewWidget = (widget, baseUrl) ->
 		$scope.$apply ->
-			$scope.showIntroDialog = false
+			$scope.showIntroDialog = true
 			$scope.addQuestion()
 
 	$scope.initExistingWidget = (title, widget, qset, version, baseUrl) ->
@@ -109,7 +109,6 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		$scope.$apply()
 
 	$scope.addQuestion = (title = "", images = ["",""], alt = ["",""], URLs = ["http://placehold.it/300x250","http://placehold.it/300x250"], answers = [], id = "", qid = "", ansid = "") ->
-		console.log 'hello'
 		if $scope.questions.length > 0
 			$scope.actions.add = true
 			$timeout _noTransition, 660, true
