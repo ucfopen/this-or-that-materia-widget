@@ -56,7 +56,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		switch _value
 			when 0 then $scope.questions.correct[value] = 0
 			when 100 then $scope.questions.correct[value] = 1
-		
+
 		Materia.Score.submitQuestionForScoring _id, _ans
 
 		$scope.questions.selected = true
@@ -89,7 +89,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		i = array.length
 
 		if i == 0 then return false
-	 
+
 		while --i
 			j = Math.floor(Math.random() * (i + 1))
 			tempi = array[i]
