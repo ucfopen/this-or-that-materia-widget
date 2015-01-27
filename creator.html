@@ -91,17 +91,24 @@
 						</div>
 
 						<p class="no-margin" style="text-align:right">
-							<button class="btn small transparent" ng-click="">Duplicate</button>
+							<button class="btn small transparent"
+									ng-click="addQuestion(questions[currIndex].title, ['',''], [questions[currIndex].alt[0],questions[currIndex].alt[1]])">Duplicate</button>
 						</p>
 					</section>
 				</div>
 
-				<button class="prev" type="button" ng-click="prev()" ng-disabled="questions.length < 2">
+				<button class="prev"
+						type="button"
+						ng-click="prev()"
+						ng-disabled="questions.length < 2">
 					<span class="icon-backward2" aria-hidden="true"></span>
 					<span class="sr-only">Back</span>
 				</button>
 
-				<button class="next" type="button" ng-click="next()" ng-disabled="questions.length < 2">
+				<button class="next"
+						type="button"
+						ng-click="next()"
+						ng-disabled="questions.length < 2">
 					<span class="icon-forward3" aria-hidden="true"></span>
 					<span class="sr-only">Next</span>
 				</button>
@@ -117,14 +124,18 @@
 					</li>
 				</ul>
 
-				<button id="add-question" class="btn add" ng-class="{'right': questions[0]}" aria-label="Add Question" ng-click="addQuestion()">Add Question</button>
+				<button class="btn add"
+						id="add-question"
+						aria-label="Add Question"
+						ng-class="{'right': questions[0]}"
+						ng-click="addQuestion()">Add Question</button>
 			</nav>
 		</main>
 
-		<div id='backgroundcover' ng-class='{ show: showTitleDialog || showIntroDialog }'></div>
+		<div id="backgroundcover" ng-class="{ show: showTitleDialog || showIntroDialog }"></div>
 
-		<div class='box intro' ng-class='{ show: showIntroDialog }'>
-			<img src='assets/creatorexample.png'>
+		<div class="box intro" ng-class="{ show: showIntroDialog }">
+			<img src="assets/creatorexample.png">
 
 			<h1>This or That</h1>
 
@@ -136,23 +147,22 @@
 
 			<p class="no-margin"><strong>Start by giving your This or That widget a title</strong></p>
 
-			<input type='text'
-					placeholder='My This or That widget'
-					ng-model='introTitle'
-					autofocus='1'
-					ng-enter='setTitle()'
-					focus-me='showIntroDialog'>
+			<input type="text"
+					placeholder="My This or That widget"
+					autofocus="1"
+					ng-model="introTitle"
+					ng-enter="setTitle()">
 
-			<input type='button' value='Get Started' ng-click='setTitle()'>
+			<input type="button" value="Get Started" ng-click="setTitle()">
 		</div>
 
-		<div class='box title' ng-class='{ show: showTitleDialog }'>
+		<div class="box title" ng-class="{ show: showTitleDialog }">
 			<strong>Give your This or That widget a title</strong><br>
-			<input type='text' placeholder='My This or That widget' ng-model='title' ng-enter='hideCover()' focus-me='showTitleDialog'>
-			<input type='submit' value='Done' ng-click='hideCover()'>
+			<input type="text" placeholder="My This or That widget" ng-model="title" ng-enter="hideCover()" focus-me="showTitleDialog">
+			<input type="submit" value="Done" ng-click="hideCover()">
 		</div>
 
-		<div class='arrow-box' ng-show='!questions.length && step'>
+		<div class="arrow-box" ng-show="!questions.length && step">
 			<span>Click here to add your first question</span>
 		</div>
 	</body>
