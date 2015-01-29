@@ -40,9 +40,6 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 	$scope.endGame = ->
 		Materia.Engine.end false
 
-		$scope.gameState.ingame  = false
-		$scope.gameState.endgame = true
-
 	$scope.viewScores = ->
 		Materia.Engine.end true
 
@@ -90,10 +87,12 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 			for answer in $scope.answers
 				answer.image = Materia.Engine.getImageAssetUrl answer.options.asset.id
 
-			$scope.questions.selected = false
+			$scope.questions.selected   = false
 			$scope.questions.transition = false
 		else
-			$scope.endGame
+			$scope.gameState.ingame  = false
+			$scope.gameState.endgame = true
+			$scope.endGame()
 
 	_randomizeChoices = (array) ->
 		i = array.length
