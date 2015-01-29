@@ -88,7 +88,9 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 			if !$scope.questions[i].title or !$scope.questions[i].alt[0] or !$scope.questions[i].alt[1] or !$scope.questions[i].images[0] or !$scope.questions[i].images[1]
 				$scope.questions[i].invalid = true
 				$scope.showInvalidDialog    = true
+				$scope.$apply()
 			else
+				if $scope.questions[i].invalid then $scope.questions[i].invalid = false
 				# Create a qset to save
 				qset = Resource.buildQset $sanitize($scope.title), $scope.questions
 				if qset then Materia.CreatorCore.save $sanitize($scope.title), qset
