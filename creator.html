@@ -26,8 +26,8 @@
 
 		<div id="header">
 			<div class="logo"></div>
-			<h1 id="title" ng-bind="title" ng-click="showTitleDialog = true"></h1>
-			<div class="link" ng-click="showTitleDialog = true">Edit...</div>
+			<h1 id="title" ng-bind="title" ng-click="showIntroDialog = true"></h1>
+			<div class="link" ng-click="showIntroDialog = true">Edit...</div>
 			<div class="right">{{questions.length}} Questions</div>
 		</div>
 
@@ -35,12 +35,12 @@
 			<div class="question-container">
 				<div class="question-slider" ng-class="{ 'activated': questions[0] }">
 					<section class="question"
-							 ng-class="{ 'sliding-in': actions.slidein, 'sliding-left': actions.slideleft, 'sliding-right': actions.slideright, 'removing': actions.remove, 'removing-last': actions.removelast, 'adding': actions.add }">
+									 ng-class="{ 'sliding-in': actions.slidein, 'sliding-left': actions.slideleft, 'sliding-right': actions.slideright, 'removing': actions.remove, 'removing-last': actions.removelast, 'adding': actions.add }">
 						<header class="question-header">
-							<button class="btn delete"
-									aria-label="Delete card."
-									ng-click="removeQuestion(currIndex)"
-									ng-disabled="questions.length < 2">
+							<button class="btn red right"
+											aria-label="Delete card."
+											ng-click="removeQuestion(currIndex)"
+											ng-disabled="questions.length < 2">
 								<span class="icon-cross" aria-hidden="true"></span>
 								<span class="sr-only">Remove question</span>
 							</button>
@@ -48,15 +48,16 @@
 							<h1>Question {{currIndex + 1}}:</h1>
 
 							<div class="input-wrap title">
-								<input type="text" ng-model="questions[currIndex].title" placeholder="Ex: Which of these video games is for casuals?">
+								<input type="text" placeholder="Ex: Which of these video games is for mobile devices?" required ng-model="questions[currIndex].title">
 							</div>
 						</header>
 
 						<div class="choices">
 							<section class="frame-container left">
 								<h2 class="desc">The correct image</h2>
+
 								<div class="img-frame correct" aria-label="The correct image">
-									<img class="choice-img" ng-src="{{questions[currIndex].URLs[0]}}"  alt="{{questions[currIndex].alt[0]}}">
+									<img class="choice-img" ng-src="{{questions[currIndex].URLs[0]}}" alt="{{questions[currIndex].alt[0]}}">
 								</div>
 
 								<div class="img-controls">
@@ -66,15 +67,17 @@
 
 								<div class="input-wrap">
 									<input type="text"
-										   placeholder="Description for the correct image"
-										   ng-model="questions[currIndex].alt[0]">
+												 placeholder="Description for the correct image"
+												 required
+												 ng-model="questions[currIndex].alt[0]">
 								</div>
 							</section>
 
 							<section class="frame-container right">
 								<h2 class="desc">The incorrect image</h2>
+
 								<div class="img-frame incorrect" aria-label="The incorrect image">
-									<img class="choice-img" ng-src="{{questions[currIndex].URLs[1]}}"  alt="{{questions[currIndex].alt[1]}}">
+									<img class="choice-img" ng-src="{{questions[currIndex].URLs[1]}}" alt="{{questions[currIndex].alt[1]}}">
 								</div>
 
 								<div class="img-controls">
@@ -84,31 +87,32 @@
 
 								<div class="input-wrap">
 									<input type="text"
-										   placeholder="Description for the incorrect image"
-										   ng-model="questions[currIndex].alt[1]">
+												 placeholder="Description for the incorrect image"
+												 required
+												 ng-model="questions[currIndex].alt[1]">
 								</div>
 							</section>
 						</div>
 
 						<p class="no-margin" style="text-align:right">
 							<button class="btn small transparent"
-									ng-click="addQuestion(questions[currIndex].title, ['',''], [questions[currIndex].alt[0],questions[currIndex].alt[1]])">Duplicate</button>
+											ng-click="addQuestion(questions[currIndex].title, [questions[currIndex].images[0],questions[currIndex].images[1]], [questions[currIndex].alt[0],questions[currIndex].alt[1]], [questions[currIndex].URLs[0],questions[currIndex].URLs[1]])">Duplicate</button>
 						</p>
 					</section>
 				</div>
 
-				<button class="prev"
-						type="button"
-						ng-click="prev()"
-						ng-disabled="questions.length < 2">
+				<button class="prev btn round green"
+								type="button"
+								ng-click="prev()"
+								ng-disabled="questions.length < 2">
 					<span class="icon-backward2" aria-hidden="true"></span>
 					<span class="sr-only">Back</span>
 				</button>
 
-				<button class="next"
-						type="button"
-						ng-click="next()"
-						ng-disabled="questions.length < 2">
+				<button class="next btn round green"
+								type="button"
+								ng-click="next()"
+								ng-disabled="questions.length < 2">
 					<span class="icon-forward3" aria-hidden="true"></span>
 					<span class="sr-only">Next</span>
 				</button>
@@ -117,54 +121,55 @@
 			<nav class="question-nav">
 				<ul class="dots left" ng-show="questions[0]">
 					<li ng-repeat="question in questions">
-						<button type="button"
-								ng-class="{active: currIndex == $index}"
-								ng-click="selectCurrent($index)"
-								ng-disabled="questions.length < 2">{{$index + 1}}</button>
+						<button class="btn round hollow"
+										type="button"
+										ng-class="{'active': currIndex == $index, 'green': !question.invalid, 'red flash': question.invalid}"
+										ng-click="selectCurrent($index)"
+										ng-disabled="questions.length < 2">{{$index + 1}}</button>
 					</li>
 				</ul>
 
-				<button class="btn add"
-						id="add-question"
-						aria-label="Add Question"
-						ng-class="{'right': questions[0]}"
-						ng-click="addQuestion()">Add Question</button>
+				<button class="btn green"
+								id="add-question"
+								aria-label="Add Question"
+								ng-class="{'right': questions[0]}"
+								ng-click="addQuestion()">Add Question</button>
 			</nav>
+
+			<div id="backgroundcover" ng-class="{ show: showIntroDialog || showInvalidDialog }"></div>
+
+			<div class="box invalid" ng-class="{ show: showInvalidDialog }">
+				<button class="btn red right" aria-label="Close message" ng-click="showInvalidDialog = false">
+					<span class="icon-cross" aria-hidden="true"></span>
+					<span class="sr-only">Close message</span>
+				</button>
+
+				<p>Looks like you forgot to fill out the fields for every question!</p>
+				<p>Incomplete questions are be highlighted on the numbered list.</p>
+			</div>
+
+			<div class="box intro" ng-class="{ show: showIntroDialog }">
+				<h1>This or That</h1>
+
+				<img src="assets/creatorexample.png" alt="Widget preview">
+
+				<p>Compare two images against a subject.</p>
+				<p>Students can remove cards and shuffle cards to help them study.</p>
+				<p class="no-margin">A score may be recorded for this widget.</p>
+
+				<hr>
+
+				<h4 class="no-margin">Start by giving your This or That widget a title</h4>
+
+				<input type="text"
+							 placeholder="My This or That widget"
+							 autofocus="true"
+							 ng-model="introTitle"
+							 ng-enter="setTitle()">
+
+				<input type="button" value="Get Started" ng-click="setTitle()">
+			</div>
 		</main>
-
-		<div id="backgroundcover" ng-class="{ show: showTitleDialog || showIntroDialog }"></div>
-
-		<div class="box intro" ng-class="{ show: showIntroDialog }">
-			<img src="assets/creatorexample.png">
-
-			<h1>This or That</h1>
-
-			<p>Compare two images against a subject.</p>
-			<p>Students can remove cards and shuffle cards to help them study.</p>
-			<p class="no-margin">A score may be recorded for this widget.</p>
-
-			<hr>
-
-			<p class="no-margin"><strong>Start by giving your This or That widget a title</strong></p>
-
-			<input type="text"
-					placeholder="My This or That widget"
-					autofocus="1"
-					ng-model="introTitle"
-					ng-enter="setTitle()">
-
-			<input type="button" value="Get Started" ng-click="setTitle()">
-		</div>
-
-		<div class="box title" ng-class="{ show: showTitleDialog }">
-			<strong>Give your This or That widget a title</strong><br>
-			<input type="text" placeholder="My This or That widget" ng-model="title" ng-enter="hideCover()" focus-me="showTitleDialog">
-			<input type="submit" value="Done" ng-click="hideCover()">
-		</div>
-
-		<div class="arrow-box" ng-show="!questions.length && step">
-			<span>Click here to add your first question</span>
-		</div>
 	</body>
 </html>
 
