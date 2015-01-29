@@ -72,11 +72,11 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		$scope.hideCover()
 
 	$scope.hideCover = ->
-		$scope.showTitleDialog = $scope.showIntroDialog = false
+		$scope.showIntroDialog = false
 
 	$scope.initNewWidget = (widget, baseUrl) ->
 		$scope.$apply ->
-			$scope.showIntroDialog = true
+			$scope.showIntroDialog = false
 			$scope.addQuestion()
 
 	$scope.initExistingWidget = (title, widget, qset, version, baseUrl) ->
@@ -84,9 +84,14 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		$scope.onQuestionImportComplete qset.items
 
 	$scope.onSaveClicked = (mode = 'save') ->
-		# Create a qset to save
-		qset = Resource.buildQset $sanitize($scope.title), $scope.questions
-		if qset then Materia.CreatorCore.save $sanitize($scope.title), qset
+		for i in [0..$scope.questions.length-1]
+			if !$scope.questions[i].title or !$scope.questions[i].alt[0] or !$scope.questions[i].alt[1] or !$scope.questions[i].images[0] or !$scope.questions[i].images[1]
+				$scope.questions[i].invalid = true
+				$scope.showInvalidDialog    = true
+			else
+				# Create a qset to save
+				qset = Resource.buildQset $sanitize($scope.title), $scope.questions
+				if qset then Materia.CreatorCore.save $sanitize($scope.title), qset
 
 	$scope.onSaveComplete = () -> true
 
@@ -108,7 +113,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		$scope.setURL Materia.CreatorCore.getMediaUrl(media[0].id), media[0].id
 		$scope.$apply()
 
-	$scope.addQuestion = (title = "", images = ["",""], alt = ["",""], URLs = ["http://placehold.it/300x250","http://placehold.it/300x250"], answers = [], id = "", qid = "", ansid = "") ->
+	$scope.addQuestion = (title = "", images = ["",""], alt = ["",""], URLs = ["assets/img/placeholder.png","assets/img/placeholder.png"], answers = [], id = "", qid = "", ansid = "") ->
 		if $scope.questions.length > 0
 			$scope.actions.add = true
 			$timeout _noTransition, 660, true

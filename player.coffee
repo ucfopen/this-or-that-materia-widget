@@ -29,20 +29,30 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		thisRaised: false
 		thatRaised: false
 
+	#for preloading
+	$scope.images = []
+
 	_qset = null
 
 	$scope.launchGame = ->
 		$scope.gameState.ingame = true
 
 	$scope.endGame = ->
-		$scope.gameState.ingame = false
+		Materia.Engine.end false
+
+		$scope.gameState.ingame  = false
 		$scope.gameState.endgame = true
 
 	$scope.viewScores = ->
-		Materia.Engine.end()
+		Materia.Engine.end true
 
 	$scope.start = (instance, qset, version) ->
 		_qset = qset
+
+		for item in _qset.items
+			for answer in item.answers
+				$scope.images.push Materia.Engine.getImageAssetUrl answer.options.asset.id
+
 		_incrementQuestion()
 
 	$scope.checkChoice = (value) ->
@@ -83,7 +93,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 			$scope.questions.selected = false
 			$scope.questions.transition = false
 		else
-			$scope.endGame()
+			$scope.endGame
 
 	_randomizeChoices = (array) ->
 		i = array.length
