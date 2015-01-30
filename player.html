@@ -50,28 +50,30 @@
 				<div id="choices">
 					<div class="stand-container for-this"
 							 ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
-						<a class="img-frame"
-							 ng-class="{'correct': questions.correct[0] == 1, 'incorrect': questions.correct[0] == 0, 'disabled': questions.selected}"
+						<button class="img-frame"
+							 ng-class="{'correct': questions.correct[0] == 1, 'incorrect': questions.correct[0] == 0}"
 							 ng-click="checkChoice(0)"
+							 ng-disabled="questions.selected"
 							 ng-mouseenter="hands.thisRaised = true"
 							 ng-mouseleave="hands.thisRaised = false"
 							 href="#">
 							<span class="overlay"></span>
 							<img class="choice-img" ng-src="{{answers[0].image}}" alt="{{answers[0].alt}}">
-						</a>
+						</button>
 					</div>
 
 					<div class="stand-container for-that"
 							 ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
-						<a class="img-frame"
-							 ng-class="{'correct': questions.correct[1] == 1, 'incorrect': questions.correct[1] == 0, 'disabled': questions.selected}"
+						<button class="img-frame"
+							 ng-class="{'correct': questions.correct[1] == 1, 'incorrect': questions.correct[1] == 0}"
 							 ng-click="checkChoice(1)"
+							 ng-disabled="questions.selected"
 							 ng-mouseenter="hands.thatRaised = true"
 							 ng-mouseleave="hands.thatRaised = false"
 							 href="#">
 							<span class="overlay"></span>
 							<img class="choice-img" ng-src="{{answers[1].image}}" alt="{{answers[1].alt}}">
-						</a>
+						</button>
 					</div>
 				</div>
 

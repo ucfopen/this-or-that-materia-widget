@@ -62,21 +62,21 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	$scope.title      = "My This or That widget"
 	$scope.questions  = []
 	$scope.currIndex  = -1
+	$scope.dialog     = {}
 	$scope.actions    = { slidein: false, slideleft: false, slideright: false, add: false, remove: false, removelast: false }
 	_imgRef           = []
 
 	# View actions
 	$scope.setTitle = ->
-		$scope.title = $scope.introTitle or $scope.title
-		$scope.step  = 1
-		$scope.hideCover()
-
-	$scope.hideCover = ->
-		$scope.showIntroDialog = false
+		if $scope.introTitle
+			$scope.title = $scope.introTitle or $scope.title
+			$scope.dialog.intro = false
+			$scope.step  = 1
+			$scope.hideCover($scope.dialog.intro)
 
 	$scope.initNewWidget = (widget, baseUrl) ->
 		$scope.$apply ->
-			$scope.showIntroDialog = false
+			$scope.dialog.intro = true
 			$scope.addQuestion()
 
 	$scope.initExistingWidget = (title, widget, qset, version, baseUrl) ->
@@ -87,7 +87,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		for i in [0..$scope.questions.length-1]
 			if !$scope.questions[i].title or !$scope.questions[i].alt[0] or !$scope.questions[i].alt[1] or !$scope.questions[i].images[0] or !$scope.questions[i].images[1]
 				$scope.questions[i].invalid = true
-				$scope.showInvalidDialog    = true
+				$scope.dialog.invalid       = true
 				$scope.$apply()
 			else
 				if $scope.questions[i].invalid then $scope.questions[i].invalid = false
@@ -196,6 +196,9 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 				330
 				true
 		$timeout _noTransition, 660, true
+
+	$scope.hideCover = (intro) ->
+		unless intro then $scope.dialog.invalid = $scope.dialog.into = false
 
 	_noTransition = ->
 		for action of $scope.actions
