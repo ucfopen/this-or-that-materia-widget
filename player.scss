@@ -321,10 +321,12 @@ body {
 
 			box-sizing: border-box;
 			height: 302px;
-			padding: 20px;
+			padding: 0;
 			width: 346px;
 
 			background: url('assets/img/frame.png') no-repeat center;
+			border: 0;
+			outline: none;
 
 			cursor: pointer;
 			transition: background ease .5s;
@@ -361,6 +363,7 @@ body {
 				border-radius: 4px;
 
 				color: #fff;
+				font-family: 'fha_nicholson_french_ncvRg';
 				font-size: 24px;
 				line-height: 250px;
 				text-shadow: 0 4px 2px rgba(0,0,0,0.3);
@@ -368,9 +371,12 @@ body {
 
 			.choice-img {
 				height: 250px;
+				margin-top: -10px;
 				width: 300px;
 
 				border-radius: 4px;
+				border: 0;
+				outline: none;
 			}
 		}
 	}
