@@ -31,7 +31,7 @@ button:focus { outline : none; }
 textarea { resize : none; }
 
 html, body {
-	background: $background url('assets/img/creator-bg.png');
+	background: $background;
 	color: #fff;
 	font-family: 'Lato', verdana, sans-serif;
 	margin: 0;
@@ -450,16 +450,29 @@ ul { list-style-type : none; }
 				padding: 20px;
 				width: 340px;
 
-				background: url('assets/img/frame.png') no-repeat center;
+				background: url('assets/img/sprites') no-repeat center;
+				background-position: -1515.9720458984375px 0;
 
 				cursor: pointer;
 				transition: background ease .5s;
 
-				&:hover { background: url('assets/img/frame-hover.png') no-repeat center; }
+				&:hover {
+					background-image: url('assets/img/sprites');
+					background-position: -1515.9564208984375px -337.9286804199219px;
+					background-repeat: no-repeat;
+				}
 
-				&.correct { background: url('assets/img/correct-frame.png') no-repeat center; }
+				&.correct {
+					background-image: url('assets/img/sprites.png');
+					background-position: -1119px 0;
+					background-repeat: no-repeat;
+				}
 
-				&.incorrect { background: url('assets/img/incorrect-frame.png') no-repeat center; }
+				&.incorrect {
+					background-image: url('assets/img/sprites.png');
+					background-position: -724px 0;
+					background-repeat: no-repeat;
+				}
 
 				.choice-img {
 					height: 250px;
