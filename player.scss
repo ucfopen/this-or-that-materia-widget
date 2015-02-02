@@ -83,7 +83,8 @@ $f : #87735F;
 body {
 	position: absolute;
 	color: #FFF;
-	background: $a url('assets/img/bg.png');
+	background: $a url('assets/img/sprites.png');
+	background-position: -1076px -712.875px;
 	padding: 0;
 	margin: 0;
 	width: 800px;
@@ -109,6 +110,7 @@ body {
 	font-family: 'fha_nicholson_french_ncvRg';
 	text-shadow: 0 3px 3px rgba(0,0,0,0.3);
 	text-transform: uppercase;
+	white-space: nowrap;
 
 	background: #5fac4b;
 	border: 0;
@@ -136,13 +138,17 @@ body {
 		&.left {
 			left: 0;
 
-			background: url('assets/img/upper-left-curtain.png') no-repeat top center;
+			background-image: url('assets/img/sprites.png');
+			background-position: 0 0 top center;
+			background-repeat: no-repeat;
 		}
 
 		&.right {
 			right: 0;
 
-			background: url('assets/img/upper-right-curtain.png') no-repeat top center;
+			background-image: url('assets/img/sprites.png');
+			background-position: -101px 0, top center;
+			background-repeat: no-repeat;
 		}
 	}
 
@@ -155,13 +161,17 @@ body {
 		&.left {
 			left: 0;
 
-			background: url('assets/img/lower-left-curtain.png') no-repeat top center;
+			background-image: url('assets/img/sprites.png');
+			background-position: 0 -134px, top center;
+			background-repeat: no-repeat;
 		}
 
 		&.right {
 			right: 0;
 
-			background: url('assets/img/lower-right-curtain.png') no-repeat top center;
+			background-image: url('assets/img/sprites.png');
+			background-position: -139px -134px, top center;
+			background-repeat: no-repeat;
 		}
 	}
 }
@@ -194,7 +204,7 @@ body {
 	display: none;
 
 	.error-notice {
-		background: #fceead url('../img/error-icon.png') center 26px no-repeat;
+		background: #fceead url('../img/error-icon.png'), center 26px no-repeat;
 		width: 625px;
 		height: 295px;
 		margin: 140px auto 0 auto;
@@ -222,7 +232,8 @@ body {
 	right: 0;
 	top: 0;
 	bottom: 0;
-	background: url('assets/img/curtains.png') repeat-x center bottom;
+	background-image: url('assets/img/sprites.png');
+	background-position: -56px bottom;
 
 	max-height: 520px;
 
@@ -231,24 +242,50 @@ body {
 	z-index: 1000;
 	transition: max-height ease .5s;
 
+	&.raised { max-height: 60px; }
+
 	.sign {
-		padding-top: 40px;
+		position: relative;
+
+		margin: 0 auto;
+		padding-top: 30px;
+		width: 484px;
 
 		text-align: center;
 
-		background: url('assets/img/ropes.png') no-repeat center top;
-
 		transition: margin ease 1.5s;
 
+		.sign-stand {
+			position: absolute;
+			left: 50%;
+			top: 0;
+
+			background-image: url('assets/img/sprites.png');
+			background-position: -67px -146px, center top;
+			background-repeat: no-repeat;
+
+			height: 375px;
+			margin-left: -30px;
+			width: 60px;
+
+			z-index: 0;
+		}
+
 		h1 {
+			position: relative;
+
 			display: block;
 			height: 317px;
-			margin: 0 auto 24px auto;
+			margin: 0 0 15px;
 			width: 484px;
 
 			color: transparent;
 
-			background: url('assets/img/title.png') no-repeat center;
+			background-image: url('assets/img/sprites.png');
+			background-position: -199px 0, center;
+			background-repeat: no-repeat;
+
+			z-index: 1;
 		}
 
 		&.raised {
@@ -256,85 +293,95 @@ body {
 			margin-top: -500px;
 		}
 
-		&.end h1 { background: url('assets/img/fin.png') no-repeat center top; }	
+		&.end h1 {
+			background-image: url('assets/img/sprites.png');
+			background-position: -199px -323px, center top;
+			background-repeat: no-repeat;
+		}
 	}
-
-	&.raised { max-height: 60px; }
 }
 
 #choices {
-	position: relative;
-
 	height: 302px;
 	margin: 0 auto;
 
 	.stand-container {
-		position: absolute;
+		position: relative;
 
 		display: inline-block;
 		height: 290px;
 		width: 375px;
 
-		background: url('assets/img/side-ropes.png') repeat-x center;
-
-		transition: left ease 1s, right ease 1s;
-
 		&.for-this {
-			left: -385px;
-
 			&.raised {
 				animation: bouncy-in-thisimg 1s;
-
-				left: 0;
 			}
 
 			&.lowered {
 				animation: bouncy-out-thisimg 1s;
-
-				left: -385px;
+				transform: translate(-365px, 0);
 			}
-
-			.img-frame { right: -13px; }
 		}
 
 		&.for-that {
-			right: -385px;
-
 			&.raised {
 				animation: bouncy-in-thatimg 1s;
-
-				right: 0;
 			}
 
 			&.lowered {
 				animation: bouncy-out-thatimg 1s;
-
-				right: -385px;
+				transform: translate(365px, 0);
 			}
+		}
 
-			.img-frame { left: -13px; }
+		.background-stand {
+			position: absolute;
+			top: 50%;
+
+			height: 64px;
+			margin-top: -35px;
+			width: 100%;
+
+			background-image: url('assets/img/sprites.png');
+			background-position: -195.8839111328125px -971.9755554199219px, center;
+			background-repeat: repeat-x;
+
+			z-index: 0;
+
+			&.left  { right: 28px; }
+			&.right { left: 28px; }
 		}
 
 		.img-frame {
-			position: absolute;
-			top: 0;
+			position: relative;
 
 			box-sizing: border-box;
 			height: 302px;
 			padding: 0;
 			width: 346px;
 
-			background: url('assets/img/frame.png') no-repeat center;
+			background-color: transparent;
+			background-image: url('assets/img/sprites.png');
+			background-position: -1515.9720458984375px 0, center;
+			background-repeat: no-repeat;
 			border: 0;
 			outline: none;
 
 			cursor: pointer;
-			transition: background ease .5s;
+			transition: background-image ease .5s;
 
-			&:hover { background: url('assets/img/frame-hover.png') no-repeat center; }
+			z-index: 2;
+
+			&:hover {
+				background-image: url('assets/img/sprites.png');
+				background-position: -1515.9564208984375px -337.9286804199219px, center;
+				background-repeat: no-repeat;
+			}
 
 			&.correct {
-				background: url('assets/img/correct-frame.png') no-repeat center;
+				background-image: url('assets/img/sprites.png');
+				background-position: -1116.9600830078125px 0, center;
+				background-repeat: no-repeat;
 
 				.overlay {
 					background-color: rgba(110, 199, 47, 0.4);
@@ -344,7 +391,9 @@ body {
 			}
 
 			&.incorrect {
-				background: url('assets/img/incorrect-frame.png') no-repeat center;
+				background-image: url('assets/img/sprites.png');
+				background-position: -721px 0, center;
+				background-repeat: no-repeat;
 
 				.overlay {
 					background-color: rgba(228, 43, 32, 0.4);
@@ -392,6 +441,8 @@ body {
 
 	transition: margin ease .5s;
 
+	z-index: 3;
+
 	&.raised { margin-top: -11px; }
 
 	.hand {
@@ -407,7 +458,9 @@ body {
 		&.this-hand {
 			left: 0;
 
-			background: url('assets/img/lefthand-pointing.png') no-repeat center;
+			background-image: url('assets/img/sprites.png');
+			background-position: -527.0000114440918px -664px, center;
+			background-repeat: no-repeat;
 
 			transform-origin: 164px 86px;
 
@@ -416,15 +469,26 @@ body {
 				transform-origin: 164px 86px;
 			}
 
-			&.correct { background: url('assets/img/lefthand-tup.png') no-repeat center; }
+			&.correct {
+				background-image: url('assets/img/sprites.png');
+				background-position: 0 -664px, center;
+				background-repeat: no-repeat;
 
-			&.incorrect { background: url('assets/img/lefthand-tdown.png') no-repeat center; }
+			}
+
+			&.incorrect {
+				background-image: url('assets/img/sprites.png');
+				background-position: -706.0000419616699px -664px, center;
+				background-repeat: no-repeat;
+			}
 		}
 
 		&.that-hand {
 			right: 0;
 
-			background: url('assets/img/righthand-pointing.png') no-repeat center;
+			background-image: url('assets/img/sprites.png');
+			background-position: -347px -664px, center;
+			background-repeat: no-repeat;
 
 			transform-origin: 13px 86px;
 
@@ -433,9 +497,17 @@ body {
 				transform-origin: 13px 86px;
 			}
 
-			&.correct { background: url('assets/img/righthand-tup.png') no-repeat center; }
+			&.correct {
+				background-image: url('assets/img/sprites.png');
+				background-position: -168px -665px, center;
+				background-repeat: no-repeat;
+			}
 
-			&.incorrect { background: url('assets/img/righthand-tdown.png') no-repeat center; }
+			&.incorrect {
+				background-image: url('assets/img/sprites.png');
+				background-position: -886px -665px, center;
+				background-repeat: no-repeat;
+			}
 		}
 	}
 }
@@ -447,7 +519,7 @@ body {
 
 	height: 80px;
 
-	background: url('assets/img/rope.png') no-repeat top center;
+	background-image: url('assets/img/rope.png') no-repeat top center;
 
 	transition: bottom ease .25s;
 
@@ -476,7 +548,11 @@ body {
 }
 
 @keyframes correct-pulse {
-	50% { background: url('assets/img/correct-frame-hover.png') no-repeat center; }
+	50% {
+		background-image: url('assets/img/sprites.png');
+		background-position: -1116.9600830078125px 0, center;
+		background-repeat: no-repeat;
+	}
 }
 
 @keyframes bouncy {
@@ -496,43 +572,33 @@ body {
 }
 
 @keyframes bouncy-in-thisimg {
-	0% { left: -385px; }
-
-	25% { left: -10px; }
-
-	50% { left: 0; }
+	0%  { transform: translate(-365px, 0); }
+	25% { transform: translate(-10px, 0); }
+	50% { transform: translate(0, 0); }
 }
 
 @keyframes bouncy-in-thatimg {
-	0% { right: -385px; }
-
-	25% { right: -10px; }
-
-	50% { right: 0; }
+	0%  { transform: translate(365px, 0); }
+	25% { transform: translate(10px, 0); }
+	50% { transform: translate(0, 0); }
 }
 
 @keyframes bouncy-out-thisimg {
-	0% { left: 0; }
-
-	25% { left: 10px; }
-
-	50% { left: -385px; }
+	0%  { transform: translate(0, 0); }
+	25% { transform: translate(10px, 0); }
+	50% { transform: translate(-365px, 0); }
 }
 
 @keyframes bouncy-out-thatimg {
-	0% { right: 0; }
-
-	25% { right: 10px; }
-
-	50% { right: -385px; }
+	0%  { transform: translate(0, 0); }
+	25% { transform: translate(-10px, 0); }
+	50% { transform: translate(365px, 0); }
 }
 
 @keyframes bouncy-in-next {
-	0% { bottom: -90px; }
-
-	25% { bottom: 0px; }
-
-	50% { bottom: -10px; }
+	0%  { transform: translate(0, -90px); }
+	25% { transform: translate(0, 0); }
+	50% { transform: translate(0, -10px); }
 }
 
 .text-center { text-align: center !important; }

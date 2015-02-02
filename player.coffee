@@ -70,10 +70,12 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		$scope.gameState.showNext = true
 
 	$scope.nextClicked = ->
-		$scope.gameState.showNext = false
-		$scope.questions.correct = [-1,-1]
-		$scope.questions.choice = -1
+		$scope.gameState.showNext   = false
+		$scope.questions.correct    = [-1,-1]
+		$scope.questions.choice     = -1
 		$scope.questions.transition = true
+		$scope.hands.thisRaised     = false
+		$scope.hands.thatRaised     = false
 
 		$timeout _incrementQuestion, 1000
 

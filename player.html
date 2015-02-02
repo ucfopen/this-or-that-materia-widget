@@ -50,6 +50,7 @@
 				<div id="choices">
 					<div class="stand-container for-this"
 							 ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
+						<div class="background-stand left" aria-hidden="true"></div>
 						<button class="img-frame"
 							 ng-class="{'correct': questions.correct[0] == 1, 'incorrect': questions.correct[0] == 0}"
 							 ng-click="checkChoice(0)"
@@ -64,6 +65,7 @@
 
 					<div class="stand-container for-that"
 							 ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
+						<div class="background-stand right" aria-hidden="true"></div>
 						<button class="img-frame"
 							 ng-class="{'correct': questions.correct[1] == 1, 'incorrect': questions.correct[1] == 0}"
 							 ng-click="checkChoice(1)"
@@ -94,6 +96,8 @@
 
 			<div id="splash" ng-class="{'raised': gameState.ingame}">
 				<div class="sign" ng-class="{'raised': gameState.ingame, 'end': gameState.endgame}">
+					<div class="sign-stand" aria-hiddnen="true"></div>
+
 					<h1>{{gameState.splashtext}}</h1>
 
 					<div class="text-center">
