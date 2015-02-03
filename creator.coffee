@@ -92,7 +92,6 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 			$scope.title = $scope.introTitle or $scope.title
 			$scope.dialog.intro = $scope.dialog.edit = false
 			$scope.step = 1
-			$scope.hideCover true
 
 	$scope.initNewWidget = (widget, baseUrl) ->
 		$scope.$apply ->
