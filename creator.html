@@ -148,7 +148,7 @@
 				 ng-click="hideModal()">
 			<!-- Invalid modal -->
 			<div class="modal-container">
-				<div class="modal invalid" ng-show="dialog.invalid">
+				<div class="modal invalid" ng-show="dialog.invalid" ng-click="$event.stopPropagation()">
 					<button class="btn red right" aria-label="Close message" ng-click="hideCover()">
 						<span class="icon-cross" aria-hidden="true"></span>
 						<span class="sr-only">Close message</span>
@@ -161,7 +161,7 @@
 				<!-- /Invalid modal -->
 
 				<!-- Intro modal -->
-				<div class="modal intro" ng-show="dialog.intro">
+				<div class="modal intro" ng-show="dialog.intro" ng-click="$event.stopPropagation()">
 					<img src="assets/creatorexample.png" alt="Widget preview">
 
 					<h1>This or That</h1>
@@ -185,7 +185,7 @@
 				<!-- /Intro modal -->
 
 				<!-- Title edit modal -->
-				<div class="modal title" ng-show="dialog.edit">
+				<div class="modal title" ng-show="dialog.edit" ng-click="$event.stopPropagation()">
 					<h4 class="no-margin">Give your This or That widget a title</h4>
 
 					<input type="text"
