@@ -27,7 +27,7 @@
 		<div id="header">
 			<div class="logo"></div>
 			<h1 id="title" ng-bind="title" ng-click="dialog.intro = true"></h1>
-			<div class="link" ng-click="dialog.intro = true">Edit...</div>
+			<div class="link" ng-click="dialog.edit = true">Edit...</div>
 			<div class="right">{{questions.length}} Questions</div>
 		</div>
 
@@ -48,7 +48,11 @@
 							<h1>Question {{currIndex + 1}}:</h1>
 
 							<div class="input-wrap title">
-								<input type="text" placeholder="Ex: Which of these video games is for mobile devices?" required ng-model="questions[currIndex].title">
+								<input type="text"
+											 placeholder="Ex: Which of these video games is for mobile devices?"
+											 required
+											 ng-change="validation('change', currIndex)"
+											 ng-model="questions[currIndex].title">
 							</div>
 						</header>
 
@@ -69,6 +73,7 @@
 									<input type="text"
 												 placeholder="Description for the correct image"
 												 required
+												 ng-change="validation('change', currIndex)"
 												 ng-model="questions[currIndex].alt[0]">
 								</div>
 							</section>
@@ -89,6 +94,7 @@
 									<input type="text"
 												 placeholder="Description for the incorrect image"
 												 required
+												 ng-change="validation('change', currIndex)"
 												 ng-model="questions[currIndex].alt[1]">
 								</div>
 							</section>
@@ -135,45 +141,62 @@
 								ng-class="{'right': questions[0]}"
 								ng-click="addQuestion()">Add Question</button>
 			</nav>
-
-			<div id="backgroundcover"
-					 ng-class="{ 'show': dialog.intro || dialog.invalid }"
-					 ng-click="hideCover(gameState.ingame)"></div>
-
-			<div class="box invalid" ng-class="{ 'show': dialog.invalid }">
-				<button class="btn red right" aria-label="Close message" ng-click="hideCover()">
-					<span class="icon-cross" aria-hidden="true"></span>
-					<span class="sr-only">Close message</span>
-				</button>
-
-				<p>Looks like you forgot to fill out the fields for every question!</p>
-				<p>Incomplete questions are highlighted on the numbered list.</p>
-			</div>
-
-			<div class="box intro" ng-class="{ 'show': dialog.intro }">
-				<h1>This or That</h1>
-
-				<img src="assets/creatorexample.png" alt="Widget preview">
-
-				<p>Compare two images against a subject.</p>
-				<p>Students can remove cards and shuffle cards to help them study.</p>
-				<p class="no-margin">A score may be recorded for this widget.</p>
-
-				<hr>
-
-				<h4 class="no-margin">Start by giving your This or That widget a title</h4>
-
-				<input type="text"
-							 placeholder="My This or That widget"
-							 autofocus="true"
-							 required
-							 ng-class="{ 'invalid': introTitle.$error }"
-							 ng-model="introTitle"
-							 ng-enter="setTitle()">
-
-				<input type="button" value="Get Started" ng-click="setTitle()">
-			</div>
 		</main>
+
+		<div class="modal-bg"
+				 ng-class="{ 'show': dialog.intro || dialog.edit || dialog.invalid }"
+				 ng-click="hideModal()">
+			<!-- Invalid modal -->
+			<div class="modal-container">
+				<div class="modal invalid" ng-show="dialog.invalid">
+					<button class="btn red right" aria-label="Close message" ng-click="hideCover()">
+						<span class="icon-cross" aria-hidden="true"></span>
+						<span class="sr-only">Close message</span>
+					</button>
+					<h3>Error</h3>
+
+					<p>Looks like you forgot to fill out the fields for every question!</p>
+					<p class="no-margin">Incomplete questions are highlighted on the numbered list.</p>
+				</div>
+				<!-- /Invalid modal -->
+
+				<!-- Intro modal -->
+				<div class="modal intro" ng-show="dialog.intro">
+					<img src="assets/creatorexample.png" alt="Widget preview">
+
+					<h1>This or That</h1>
+
+					<p>Compare two images against a question and choose which one best answers it.
+					<p class="no-margin">A score may be recorded for this widget.</p>
+
+					<hr>
+
+					<h4 class="no-margin">Start by giving your This or That widget a title</h4>
+
+					<input type="text"
+								 placeholder="My This or That widget..."
+								 autofocus="true"
+								 required
+								 ng-class="{ 'invalid': title.$error }"
+								 ng-model="title"
+								 ng-enter="setTitle()">
+					<input type="button" value="Get Started" ng-click="setTitle()">
+				</div>
+				<!-- /Intro modal -->
+
+				<!-- Title edit modal -->
+				<div class="modal title" ng-show="dialog.title">
+					<h4 class="no-margin">Give your This or That widget a title</h4>
+
+					<input type="text"
+								 placeholder="My This or That widget"
+								 ng-model="title"
+								 ng-enter="setTitle()">
+					<input type="button" value="Done" ng-click="setTitle()">
+				</div>
+				<!-- /Title edit modal -->
+			</div>
+		</div>
 	</body>
 </html>
 
