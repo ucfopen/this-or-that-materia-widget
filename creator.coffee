@@ -22,6 +22,16 @@ ThisOrThat.directive('ngEnter', ->
 		)
 )
 
+ThisOrThat.directive('focusMe', ['$timeout', '$parse', ($timeout, $parse) ->
+	link: (scope, element, attrs) ->
+		model = $parse(attrs.focusMe)
+		scope.$watch model, (value) ->
+			if value
+				$timeout ->
+					element[0].focus()
+			value
+])
+
 # The 'Resource' service contains all app logic that does pertain to DOM manipulation
 ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 	buildQset: (title, items) ->
@@ -79,7 +89,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	# View actions
 	$scope.setTitle = ->
 		if $scope.title
-			$scope.title = $scope.title
+			$scope.title = $scope.introTitle or $scope.title
 			$scope.dialog.intro = $scope.dialog.edit = false
 			$scope.step = 1
 			$scope.hideCover true
@@ -97,8 +107,6 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		_isValid = $scope.validation('save')
 
 		if _isValid
-			# remove those flashing navigation buttons
-			if $scope.questions[i].invalid then $scope.questions[i].invalid = false
 			# Create a qset to save
 			qset = Resource.buildQset $sanitize($scope.title), $scope.questions
 			if qset then Materia.CreatorCore.save $sanitize($scope.title), qset

@@ -26,7 +26,7 @@
 
 		<div id="header">
 			<div class="logo"></div>
-			<h1 id="title" ng-bind="title" ng-click="dialog.intro = true"></h1>
+			<h1 id="title" ng-bind="title" ng-click="dialog.edit = true"></h1>
 			<div class="link" ng-click="dialog.edit = true">Edit...</div>
 			<div class="right">{{questions.length}} Questions</div>
 		</div>
@@ -65,7 +65,7 @@
 								</div>
 
 								<div class="img-controls">
-									<button class="btn small blue" ng-click="requestImage(currIndex, 0)">Upload</button>
+									<button class="btn small blue" ng-click="requestImage(currIndex, 0) && validation('change', currIndex)">Upload</button>
 									<button class="btn small blue" ng-click="clearImage(currIndex, 0)">Clear</button>
 								</div>
 
@@ -86,7 +86,7 @@
 								</div>
 
 								<div class="img-controls">
-									<button class="btn small blue" ng-click="requestImage(currIndex, 1)">Upload</button>
+									<button class="btn small blue" ng-click="requestImage(currIndex, 1) && validation('change', currIndex)">Upload</button>
 									<button class="btn small blue" ng-click="clearImage(currIndex, 1)">Clear</button>
 								</div>
 
@@ -175,10 +175,11 @@
 
 					<input type="text"
 								 placeholder="My This or That widget..."
-								 autofocus="true"
+								 autofocus="1"
 								 required
+								 focus-me="dialog.intro"
 								 ng-class="{ 'invalid': title.$error }"
-								 ng-model="title"
+								 ng-model="introTitle"
 								 ng-enter="setTitle()">
 					<input type="button" value="Get Started" ng-click="setTitle()">
 				</div>
@@ -190,6 +191,8 @@
 
 					<input type="text"
 								 placeholder="My This or That widget"
+								 autofocus="1"
+								 focus-me="dialog.edit"
 								 ng-model="title"
 								 ng-enter="setTitle()">
 					<input type="button" value="Done" ng-click="setTitle()">
