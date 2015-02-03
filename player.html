@@ -102,14 +102,12 @@
 					<h1>{{gameState.splashtext}}</h1>
 
 					<div class="text-center">
-						<button class="btn"
-										id="start"
+						<button class="start btn"
 										ng-click="gameState.ingame = true"
-										ng-show="!gameState.endgame">Start!</button>
-						<button class="btn"
-										id="reset"
+										ng-disabled="gameState.endgame">Start!</button>
+						<button class="reset btn"
 										ng-click="viewScores()"
-										ng-show="gameState.endgame">Continue to scores</button>
+										ng-disabled="!gameState.endgame">Continue to scores</button>
 					</div>
 				</div>
 			</div>
