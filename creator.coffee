@@ -12,6 +12,16 @@ Updated : 1/20/2014
 # Create an angular module to import the animation module and house our controller
 ThisOrThat = angular.module 'ThisOrThatCreator', ['ngAnimate', 'ngSanitize']
 
+ThisOrThat.directive('ngEnter', ->
+	return (scope, element, attrs) ->
+		element.bind("keydown keypress", (event) ->
+			if(event.which == 13)
+				scope.$apply ->
+					scope.$eval(attrs.ngEnter)
+				event.preventDefault()
+		)
+)
+
 # The 'Resource' service contains all app logic that does pertain to DOM manipulation
 ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 	buildQset: (title, items) ->
@@ -68,11 +78,11 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 
 	# View actions
 	$scope.setTitle = ->
-		if $scope.introTitle
-			$scope.title = $scope.introTitle or $scope.title
-			$scope.dialog.intro = false
-			$scope.step  = 1
-			$scope.hideCover($scope.dialog.intro)
+		if $scope.title
+			$scope.title = $scope.title
+			$scope.dialog.intro = $scope.dialog.edit = false
+			$scope.step = 1
+			$scope.hideCover true
 
 	$scope.initNewWidget = (widget, baseUrl) ->
 		$scope.$apply ->
@@ -84,16 +94,18 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		$scope.onQuestionImportComplete qset.items
 
 	$scope.onSaveClicked = (mode = 'save') ->
-		for i in [0..$scope.questions.length-1]
-			if !$scope.questions[i].title or !$scope.questions[i].alt[0] or !$scope.questions[i].alt[1] or !$scope.questions[i].images[0] or !$scope.questions[i].images[1]
-				$scope.questions[i].invalid = true
-				$scope.dialog.invalid       = true
-				$scope.$apply()
-			else
-				if $scope.questions[i].invalid then $scope.questions[i].invalid = false
-				# Create a qset to save
-				qset = Resource.buildQset $sanitize($scope.title), $scope.questions
-				if qset then Materia.CreatorCore.save $sanitize($scope.title), qset
+		_isValid = $scope.validation('save')
+
+		if _isValid
+			# remove those flashing navigation buttons
+			if $scope.questions[i].invalid then $scope.questions[i].invalid = false
+			# Create a qset to save
+			qset = Resource.buildQset $sanitize($scope.title), $scope.questions
+			if qset then Materia.CreatorCore.save $sanitize($scope.title), qset
+		else
+			Materia.CreatorCore.cancelSave
+
+			return false
 
 	$scope.onSaveComplete = () -> true
 
@@ -197,8 +209,22 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 				true
 		$timeout _noTransition, 660, true
 
-	$scope.hideCover = (intro) ->
-		unless intro then $scope.dialog.invalid = $scope.dialog.into = false
+	$scope.validation = (action, index) ->
+		switch action
+			when "save"
+				for i in [0..$scope.questions.length-1]
+					if !$scope.questions[i].title or !$scope.questions[i].alt[0] or !$scope.questions[i].alt[1] or !$scope.questions[i].images[0] or !$scope.questions[i].images[1]
+						$scope.questions[i].invalid = true
+						$scope.dialog.invalid       = true
+						$scope.$apply()
+				if $scope.dialog.invalid then return false else return true
+			when "change"
+				# let's assume the user will fill out every form field for a question card
+				# if they don't they'll just be reminded again when trying to save
+				$scope.questions[index].invalid = false
+
+	$scope.hideModal = ->
+		$scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = false
 
 	_noTransition = ->
 		for action of $scope.actions

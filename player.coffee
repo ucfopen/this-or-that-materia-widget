@@ -34,10 +34,9 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 
 	_qset = null
 
-	$scope.launchGame = ->
-		$scope.gameState.ingame = true
-
 	$scope.endGame = ->
+		$scope.gameState.ingame  = false
+		$scope.gameState.endgame = true
 		Materia.Engine.end false
 
 	$scope.viewScores = ->
@@ -92,8 +91,6 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 			$scope.questions.selected   = false
 			$scope.questions.transition = false
 		else
-			$scope.gameState.ingame  = false
-			$scope.gameState.endgame = true
 			$scope.endGame()
 
 	_randomizeChoices = (array) ->

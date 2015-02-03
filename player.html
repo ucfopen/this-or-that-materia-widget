@@ -87,6 +87,7 @@
 				</div>
 
 				<div id="next-container" ng-class="{'raised': gameState.showNext}">
+					<div class="background-stand" aria-hidden="true"></div>
 					<button class="btn"
 									id="next"
 									ng-click="nextClicked()"
@@ -103,8 +104,8 @@
 					<div class="text-center">
 						<button class="btn"
 										id="start"
-										ng-click="launchGame()"
-										ng-show="!gameState.ingame && !gameState.endgame">Start!</button>
+										ng-click="gameState.ingame = true"
+										ng-show="!gameState.endgame">Start!</button>
 						<button class="btn"
 										id="reset"
 										ng-click="viewScores()"
