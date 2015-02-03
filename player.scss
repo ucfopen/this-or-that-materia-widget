@@ -258,13 +258,13 @@ body {
 		.sign-stand {
 			position: absolute;
 			left: 50%;
-			top: 0;
+			bottom: 0;
 
 			background-image: url('assets/img/sprites.png');
 			background-position: -67px -146px, center top;
 			background-repeat: no-repeat;
 
-			height: 375px;
+			height: 500px;
 			margin-left: -30px;
 			width: 60px;
 
@@ -288,15 +288,22 @@ body {
 			z-index: 1;
 		}
 
+		.reset { display: none; }
+
 		&.raised {
 			animation: bouncy 1.5s;
 			margin-top: -500px;
 		}
 
-		&.end h1 {
-			background-image: url('assets/img/sprites.png');
-			background-position: -199px -323px, center top;
-			background-repeat: no-repeat;
+		&.end {
+			h1 {
+				background-image: url('assets/img/sprites.png');
+				background-position: -199px -323px, center top;
+				background-repeat: no-repeat;
+			}
+
+			.start { display: none; }
+			.reset { display: inline-block; }
 		}
 	}
 }
@@ -434,6 +441,7 @@ body {
 #hands {
 	position: relative;
 
+	display: inline-block;
 	height: 150px;
 	margin: 0 auto;
 	margin-top: 75px;
@@ -514,19 +522,34 @@ body {
 
 #next-container {
 	position: absolute;
-	right: 50px;
-	bottom: -90px;
+	right: 40px;
+	bottom: 0;
 
 	height: 80px;
+	width: 95px;
 
-	background-image: url('assets/img/rope.png') no-repeat top center;
-
-	transition: bottom ease .25s;
+	transform: translate(0, 80px);
+	transition: transform ease 0.3s;
 
 	&.raised {
-		bottom: -10px;
-
 		animation: bouncy-in-next 1s;
+		animation-fill: forwards;
+
+		transform: translate(0, 10px);
+	}
+
+	.background-stand {
+		position: absolute;
+		top: 0;
+		left: 50%;
+
+		margin-left: -5px;
+		height: 80px;
+		width: 10px;
+
+		background-image: url("assets/img/sprites.png");
+		background-position: -67px -146px, center top;
+		background-repeat: no-repeat;
 	}
 
 	#next {
@@ -596,9 +619,9 @@ body {
 }
 
 @keyframes bouncy-in-next {
-	0%  { transform: translate(0, -90px); }
+	0%  { transform: translate(0, 90px); }
 	25% { transform: translate(0, 0); }
-	50% { transform: translate(0, -10px); }
+	50% { transform: translate(0, 10px); }
 }
 
 .text-center { text-align: center !important; }
