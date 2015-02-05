@@ -67,7 +67,7 @@ ul { list-style-type : none; }
 	&:hover { background-color: #ddd; }
 
 	&.small {
-		padding: 4px 8px;
+		padding: 4px 6px;
 
 		font-size: 11px;
 		text-shadow: 0 2px 2px rgba(0,0,0,0.3);
@@ -79,6 +79,7 @@ ul { list-style-type : none; }
 		border-radius: 50%;
 
 		height: 40px;
+		padding: 0;
 		width: 40px;
 	}
 
@@ -97,6 +98,10 @@ ul { list-style-type : none; }
 
 	&.blue {
 		@include button-variant($btn-color, $blue, $blue);
+	}
+
+	&.dark {
+		@include button-variant($btn-color, $darker, $darker);
 	}
 
 	&.transparent {
@@ -195,43 +200,44 @@ ul { list-style-type : none; }
 	&.warning { background-color: #ffd66f; }
 }
 
-.input-wrap {
-	margin: 10px 0 0;
-	padding: 4px;
+input[type=text] {
+	box-sizing: border-box;
+	display: inline-block;
+	width: 100%;
 
-	border: 2px solid $lighter;
-	border-radius: 8px;
+	padding: 8px 12px;
 
-	input {
-		box-sizing: border-box;
-		display: inline-block;
-		width: 100%;
+	color: #fff;
+	font-size: 1em;
 
+	background: $background;
+	border: 0;
+	border-radius: 4px;
+
+	&[disabled] {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	&.title {
+		max-width: 600px;
 		padding: 6px 12px;
 
-		color: #fff;
-		font-size: 1em;
-
-		background: $lighter;
-		border: 0;
-		border-radius: 4px;
+		font-family: 'fha_nicholson_french_ncvRg';
 	}
 }
 
 .arrow-box {
 	position: absolute;
+	z-index: 999;
 	background: #ffd66f;
 	border-radius: 4px;
-	left: 50%;
 	color: rgba(0, 0, 0, 0.6);
 	font-weight: 400;
 	padding: 6px 12px;
-	width: 150px;
-	margin-top: 10px;
-	margin-left: -87px;
+	max-width: 250px;
 	text-align: center;
-	-webkit-animation: pounce 1s infinite;
-			animation: pounce 1s infinite;
+	opacity: 0;
 
 	&:before {
 		left: 50%;
@@ -244,18 +250,56 @@ ul { list-style-type : none; }
 		position: absolute;
 		pointer-events: none;
 	}
+
+	&.arrow-right:before {
+		right: -16px;
+		left: initial;
+		top: 50%;
+		border: solid transparent;
+		border-left-color: #ffd66f;
+		border-width: 8px;
+		margin: -8px 0 0 0;
+	}
+
+	&.step1 {
+		top: 75px;
+		left: 390px;
+		opacity: 1;
+		animation: pounce-down 1s infinite;
+	}
+
+	&.step2 {
+		top: 405px;
+		left: 150px;
+		opacity: 1;
+		animation: pounce-down 1s infinite;
+	}
+
+	&.step3 {
+		top: 465px;
+		left: 140px;
+		opacity: 1;
+		animation: pounce-down 1s infinite;
+	}
+
+	&.step4 {
+		bottom: -57px;
+		right: 146px;
+		opacity: 1;
+		animation: pounce-left 1s infinite;
+	}
 }
 
-@-webkit-keyframes pounce {
-	0%   { margin-top: 10px; }
-	50%  { margin-top: 15px; }
-	100% { margin-top: 10px; }
+@keyframes pounce-down {
+	0%   { margin-top: 0px; }
+	50%  { margin-top: 5px; }
+	100% { margin-top: 0px; }
 }
 
-@keyframes pounce {
-	0%   { margin-top: 10px; }
-	50%  { margin-top: 15px; }
-	100% { margin-top: 10px; }
+@keyframes pounce-left {
+	0%   { margin-right: 0px; }
+	50%  { margin-right: 5px; }
+	100% { margin-right: 0px; }
 }
 
 .modal-bg {
@@ -324,7 +368,8 @@ ul { list-style-type : none; }
 		margin: 20px 10px;
 	}
 
-	input {
+	input[type=text],
+	input[type=button] {
 		margin-top: 20px;
 		padding: 12px;
 		width: 150px;
@@ -414,6 +459,8 @@ ul { list-style-type : none; }
 				margin: 0;
 				max-width: 540px;
 				width: 100%;
+
+				input { font-family: 'fha_nicholson_french_ncvRg'; }
 			}
 
 			h1 {
@@ -445,7 +492,17 @@ ul { list-style-type : none; }
 
 			@include clearfix;
 
-			.frame-container { max-width: 340px; }
+			.frame-container {
+				position: relative;
+
+				max-width: 340px;
+
+				.clear-img {
+					position: absolute;
+					top: 54px;
+					right: 25px;
+				}
+			}
 
 			.desc {
 				margin: 0;
@@ -458,15 +515,18 @@ ul { list-style-type : none; }
 
 			.img-frame {
 				box-sizing: border-box;
-				height: 302px;
+				margin-bottom: 15px;
 				padding: 20px;
 				width: 340px;
 
 				background: url('assets/img/sprites') no-repeat center;
 				background-position: -1515.9720458984375px 0;
+				border: 0;
 
 				cursor: pointer;
 				transition: background ease .5s;
+
+				&[disabled] { opacity: 0.5; }
 
 				&:hover {
 					background-image: url('assets/img/sprites');
@@ -508,13 +568,24 @@ ul { list-style-type : none; }
 	position: absolute;
 	top: 50%;
 
+	margin-top: -21.5px;
+
 	font-size: 20px;
 
-	margin-top: -10px;
+	box-shadow: none;
 }
 
-.prev { left: -50px; }
-.next { right: -50px; }
+.prev {
+	left: -40px;
+
+	border-radius: 8px 0 0 8px;
+}
+
+.next {
+	right: -40px;
+
+	border-radius: 0 8px 8px 0;
+}
 
 .dots {
 	margin: 0 0 10px;
@@ -524,7 +595,7 @@ ul { list-style-type : none; }
 
 	li {
 		display: inline-block;
-		margin-right: 6px;
+		margin: 0 6px 6px 0;
 
 		text-align: left;
 

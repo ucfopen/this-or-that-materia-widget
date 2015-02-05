@@ -10,7 +10,7 @@ qset:
         type: MC
         questions:
           -
-            text: Which of these animals is a dog?
+            text: Which dog looks friendlier?
         answers:
           -
             text: A black and white dog named Bogart
@@ -20,12 +20,12 @@ qset:
                 materiaType: 'asset'
                 id: <%MEDIA="assets/img/demo/bogart.jpg"%>
           -
-            text: An image of kimbo the cat
+            text: A yellow labrador retriever named Chance
             value: 0
             options:
               asset:
                 materiaType: 'asset'
-                id: <%MEDIA="assets/img/demo/kimbo.jpg"%>
+                id: <%MEDIA="assets/img/demo/chance.jpg"%>
       -
         materiaType: question
         id: null
@@ -47,7 +47,7 @@ qset:
             options:
               asset:
                 materiaType: 'asset'
-                id: <%MEDIA="assets/img/demo/chance.jpg"%>
+                id: <%MEDIA="assets/img/demo/kimbo.jpg"%>
       -
         materiaType: question
         id: null
