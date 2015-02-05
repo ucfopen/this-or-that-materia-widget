@@ -83,6 +83,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	$scope.questions  = []
 	$scope.currIndex  = -1
 	$scope.dialog     = {}
+	$scope.tutorial   = { checked: false, step: 1, text: ["Enter a question", "Upload an image", "Describe the image", "Add more questions!"] }
 	$scope.actions    = { slidein: false, slideleft: false, slideright: false, add: false, remove: false, removelast: false }
 	_imgRef           = []
 
@@ -95,7 +96,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 
 	$scope.initNewWidget = (widget, baseUrl) ->
 		$scope.$apply ->
-			$scope.dialog.intro = true
+			$scope.dialog.intro  = true
 			$scope.addQuestion()
 
 	$scope.initExistingWidget = (title, widget, qset, version, baseUrl) ->
@@ -110,7 +111,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 			qset = Resource.buildQset $sanitize($scope.title), $scope.questions
 			if qset then Materia.CreatorCore.save $sanitize($scope.title), qset
 		else
-			Materia.CreatorCore.cancelSave
+			Materia.CreatorCore.cancelSave "Please make sure every question is complete"
 
 			return false
 
@@ -134,18 +135,19 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		$scope.setURL Materia.CreatorCore.getMediaUrl(media[0].id), media[0].id
 		$scope.$apply()
 
-	$scope.addQuestion = (title = "", images = ["",""], alt = ["",""], URLs = ["assets/img/placeholder.png","assets/img/placeholder.png"], answers = [], id = "", qid = "", ansid = "") ->
+	$scope.addQuestion = (title = "", images = ["",""], imgsFilled = [false, false], isValid = true, alt = ["",""], URLs = ["assets/img/placeholder.png","assets/img/placeholder.png"], answers = [], id = "", qid = "", ansid = "") ->
 		if $scope.questions.length > 0
-			$scope.actions.add = true
-			$timeout _noTransition, 660, true
+			if $scope.questions.length < 50
+				$scope.actions.add = true
+				$timeout _noTransition, 660, true
 
-			$timeout ->
-					$scope.questions.push { title: title, images: images, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
-					$scope.currIndex = $scope.questions.length - 1
-					330
-					true
+				$timeout ->
+						$scope.questions.push { title: title, images: images, isValid: isValid, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
+						$scope.currIndex = $scope.questions.length - 1
+						330
+						true
 		else
-			$scope.questions.push { title: title, images: images, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
+			$scope.questions.push { title: title, images: images, isValid: isValid, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
 			$scope.currIndex = $scope.questions.length - 1
 
 	$scope.removeQuestion = (index) ->
@@ -166,6 +168,8 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		_imgRef[0] = index
 		_imgRef[1] = which
 
+		$scope.validation 'change', _imgRef[1]
+
 	$scope.setURL = (URL, id) ->
 		# Bind the image URL to the DOM
 		$scope.questions[_imgRef[0]].URLs[_imgRef[1]]   = URL
@@ -173,6 +177,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 
 	$scope.clearImage = (index, which) ->
 		$scope.questions[index].URLs[which] = "http://placehold.it/300x250"
+		$scope.questions[index].images[which] = null
 
 	$scope.next = ->
 		$scope.actions.slideright = true
@@ -216,19 +221,32 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 				true
 		$timeout _noTransition, 660, true
 
-	$scope.validation = (action, index) ->
+	$scope.tutorialIncrement = (step) ->
+		if $scope.tutorial.step > 0
+			switch step
+				when 1
+					if $scope.tutorial.step is 1 then $scope.tutorial.step++
+				when 2
+					if $scope.tutorial.step is 2 then $scope.tutorial.step++
+				when 3
+					if $scope.tutorial.step is 3 then $scope.tutorial.step++
+				when 4
+					if $scope.tutorial.step is 4 then $scope.tutorial.step = null
+		else return false
+
+	$scope.validation = (action, which) ->
 		switch action
-			when "save"
+			when 'save'
 				for i in [0..$scope.questions.length-1]
 					if !$scope.questions[i].title or !$scope.questions[i].alt[0] or !$scope.questions[i].alt[1] or !$scope.questions[i].images[0] or !$scope.questions[i].images[1]
 						$scope.questions[i].invalid = true
 						$scope.dialog.invalid       = true
 						$scope.$apply()
 				if $scope.dialog.invalid then return false else return true
-			when "change"
-				# let's assume the user will fill out every form field for a question card
-				# if they don't they'll just be reminded again when trying to save
-				$scope.questions[index].invalid = false
+			when 'change'
+				if $scope.questions[which].title and $scope.questions[which].alt[0] and $scope.questions[which].alt[1] and $scope.questions[which].images[0] and $scope.questions[which].images[1]
+					$scope.questions[which].invalid = false
+					$scope.$apply()
 
 	$scope.hideModal = ->
 		$scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = false
