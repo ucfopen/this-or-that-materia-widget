@@ -10,63 +10,63 @@ qset:
         type: MC
         questions:
           -
-            text: Which dog looks friendlier?
+            text: Which of these paintings is from the Baroque period?
         answers:
           -
-            text: A black and white dog named Bogart
+            text: The Fall of Phaeton by Peter Paul Rubens
             value: 100
             options:
               asset:
                 materiaType: 'asset'
-                id: <%MEDIA="assets/img/demo/bogart.jpg"%>
+                id: <%MEDIA="assets/img/demo/the_fall_of_phaeton.jpg"%>
           -
-            text: A yellow labrador retriever named Chance
+            text: The Mona Lisa by Leonardo DaVinci
             value: 0
+            options:
+              asset:
+                materiaType: 'asset'
+                id: <%MEDIA="assets/img/demo/mona_lisa.jpg"%>
+      -
+        materiaType: question
+        id: null
+        type: MC
+        questions:
+          -
+            text: Which of these video games is from the 1990s?
+        answers:
+          -
+            text: Super Mario 64
+            value: 100
+            options:
+              asset:
+                materiaType: 'asset'
+                id: <%MEDIA="assets/img/demo/mario.jpg"%>
+          -
+            text: Five Nights at Freddy's 2
+            value: 0
+            options:
+              asset:
+                materiaType: 'asset'
+                id: <%MEDIA="assets/img/demo/fnaf2.jpg"%>
+      -
+        materiaType: question
+        id: null
+        type: MC
+        questions:
+          -
+            text: Which one of these dogs is a Labrador Retriever?
+        answers:
+          -
+            text: A large yellow dog named Chance
+            value: 100
             options:
               asset:
                 materiaType: 'asset'
                 id: <%MEDIA="assets/img/demo/chance.jpg"%>
-      -
-        materiaType: question
-        id: null
-        type: MC
-        questions:
           -
-            text: Which of these animals is a cat?
-        answers:
-          -
-            text: A photo of Winston laying on a couch
-            value: 100
-            options:
-              asset:
-                materiaType: 'asset'
-                id: <%MEDIA="assets/img/demo/winston.jpg"%>
-          -
-            text: A photo of Chance laying on the floor
+            text: A small black and white dog named Bogart
             value: 0
             options:
               asset:
                 materiaType: 'asset'
-                id: <%MEDIA="assets/img/demo/kimbo.jpg"%>
-      -
-        materiaType: question
-        id: null
-        type: MC
-        questions:
-          -
-            text: Which of these dishes is an ice cream sundae?
-        answers:
-          -
-            text: An ice cream sundae
-            value: 100
-            options:
-              asset:
-                materiaType: 'asset'
-                id: <%MEDIA="assets/img/demo/sundae.jpg"%>
-          -
-            text: A lobster dinner
-            value: 0
-            options:
-              asset:
-                materiaType: 'asset'
-                id: <%MEDIA="assets/img/demo/lobster.jpg"%>
+                id: <%MEDIA="assets/img/demo/bogart.jpg"%>
