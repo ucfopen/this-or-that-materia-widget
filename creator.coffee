@@ -142,10 +142,8 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 				$timeout _noTransition, 660, true
 
 				$timeout ->
-						$scope.questions.push { title: title, images: images, isValid: isValid, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
-						$scope.currIndex = $scope.questions.length - 1
-						330
-						true
+					_updateIndex 'add', { title: title, images: images, isValid: isValid, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
+				, 200, true
 		else
 			$scope.questions.push { title: title, images: images, isValid: isValid, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
 			$scope.currIndex = $scope.questions.length - 1
@@ -158,9 +156,8 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 
 		if $scope.currIndex == $scope.questions.length
 			$timeout ->
-					$scope.currIndex--
-					330
-					true
+				_updateIndex 'remove'
+			, 200, true
 
 	$scope.requestImage = (index, which) ->
 		Materia.CreatorCore.showMediaImporter()
@@ -182,32 +179,18 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	$scope.next = ->
 		$scope.actions.slideright = true
 
-		if $scope.currIndex < $scope.questions.length - 1
-			$timeout ->
-					$scope.currIndex++
-					330
-					true
-		else
-			$timeout ->
-					$scope.currIndex = 0
-					330
-					true
+		$timeout ->
+			_updateIndex 'next'
+		, 200, true
 
 		$timeout _noTransition, 660, true
 
 	$scope.prev = ->
 		$scope.actions.slideleft = true
 
-		if $scope.currIndex > 0
-			$timeout ->
-					$scope.currIndex--
-					330
-					true
-		else
-			$timeout ->
-					$scope.currIndex = $scope.questions.length - 1
-					330
-					true
+		$timeout ->
+			_updateIndex 'prev'
+		, 200, true
 
 		$timeout _noTransition, 660, true
 
@@ -216,9 +199,9 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		if index < $scope.currIndex then $scope.actions.slideleft = true
 
 		$timeout ->
-				$scope.currIndex = index
-				330
-				true
+			_updateIndex 'select', index
+		, 200, true
+
 		$timeout _noTransition, 660, true
 
 	$scope.tutorialIncrement = (step) ->
@@ -254,6 +237,20 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	_noTransition = ->
 		for action of $scope.actions
 			if action != 'activate' then $scope.actions[action] = false
+
+	_updateIndex = (action, data) ->
+		switch action
+			when 'prev'
+				if $scope.currIndex > 0 then $scope.currIndex-- else $scope.currIndex = $scope.questions.length - 1
+			when 'next'
+				if $scope.currIndex < $scope.questions.length - 1 then $scope.currIndex++ else $scope.currIndex = 0
+			when 'select'
+				$scope.currIndex = data
+			when 'add'
+				$scope.questions.push data
+				$scope.currIndex = $scope.questions.length - 1
+			when 'remove'
+				$scope.currIndex--
 
 	Materia.CreatorCore.start $scope
 ]
