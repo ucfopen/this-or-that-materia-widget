@@ -112,10 +112,6 @@ ul { list-style-type : none; }
 		&:hover { background-color: $blue; }
 	}
 
-	&.flash {
-		animation: flash 0.3s 3s 10;
-	}
-
 	&.active { animation: none; }
 
 	&[disabled] {
@@ -636,11 +632,7 @@ input[type=text] {
 	border: 0;
 }
 
-//tkeyframe animations
-@keyframes flash {
-	50% { opacity: 0.5; }
-}
-
+//keyframe animations
 @keyframes fancy-fade {
 	from { opacity: 0; }
 	to   { opacity: 1; }
