@@ -83,11 +83,20 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	$scope.questions  = []
 	$scope.currIndex  = -1
 	$scope.dialog     = {}
-	$scope.tutorial   = { checked: false, step: 1, text: ["Enter a question", "Upload an image", "Describe the image", "Add more questions!"] }
+	$scope.tutorial   = { checked: false, step: 1, text: ["Enter a question", "Upload the correct image", "Describe the correct image", "Upload the incorrect image", "Describe the incorrect image", "Add more questions!"] }
 	$scope.actions    = { slidein: false, slideleft: false, slideright: false, add: false, remove: false, removelast: false }
 	_imgRef           = []
 
 	# View actions
+	$scope.duplicate = (index) ->
+		if $scope.questions.length < 50
+			$scope.actions.add = true
+			$timeout _noTransition, 660, true
+
+			$timeout ->
+				_updateIndex 'add', angular.copy($scope.questions[index])
+			, 200, true
+
 	$scope.setTitle = ->
 		if $scope.title
 			$scope.title = $scope.introTitle or $scope.title
@@ -101,6 +110,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 
 	$scope.initExistingWidget = (title, widget, qset, version, baseUrl) ->
 		$scope.title = title
+		$scope.tutorial.step = null
 		$scope.onQuestionImportComplete qset.items
 
 	$scope.onSaveClicked = (mode = 'save') ->
@@ -118,7 +128,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	$scope.onSaveComplete = () -> true
 
 	$scope.onQuestionImportComplete = (items) ->
-		for i in [0..items.length-1]
+		for i in [0...items.length]
 			_urls = []
 
 			# gets the image URLs
@@ -129,23 +139,43 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 				_urls[1] = Materia.CreatorCore.getMediaUrl items[i].answers[1].options.asset.id
 
 			# Add each imported question to the DOM
-			$scope.addQuestion items[i].questions[0].text.replace(/\&\#10\;/g, '\n'), [items[i].answers[0].options.asset.id, items[i].answers[1].options.asset.id], [items[i].answers[0].text, items[i].answers[1].text], _urls, items[i].id, items[i].questions[0].id, items[i].answers[0].id
+			$scope.questions.push
+				title: items[i].questions[0].text.replace(/\&\#10\;/g, '\n')
+				images: [items[i].answers[0].options.asset.id, items[i].answers[1].options.asset.id]
+				isValid: true
+				alt: [items[i].answers[0].text, items[i].answers[1].text]
+				URLs: _urls
+				id: items[i].id
+				qid: items[i].questions[0].id
+				ansid: items[i].answers[0].id
+
+		$scope.currIndex = $scope.questions.length - 1
+		$scope.$apply()
 
 	$scope.onMediaImportComplete = (media) ->
 		$scope.setURL Materia.CreatorCore.getMediaUrl(media[0].id), media[0].id
 		$scope.$apply()
 
-	$scope.addQuestion = (title = "", images = ["",""], imgsFilled = [false, false], isValid = true, alt = ["",""], URLs = ["assets/img/placeholder.png","assets/img/placeholder.png"], answers = [], id = "", qid = "", ansid = "") ->
+	$scope.addQuestion = (title = "", images = ["",""], imgsFilled = [false, false], isValid = true, alt = ["",""], URLs = ["assets/img/placeholder.png","assets/img/placeholder.png"], id = "", qid = "", ansid = "") ->
 		if $scope.questions.length > 0
 			if $scope.questions.length < 50
 				$scope.actions.add = true
 				$timeout _noTransition, 660, true
 
 				$timeout ->
-					_updateIndex 'add', { title: title, images: images, isValid: isValid, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
+					_updateIndex 'add', { title: title, images: images, isValid: isValid, alt: alt, URLs: URLs, id: id, qid: qid, ansid: ansid }
 				, 200, true
 		else
-			$scope.questions.push { title: title, images: images, isValid: isValid, alt: alt, URLs: URLs, answers: answers, id: id, qid: qid, ansid: ansid }
+			$scope.questions.push
+				title: title
+				images: images
+				isValid: isValid
+				alt: alt
+				URLs: URLs
+				id: id
+				qid: qid
+				ansid: ansid
+
 			$scope.currIndex = $scope.questions.length - 1
 
 	$scope.removeQuestion = (index) ->
@@ -165,7 +195,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		_imgRef[0] = index
 		_imgRef[1] = which
 
-		$scope.validation 'change', _imgRef[1]
+		$scope.validation 'change', index
 
 	$scope.setURL = (URL, id) ->
 		# Bind the image URL to the DOM
@@ -175,6 +205,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	$scope.clearImage = (index, which) ->
 		$scope.questions[index].URLs[which] = "http://placehold.it/300x250"
 		$scope.questions[index].images[which] = null
+		$scope.$apply()
 
 	$scope.next = ->
 		$scope.actions.slideright = true
@@ -214,13 +245,17 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 				when 3
 					if $scope.tutorial.step is 3 then $scope.tutorial.step++
 				when 4
-					if $scope.tutorial.step is 4 then $scope.tutorial.step = null
+					if $scope.tutorial.step is 4 then $scope.tutorial.step++
+				when 5
+					if $scope.tutorial.step is 5 then $scope.tutorial.step++
+				when 6
+					if $scope.tutorial.step is 6 then $scope.tutorial.step = null
 		else return false
 
 	$scope.validation = (action, which) ->
 		switch action
 			when 'save'
-				for i in [0..$scope.questions.length-1]
+				for i in [0...$scope.questions.length]
 					if !$scope.questions[i].title or !$scope.questions[i].alt[0] or !$scope.questions[i].alt[1] or !$scope.questions[i].images[0] or !$scope.questions[i].images[1]
 						$scope.questions[i].invalid = true
 						$scope.dialog.invalid       = true
@@ -229,7 +264,6 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 			when 'change'
 				if $scope.questions[which].title and $scope.questions[which].alt[0] and $scope.questions[which].alt[1] and $scope.questions[which].images[0] and $scope.questions[which].images[1]
 					$scope.questions[which].invalid = false
-					$scope.$apply()
 
 	$scope.hideModal = ->
 		$scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = false

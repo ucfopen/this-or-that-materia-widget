@@ -86,8 +86,8 @@
 
 								<button class="img-frame incorrect"
 												aria-label="The incorrect image"
-												ng-click="requestImage(currIndex, 1)"
-												ng-disabled="tutorial.step && tutorial.step < 2">
+												ng-click="requestImage(currIndex, 1); tutorialIncrement(4)"
+												ng-disabled="tutorial.step && tutorial.step < 4">
 									<img class="choice-img" ng-src="{{questions[currIndex].URLs[1]}}" alt="{{questions[currIndex].alt[1]}}">
 								</button>
 
@@ -101,15 +101,15 @@
 								<input type="text"
 											 placeholder="Description for the incorrect image"
 											 required
-											 ng-change="validation('change', currIndex)"
+											 ng-change="validation('change', currIndex); tutorialIncrement(5)"
 											 ng-model="questions[currIndex].alt[1]"
-											 ng-disabled="tutorial.step && tutorial.step < 3">
+											 ng-disabled="tutorial.step && tutorial.step < 5">
 							</section>
 						</div>
 
 						<p class="no-margin" style="text-align:right">
 							<button class="btn small transparent"
-											ng-click="addQuestion(questions[currIndex].title, [questions[currIndex].images[0],questions[currIndex].images[1]], [questions[currIndex].alt[0],questions[currIndex].alt[1]], [questions[currIndex].URLs[0],questions[currIndex].URLs[1]])">Duplicate</button>
+											ng-click="duplicate(currIndex)">Duplicate</button>
 						</p>
 					</section>
 				</div>
@@ -131,7 +131,7 @@
 				</button>
 
 				<div class="arrow-box"
-						 ng-class="{ 'step1': tutorial.step == 1, 'step2': tutorial.step == 2, 'step3': tutorial.step == 3, 'step4 arrow-right': tutorial.step == 4 }"
+						 ng-class="{ 'step1': tutorial.step == 1, 'step2': tutorial.step == 2, 'step3': tutorial.step == 3, 'step4': tutorial.step == 4, 'step5': tutorial.step == 5, 'step6 arrow-right': tutorial.step == 6 }"
 						 ng-show="tutorial.step">
 					{{tutorial.text[tutorial.step - 1]}}
 				</div>
@@ -152,8 +152,8 @@
 								id="add-question"
 								aria-label="Add Question"
 								ng-class="{'right': questions[0]}"
-								ng-click="addQuestion(); tutorialIncrement(4)"
-								ng-disabled="tutorial.step && tutorial.step < 4">Add Question</button>
+								ng-click="addQuestion(); tutorialIncrement(6)"
+								ng-disabled="tutorial.step && tutorial.step < 6">Add Question</button>
 			</nav>
 		</main>
 
@@ -181,7 +181,7 @@
 					<h1>This or That</h1>
 
 					<p>Compare two images against a question and choose which one best answers it.
-					<p class="no-margin">A score may be recorded for this widget.</p>
+					<p class="no-margin">This widget records scores.</p>
 
 					<hr>
 
@@ -200,7 +200,7 @@
 					</div>
 					<label for="tutorial">
 						<input type="checkbox"
-									 name="tutorial"
+									 id="tutorial"
 									 ng-checked="true"
 									 ng-model="tutorial.step"
 									 ng-true-value="1"

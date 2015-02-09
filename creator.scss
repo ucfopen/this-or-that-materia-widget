@@ -113,7 +113,7 @@ ul { list-style-type : none; }
 	}
 
 	&.flash {
-		animation: flash 0.3s infinite;
+		animation: flash 0.3s 3s 10;
 	}
 
 	&.active { animation: none; }
@@ -270,19 +270,33 @@ input[type=text] {
 
 	&.step2 {
 		top: 405px;
-		left: 150px;
+		left: 115px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
 	&.step3 {
 		top: 465px;
-		left: 140px;
+		left: 105px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
 	&.step4 {
+		top: 405px;
+		right: 115px;
+		opacity: 1;
+		animation: pounce-down 1s infinite;
+	}
+
+	&.step5 {
+		top: 465px;
+		right: 105px;
+		opacity: 1;
+		animation: pounce-down 1s infinite;
+	}
+
+	&.step6 {
 		bottom: -57px;
 		right: 146px;
 		opacity: 1;
@@ -367,6 +381,8 @@ input[type=text] {
 		border-bottom: solid 1px #eee;
 		margin: 20px 10px;
 	}
+
+	.input-group { margin-bottom: 15px; }
 
 	input[type=text],
 	input[type=button] {
