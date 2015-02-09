@@ -112,7 +112,7 @@
 				</div>
 			</div>
 
-			<img class="hidden-asset" ng-src="{{images[$index]}}" ng-repeat="image in images">
+			<img class="hidden-asset" ng-src="{{images[$index]}}" ng-repeat="image in images track by $index">
 		</main>
 	</body>
 </html>

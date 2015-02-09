@@ -142,7 +142,7 @@
 					<li ng-repeat="question in questions">
 						<button class="btn round hollow"
 										type="button"
-										ng-class="{'active': currIndex == $index, 'green': !question.invalid, 'red flash': question.invalid}"
+										ng-class="{'active': currIndex == $index, 'green': !question.invalid, 'red': question.invalid}"
 										ng-click="selectCurrent($index)"
 										ng-disabled="questions.length < 2">{{$index + 1}}</button>
 					</li>
