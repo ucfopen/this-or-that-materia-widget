@@ -1,12 +1,8 @@
 client = {}
 
-# Commenting this out so it doesn't get run as a test since there's no test yet
-# -Jonathan
-#
-###
 describe 'Testing framework', ->
 	it 'should load widget', (done) ->
-		require('./widgets.coffee') 'flash-cards', ->
+		require('./widgets.coffee') 'this-or-that', ->
 			client = this
 			done()
 	, 15000
@@ -81,4 +77,3 @@ describe 'Main page', ->
 						expect(result.value).toBe(true)
 						done()
 						client.end()
-###
