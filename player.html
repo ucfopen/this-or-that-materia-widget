@@ -52,14 +52,14 @@
 							 ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
 						<div class="background-stand left" aria-hidden="true"></div>
 						<button class="img-frame"
-							 ng-class="{'correct': questions.correct[0] == 1, 'incorrect': questions.correct[0] == 0}"
+							 ng-class="{'correct': questions.correct[0] == 'Correct!', 'incorrect': questions.correct[0] == 'Incorrect'}"
 							 ng-click="checkChoice(0)"
 							 ng-disabled="questions.selected"
 							 ng-mouseenter="hands.thisRaised = true"
 							 ng-mouseleave="hands.thisRaised = false"
 							 href="#">
-							<span class="overlay"></span>
-							<img class="choice-img" ng-src="{{answers[0].image}}" alt="{{answers[0].alt}}">
+							<span class="overlay">{{questions.correct[0]}}</span>
+							<img class="choice-img" ng-src="{{answers[0].image}}" alt="{{answers[0].text}}">
 						</button>
 					</div>
 
@@ -67,23 +67,23 @@
 							 ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
 						<div class="background-stand right" aria-hidden="true"></div>
 						<button class="img-frame"
-							 ng-class="{'correct': questions.correct[1] == 1, 'incorrect': questions.correct[1] == 0}"
+							 ng-class="{'correct': questions.correct[1] == 'Correct!', 'incorrect': questions.correct[1] == 'Incorrect'}"
 							 ng-click="checkChoice(1)"
 							 ng-disabled="questions.selected"
 							 ng-mouseenter="hands.thatRaised = true"
 							 ng-mouseleave="hands.thatRaised = false"
 							 href="#">
-							<span class="overlay"></span>
-							<img class="choice-img" ng-src="{{answers[1].image}}" alt="{{answers[1].alt}}">
+							<span class="overlay">{{questions.correct[1]}}</span>
+							<img class="choice-img" ng-src="{{answers[1].image}}" alt="{{answers[1].text}}">
 						</button>
 					</div>
 				</div>
 
 				<div id="hands" ng-class="{'raised': gameState.ingame == true}" aria-hidden="true">
 					<div class="hand this-hand"
-							 ng-class="{'raised': hands.thisRaised || questions.choice == 0, 'correct': questions.correct[0] == 1, 'incorrect': questions.correct[0] == 0}"></div>
+							 ng-class="{'raised': hands.thisRaised || questions.choice == 0, 'correct': questions.correct[0] == 'Correct!', 'incorrect': questions.correct[0] == 'Incorrect'}"></div>
 					<div class="hand that-hand"
-							 ng-class="{'raised': hands.thatRaised || questions.choice == 1, 'correct': questions.correct[1] == 1, 'incorrect': questions.correct[1] == 0}"></div>
+							 ng-class="{'raised': hands.thatRaised || questions.choice == 1, 'correct': questions.correct[1] == 'Correct!', 'incorrect': questions.correct[1] == 'Incorrect'}"></div>
 				</div>
 
 				<div id="next-container" ng-class="{'raised': gameState.showNext}">

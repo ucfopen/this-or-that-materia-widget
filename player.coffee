@@ -20,7 +20,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 	$scope.questions =
 		choice: -1
 		current: -1
-		correct: [-1,-1]
+		correct: ['','']
 		selected: false
 		transition: false
 
@@ -60,8 +60,8 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 		$scope.questions.choice = value
 
 		switch _value
-			when 0 then $scope.questions.correct[value] = 0
-			when 100 then $scope.questions.correct[value] = 1
+			when 0 then $scope.questions.correct[value] = 'Incorrect'
+			when 100 then $scope.questions.correct[value] = 'Correct!'
 
 		Materia.Score.submitQuestionForScoring _id, _ans
 
@@ -70,7 +70,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 
 	$scope.nextClicked = ->
 		$scope.gameState.showNext   = false
-		$scope.questions.correct    = [-1,-1]
+		$scope.questions.correct    = ['','']
 		$scope.questions.choice     = -1
 		$scope.questions.transition = true
 		$scope.hands.thisRaised     = false
