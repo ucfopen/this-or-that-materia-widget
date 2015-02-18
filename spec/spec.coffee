@@ -5,75 +5,96 @@ describe 'Testing framework', ->
 		require('./widgets.coffee') 'this-or-that', ->
 			client = this
 			done()
-	, 15000
+	, 25000
 
 describe 'Main page', ->
-	it 'should show instructions', (done) ->
-		client.getText '#instructions h2', (err, text) ->
-			expect(text).toBe("ThisOrThat Study Aid")
-		client.getText '#instructions .gotit', (err, text) ->
-			expect(text).toBe("Got it!")
+	it 'should let me press start', (done) ->
+		client.waitFor '.start', 500
+		client.click '.start'
+		client.pause 500
+		done()
+
+	it 'should have a question title', (done) ->
+		client.getText '#question', (err, text) ->
+			expect(err).toBeNull()
+			expect(text).toContain("Which of these paintings is from the Baroque period?")
+			client.pause 500
 			done()
 
-	it 'should be able to hide instructions', (done) ->
-		client.click '#instructions .gotit', (err, text) ->
-			client.getAttribute '#instructions', 'style', (err, classes) ->
-				expect(classes).toContain("display: none")
-				done()
+	it 'should load the image', (done) ->
+		client.pause 500
+		client.waitFor 'img[alt="The Fall of Phaeton by Peter Paul Rubens"]'
+		client.pause 500
+		done()
 
-	it 'should have a title', (done) ->
-		client
-			.getText '#instance-title', (err, text) ->
-				expect(err).toBeNull()
-				expect(text).toContain("Psychology")
-				done()
+	it 'should choose the baroque painting', (done) ->
+		client.pause 500
+		client.click 'img[alt="The Fall of Phaeton by Peter Paul Rubens"]'
+		client.pause 500
+		done()
 
-	it 'should show first card', (done) ->
-		client
-			.getText '.flashcard .front .content .description', (err, text) ->
-				expect(err).toBeNull()
-				expect(text).toContain("A Swiss psychiatrist")
+	it 'should say correct', (done) ->
+		client.getText '.correct .overlay', (err, text) ->
+			expect(err).toBeNull()
+			expect(text).toContain("Correct!")
+			client.pause 500
+			done()
 
-				client.getText '.flashcard .back .content .title', (err, text) ->
+	it 'should click the next button', (done) ->
+		client.waitFor '#next'
+		client.click '#next'
+		client.pause 500
+		done()
+
+	it 'should choose the five nights at freddys screenshot', (done) ->
+		client.pause 500
+		client.click 'img[alt="Five Nights at Freddy\'s 2"]'
+		client.pause 500
+		done()
+
+	it 'should say incorrect', (done) ->
+		client.getText '.incorrect .overlay', (err, text) ->
+			expect(err).toBeNull()
+			expect(text).toContain("Incorrect")
+			client.pause 500
+			done()
+
+	it 'should click the next button again', (done) ->
+		client.waitFor '#next'
+		client.click '#next'
+		client.pause 500
+		done()
+
+	it 'should choose the photo of the labrador', (done) ->
+		client.pause 500
+		client.click 'img[alt="A large yellow dog named Chance"]'
+		client.pause 500
+		done()
+
+	it 'should click the next button for the last time', (done) ->
+		client.waitFor '#next'
+		client.click '#next'
+		client.pause 500
+		done()
+
+	it 'should let me press view scores', (done) ->
+		client.pause 1000
+		client.waitFor '.reset'
+		client.click '.reset'
+		client.pause 1000
+		done()
+
+describe 'Score page', ->
+	it 'should get a 67', (done) ->
+		client.pause 10000
+		client.getTitle (err, title) ->
+			expect(err).toBeNull()
+			expect(title).toBe('Score Results | Materia')
+			client
+				.waitFor('.overall_score')
+				.getText '.overall_score', (err, text) ->
 					expect(err).toBeNull()
-					expect(text).toContain("Carl Jung")
-					done()
-
-	it 'should flip card when clicked', (done) ->
-		client.execute "$('.flashcard:first').mouseup()", null, (err) ->
-			client.getAttribute '.flashcard', 'class', (err, classes) ->
-				expect(err).toBeNull()
-				expect(classes).toContain('rotated')
-				client.pause 500
-				client.execute "$('.flashcard:first').mouseup()", null, (err) ->
-					expect(err).toBeNull()
-					client.getAttribute '.flashcard', 'class', (err, classes) ->
-						console.log classes
-						done()
-
-	it 'should go right when I click right', (done) ->
-		client
-			.execute "$('#icon-right').mouseup()", null, (err) ->
-				client.getAttribute '.flashcard.left', 'class', (err, classes) ->
-					expect(err).toBeNull()
-					done()
-
-	it 'should go left when I click left', (done) ->
-		client.execute "$('#icon-left').mouseup()", null, (err) ->
-			client.execute "return $('.flashcard.left').length", null, (err, result) ->
-				expect(err).toBeNull()
-				expect(result.value).toBe(0)
-				done()
-
-	it 'should rotate all when I click rotate', (done) ->
-		client.execute "$('#icon-rotate').mouseup()", null, (err) ->
-			client.execute "return $('.flashcard.rotated').length", null, (err, result) ->
-				expect(err).toBeNull()
-				expect(result.value).toBe(0)
-				client.execute "$('#icon-rotate').mouseup()", null, (err) ->
-					client.pause 5000
-					client.execute "return $('.flashcard.rotated, .flashcard.right-rotated').length == $('.flashcard').length", null, (err, result) ->
-						expect(err).toBeNull()
-						expect(result.value).toBe(true)
-						done()
-						client.end()
+					expect(text).toBe('67%')
+					client.call(done)
+					client.end()
+	, 25000
