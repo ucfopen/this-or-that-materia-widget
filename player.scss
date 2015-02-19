@@ -520,19 +520,18 @@ body {
 #next-container {
 	position: absolute;
 	right: 40px;
-	bottom: 0;
+	bottom: -75px;
 
-	height: 80px;
+	height: 75px;
 	width: 95px;
 
-	transform: translate(0, 80px);
-	transition: transform ease 0.3s;
+	transition: bottom ease 0.3s;
 
 	&.raised {
-		animation: bouncy-in-next 1s;
+		animation: bouncy-in-next 0.6s;
 		animation-fill: forwards;
 
-		transform: translate(0, 10px);
+		bottom: 0;
 	}
 
 	.background-stand {
@@ -541,7 +540,7 @@ body {
 		left: 50%;
 
 		margin-left: -5px;
-		height: 80px;
+		height: 75px;
 		width: 10px;
 
 		background-image: url("assets/img/sprites.png");
@@ -616,9 +615,9 @@ body {
 }
 
 @keyframes bouncy-in-next {
-	0%  { transform: translate(0, 90px); }
-	25% { transform: translate(0, 0); }
-	50% { transform: translate(0, 10px); }
+	0%  { bottom: -75px; }
+	25% { bottom: 0; }
+	50% { bottom: 3px; }
 }
 
 .text-center { text-align: center !important; }
