@@ -22,6 +22,7 @@ meta_data:
   features:
     - Customizable
     - Media
+    - Scorable
     - Mobile Friendly
   supported_data:
     - Multiple Choice
