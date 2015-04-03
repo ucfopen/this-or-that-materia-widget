@@ -1,3 +1,10 @@
+* {
+	transform-style: flat;
+}
+html {
+	height: 100%;
+}
+
 @font-face {
 	font-family : 'icomoon';
 	src : url('assets/fonts/icomoon.eot');
@@ -81,14 +88,13 @@ $e : #A45B5B;
 $f : #87735F;
 
 body {
-	position: absolute;
 	color: #FFF;
 	background: $a url('assets/img/sprites.png');
 	background-position: -1076px -712.875px;
 	padding: 0;
 	margin: 0;
 	width: 800px;
-	height: 520px;
+	//height: 520px;
 	font-family: 'fha_nicholson_french_ncvRg';
 	overflow-x: hidden;
 	overflow-y: hidden;
@@ -177,13 +183,11 @@ body {
 }
 
 #board {
-	position: absolute;
 	text-align: center;
 	width: 800px;
-	height: 520px;
+	//height: 520px;
 
 	#question {
-		height: 62px;
 		margin: 61px auto 12px auto;
 		max-width: 636px;
 
@@ -311,6 +315,8 @@ body {
 #choices {
 	height: 302px;
 	margin: 0 auto;
+	z-index: 0;
+	transform-style: flat;
 
 	.stand-container {
 		position: relative;
@@ -318,6 +324,7 @@ body {
 		display: inline-block;
 		height: 290px;
 		width: 375px;
+		transform-style: flat;
 
 		&.for-this {
 			&.raised {
@@ -441,14 +448,14 @@ body {
 	display: inline-block;
 	height: 150px;
 	margin: 0 auto;
-	margin-top: 75px;
+	margin-top: -11px;
 	width: 326px;
 
 	transition: margin ease .5s;
 
 	z-index: 3;
 
-	&.raised { margin-top: -11px; }
+	&.raised {  }
 
 	.hand {
 		position: absolute;
@@ -459,6 +466,7 @@ body {
 		height: 150px;
 
 		transition: transform ease .5s, top ease .5s, left ease .5s, right ease .5s;
+		transform-style: flat;
 
 		&.this-hand {
 			left: 0;
@@ -520,18 +528,19 @@ body {
 #next-container {
 	position: absolute;
 	right: 40px;
-	bottom: -75px;
 
+	bottom: 100px;
+	display: none;
 	height: 75px;
 	width: 95px;
 
 	transition: bottom ease 0.3s;
 
 	&.raised {
-		animation: bouncy-in-next 0.6s;
-		animation-fill: forwards;
-
+		//animation: bouncy-in-next 0.6s;
+		//animation-fill: forwards;
 		bottom: 0;
+		display: block;
 	}
 
 	.background-stand {
@@ -553,7 +562,9 @@ body {
 
 		font-size: 24px;
 
-		animation: pulse-bg 1s infinite;
+		//animation: pulse-bg 1s infinite;
+
+		z-index: 10;
 	}
 }
 
