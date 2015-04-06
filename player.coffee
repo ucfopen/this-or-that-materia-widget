@@ -72,7 +72,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 			# Oh, because Chrome is being a jerk and won't recognize reflows after
 			# CSS3 animations without rescaling the document? Alright, we forgive you.
 			_updateHeight()
-		, 300
+		, 400
 
 	$scope.nextClicked = ->
 		$scope.gameState.showNext   = false
