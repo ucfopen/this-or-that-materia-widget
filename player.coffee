@@ -71,9 +71,8 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 			# Woah Jonathan, how dumb, why would you do this?
 			# Oh, because Chrome is being a jerk and won't recognize reflows after
 			# CSS3 animations without rescaling the document? Alright, we forgive you.
-			Materia.Engine.setHeight($('body').height() + 1)
-			Materia.Engine.setHeight($('body').height())
-		, 400
+			_updateHeight()
+		, 300
 
 	$scope.nextClicked = ->
 		$scope.gameState.showNext   = false
@@ -88,7 +87,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 	$scope.closeIntro = ->
 		$scope.gameState.ingame = true
 		setTimeout ->
-			Materia.Engine.setHeight($('body').height())
+			_updateHeight()
 		, 1
 
 	_incrementQuestion = ->
@@ -107,7 +106,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 			$scope.endGame()
 
 		setTimeout ->
-			Materia.Engine.setHeight($('body').height())
+			_updateHeight()
 		, 1
 
 	_randomizeChoices = (array) ->
@@ -123,6 +122,10 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($sco
 			array[j] = tempi
 
 		return array
+
+	_updateHeight = ->
+		Materia.Engine.setHeight($('body').height() - 1)
+		Materia.Engine.setHeight($('body').height())
 
 	Materia.Engine.start($scope)
 ]
