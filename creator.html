@@ -51,7 +51,7 @@
 										 type="text"
 										 placeholder="Ex: Which of these video games is for mobile devices?"
 										 required
-										 ng-change="validation('change', currIndex); tutorialIncrement(1)"
+										 ng-change="validation('change', currIndex); tutorialIncrement(1); limitLength()"
 										 ng-model="questions[currIndex].title">
 						</header>
 
