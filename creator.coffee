@@ -252,6 +252,9 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 					if $scope.tutorial.step is 6 then $scope.tutorial.step = null
 		else return false
 
+	$scope.limitLength = ->
+		$scope.questions[$scope.currIndex].title = $scope.questions[$scope.currIndex].title.substring(0, 500)
+
 	$scope.validation = (action, which) ->
 		switch action
 			when 'save'
