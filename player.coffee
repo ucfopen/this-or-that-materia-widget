@@ -8,9 +8,9 @@ Authors : Eric Colon
 
 ###
 
-ThisOrThatEngine = angular.module 'ThisOrThatEngine', ['ngAnimate', 'hammer']
+ThisOrThatEngine = angular.module 'ThisOrThatEngine', ['ngAnimate', 'hammer', 'ngSanitize']
 
-ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', ($scope, $timeout) ->
+ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$sanitize', ($scope, $timeout) ->
 	$scope.gameState =
 		ingame: false
 		endgame: false
