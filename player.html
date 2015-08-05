@@ -24,6 +24,7 @@
 		<!-- YOUR PREREQUISITES -->
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-animate.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-sanitize.min.js"></script>
 		<script src="assets/js/hammer.min.js"></script>
 		<script src="assets/js/angular-hammer.min.js"></script>
 		<script src="assets/js/modernizr.min.js"></script>
@@ -44,7 +45,7 @@
 				<div class="side-curtain lower left" aria-hidden="true"></div>
 				<div class="side-curtain lower right" aria-hidden="true"></div>
 
-				<h1 id="question">{{title}}</h1>
+				<h1 id="question" ng-bind-html="title"></h1>
 
 				<!-- Holds ThisOrThat -->
 				<div id="choices">
