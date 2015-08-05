@@ -18,13 +18,6 @@ files:
 score:
   is_scorable: Yes
   score_module: ThisOrThat
-  logs_export_methods:
-    -
-      value: csv
-      option: Scores
-    -
-      value: raw
-      option: 'All raw data'
 meta_data:
   features:
     - Customizable
@@ -37,4 +30,3 @@ meta_data:
     This or That is a game in which students must answer questions by choosing one of two images.
   excerpt: >
     Students must answer a question by choosing one of two images.
-
