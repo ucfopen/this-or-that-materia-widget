@@ -23,3 +23,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 spec/widgets.coffee
+
+# Prevents compile time files and tools from being committed.
+.build
+.sass-cache
+node_modules
