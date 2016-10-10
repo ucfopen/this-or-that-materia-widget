@@ -25,6 +25,8 @@ Temporary Items
 spec/widgets.coffee
 
 # Prevents compile time files and tools from being committed.
-.build
 .sass-cache
 node_modules
+.idea/
+*build/
+coverage/

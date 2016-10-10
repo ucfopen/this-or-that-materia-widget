@@ -25,10 +25,30 @@
     "yargs": "^4.5.0"
   },
   "devDependencies": {
-    "gulp-replace-task": "^0.11.0"
+    "angular": "~1.5.0",
+    "angular-animate": "^1.5.8",
+    "angular-loader": "~1.5.0",
+    "angular-mocks": "~1.5.0",
+    "angular-route": "~1.5.0",
+    "angular-sanitize": "~1.5.0",
+    "coffeelint": "^1.15.7",
+    "gulp-replace-task": "^0.11.0",
+    "http-server": "^0.9.0",
+    "ibrik": "^2.0.0",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-coffee-preprocessor": "^1.0.1",
+    "karma-coffeelint": "0.0.1",
+    "karma-coverage": "^0.5.5",
+    "karma-jasmine": "^0.3.8",
+    "karma-mocha-reporter": "^2.1.0",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "protractor": "^3.2.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start ./karma.conf.coffee",
+    "pretest-full": "gulp build-readable",
+    "test-full": "karma start ./karma-full.conf.coffee"
   },
   "author": "New Media"
 }
