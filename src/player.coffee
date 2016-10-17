@@ -71,7 +71,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl',
 
 			$scope.questions.selected = true
 			$scope.gameState.showNext = true
-			setTimeout ->
+			$timeout ->
 				_updateHeight()
 			, 400
 
@@ -87,7 +87,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl',
 
 		$scope.closeIntro = ->
 			$scope.gameState.ingame = true
-			setTimeout ->
+			$timeout ->
 				_updateHeight()
 			, 1
 
@@ -106,13 +106,13 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl',
 				$scope.questions.transition = false
 			else
 				$scope.endGame()
-				setTimeout ->
+				$timeout ->
 					$scope.title = ""
 					$scope.$apply()
 					_updateHeight()
 				, 400
 
-			setTimeout ->
+			$timeout ->
 				_updateHeight()
 			, 1
 

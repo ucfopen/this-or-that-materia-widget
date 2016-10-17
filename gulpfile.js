@@ -37,6 +37,8 @@ var buildLocation = '.build/';
 
 var sourceString = "";
 
+var testFull = false;
+
 var materiaJsReplacements = [
 	{match: /src="materia.enginecore.js"/g, replacement: function() {return 'src="../../../js/materia.enginecore.js"';} },
 	{match: /src="materia.score.js"/g, replacement: 'src="../../../js/materia.score.js"'},
@@ -567,51 +569,6 @@ gulp.task('build-readable', function ()
 	);
 });
 
-var testFull = false;
-gulp.task('buildReadable', function (widget, full, callback)
-{
-	widget = sanitize(widget);
-	sourceString = 'sandbox/' + widget + '/';
-	testFull = full;
-
-	buildLocation = 'build/';
-
-	Embedding = false;
-	Mangling = false;
-	Minifying = false;
-
-	// One of the ways to make sure Gulp does its tasks in the order specified
-    // Otherwise race conditions can occur
-	gulp.task('callback', function() {
-		return callback(null, null, '');
-	});
-
-	runSequence(
-		'clean:pre',
-		'copy:init-assets',
-		'copy:init-baseWidgetFiles',
-		'copy:init-export',
-		'copy:init-icons',
-		'copy:init-playdata',
-		'copy:init-screenshots',
-		'copy:init-score',
-		'copy:init-spec',
-		['coffee','coffee-assets'],
-		['sass','sass-assets'],
-		'replace:materiaJS',
-		'replace-player-scripts',
-		'replace-creator-scripts',
-		'replace-player-links',
-		'replace-creator-links',
-		'embed',
-		'replace:build',
-		'compress',
-		'rename:ext',
-        'test',
-		'clean:package',
-		'callback'
-	);
-});
 exports["gulp"] = function(widget, minify, mangle, embed, callback)
 {
 	widget = sanitize(widget);
