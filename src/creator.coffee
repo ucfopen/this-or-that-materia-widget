@@ -45,9 +45,9 @@ ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 			Materia.CreatorCore.cancelSave 'Please enter a title.'
 			return false
 
-		for i in [0..items.length-1]
-			item = @processQsetItem items[i]
-			qsetItems.push item if item
+		for item in items
+			processedItem = @processQsetItem item
+			qsetItems.push processedItem if processedItem
 
 		qset.items = qsetItems
 
@@ -151,33 +151,33 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl',
 			$scope.onSaveComplete = () -> true
 
 			$scope.onQuestionImportComplete = (items) ->
-				for i in [0...items.length]
+				for item in items
 					_urls = []
 
 					# gets the image URLs
-					if items[i].answers?[0].options?.asset
+					if item.answers?[0].options?.asset
 						_urls[0] = Materia.CreatorCore.getMediaUrl(
-							items[i].answers[0].options.asset.id
+							item.answers[0].options.asset.id
 						)
 
-					if items[i].answers?[1].options?.asset
+					if item.answers?[1].options?.asset
 						_urls[1] = Materia.CreatorCore.getMediaUrl(
-							items[i].answers[1].options.asset.id
+							item.answers[1].options.asset.id
 						)
 
 					# Add each imported question to the DOM
 					$scope.questions.push
-							title: items[i].questions[0].text.replace(/\&\#10\;/g, '\n')
+							title: item.questions[0].text.replace(/\&\#10\;/g, '\n')
 							images: [
-								items[i].answers[0].options.asset.id,
-								items[i].answers[1].options.asset.id
+								item.answers[0].options.asset.id,
+								item.answers[1].options.asset.id
 							]
 							isValid: true
-							alt: [items[i].answers[0].text, items[i].answers[1].text]
+							alt: [item.answers[0].text, item.answers[1].text]
 							URLs: _urls
-							id: items[i].id
-							qid: items[i].questions[0].id
-							ansid: items[i].answers[0].id
+							id: item.id
+							qid: item.questions[0].id
+							ansid: item.answers[0].id
 
 				$scope.currIndex = $scope.questions.length - 1
 				$scope.$apply()
@@ -271,9 +271,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl',
 			$scope.prev = ->
 				$scope.actions.slideleft = true
 
-				$timeout ->
-					_updateIndex 'prev'
-				, 200, true
+				$timeout _updateIndex 'prev', 200, true
 
 				$timeout _noTransition, 660, true
 
@@ -311,14 +309,14 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl',
 			$scope.validation = (action, which) ->
 				switch action
 					when 'save'
-						for i in [0...$scope.questions.length]
-							if !$scope.questions[i].title or
-								!$scope.questions[i].alt[0] or
-								!$scope.questions[i].alt[1] or
-								!$scope.questions[i].images[0] or
-								!$scope.questions[i].images[1]
-									$scope.questions[i].invalid = true
-									$scope.dialog.invalid       = true
+						for question in $scope.questions
+							if !question.title or
+								!question.alt[0] or
+								!question.alt[1] or
+								!question.images[0] or
+								!question.images[1]
+									question.invalid = true
+									$scope.dialog.invalid = true
 									$scope.$apply()
 						if $scope.dialog.invalid then return false else return true
 					when 'change'

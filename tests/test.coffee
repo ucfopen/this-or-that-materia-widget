@@ -13,12 +13,13 @@ describe 'ThisOrThatEngine module', ->
 		beforeAll(module('ThisOrThatEngine'))
 
 		# Set up the controller/scope prior to these tests
-		beforeAll inject ($rootScope, $controller) ->
+		beforeAll(inject(($rootScope, $controller) ->
 			# Instantiate $scope with all of the generic $scope methods/properties
 			$scope = $rootScope.$new()
 
 			# Pass $scope through the 'ThisOrThatEngineCtrl' controller
 			ctrl = $controller('ThisOrThatEngineCtrl', { $scope: $scope })
+		))
 
 		beforeEach ->
 			# Spy on Materia.Engine.end()
@@ -118,31 +119,270 @@ describe 'ThisOrThatEngine module', ->
 			$scope.viewScores()
 			expect(Materia.Engine.end).toHaveBeenCalled()
 
+	describe 'ThisOrThatCreator module', ->
 
-describe 'ThisOrThatCreator module', ->
-	beforeEach module('ThisOrThatCreator')
+		# Grab the 'ThisOrThatCreator' module for use in upcoming tests
+		module.sharedInjector()
+		beforeAll(module('ThisOrThatCreator'))
 
-	$scope = {}
-	ctrl = undefined
+		# Set up the controller/scope prior to these tests
+		beforeAll inject ($rootScope, $controller, Resource) ->
+			# Instantiate $scope with all of the generic $scope methods/properties
+			$scope = $rootScope.$new()
+			# Pass $scope through the 'ThisOrThatCreatorCtrl' controller
+			ctrl = $controller('ThisOrThatCreatorCtrl', { $scope: $scope })
 
-	beforeEach inject(($rootScope) ->
-		$scope = $rootScope.$new()
-	)
+		beforeEach ->
+			# Lets us check which arguments are passed to this function when its called
+			spyOn(Materia.CreatorCore, 'alert').and.callThrough()
+			spyOn(Materia.CreatorCore, 'save').and.callFake((title, qset) ->
+				# The creator core calls this on the creator when saving is successful
+				$scope.onSaveComplete()
+				return { title: title, qset: qset }
+			)
+			spyOn(Materia.CreatorCore, 'cancelSave').and.callFake((msg) ->
+				throw new Error(msg)
+			)
 
-	describe 'ThisOrThatCreatorCtrl', ->
+		it 'should edit a new widget', ->
+			defaultQuestion =
+				title : '',
+				images : ['',''],
+				isValid : true,
+				alt : ['',''],
+				URLs : ['assets/img/placeholder.png','assets/img/placeholder.png'],
+				id : '',
+				qid : '',
+				ansid : ''
 
-		beforeEach inject(($controller) ->
-			ctrl = $controller('ThisOrThatCreatorCtrl', $scope: $scope)
+			$scope.initNewWidget(widgetInfo)
+			expect($scope.title).toEqual('My This or That widget')
+			expect($scope.dialog.intro).toEqual(true)
+
+			# The only question should be the default one created on init
+			expect($scope.questions).toEqual([defaultQuestion])
+
+		it 'should set the default title when no title is input', ->
+			$scope.setTitle()
+			expect($scope.title).toEqual('My This or That widget')
+			expect($scope.dialog.intro).toEqual(false)
+			expect($scope.step).toEqual(1)
+
+		it 'should set the title when a title is input', ->
+			$scope.introTitle = 'New This or That Title'
+			$scope.setTitle()
+			expect($scope.title).toEqual('New This or That Title')
+			expect($scope.dialog.intro).toEqual(false)
+			expect($scope.step).toEqual(1)
+
+		it 'should increment the tutorial correctly', ->
+			expect($scope.tutorial.step).toEqual(1)
+
+			$scope.tutorialIncrement(1)
+			expect($scope.tutorial.step).toEqual(2)
+			$scope.tutorialIncrement(1)
+			expect($scope.tutorial.step).toEqual(2)
+			$scope.tutorialIncrement(6)
+			expect($scope.tutorial.step).toEqual(2)
+
+			$scope.tutorialIncrement(2)
+			expect($scope.tutorial.step).toEqual(3)
+			$scope.tutorialIncrement(2)
+			expect($scope.tutorial.step).toEqual(3)
+
+			$scope.tutorialIncrement(3)
+			expect($scope.tutorial.step).toEqual(4)
+			$scope.tutorialIncrement(3)
+			expect($scope.tutorial.step).toEqual(4)
+
+			$scope.tutorialIncrement(4)
+			expect($scope.tutorial.step).toEqual(5)
+			$scope.tutorialIncrement(4)
+			expect($scope.tutorial.step).toEqual(5)
+
+			$scope.tutorialIncrement(5)
+			expect($scope.tutorial.step).toEqual(6)
+			$scope.tutorialIncrement(5)
+			expect($scope.tutorial.step).toEqual(6)
+
+			$scope.tutorialIncrement(6)
+			expect($scope.tutorial.step).toBeNull()
+			$scope.tutorialIncrement(6)
+			expect($scope.tutorial.step).toBeNull()
+
+		it 'should fail validation when no questions are completed', ->
+			expect(() ->
+				$scope.onSaveClicked()
+			).toThrow(new Error('Please make sure every question is complete'))
+			expect(Materia.CreatorCore.cancelSave).toHaveBeenCalled()
+
+			$scope.validation('change', 0)
+			expect($scope.questions[0].invalid).toBeTruthy()
+			expect($scope.dialog.invalid).toBeTruthy()
+
+		it 'should pass validation when all questions are complete', ->
+			$scope.questions[0].title = 'question 1'
+			$scope.questions[0].images = ['image 1', 'image 2']
+			$scope.questions[0].alt = ['alt 1', 'alt 2']
+			$scope.dialog.invalid = false
+
+			$scope.validation('change', 0)
+			expect($scope.questions[0].invalid).toBeFalsy()
+
+			$scope.onSaveClicked()
+			expect(Materia.CreatorCore.save).toHaveBeenCalled()
+
+		it 'should not save without a title', ->
+			$scope.title = ''
+
+			expect(() ->
+				$scope.onSaveClicked()
+			).toThrow(new Error('Please enter a title.'))
+			expect(Materia.CreatorCore.cancelSave).toHaveBeenCalled()
+
+		it 'should add a new question', inject(($timeout) ->
+			expect($scope.questions.length).toEqual(1)
+
+			$scope.addQuestion()
+			$timeout.flush()
+			$timeout.verifyNoPendingTasks()
+
+			expect($scope.questions.length).toEqual(2)
 		)
 
-		# override the method that runs if the widget is saved properly
-		Materia.CreatorCore.save = (title, qset, version) ->
-			true
+		it 'should slide left when selecting the previous question',
+			inject(($timeout) ->
+				$scope.prev()
+				expect($scope.actions.slideleft).toBeTruthy()
+				$timeout.flush()
+				$timeout.verifyNoPendingTasks()
 
-		# override the method that runs if the widget is saved without a title
-		Materia.CreatorCore.cancelSave = (msg) ->
-			msg
+				expect($scope.currIndex).toEqual(0)
+				expect($scope.actions.slideleft).toBeFalsy()
+			)
 
-		it 'should make a new widget', ->
-			$scope.initNewWidget()
-			expect($scope.title).toBe 'My This or That widget'
+		it 'should slide right when selecting the next question',
+			inject(($timeout) ->
+				$scope.next()
+				expect($scope.actions.slideright).toBeTruthy()
+				$timeout.flush()
+				$timeout.verifyNoPendingTasks()
+
+				expect($scope.currIndex).toEqual(1)
+				expect($scope.actions.slideright).toBeFalsy()
+			)
+
+		it 'should not add any new questions after 50', inject(($timeout) ->
+			while($scope.questions.length != 50)
+				$scope.addQuestion()
+				$timeout.flush()
+				$timeout.verifyNoPendingTasks()
+
+			expect($scope.questions.length).toEqual(50)
+
+			# There won't be any tasks to flush because the code won't ever reach the
+			# point to add another question through the timeout.
+			$scope.addQuestion()
+			expect($scope.questions.length).toEqual(50)
+		)
+
+		it 'should move to a specific index', inject ($timeout) ->
+			$scope.selectCurrent(25)
+			$timeout.flush()
+			$timeout.verifyNoPendingTasks()
+			expect($scope.currIndex).toEqual(25)
+
+		it 'should move right when selecting a higher index', inject ($timeout) ->
+			$scope.selectCurrent(26)
+			expect($scope.actions.slideright).toBeTruthy()
+
+			$timeout.flush()
+			$timeout.verifyNoPendingTasks()
+
+			expect($scope.currIndex).toEqual(26)
+			expect($scope.actions.slideright).toBeFalsy()
+
+		it 'should move left when selecting a lower index', inject ($timeout) ->
+			$scope.selectCurrent(24)
+			expect($scope.actions.slideleft).toBeTruthy()
+
+			$timeout.flush()
+			$timeout.verifyNoPendingTasks()
+
+			expect($scope.currIndex).toEqual(24)
+			expect($scope.actions.slideleft).toBeFalsy()
+
+		it 'should loop back to the start when going next on the last question',
+			inject ($timeout) ->
+				$scope.selectCurrent(49)
+				$timeout.flush()
+				$timeout.verifyNoPendingTasks()
+				expect($scope.currIndex).toEqual(49)
+
+				$scope.next()
+				$timeout.flush()
+				$timeout.verifyNoPendingTasks()
+				expect($scope.currIndex).toEqual(0)
+
+		it 'should loop to the end when going prev on the first question',
+			inject ($timeout) ->
+				expect($scope.currIndex).toEqual(0)
+				$scope.prev()
+				$timeout.flush()
+				$timeout.verifyNoPendingTasks()
+				expect($scope.currIndex).toEqual(49)
+
+		it 'should not duplicate a question when there are 50 questions', ->
+			expect($scope.questions.length).toEqual(50)
+			$scope.duplicate(0)
+			expect($scope.questions.length).toEqual(50)
+			expect($scope.actions.add).toBeFalsy()
+
+		it 'should remove a question', inject ($timeout) ->
+			$scope.selectCurrent(25)
+			$timeout.flush()
+			$timeout.verifyNoPendingTasks()
+
+			$scope.questions[25].title = 'question 26'
+			$scope.questions[26].title = 'question 27'
+
+			expect($scope.questions[25].title).toEqual('question 26')
+
+			$scope.removeQuestion(25)
+
+			expect($scope.questions[25].title).toEqual('question 27')
+
+		it 'should duplicate a question when there are less than 50',
+			inject ($timeout) ->
+				expect($scope.currIndex).toEqual(25)
+				expect($scope.questions.length).toEqual(49)
+				$scope.duplicate(25)
+
+				$timeout.flush()
+				$timeout.verifyNoPendingTasks()
+
+				expect($scope.questions.length).toEqual(50)
+				expect($scope.questions[49].title).toEqual('question 27')
+				expect($scope.currIndex).toEqual(49)
+
+		it 'should remove an image', ->
+			$scope.clearImage(0, 0);
+			expect($scope.questions[0].URLs[0]).toEqual('http://placehold.it/300x250')
+			expect($scope.questions[0].images[0]).toBeNull()
+
+		it 'should correctly remove all questions', inject ($timeout) ->
+			while($scope.questions.length > 0)
+				$scope.removeQuestion($scope.questions[0])
+
+			expect($scope.actions.removelast).toBeTruthy()
+
+			$timeout.flush()
+			$timeout.verifyNoPendingTasks()
+
+			expect($scope.questions.length).toEqual(0)
+
+		it 'should hide the modal', ->
+			$scope.hideModal()
+			expect($scope.dialog.invalid).toBeFalsy()
+			expect($scope.dialog.edit).toBeFalsy()
+			expect($scope.dialog.intro).toBeFalsy()
