@@ -1,7 +1,7 @@
 describe 'ThisOrThatEngine module', ->
 
 	# grab the demo widget for easy reference
-	widgetInfo = window.__demo__['src/demo']
+	widgetInfo = window.__demo__['build/demo']
 	qset = widgetInfo.qset
 
 	$scope = {}
@@ -143,6 +143,10 @@ describe 'ThisOrThatEngine module', ->
 			spyOn(Materia.CreatorCore, 'cancelSave').and.callFake((msg) ->
 				throw new Error(msg)
 			)
+			spyOn(Materia.CreatorCore, 'showMediaImporter').and.callThrough()
+			spyOn(Materia.CreatorCore, 'getMediaUrl').and.callFake((media) ->
+				return 'placeholder'
+			)
 
 		it 'should edit a new widget', ->
 			defaultQuestion =
@@ -161,6 +165,10 @@ describe 'ThisOrThatEngine module', ->
 
 			# The only question should be the default one created on init
 			expect($scope.questions).toEqual([defaultQuestion])
+
+			# The creator has a check for activate, unsure where it could come from
+			# though. This line is for coverage.
+			$scope.actions.activate = false
 
 		it 'should set the default title when no title is input', ->
 			$scope.setTitle()
@@ -386,3 +394,40 @@ describe 'ThisOrThatEngine module', ->
 			expect($scope.dialog.invalid).toBeFalsy()
 			expect($scope.dialog.edit).toBeFalsy()
 			expect($scope.dialog.intro).toBeFalsy()
+
+		it 'should limit titles to 500 characters', ->
+			$scope.addQuestion()
+			$scope.questions[0].title = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab'
+			$scope.limitLength()
+
+			expect($scope.questions[0].title).toEqual('aaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+					'aaaaaaaaaa')
+
+		it 'should set an image url', ->
+			$scope.requestImage(0, 0)
+			$scope.setURL('test url', 4)
+
+			expect($scope.questions[0].URLs[0]).toEqual('test url')
+			expect($scope.questions[0].images[0]).toEqual(4)
+
+		it 'should set an image url on media import complete', ->
+			media = [{id: 5}]
+			$scope.onMediaImportComplete(media)
+
+			expect($scope.questions[0].URLs[0]).toEqual('placeholder')
+			expect($scope.questions[0].images[0]).toEqual(5)
+

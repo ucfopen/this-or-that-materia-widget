@@ -18,8 +18,9 @@ module.exports = (config) ->
 			'node_modules/angular-animate/angular-animate.js'
 			'src/assets/js/hammer.min.js'
 			'src/assets/js/angular-hammer.min.js'
-			'src/demo.json'
 			'src/*.coffee'
+			'build/demo.json'
+			'build/*.js'
 			'tests/*.coffee'
 		]
 
@@ -31,6 +32,7 @@ module.exports = (config) ->
 			'karma-coffee-preprocessor'
 			'karma-phantomjs-launcher'
 			'karma-mocha-reporter'
+			'karma-coffeelint'
 			'karma-json-fixtures-preprocessor'
 		]
 
@@ -42,9 +44,10 @@ module.exports = (config) ->
 			variableName: '__demo__'
 
 		preprocessors:
-			'src/*.coffee': 'coffee'
+			'build/*.js': 'coverage'
+			'build/demo.json': 'json_fixtures'
+			'src/*.coffee': ['coffeelint', 'coffee']
 			'tests/*.coffee': 'coffee'
-			'src/demo.json': ['json_fixtures']
 
 		reporters: [
 			'coverage'
@@ -71,10 +74,15 @@ module.exports = (config) ->
 						file: 'coverage.xml'
 					}
 				]
-			instrumenters: ibrik: require('ibrik')
-			instrumenter:
-				'**/src/*.coffee': 'ibrik'
-				'**/tests/*.coffee': 'ibrik'
 
 		mochaReporter:
 			output: 'autowatch'
+
+		coffeelint:
+			onStart: true
+			onChange: true
+			options: 'coffeelint.json'
+			reporter:
+				type: 'default'
+				options:
+					colorize: true
