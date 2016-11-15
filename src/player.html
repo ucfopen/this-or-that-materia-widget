@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!-- INJECTS IE CLASSES ONTO HTML TAG -->
+<!--[if IE 8 ]>    <html class="IE8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="IE9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" ng-app="ThisOrThatEngine" ng-controller="ThisOrThatEngineCtrl"> <!--<![endif]-->
+	<head>
+		<title>This Or That Engine</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+
+		<!-- STYLESHEETS -->
+		<link rel="stylesheet" type="text/css" href="player.css">
+
+		<!-- REQUIRED MATERIA JAVASCRIPT -->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="materia.enginecore.js"></script>
+		<script src="materia.score.js"></script>
+
+		<!-- OPTIONAL MATERIA JAVASCRIPT -->
+		<!-- <script src="materia.storage.manager.js"></script> -->
+		<!-- <script src="materia.storage.table.js"></script> -->
+
+		<!-- YOUR PREREQUISITES -->
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-animate.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-sanitize.min.js"></script>
+		<script src="assets/js/hammer.min.js"></script>
+		<script src="assets/js/angular-hammer.min.js"></script>
+		<script src="assets/js/modernizr.min.js"></script>
+
+		<!-- MAIN WIDGET SCRIPT -->
+		<script src="player.js"></script>
+	</head>
+	<body>
+	<!-- <div class="browserwarning">
+			<p>We're sorry</p>
+			<p>But this widget requires features that your browser does not support.</p>
+			<p>Please upgrade to a newer version to play Hangman.</p>
+		</div> -->
+		<main id="game" role="main">
+			<section id="board">
+				<div class="side-curtain upper left" aria-hidden="true"></div>
+				<div class="side-curtain upper right" aria-hidden="true"></div>
+				<div class="side-curtain lower left" aria-hidden="true"></div>
+				<div class="side-curtain lower right" aria-hidden="true"></div>
+
+				<h1 id="question" ng-bind-html="title"></h1>
+
+				<!-- Holds ThisOrThat -->
+				<div id="choices">
+					<div class="stand-container for-this"
+							 ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
+						<div class="background-stand left" aria-hidden="true"></div>
+						<button class="img-frame"
+							 ng-class="{'correct': questions.correct[0] == 'Correct!', 'incorrect': questions.correct[0] == 'Incorrect'}"
+							 ng-click="checkChoice(0)"
+							 ng-disabled="questions.selected"
+							 ng-mouseenter="hands.thisRaised = true"
+							 ng-mouseleave="hands.thisRaised = false"
+							 href="#"
+							 data-title="{{answers[0].text}}">
+							<span class="overlay">{{questions.correct[0]}}</span>
+							<img class="choice-img" ng-src="{{answers[0].image}}" alt="{{answers[0].text}}">
+						</button>
+					</div>
+
+					<div class="stand-container for-that"
+							 ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
+						<div class="background-stand right" aria-hidden="true"></div>
+						<button class="img-frame"
+							 ng-class="{'correct': questions.correct[1] == 'Correct!', 'incorrect': questions.correct[1] == 'Incorrect'}"
+							 ng-click="checkChoice(1)"
+							 ng-disabled="questions.selected"
+							 ng-mouseenter="hands.thatRaised = true"
+							 ng-mouseleave="hands.thatRaised = false"
+							 href="#"
+							 data-title="{{answers[1].text}}">
+							<span class="overlay">{{questions.correct[1]}}</span>
+							<img class="choice-img" ng-src="{{answers[1].image}}" alt="{{answers[1].text}}">
+						</button>
+					</div>
+				</div>
+
+				<div id="hands" ng-class="{'raised': gameState.ingame == true}" aria-hidden="true">
+					<div class="hand this-hand"
+							 ng-class="{'raised': hands.thisRaised || questions.choice == 0, 'correct': questions.correct[0] == 'Correct!', 'incorrect': questions.correct[0] == 'Incorrect'}"></div>
+					<div class="hand that-hand"
+							 ng-class="{'raised': hands.thatRaised || questions.choice == 1, 'correct': questions.correct[1] == 'Correct!', 'incorrect': questions.correct[1] == 'Incorrect'}"></div>
+				</div>
+
+				<div id="next-container" ng-class="{'raised': gameState.showNext}">
+					<div class="background-stand" aria-hidden="true"></div>
+					<button class="btn"
+									id="next"
+									ng-click="nextClicked()"
+									ng-disabled="!gameState.showNext">Next</button>
+				</div>
+			</section>
+
+			<div id="splash" ng-class="{'raised': gameState.ingame}">
+				<div class="sign" ng-class="{'raised': gameState.ingame, 'end': gameState.endgame}">
+					<div class="sign-stand" aria-hiddnen="true"></div>
+
+					<h1>{{gameState.splashtext}}</h1>
+
+					<div class="text-center">
+						<button class="start btn"
+										ng-click="closeIntro()"
+										ng-disabled="gameState.endgame">Start!</button>
+						<button class="reset btn"
+										ng-click="viewScores()"
+										ng-disabled="!gameState.endgame">Continue to scores</button>
+					</div>
+				</div>
+			</div>
+
+			<img class="hidden-asset" ng-src="{{images[$index]}}" ng-repeat="image in images track by $index">
+		</main>
+	</body>
+</html>
