@@ -155,29 +155,30 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl',
 					_urls = []
 
 					# gets the image URLs
-					if item.answers?[0].options?.asset
-						_urls[0] = Materia.CreatorCore.getMediaUrl(
-							item.answers[0].options.asset.id
-						)
+					if item.answers and item.answers[0].options and
+						item.answers[0].options.asset and item.answers and
+						item.answers[1].options and item.answers[1].options.asset
+							_urls[0] = Materia.CreatorCore.getMediaUrl(
+								item.answers[0].options.asset.id
+							)
 
-					if item.answers?[1].options?.asset
-						_urls[1] = Materia.CreatorCore.getMediaUrl(
-							item.answers[1].options.asset.id
-						)
-
-					# Add each imported question to the DOM
-					$scope.questions.push
-							title: item.questions[0].text.replace(/\&\#10\;/g, '\n')
-							images: [
-								item.answers[0].options.asset.id,
+							_urls[1] = Materia.CreatorCore.getMediaUrl(
 								item.answers[1].options.asset.id
-							]
-							isValid: true
-							alt: [item.answers[0].text, item.answers[1].text]
-							URLs: _urls
-							id: item.id
-							qid: item.questions[0].id
-							ansid: item.answers[0].id
+							)
+
+							# Add each imported question to the DOM
+							$scope.questions.push
+									title: item.questions[0].text.replace(/\&\#10\;/g, '\n')
+									images: [
+										item.answers[0].options.asset.id,
+										item.answers[1].options.asset.id
+									]
+									isValid: true
+									alt: [item.answers[0].text, item.answers[1].text]
+									URLs: _urls
+									id: item.id
+									qid: item.questions[0].id
+									ansid: item.answers[0].id
 
 				$scope.currIndex = $scope.questions.length - 1
 				$scope.$apply()

@@ -13,13 +13,12 @@ describe 'ThisOrThatEngine module', ->
 		beforeAll(module('ThisOrThatEngine'))
 
 		# Set up the controller/scope prior to these tests
-		beforeAll(inject(($rootScope, $controller) ->
+		beforeAll inject ($rootScope, $controller) ->
 			# Instantiate $scope with all of the generic $scope methods/properties
 			$scope = $rootScope.$new()
 
 			# Pass $scope through the 'ThisOrThatEngineCtrl' controller
 			ctrl = $controller('ThisOrThatEngineCtrl', { $scope: $scope })
-		))
 
 		beforeEach ->
 			# Spy on Materia.Engine.end()
@@ -75,7 +74,7 @@ describe 'ThisOrThatEngine module', ->
 			$scope.closeIntro()
 			expect($scope.gameState.ingame).toEqual(true)
 
-		it 'should end the game when all questions are done', inject(($timeout) ->
+		it 'should end the game when all questions are done', inject ($timeout) ->
 			$scope.questions.current = 100
 			$scope.nextClicked()
 
@@ -87,16 +86,14 @@ describe 'ThisOrThatEngine module', ->
 
 			expect(Materia.Engine.end).toHaveBeenCalled()
 			expect($scope.title).toBeFalsy()
-		)
 
-		it 'should update the height after closing the intro', inject(($timeout) ->
+		it 'should update the height after closing the intro', inject ($timeout) ->
 			$scope.closeIntro()
 
 			$timeout.flush()
 			$timeout.verifyNoPendingTasks()
 
 			expect(Materia.Engine.setHeight).toHaveBeenCalled()
-		)
 
 		it 'should return from randomizing when there are no answers', ->
 			_qset =
@@ -126,7 +123,7 @@ describe 'ThisOrThatEngine module', ->
 		beforeAll(module('ThisOrThatCreator'))
 
 		# Set up the controller/scope prior to these tests
-		beforeAll inject ($rootScope, $controller, Resource) ->
+		beforeAll inject ($rootScope, $controller) ->
 			# Instantiate $scope with all of the generic $scope methods/properties
 			$scope = $rootScope.$new()
 			# Pass $scope through the 'ThisOrThatCreatorCtrl' controller
@@ -140,9 +137,7 @@ describe 'ThisOrThatEngine module', ->
 				$scope.onSaveComplete()
 				return { title: title, qset: qset }
 			)
-			spyOn(Materia.CreatorCore, 'cancelSave').and.callFake((msg) ->
-				throw new Error(msg)
-			)
+			spyOn(Materia.CreatorCore, 'cancelSave').and.callThrough()
 			spyOn(Materia.CreatorCore, 'showMediaImporter').and.callThrough()
 			spyOn(Materia.CreatorCore, 'getMediaUrl').and.callFake((media) ->
 				return 'placeholder'
@@ -219,10 +214,9 @@ describe 'ThisOrThatEngine module', ->
 			expect($scope.tutorial.step).toBeNull()
 
 		it 'should fail validation when no questions are completed', ->
-			expect(() ->
-				$scope.onSaveClicked()
-			).toThrow(new Error('Please make sure every question is complete'))
-			expect(Materia.CreatorCore.cancelSave).toHaveBeenCalled()
+			$scope.onSaveClicked('save')
+			expect(Materia.CreatorCore.cancelSave)
+				.toHaveBeenCalledWith('Please make sure every question is complete')
 
 			$scope.validation('change', 0)
 			expect($scope.questions[0].invalid).toBeTruthy()
@@ -242,13 +236,12 @@ describe 'ThisOrThatEngine module', ->
 
 		it 'should not save without a title', ->
 			$scope.title = ''
+			$scope.onSaveClicked()
 
-			expect(() ->
-				$scope.onSaveClicked()
-			).toThrow(new Error('Please enter a title.'))
-			expect(Materia.CreatorCore.cancelSave).toHaveBeenCalled()
+			expect(Materia.CreatorCore.cancelSave)
+				.toHaveBeenCalledWith('Please enter a title.')
 
-		it 'should add a new question', inject(($timeout) ->
+		it 'should add a new question', inject ($timeout) ->
 			expect($scope.questions.length).toEqual(1)
 
 			$scope.addQuestion()
@@ -256,31 +249,56 @@ describe 'ThisOrThatEngine module', ->
 			$timeout.verifyNoPendingTasks()
 
 			expect($scope.questions.length).toEqual(2)
-		)
+
+		it 'should add a new question with given parameters', inject ($timeout) ->
+			expect($scope.questions.length).toEqual(2)
+
+			title = 'test title'
+			images = ['image 1', 'image 2']
+			imgsFilled = [false, false]
+			isValid = true
+			alt = ['alt 1', 'alt 2']
+			URLs = ['url 1', 'url 2']
+			id = '1'
+			qid = '1'
+			ansid = '1'
+
+			$scope.addQuestion(title, images, imgsFilled, isValid, alt, URLs, id,
+				qid, ansid)
+			$timeout.flush()
+			$timeout.verifyNoPendingTasks()
+
+			expect($scope.questions.length).toEqual(3)
+			expect($scope.questions[2].title).toEqual('test title')
+			expect($scope.questions[2].images).toEqual(['image 1', 'image 2'])
+			expect($scope.questions[2].isValid).toEqual(true)
+			expect($scope.questions[2].alt).toEqual(['alt 1', 'alt 2'])
+			expect($scope.questions[2].URLs).toEqual(['url 1', 'url 2'])
+			expect($scope.questions[2].id).toEqual('1')
+			expect($scope.questions[2].qid).toEqual('1')
+			expect($scope.questions[2].ansid).toEqual('1')
 
 		it 'should slide left when selecting the previous question',
-			inject(($timeout) ->
+			inject ($timeout) ->
 				$scope.prev()
 				expect($scope.actions.slideleft).toBeTruthy()
 				$timeout.flush()
 				$timeout.verifyNoPendingTasks()
 
-				expect($scope.currIndex).toEqual(0)
+				expect($scope.currIndex).toEqual(1)
 				expect($scope.actions.slideleft).toBeFalsy()
-			)
 
 		it 'should slide right when selecting the next question',
-			inject(($timeout) ->
+			inject ($timeout) ->
 				$scope.next()
 				expect($scope.actions.slideright).toBeTruthy()
 				$timeout.flush()
 				$timeout.verifyNoPendingTasks()
 
-				expect($scope.currIndex).toEqual(1)
+				expect($scope.currIndex).toEqual(2)
 				expect($scope.actions.slideright).toBeFalsy()
-			)
 
-		it 'should not add any new questions after 50', inject(($timeout) ->
+		it 'should not add any new questions after 50', inject ($timeout) ->
 			while($scope.questions.length != 50)
 				$scope.addQuestion()
 				$timeout.flush()
@@ -292,7 +310,6 @@ describe 'ThisOrThatEngine module', ->
 			# point to add another question through the timeout.
 			$scope.addQuestion()
 			expect($scope.questions.length).toEqual(50)
-		)
 
 		it 'should move to a specific index', inject ($timeout) ->
 			$scope.selectCurrent(25)
@@ -431,3 +448,90 @@ describe 'ThisOrThatEngine module', ->
 			expect($scope.questions[0].URLs[0]).toEqual('placeholder')
 			expect($scope.questions[0].images[0]).toEqual(5)
 
+		it 'should call a function after enter has been pressed on an element with ng-enter',
+			inject ($compile) ->
+				htmlElement = '<input type="text" ng-enter="setTitle()">'
+				element = $compile(htmlElement)($scope)
+
+				spyOn($scope, 'setTitle').and.callThrough()
+
+				e = angular.element.Event('keypress')
+				e.which = 13
+
+				element.trigger(e)
+				expect($scope.setTitle).toHaveBeenCalled()
+
+		it 'should not call a function after a non-enter key press on an element with ng-enter',
+			inject ($compile) ->
+				htmlElement = '<input type="text" ng-enter="setTitle()">'
+				element = $compile(htmlElement)($scope)
+
+				spyOn($scope, 'setTitle').and.callThrough()
+
+				e = angular.element.Event('keypress')
+				e.which = 12
+
+				element.trigger(e)
+				expect($scope.setTitle).not.toHaveBeenCalled()
+
+		it 'should focus an element with focus-me',
+			inject ($compile, $timeout) ->
+				htmlElement = '<input type="text" focus-me="dialog.edit">'
+				element = $compile(htmlElement)($scope)
+				spyOn(element[0], 'focus')
+
+				$scope.dialog.edit = true
+				$scope.$digest()
+
+				$timeout.flush()
+				$timeout.verifyNoPendingTasks()
+
+				expect(element[0].focus).toHaveBeenCalled()
+
+		it 'should not focus an element with focus-me when passed false',
+			inject ($compile) ->
+				htmlElement = '<input type="text" focus-me="dialog.edit">'
+				element = $compile(htmlElement)($scope)
+				spyOn(element[0], 'focus')
+
+				$scope.dialog.edit = false
+				$scope.$digest()
+
+				expect(element[0].focus).not.toHaveBeenCalled()
+
+		it 'should import questions', ->
+			while($scope.questions.length > 0)
+				$scope.removeQuestion($scope.questions[0])
+
+			expect($scope.questions.length).toEqual(0)
+
+			items = widgetInfo.qset.data.items
+
+			$scope.onQuestionImportComplete(items)
+
+			expect($scope.questions.length).toEqual(3)
+			expect($scope.questions[0].title).toEqual(
+				'Which of these paintings is from the Baroque period?')
+			expect($scope.questions[2].title).toEqual(
+				'Which one of these dogs is a Labrador Retriever?')
+
+		it 'should not import incomplete questions', ->
+			expect($scope.questions.length).toEqual(3)
+
+			incomplete = [
+				'id': null
+				'questions': [
+					{ 'text': 'Which one of these dogs is a Labrador Retriever?' }
+				]
+			]
+
+			$scope.onQuestionImportComplete(incomplete)
+			expect($scope.questions.length).toEqual(3)
+
+		it 'should init an existing widget', ->
+			$scope.questions = []
+
+			$scope.initExistingWidget(widgetInfo.name, widgetInfo, qset.data);
+
+			expect($scope.title).toEqual(widgetInfo.name)
+			expect($scope.questions.length).toEqual(3)
