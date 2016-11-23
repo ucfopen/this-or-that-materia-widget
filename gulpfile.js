@@ -19,7 +19,11 @@ var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var zip = require('gulp-zip');
 
-var configs = require('../../backend/config.json');
+var configs = null;
+if (fs.existsSync('../../backend/config.json'))
+{
+	configs = require('../../backend/config.json');
+}
 
 var widget = sanitize("this-or-that");
 // When compiling this may be entered as an argument.
