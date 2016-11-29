@@ -14,13 +14,13 @@ Updated : 1/20/2014
 ThisOrThat = angular.module 'ThisOrThatCreator', ['ngAnimate', 'ngSanitize']
 
 ThisOrThat.directive('ngEnter', ->
-		return (scope, element, attrs) ->
-				element.bind("keydown keypress", (event) ->
-						if(event.which == 13)
-								scope.$apply ->
-										scope.$eval(attrs.ngEnter)
-								event.preventDefault()
-				)
+	return (scope, element, attrs) ->
+		element.bind("keydown keypress", (event) ->
+			if(event.which == 13)
+				scope.$apply ->
+					scope.$eval(attrs.ngEnter)
+				event.preventDefault()
+		)
 )
 
 ThisOrThat.directive('focusMe', ['$timeout', '$parse', ($timeout, $parse) ->
