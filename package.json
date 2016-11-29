@@ -52,7 +52,8 @@
     "pretest": "gulp build-readable",
     "test": "karma start ./karma.conf.coffee",
     "pretest-full": "gulp build-readable",
-    "test-full": "karma start ./karma-full.conf.coffee"
+    "test-full": "karma start ./karma-full.conf.coffee,
+    "build": "gulp"
   },
   "author": "New Media"
 }
