@@ -20,9 +20,13 @@ var uglify = require('gulp-uglify');
 var zip = require('gulp-zip');
 
 var configs = null;
-if (fs.existsSync('../../backend/config.json'))
+try
 {
 	configs = require('../../backend/config.json');
+}
+catch(e)
+{
+	console.log(e);
 }
 
 var widget = sanitize("this-or-that");
