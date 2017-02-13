@@ -104,6 +104,14 @@
 											 ng-change="validation('change', currIndex); tutorialIncrement(5)"
 											 ng-model="questions[currIndex].alt[1]"
 											 ng-disabled="tutorial.step && tutorial.step < 5">
+
+								<input type="text"
+											 placeholder="Optional feedback for an incorrect answer"
+											 class="feedback"
+											 required
+											 ng-change="validation('change', currIndex); tutorialIncrement(5)"
+											 ng-model="questions[currIndex].alt[2]"
+											 ng-disabled="tutorial.step && tutorial.step < 5">
 							</section>
 						</div>
 
