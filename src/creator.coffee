@@ -73,7 +73,9 @@ ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 				asset:
 					materiaType: 'asset'
 					id: item.images[1]
-		]
+		],
+		options:
+			feedback: item.alt[2]
 ]
 
 # Set the controller for the scope of the document body.

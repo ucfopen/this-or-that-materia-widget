@@ -34,7 +34,10 @@
                 }
               }
             }
-          ]
+          ],
+          "options": {
+            "feedback": "Optional feedback about why your choice is incorrect."
+          }
         },
         {
           "materiaType": "question",
@@ -66,7 +69,10 @@
                 }
               }
             }
-          ]
+          ],
+          "options": {
+            "feedback": "Optional feedback about why your choice is incorrect."
+          }
         },
         {
           "materiaType": "question",
@@ -98,7 +104,10 @@
                 }
               }
             }
-          ]
+          ],
+          "options": {
+            "feedback": "Optional feedback about why your choice is incorrect."
+          }
         }
       ]
     }
