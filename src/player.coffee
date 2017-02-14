@@ -65,7 +65,10 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 		switch _value
 			when 0
 				$scope.questions.correct[value] = 'Incorrect'
-				$scope.questions.feedback[value] = _feedback
+				if _feedback == undefined
+					$scope.questions.feedback[value] = ''
+				else
+					$scope.questions.feedback[value] = _feedback
 
 			when 100
 				$scope.questions.correct[value] = 'Correct!'

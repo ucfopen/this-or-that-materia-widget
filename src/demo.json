@@ -71,7 +71,7 @@
             }
           ],
           "options": {
-            "feedback": "Optional feedback about why your choice is incorrect."
+            "feedback": ""
           }
         },
         {
