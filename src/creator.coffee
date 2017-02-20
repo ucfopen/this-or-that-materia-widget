@@ -145,7 +145,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 				title: items[i].questions[0].text.replace(/\&\#10\;/g, '\n')
 				images: [items[i].answers[0].options.asset.id, items[i].answers[1].options.asset.id]
 				isValid: true
-				alt: [items[i].answers[0].text, items[i].answers[1].text]
+				alt: [items[i].answers[0].text, items[i].answers[1].text, items[i].options.feedback]
 				URLs: _urls
 				id: items[i].id
 				qid: items[i].questions[0].id
