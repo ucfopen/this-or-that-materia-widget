@@ -58,7 +58,6 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 		_value    = _qset.items[$scope.questions.current].answers[value].value
 		_ans      = _qset.items[$scope.questions.current].answers[value].text
 		_feedback = _qset.items[$scope.questions.current].options.feedback
-		console.log $scope.questions.feedback
 		#track which image the user selected in the game
 		$scope.questions.choice = value
 
