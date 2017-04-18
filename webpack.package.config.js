@@ -74,7 +74,7 @@ module.exports = function(args){
 					loader: 'file-loader',
 					query: {
 						emitFile: false,
-						publicPath: 'assets/img',
+						publicPath: 'assets/img/',
 						name: '[name].[ext]'
 					}
 				},
