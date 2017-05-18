@@ -28,6 +28,15 @@
 			<div class="logo"></div>
 			<h1 id="title" ng-bind="title" ng-click="dialog.edit = true"></h1>
 			<div class="link" ng-click="dialog.edit = true">Edit...</div>
+			<button
+								id="add-question"
+								aria-label="Randomize Question Order"
+								ng-click="randomizeOrder=!randomizeOrder"
+								ng-class="{'btn':true, 'green':randomizeOrder, 'gray':!randomizeOrder }"
+								ng-disabled="tutorial.step && tutorial.step < 6"
+								ng-show="questions.length > 1">
+								Randomize Question Order: {{randomizeOrder === true ? "On" : "Off"}}
+				</button>
 			<div class="right">{{questions.length}} Questions</div>
 		</div>
 
@@ -147,13 +156,14 @@
 										ng-disabled="questions.length < 2">{{$index + 1}}</button>
 					</li>
 				</ul>
-
 				<button class="btn green"
 								id="add-question"
 								aria-label="Add Question"
 								ng-class="{'right': questions[0]}"
 								ng-click="addQuestion(); tutorialIncrement(6)"
-								ng-disabled="tutorial.step && tutorial.step < 6">Add Question</button>
+								ng-disabled="tutorial.step && tutorial.step < 6">
+								Add Question
+				</button>
 			</nav>
 		</main>
 
