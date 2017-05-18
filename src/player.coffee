@@ -45,7 +45,6 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 	$scope.start = (instance, qset, version) ->
 		_qset = qset
 		if qset.options? and qset.options.randomizeOrder == true
-			console.log 'it passed'
 			_shuffle _qset.items
 
 		for item in _qset.items
