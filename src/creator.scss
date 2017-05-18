@@ -19,6 +19,7 @@ $darker: rgba(0,0,0,0.4);
 $green: #70bd34;
 $red: #e42b20;
 $blue: #62a0b9;
+$gray: #BDC3C7;
 $background: #223863;
 $btn-color: #fff;
 $activeColor: #ddd;
@@ -94,6 +95,10 @@ ul { list-style-type : none; }
 
 	&.green {
 		@include button-variant($btn-color, $green, $green);
+	}
+
+	&.gray {
+		@include button-variant($btn-color, $gray, $gray);
 	}
 
 	&.blue {
