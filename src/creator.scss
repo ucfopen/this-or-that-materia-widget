@@ -139,7 +139,7 @@ ul { list-style-type : none; }
 
 	.logo {
 		display: block;
-		background: url(assets/materialogo.png) no-repeat;
+		background: url(assets/img/materialogo.png) no-repeat;
 		width: 60px;
 		height: 50px;
 		float: left;
@@ -225,6 +225,10 @@ input[type=text] {
 		padding: 6px 12px;
 
 		font-family: 'fha_nicholson_french_ncvRg';
+	}
+
+	&.feedback {
+		margin-top:15px;
 	}
 }
 

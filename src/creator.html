@@ -113,6 +113,14 @@
 											 ng-change="validation('change', currIndex); tutorialIncrement(5)"
 											 ng-model="questions[currIndex].alt[1]"
 											 ng-disabled="tutorial.step && tutorial.step < 5">
+
+								<input type="text"
+											 placeholder="Optional feedback for an incorrect answer"
+											 class="feedback"
+											 required
+											 ng-change="validation('change', currIndex); tutorialIncrement(5)"
+											 ng-model="questions[currIndex].alt[2]"
+											 ng-disabled="tutorial.step && tutorial.step < 5">
 							</section>
 						</div>
 
@@ -186,7 +194,7 @@
 
 				<!-- Intro modal -->
 				<div class="modal intro" ng-show="dialog.intro" ng-click="$event.stopPropagation()">
-					<img src="assets/creatorexample.png" alt="Widget preview">
+					<img src="assets/img/creatorexample.png" alt="Widget preview">
 
 					<h1>This or That</h1>
 
