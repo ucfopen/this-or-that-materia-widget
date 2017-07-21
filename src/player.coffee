@@ -21,6 +21,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 		choice: -1
 		current: -1
 		correct: ['','']
+		feedback: ['','']
 		selected: false
 		transition: false
 
@@ -53,15 +54,23 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 
 	$scope.checkChoice = (value) ->
 		#get the id, value, and text of the chosen answer
-		_id    = _qset.items[$scope.questions.current].id
-		_value = _qset.items[$scope.questions.current].answers[value].value
-		_ans   = _qset.items[$scope.questions.current].answers[value].text
+		_id       = _qset.items[$scope.questions.current].id
+		_value    = _qset.items[$scope.questions.current].answers[value].value
+		_ans      = _qset.items[$scope.questions.current].answers[value].text
+		_feedback = _qset.items[$scope.questions.current].options.feedback
 		#track which image the user selected in the game
 		$scope.questions.choice = value
 
 		switch _value
-			when 0 then $scope.questions.correct[value] = 'Incorrect'
-			when 100 then $scope.questions.correct[value] = 'Correct!'
+			when 0
+				$scope.questions.correct[value] = 'Incorrect'
+				if _feedback == undefined
+					$scope.questions.feedback[value] = ''
+				else
+					$scope.questions.feedback[value] = _feedback
+
+			when 100
+				$scope.questions.correct[value] = 'Correct!'
 
 		Materia.Score.submitQuestionForScoring _id, _ans
 
@@ -74,6 +83,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 	$scope.nextClicked = ->
 		$scope.gameState.showNext   = false
 		$scope.questions.correct    = ['','']
+		$scope.questions.feedback   = ['','']
 		$scope.questions.choice     = -1
 		$scope.questions.transition = true
 		$scope.hands.thisRaised     = false

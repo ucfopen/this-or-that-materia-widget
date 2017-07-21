@@ -34,7 +34,10 @@
                 }
               }
             }
-          ]
+          ],
+          "options": {
+            "feedback": "Incorrect. The Mona Lisa was painted during the Italian Renaissance by artist Leonardo DaVinci."
+          }
         },
         {
           "materiaType": "question",
@@ -66,7 +69,10 @@
                 }
               }
             }
-          ]
+          ],
+          "options": {
+            "feedback": ""
+          }
         },
         {
           "materiaType": "question",
@@ -98,7 +104,10 @@
                 }
               }
             }
-          ]
+          ],
+          "options": {
+            "feedback": ""
+          }
         }
       ]
     }
