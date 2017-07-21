@@ -409,7 +409,7 @@ body {
 				background-repeat: no-repeat;
 
 				.overlay {
-					background-color: rgba(228, 43, 32, 0.4);
+					background-color: rgba(228, 43, 32, 0.6);
 				}
 			}
 
@@ -427,6 +427,52 @@ body {
 				font-size: 24px;
 				line-height: 250px;
 				text-shadow: 0 4px 2px rgba(0,0,0,0.3);
+			}
+
+			.feedback {
+				position: absolute;
+				top: 115px;
+				right: 25px;
+				bottom: 32px;
+				left: 33px;
+
+				border-radius: 4px;
+				overflow-y: scroll;
+
+				color: #fff;
+				font-family: sans-serif;
+				font-size: 16px;
+				line-height: 16px;
+				text-shadow: 0 4px 2px rgba(0,0,0,0.3);
+				text-align: left;
+				word-wrap: break-word;
+			}
+
+			.overlayFeedback {
+				position: absolute;
+				top: 20px;
+				right: 23px;
+				bottom: 32px;
+				left: 23px;
+
+				border-radius: 4px;
+
+				color: #fff;
+				font-family: 'fha_nicholson_french_ncvRg';
+				font-size: 24px;
+				line-height: 150px;
+				text-shadow: 0 4px 2px rgba(0,0,0,0.3);
+				background-color: rgba(228, 43, 32, 0.6);
+			}
+
+			.feedback::-webkit-scrollbar {
+				background: rgba(0, 0, 0, 0.0);
+				width:9px;
+			}
+
+			.feedback::-webkit-scrollbar-thumb {
+				background: rgba(196, 196, 196, 1);
+				border-radius:10px;
 			}
 
 			.choice-img {
