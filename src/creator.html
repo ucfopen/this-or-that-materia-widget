@@ -29,15 +29,13 @@
 			<h1 id="title" ng-bind="title" ng-click="dialog.edit = true"></h1>
 			<div class="link" ng-click="dialog.edit = true">Edit...</div>
 			<button
-								id="add-question"
-								aria-label="Randomize Question Order"
-								ng-click="randomizeOrder=!randomizeOrder"
-								ng-class="{'btn':true, 'green':randomizeOrder, 'gray':!randomizeOrder }"
-								ng-disabled="tutorial.step && tutorial.step < 6"
-								ng-show="questions.length > 1">
-								Randomize Question Order: {{randomizeOrder === true ? "On" : "Off"}}
-				</button>
-			<div class="right">{{questions.length}} Questions</div>
+				aria-label="Randomize Question Order"
+				class="right"
+				ng-click="randomizeOrder=!randomizeOrder"
+				ng-class="{'btn':true, 'green':randomizeOrder, 'dark':!randomizeOrder }"
+				ng-disabled="tutorial.step && tutorial.step < 6">
+				Randomize Question Order: {{randomizeOrder === true ? "On" : "Off"}}
+			</button>
 		</div>
 
 		<main class="container" role="main">
