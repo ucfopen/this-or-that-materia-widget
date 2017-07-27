@@ -1920,9 +1920,9 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "0.0.1"
   resolved "git+ssh://git@clu.cdl.ucf.edu:materia/materia-core.git#591dae704fde2d85a065a5417db503c806225c4a"
 
-"materia-widget-dev@git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-dev.git#32c9ad09028d9a93c525b597269d1e73b1c3f0d3":
+"materia-widget-dev@git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-dev.git#ba1e7f9cfa7d7172fd7e923546220c9498f9e3ee":
   version "1.0.0"
-  resolved "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-dev.git#32c9ad09028d9a93c525b597269d1e73b1c3f0d3"
+  resolved "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-dev.git#ba1e7f9cfa7d7172fd7e923546220c9498f9e3ee"
   dependencies:
     autoprefixer "^7.1.2"
     body-parser "^1.17.1"
