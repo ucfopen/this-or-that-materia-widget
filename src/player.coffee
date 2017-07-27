@@ -45,12 +45,22 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 
 	$scope.start = (instance, qset, version) ->
 		_qset = qset
+		if qset.options? and qset.options.randomizeOrder == true
+			_shuffle _qset.items
 
 		for item in _qset.items
 			for answer in item.answers
 				$scope.images.push Materia.Engine.getImageAssetUrl answer.options.asset.id
 
 		_incrementQuestion()
+
+	_shuffle = (arr) ->
+		i = arr.length
+		return arr unless i > 0
+
+		while --i
+				j = Math.floor(Math.random() * (i+1))
+				[arr[i], arr[j]] = [arr[j], arr[i]]
 
 	$scope.checkChoice = (value) ->
 		#get the id, value, and text of the chosen answer
