@@ -6,7 +6,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "materia-widget-dev": "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-dev.git#026f8031772d3fc7e74a8a33fa9ba23c53e0950a"
+    "materia-widget-dev": "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit.git#a1ca05d856c8a9c686747dcd366575cd863cde28"
   },
   "scripts": {
     "start": "webpack-dev-server --open",
