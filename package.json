@@ -6,12 +6,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "materia-widget-dev": "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-dev.git"
+    "html-webpack-plugin": "^2.29.0",
+    "materia-widget-dev": "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-dev.git@^1.0.0"
   },
   "scripts": {
-    "start": "node ./node_modules/materia-widget-dev/app",
-    "build": "webpack --config webpack.build.config.js",
-    "build-dev": "webpack --config webpack.serve.config.js"
+    "start": "webpack-dev-server --open",
+    "build": "webpack",
+    "build-prod": "webpack -p"
   },
   "author": "New Media"
 }
