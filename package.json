@@ -7,12 +7,12 @@
   "private": true,
   "dependencies": {
     "html-webpack-plugin": "^2.29.0",
-    "materia-widget-dev": "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-dev.git@^1.0.0"
+    "materia-widget-dev": "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-dev.git#32c9ad09028d9a93c525b597269d1e73b1c3f0d3"
   },
   "scripts": {
     "start": "webpack-dev-server --open",
     "build": "webpack",
     "build-prod": "webpack -p"
   },
-  "author": "New Media"
+  "author": "University of Central Florida, Center for Distributed Learning"
 }
