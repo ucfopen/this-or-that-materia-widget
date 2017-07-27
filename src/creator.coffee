@@ -34,9 +34,10 @@ ThisOrThat.directive('focusMe', ['$timeout', '$parse', ($timeout, $parse) ->
 
 # The 'Resource' service contains all app logic that does pertain to DOM manipulation
 ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
-	buildQset: (title, items) ->
+	buildQset: (title, items, isRandom) ->
 		qsetItems = []
 		qset      = {}
+		qset.options = {}
 
 		# Decide if it is ok to save
 		if title is ''
@@ -48,6 +49,7 @@ ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 			qsetItems.push item if item
 
 		qset.items = qsetItems
+		qset.options.randomizeOrder = isRandom
 
 		qset
 
@@ -82,6 +84,7 @@ ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize', 'Resource',
 ($scope, $timeout, $sanitize, Resource) ->
 	$scope.title      = "My This or That widget"
+	$scope.randomizeOrder = false
 	$scope.questions  = []
 	$scope.currIndex  = -1
 	$scope.dialog     = {}
@@ -120,7 +123,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 
 		if _isValid
 			# Create a qset to save
-			qset = Resource.buildQset $sanitize($scope.title), $scope.questions
+			qset = Resource.buildQset $sanitize($scope.title), $scope.questions, $scope.randomizeOrder
 			if qset then Materia.CreatorCore.save $sanitize($scope.title), qset
 		else
 			Materia.CreatorCore.cancelSave "Please make sure every question is complete"
