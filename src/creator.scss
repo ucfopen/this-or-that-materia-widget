@@ -147,10 +147,14 @@ ul { list-style-type : none; }
 		margin-top: 2px;
 	}
 
-	.right {
-		position:absolute;
-		right: 30px;
-		top: 22px;
+	div.right {
+		margin-top: 8px;
+		margin-right: 50px;
+	}
+
+	button.right {
+		margin-top: 0px;
+		margin-right: 25px;
 	}
 
 	h1 {
