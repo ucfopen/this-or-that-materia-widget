@@ -185,6 +185,10 @@ async@^2.1.2, async@^2.1.5, async@^2.4.1:
   dependencies:
     lodash "^4.14.0"
 
+async@~0.2.10:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/async/-/async-0.2.10.tgz#b6bbe0b0674b9d719708ca38de8c237cb526c3d1"
+
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
@@ -1908,6 +1912,10 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
 
+lru-cache@~2.5.0:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-2.5.2.tgz#1fddad938aae1263ce138680be1b3f591c0ab41c"
+
 map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
@@ -1916,9 +1924,9 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "0.0.1"
   resolved "git+ssh://git@clu.cdl.ucf.edu:materia/materia-core.git#591dae704fde2d85a065a5417db503c806225c4a"
 
-"materia-widget-dev@git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit.git#a1ca05d856c8a9c686747dcd366575cd863cde28":
+"materia-widget-dev@git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit.git#cc7eadc38691e1250825f5a9bf1faa9476224d12":
   version "1.0.0"
-  resolved "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit.git#a1ca05d856c8a9c686747dcd366575cd863cde28"
+  resolved "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit.git#cc7eadc38691e1250825f5a9bf1faa9476224d12"
   dependencies:
     autoprefixer "^7.1.2"
     body-parser "^1.17.1"
@@ -1933,6 +1941,7 @@ map-obj@^1.0.0, map-obj@^1.0.1:
     html-loader "^0.4.5"
     html-webpack-plugin "^2.29.0"
     materia-core "git+ssh://git@clu.cdl.ucf.edu:materia/materia-core.git"
+    mustache-express "^1.2.5"
     node-sass "^4.5.3"
     postcss-loader "2.0.6"
     raw-loader "^0.5.1"
@@ -2071,6 +2080,18 @@ multicast-dns@^6.0.1:
   dependencies:
     dns-packet "^1.0.1"
     thunky "^0.1.0"
+
+mustache-express@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/mustache-express/-/mustache-express-1.2.5.tgz#172a48445a5de5cadc9f057f6a92a4afca07ae14"
+  dependencies:
+    async "~0.2.10"
+    lru-cache "~2.5.0"
+    mustache "~2.3.0"
+
+mustache@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/mustache/-/mustache-2.3.0.tgz#4028f7778b17708a489930a6e52ac3bca0da41d0"
 
 nan@^2.3.0, nan@^2.3.2:
   version "2.6.2"
