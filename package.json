@@ -6,12 +6,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "materia-widget-development-kit": "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit.git#v1.0.1-alpha-7"
+    "materia-widget-development-kit": "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit.git#v1.0.1-alpha-8"
   },
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",
     "build-prod": "webpack -p"
   },
-  "author": "University of Central Florida, Center for Distributed Learning"
+  "author": "University of Central Florida, Center for Distributed Learning",
+  "description": "* This or That is a game in which students must answer questions by choosing one of two images.",
+  "main": "webpack.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git@clu.cdl.ucf.edu:materia/this-or-that.git"
+  },
+  "license": "UNLICENSED"
 }
