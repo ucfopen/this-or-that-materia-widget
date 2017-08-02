@@ -3,7 +3,7 @@
   "materia": {
     "cleanName": "this-or-that"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "materia-widget-development-kit": "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit.git#v1.0.2"
