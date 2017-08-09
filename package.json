@@ -1,41 +1,24 @@
 {
-  "name": "This-or-That",
-  "version": "0.1.0",
-  "private": true,
-  "main": "app.js",
-  "dependencies": {
-    "@types/node": "^7.0.5",
-    "autoprefixer": "^6.7.7",
-    "clean-webpack-plugin": "^0.1.15",
-    "coffee-loader": "^0.7.2",
-    "copy-webpack-plugin": "^4.0.1",
-    "css-loader": "^0.26.1",
-    "extract-loader": "^0.1.0",
-    "extract-text-webpack-plugin": "^2.0.0-rc.3",
-    "file-loader": "^0.10.1",
-    "html-loader": "^0.4.5",
-    "node-sass": "^4.5.0",
-    "postcss-loader": "^0.6.0",
-    "raw-loader": "^0.5.1",
-    "resolve-url-loader": "^2.0.2",
-    "sass-loader": "^6.0.2",
-    "string-replace-loader": "^1.1.0",
-    "style-loader": "^0.13.1",
-    "typescript": "^2.1.6",
-    "url-loader": "^0.5.8",
-    "webpack": "^2.2.1",
-    "webpack-config": "^7.0.0",
-    "zip-webpack-plugin": "^1.1.0"
+  "name": "@ucfcdl/this-or-that",
+  "materia": {
+    "cleanName": "this-or-that"
   },
-  "devDependencies": {
-    "extract-text-webpack-plugin": "^0.8.2",
-    "html-webpack-plugin": "^1.6.1",
-    "materia-widget-dev": "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-dev.git"
+  "version": "0.1.1",
+  "private": true,
+  "dependencies": {
+    "materia-widget-development-kit": "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit.git#v1.0.4"
   },
   "scripts": {
-    "start": "node ./node_modules/materia-widget-dev/app",
-    "build": "webpack --config webpack.package.config.js --env.mangle true --env.minify true",
-    "build-dev": "webpack --config webpack.dev.config.js"
+    "start": "webpack-dev-server",
+    "build": "webpack",
+    "build-prod": "webpack -p"
   },
-  "author": "New Media"
+  "author": "University of Central Florida, Center for Distributed Learning",
+  "description": "* This or That is a game in which students must answer questions by choosing one of two images.",
+  "main": "webpack.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git@clu.cdl.ucf.edu:materia/this-or-that.git"
+  },
+  "license": "UNLICENSED"
 }
