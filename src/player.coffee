@@ -112,7 +112,8 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 
 		if _qset.items[$scope.questions.current]
 			$scope.title = _qset.items[$scope.questions.current].questions[0].text
-			$scope.answers = _randomizeChoices _qset.items[$scope.questions.current].answers
+			$scope.answers =
+				_randomizeChoices _qset.items[$scope.questions.current].answers
 
 			for answer in $scope.answers
 				answer.image = Materia.Engine.getImageAssetUrl answer.options.asset.id
@@ -121,73 +122,52 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 			$scope.questions.transition = false
 		else
 			$scope.endGame()
-			setTimeout ->
+			$timeout ->
 				$scope.title = ""
 				$scope.$apply()
 				_updateHeight()
 			, 400
 
-		$scope.nextClicked = ->
-			$scope.gameState.showNext   = false
-			$scope.questions.correct    = ['','']
-			$scope.questions.choice     = -1
-			$scope.questions.transition = true
-			$scope.hands.thisRaised     = false
-			$scope.hands.thatRaised     = false
+		$timeout ->
+			_updateHeight()
+		, 1
 
-			$timeout _incrementQuestion, 1000
+	$scope.nextClicked = ->
+		$scope.gameState.showNext   = false
+		$scope.questions.correct    = ['','']
+		$scope.questions.choice     = -1
+		$scope.questions.transition = true
+		$scope.hands.thisRaised     = false
+		$scope.hands.thatRaised     = false
 
-		$scope.closeIntro = ->
-			$scope.gameState.ingame = true
-			$timeout ->
-				_updateHeight()
-			, 1
+		$timeout _incrementQuestion, 1000
 
-		_incrementQuestion = ->
-			$scope.questions.current++
+	$scope.closeIntro = ->
+		$scope.gameState.ingame = true
+		$timeout ->
+			_updateHeight()
+		, 1
 
-			if _qset.items[$scope.questions.current]
-				$scope.title = _qset.items[$scope.questions.current].questions[0].text
-				$scope.answers =
-					_randomizeChoices _qset.items[$scope.questions.current].answers
+	_randomizeChoices = (array) ->
+		i = array.length
 
-				for answer in $scope.answers
-					answer.image = Materia.Engine.getImageAssetUrl answer.options.asset.id
+		if i == 0 then return false
 
-				$scope.questions.selected   = false
-				$scope.questions.transition = false
-			else
-				$scope.endGame()
-				$timeout ->
-					$scope.title = ""
-					$scope.$apply()
-					_updateHeight()
-				, 400
+		while --i
+			j = Math.floor(Math.random() * (i + 1))
+			tempi = array[i]
+			tempj = array[j]
+			array[i] = tempj
+			array[j] = tempi
 
-			$timeout ->
-				_updateHeight()
-			, 1
+		return array
 
-		_randomizeChoices = (array) ->
-			i = array.length
+	_updateHeight = ->
+		# Woah Jonathan, how dumb, why would you do this?
+		# Oh, because Chrome is being a jerk and won't recognize reflows after
+		# CSS3 animations without rescaling the document? Alright, we forgive you.
+		Materia.Engine.setHeight($('body').height() - 1)
+		Materia.Engine.setHeight($('body').height())
 
-			if i == 0 then return false
-
-			while --i
-				j = Math.floor(Math.random() * (i + 1))
-				tempi = array[i]
-				tempj = array[j]
-				array[i] = tempj
-				array[j] = tempi
-
-			return array
-
-		_updateHeight = ->
-			# Woah Jonathan, how dumb, why would you do this?
-			# Oh, because Chrome is being a jerk and won't recognize reflows after
-			# CSS3 animations without rescaling the document? Alright, we forgive you.
-			Materia.Engine.setHeight($('body').height() - 1)
-			Materia.Engine.setHeight($('body').height())
-
-		Materia.Engine.start($scope)
+	Materia.Engine.start($scope)
 	]

@@ -450,28 +450,31 @@ describe 'ThisOrThatEngine module', ->
 
 		it 'should call a function after enter has been pressed on an element with ng-enter',
 			inject ($compile) ->
-				htmlElement = '<input type="text" ng-enter="setTitle()">'
+				htmlElement = angular.element('<input type="text" ng-enter="setTitle()">')
 				element = $compile(htmlElement)($scope)
+				$scope.$digest()
 
 				spyOn($scope, 'setTitle').and.callThrough()
 
-				e = angular.element.Event('keypress')
+				e = new Event('keypress')
 				e.which = 13
 
-				element.trigger(e)
+				element.triggerHandler(e)
+
 				expect($scope.setTitle).toHaveBeenCalled()
 
 		it 'should not call a function after a non-enter key press on an element with ng-enter',
 			inject ($compile) ->
-				htmlElement = '<input type="text" ng-enter="setTitle()">'
+				htmlElement = angular.element('<input type="text" ng-enter="setTitle()">')
 				element = $compile(htmlElement)($scope)
+				$scope.$digest()
 
 				spyOn($scope, 'setTitle').and.callThrough()
 
-				e = angular.element.Event('keypress')
+				e = new Event('keypress')
 				e.which = 12
 
-				element.trigger(e)
+				element.triggerHandler(e)
 				expect($scope.setTitle).not.toHaveBeenCalled()
 
 		it 'should focus an element with focus-me',

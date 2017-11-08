@@ -11,16 +11,15 @@ module.exports = (config) ->
 
 		files: [
 			'node_modules/jquery/dist/jquery.js'
-			'../../js/*.js'
 			'node_modules/angular/angular.js'
 			'node_modules/angular-mocks/angular-mocks.js'
 			'node_modules/angular-sanitize/angular-sanitize.js'
 			'node_modules/angular-animate/angular-animate.js'
 			'src/assets/js/hammer.min.js'
 			'src/assets/js/angular-hammer.min.js'
-			'src/*.coffee'
 			'build/demo.json'
 			'build/*.js'
+			'build/asets/js/*.js'
 			'tests/*.coffee'
 		]
 
@@ -46,7 +45,7 @@ module.exports = (config) ->
 		preprocessors:
 			'build/*.js': 'coverage'
 			'build/demo.json': 'json_fixtures'
-			'src/*.coffee': ['coffeelint', 'coffee']
+			# 'src/*.coffee': ['coffeelint', 'coffee']
 			'tests/*.coffee': 'coffee'
 
 		reporters: [
