@@ -3015,9 +3015,9 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-materia-client-assets@ucfcdl/materia-client-assets#v0.1.16:
-  version "0.1.16"
-  resolved "git+ssh://git@github.com/ucfcdl/materia-client-assets.git#5a148afcb19e2a541ede863721dbcfa2e730c001"
+"materia-client-assets@https://github.com/ucfcdl/materia-client-assets.git#v0.1.21":
+  version "0.1.21"
+  resolved "https://github.com/ucfcdl/materia-client-assets.git#fdab6d8615282b9c37b7081a243e73d2c7c97806"
   dependencies:
     coffee-loader "^0.7.3"
     coffee-script "^1.9.1"
@@ -3029,9 +3029,9 @@ materia-client-assets@ucfcdl/materia-client-assets#v0.1.16:
     style-loader "^0.18.2"
     webpack "^3.3.0"
 
-"materia-widget-development-kit@git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit.git#v1.0.4":
+"materia-widget-development-kit@git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit#semver:>=1.0.6 <1.10.0":
   version "1.0.4"
-  resolved "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit.git#b556a950e47cd10b3344e56ce09d6bac00d769e7"
+  resolved "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit#cda1ffe7637ec1846f1e8a5f89392ba33a9dcb3f"
   dependencies:
     autoprefixer "^7.1.2"
     body-parser "^1.17.1"
@@ -3046,7 +3046,7 @@ materia-client-assets@ucfcdl/materia-client-assets#v0.1.16:
     hogan-express "^0.5.2"
     html-loader "^0.4.5"
     html-webpack-plugin "^2.29.0"
-    materia-client-assets ucfcdl/materia-client-assets#v0.1.16
+    materia-client-assets "https://github.com/ucfcdl/materia-client-assets.git#v0.1.21"
     node-sass "^4.5.3"
     postcss-loader "2.0.6"
     raw-loader "^0.5.1"
