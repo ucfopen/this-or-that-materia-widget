@@ -50,7 +50,7 @@ ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 
 		qset.items = qsetItems
 		qset.options.randomizeOrder = isRandom
-
+		qset.version = 2 # set qset version to 2 to gain more accurate answer scoring based on ids
 		qset
 
 	processQsetItem: (item) ->
