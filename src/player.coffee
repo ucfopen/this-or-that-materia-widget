@@ -1,13 +1,3 @@
-###
-
-Materia
-It's a thing
-
-Widget  : This or That, Engine
-Authors : Eric Colon
-
-###
-
 ThisOrThatEngine = angular.module 'ThisOrThatEngine', ['ngAnimate', 'hammer', 'ngSanitize']
 
 ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$sanitize', ($scope, $timeout) ->
