@@ -1,14 +1,3 @@
-###
-
-Materia
-It's a thing
-
-Widget  : This or That, Creator
-Authors : Eric Colon
-Updated : 1/20/2014
-
-###
-
 # Create an angular module to import the animation module and house our controller
 ThisOrThat = angular.module 'ThisOrThatCreator', ['ngAnimate', 'ngSanitize']
 
