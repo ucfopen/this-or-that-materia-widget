@@ -6,7 +6,7 @@
       "items": [
         {
           "materiaType": "question",
-          "id": null,
+          "id": 1,
           "type": "MC",
           "questions": [
             {
@@ -15,7 +15,7 @@
           ],
           "answers": [
             {
-              "id": null,
+              "id": 2,
               "text": "The Fall of Phaeton by Peter Paul Rubens",
               "value": 100,
               "options": {
@@ -26,7 +26,7 @@
               }
             },
             {
-              "id": null,
+              "id": 3,
               "text": "The Mona Lisa by Leonardo DaVinci",
               "value": 0,
               "options": {
@@ -43,7 +43,7 @@
         },
         {
           "materiaType": "question",
-          "id": null,
+          "id": 4,
           "type": "MC",
           "questions": [
             {
@@ -52,7 +52,7 @@
           ],
           "answers": [
             {
-              "id": null,
+              "id": 5,
               "text": "Super Mario 64",
               "value": 100,
               "options": {
@@ -63,7 +63,7 @@
               }
             },
             {
-              "id": null,
+              "id": 6,
               "text": "Five Nights at Freddy's 2",
               "value": 0,
               "options": {
@@ -80,7 +80,7 @@
         },
         {
           "materiaType": "question",
-          "id": null,
+          "id": 7,
           "type": "MC",
           "questions": [
             {
@@ -89,7 +89,7 @@
           ],
           "answers": [
             {
-              "id": null,
+              "id": 8,
               "text": "A large yellow dog named Chance",
               "value": 100,
               "options": {
@@ -100,7 +100,7 @@
               }
             },
             {
-              "id": null,
+              "id": 9,
               "text": "A small black and white dog named Bogart",
               "value": 0,
               "options": {

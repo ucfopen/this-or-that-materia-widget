@@ -1,46 +1,25 @@
 <?php
-/**
- * Materia
- * It's a thing
- *
- * @package	    Materia
- * @version    1.0
- * @author     UCF New Media
- * @copyright  2011 New Media
- * @link       http://kogneato.com
- */
-
-
-/**
- * NEEDS DOCUMENTATION
- *
- * The widget managers for the Materia package.
- *
- * @package	    Main
- * @subpackage  scoring
- * @category    Modules
-  * @author      ADD NAME HERE
- */
 
 namespace Materia;
 
 class Score_Modules_ThisOrThat extends Score_Module{
 
-	/*
-	TODO: place scaffolding of what a score module can define
-	along with instructions in this file
-	 */
 	public function check_answer($log)
 	{
+		// version 2 or higher will store the answer id in $log->text
+		// version 1 or less will store the answer text in $log->text
+		$use_answer_ids = $this->inst->qset->version < 2;
 		if (isset($this->questions[$log->item_id]))
 		{
-			$question = $this->questions[$log->item_id];
-			foreach ($question->answers as $answer)
+			foreach ($this->questions[$log->item_id]->answers as $answer)
 			{
-				if ($log->text == $answer['text'])
+				if ($use_answer_ids)
 				{
-					return $answer['value'];
-					break;
+					if ($log->text == $answer['id']) return $answer['value'];
+				}
+				else
+				{
+					if ($log->text == $answer['text']) return $answer['value'];
 				}
 			}
 		}
