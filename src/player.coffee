@@ -1,6 +1,6 @@
 ThisOrThatEngine = angular.module 'ThisOrThatEngine', ['ngAnimate', 'hammer', 'ngSanitize']
 
-ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$sanitize', ($scope, $timeout) ->
+ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ($scope, $timeout) ->
 	$scope.gameState =
 		ingame: false
 		endgame: false
@@ -25,15 +25,9 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 
 	_qset = null
 
-	$scope.endGame = ->
-		$scope.gameState.ingame  = false
-		$scope.gameState.endgame = true
-		Materia.Engine.end false
+	materiaCallbacks = {}
 
-	$scope.viewScores = ->
-		Materia.Engine.end true
-
-	$scope.start = (instance, qset, version) ->
+	materiaCallbacks.start = (instance, qset, version) ->
 		_qset = qset
 		if qset.options? and qset.options.randomizeOrder == true
 			_shuffle _qset.items
@@ -44,13 +38,21 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 
 		_incrementQuestion()
 
+	$scope.endGame = ->
+		$scope.gameState.ingame  = false
+		$scope.gameState.endgame = true
+		Materia.Engine.end false
+
+	$scope.viewScores = ->
+		Materia.Engine.end true
+
 	_shuffle = (arr) ->
 		i = arr.length
 		return arr unless i > 0
 
 		while --i
-				j = Math.floor(Math.random() * (i+1))
-				[arr[i], arr[j]] = [arr[j], arr[i]]
+			j = Math.floor(Math.random() * (i+1))
+			[arr[i], arr[j]] = [arr[j], arr[i]]
 
 	$scope.checkChoice = (value) ->
 		#get the id, value, and text of the chosen answer
@@ -83,9 +85,6 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 
 		$scope.questions.selected = true
 		$scope.gameState.showNext = true
-		setTimeout ->
-			_updateHeight()
-		, 400
 
 	$scope.nextClicked = ->
 		$scope.gameState.showNext   = false
@@ -100,9 +99,6 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 
 	$scope.closeIntro = ->
 		$scope.gameState.ingame = true
-		setTimeout ->
-			_updateHeight()
-		, 1
 
 	_incrementQuestion = ->
 		$scope.questions.current++
@@ -121,12 +117,8 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 			setTimeout ->
 				$scope.title = ""
 				$scope.$apply()
-				_updateHeight()
 			, 400
 
-		setTimeout ->
-			_updateHeight()
-		, 1
 
 	_randomizeChoices = (array) ->
 		i = array.length
@@ -142,12 +134,4 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope', '$timeout', '$san
 
 		return array
 
-	_updateHeight = ->
-		# Woah Jonathan, how dumb, why would you do this?
-		# Oh, because Chrome is being a jerk and won't recognize reflows after
-		# CSS3 animations without rescaling the document? Alright, we forgive you.
-		Materia.Engine.setHeight($('body').height() - 1)
-		Materia.Engine.setHeight($('body').height())
-
-	Materia.Engine.start($scope)
-]
+	Materia.Engine.start(materiaCallbacks)

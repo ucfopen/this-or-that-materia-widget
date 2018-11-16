@@ -26,4 +26,9 @@ class Score_Modules_ThisOrThat extends Score_Module{
 
 		return 0;
 	}
+
+	public function get_ss_answer($log, $question)
+	{
+		return $this->inst->qset->version < 2 ? $log->value : $log->text;
+	}
 }
