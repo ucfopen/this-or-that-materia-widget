@@ -64,12 +64,12 @@
             },
             {
               "id": null,
-              "text": "Five Nights at Freddy's 2",
+              "text": "World of Warcraft",
               "value": 0,
               "options": {
                 "asset": {
                   "materiaType": "asset",
-                  "id": "<%MEDIA='assets/img/demo/fnaf2.jpg'%>"
+                  "id": "<%MEDIA='assets/img/demo/wow.jpg'%>"
                 }
               }
             }
