@@ -29,6 +29,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ($scope, $timeout) ->
 
 	materiaCallbacks.start = (instance, qset, version) ->
 		_qset = qset
+		_qset.version = version
 		if qset.options? and qset.options.randomizeOrder == true
 			_shuffle _qset.items
 
