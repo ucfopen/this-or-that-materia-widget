@@ -1,28 +1,16 @@
-###
-
-Materia
-It's a thing
-
-Widget  : This or That, Creator
-Authors : Eric Colon
-Updated : 1/20/2014
-
-###
-
 # Create an angular module to import the animation module and house our controller
 ThisOrThat = angular.module 'ThisOrThatCreator', ['ngAnimate', 'ngSanitize']
 
-ThisOrThat.directive('ngEnter', ->
+ThisOrThat.directive 'ngEnter', ->
 	return (scope, element, attrs) ->
-		element.bind("keydown keypress", (event) ->
+		element.bind "keydown keypress", (event) ->
 			if(event.which == 13)
 				scope.$apply ->
 					scope.$eval(attrs.ngEnter)
 				event.preventDefault()
-		)
-)
 
-ThisOrThat.directive('focusMe', ['$timeout', '$parse', ($timeout, $parse) ->
+
+ThisOrThat.directive 'focusMe', ($timeout, $parse) ->
 	link: (scope, element, attrs) ->
 		model = $parse(attrs.focusMe)
 		scope.$watch model, (value) ->
@@ -30,10 +18,10 @@ ThisOrThat.directive('focusMe', ['$timeout', '$parse', ($timeout, $parse) ->
 				$timeout ->
 					element[0].focus()
 			value
-])
+
 
 # The 'Resource' service contains all app logic that does pertain to DOM manipulation
-ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
+ThisOrThat.factory 'Resource', ($sanitize) ->
 	buildQset: (title, items, isRandom) ->
 		qsetItems = []
 		qset      = {}
@@ -78,11 +66,10 @@ ThisOrThat.factory 'Resource', ['$sanitize', ($sanitize) ->
 		],
 		options:
 			feedback: item.alt[2]
-]
+
 
 # Set the controller for the scope of the document body.
-ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize', 'Resource',
-($scope, $timeout, $sanitize, Resource) ->
+ThisOrThat.controller 'ThisOrThatCreatorCtrl', ($scope, $timeout, $sanitize, Resource) ->
 	$scope.title      = "My This or That widget"
 	$scope.randomizeOrder = false
 	$scope.questions  = []
@@ -92,33 +79,19 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	$scope.actions    = { slidein: false, slideleft: false, slideright: false, add: false, remove: false, removelast: false }
 	_imgRef           = []
 
-	# View actions
-	$scope.duplicate = (index) ->
-		if $scope.questions.length < 50
-			$scope.actions.add = true
-			$timeout _noTransition, 660, true
+	materiaCallbacks = {}
 
-			$timeout ->
-				_updateIndex 'add', angular.copy($scope.questions[index])
-			, 200, true
-
-	$scope.setTitle = ->
-		if $scope.title
-			$scope.title = $scope.introTitle or $scope.title
-			$scope.dialog.intro = $scope.dialog.edit = false
-			$scope.step = 1
-
-	$scope.initNewWidget = (widget, baseUrl) ->
+	materiaCallbacks.initNewWidget = (widget, baseUrl) ->
 		$scope.$apply ->
 			$scope.dialog.intro  = true
 			$scope.addQuestion()
 
-	$scope.initExistingWidget = (title, widget, qset, version, baseUrl) ->
+	materiaCallbacks.initExistingWidget = (title, widget, qset, version, baseUrl) ->
 		$scope.title = title
 		$scope.tutorial.step = null
-		$scope.onQuestionImportComplete qset.items
+		materiaCallbacks.onQuestionImportComplete qset.items
 
-	$scope.onSaveClicked = (mode = 'save') ->
+	materiaCallbacks.onSaveClicked = (mode = 'save') ->
 		_isValid = $scope.validation('save')
 
 		if _isValid
@@ -130,9 +103,9 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 
 			return false
 
-	$scope.onSaveComplete = () -> true
+	materiaCallbacks.onSaveComplete = () -> true
 
-	$scope.onQuestionImportComplete = (items) ->
+	materiaCallbacks.onQuestionImportComplete = (items) ->
 		for i in [0...items.length]
 			_urls = []
 
@@ -157,9 +130,43 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 		$scope.currIndex = $scope.questions.length - 1
 		$scope.$apply()
 
-	$scope.onMediaImportComplete = (media) ->
+	materiaCallbacks.onMediaImportComplete = (media) ->
 		$scope.setURL Materia.CreatorCore.getMediaUrl(media[0].id), media[0].id
 		$scope.$apply()
+
+	_noTransition = ->
+		for action of $scope.actions
+			if action != 'activate' then $scope.actions[action] = false
+
+	_updateIndex = (action, data) ->
+		switch action
+			when 'prev'
+				if $scope.currIndex > 0 then $scope.currIndex-- else $scope.currIndex = $scope.questions.length - 1
+			when 'next'
+				if $scope.currIndex < $scope.questions.length - 1 then $scope.currIndex++ else $scope.currIndex = 0
+			when 'select'
+				$scope.currIndex = data
+			when 'add'
+				$scope.questions.push data
+				$scope.currIndex = $scope.questions.length - 1
+			when 'remove'
+				$scope.currIndex--
+
+	# View actions
+	$scope.duplicate = (index) ->
+		if $scope.questions.length < 50
+			$scope.actions.add = true
+			$timeout _noTransition, 660, true
+
+			$timeout ->
+				_updateIndex 'add', angular.copy($scope.questions[index])
+			, 200, true
+
+	$scope.setTitle = ->
+		if $scope.title
+			$scope.title = $scope.introTitle or $scope.title
+			$scope.dialog.intro = $scope.dialog.edit = false
+			$scope.step = 1
 
 	$scope.addQuestion = (title = "", images = ["",""], imgsFilled = [false, false], isValid = true, alt = ["",""], URLs = ["assets/img/placeholder.png","assets/img/placeholder.png"], id = "", qid = "", ansid = "") ->
 		if $scope.questions.length > 0
@@ -276,24 +283,5 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope', '$timeout', '$sanitize
 	$scope.hideModal = ->
 		$scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = false
 
-	_noTransition = ->
-		for action of $scope.actions
-			if action != 'activate' then $scope.actions[action] = false
-
-	_updateIndex = (action, data) ->
-		switch action
-			when 'prev'
-				if $scope.currIndex > 0 then $scope.currIndex-- else $scope.currIndex = $scope.questions.length - 1
-			when 'next'
-				if $scope.currIndex < $scope.questions.length - 1 then $scope.currIndex++ else $scope.currIndex = 0
-			when 'select'
-				$scope.currIndex = data
-			when 'add'
-				$scope.questions.push data
-				$scope.currIndex = $scope.questions.length - 1
-			when 'remove'
-				$scope.currIndex--
-
-	Materia.CreatorCore.start $scope
-]
+	Materia.CreatorCore.start materiaCallbacks
 
