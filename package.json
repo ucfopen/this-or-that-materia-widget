@@ -3,22 +3,49 @@
   "materia": {
     "cleanName": "this-or-that"
   },
-  "version": "0.1.1",
-  "private": true,
+  "version": "0.1.2",
   "dependencies": {
-    "materia-widget-development-kit": "git+ssh://git@clu.cdl.ucf.edu:materia/materia-widget-development-kit.git#v1.0.4"
+    "angular": "^1.6.9",
+    "angular-mocks": "^1.6.9",
+    "jest": "^23.6.0",
+    "jest-coffee-preprocessor": "^1.0.0",
+    "materia-widget-development-kit": "^2.0.0",
+    "ng-annotate-loader": "^0.6.1"
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack",
-    "build-prod": "webpack -p"
+    "build": "webpack -p",
+    "build-dev": "webpack",
+    "test": "TZ='America/New_York' jest --verbose",
+    "test-ci": "TZ='America/New_York' CI=true jest --ci --useStderr --coverage --coverageReporters text-summary cobertura"
+  },
+  "jest": {
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
+    "verbose": false,
+    "transform": {
+      "^.+\\.coffee$": "./node_modules/jest-coffee-preprocessor/index.js"
+    },
+    "moduleFileExtensions": [
+      "coffee",
+      "js"
+    ],
+    "collectCoverageFrom": [
+      "src/player.coffee",
+      "src/creator.coffee"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 7,
+        "branches": 0,
+        "lines": 9,
+        "functions": 1
+      }
+    }
   },
   "author": "University of Central Florida, Center for Distributed Learning",
-  "description": "* This or That is a game in which students must answer questions by choosing one of two images.",
-  "main": "webpack.config.js",
-  "repository": {
-    "type": "git",
-    "url": "git@clu.cdl.ucf.edu:materia/this-or-that.git"
-  },
-  "license": "UNLICENSED"
+  "description": "This or That is a game in which students must answer questions by choosing one of two images.",
+  "license": "AGPL-3.0"
 }
