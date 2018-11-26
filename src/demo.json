@@ -1,7 +1,7 @@
 {
   "name": "This or That",
   "qset": {
-    "version": 1,
+    "version": 2,
     "data": {
       "items": [
         {
@@ -15,6 +15,7 @@
           ],
           "answers": [
             {
+              "id": null,
               "text": "The Fall of Phaeton by Peter Paul Rubens",
               "value": 100,
               "options": {
@@ -25,6 +26,7 @@
               }
             },
             {
+              "id": null,
               "text": "The Mona Lisa by Leonardo DaVinci",
               "value": 0,
               "options": {
@@ -50,6 +52,7 @@
           ],
           "answers": [
             {
+              "id": null,
               "text": "Super Mario 64",
               "value": 100,
               "options": {
@@ -60,6 +63,7 @@
               }
             },
             {
+              "id": null,
               "text": "World of Warcraft",
               "value": 0,
               "options": {
@@ -85,6 +89,7 @@
           ],
           "answers": [
             {
+              "id": null,
               "text": "A large yellow dog named Chance",
               "value": 100,
               "options": {
@@ -95,6 +100,7 @@
               }
             },
             {
+              "id": null,
               "text": "A small black and white dog named Bogart",
               "value": 0,
               "options": {

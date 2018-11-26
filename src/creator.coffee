@@ -38,7 +38,6 @@ ThisOrThat.factory 'Resource', ($sanitize) ->
 
 		qset.items = qsetItems
 		qset.options.randomizeOrder = isRandom
-
 		qset
 
 	processQsetItem: (item) ->
@@ -97,7 +96,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ($scope, $timeout, $sanitize, Res
 		if _isValid
 			# Create a qset to save
 			qset = Resource.buildQset $sanitize($scope.title), $scope.questions, $scope.randomizeOrder
-			if qset then Materia.CreatorCore.save $sanitize($scope.title), qset
+			if qset then Materia.CreatorCore.save $sanitize($scope.title), qset, 2
 		else
 			Materia.CreatorCore.cancelSave "Please make sure every question is complete"
 
