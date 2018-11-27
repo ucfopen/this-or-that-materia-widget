@@ -98,8 +98,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ($scope, $timeout) ->
 
 		if _qset.items[$scope.questions.current]
 			$scope.title = _qset.items[$scope.questions.current].questions[0].text
-			$scope.answers =
-				_randomizeChoices _qset.items[$scope.questions.current].answers
+			$scope.answers = _randomizeChoices _qset.items[$scope.questions.current].answers
 
 			for answer in $scope.answers
 				answer.image = Materia.Engine.getImageAssetUrl answer.options.asset.id

@@ -6,7 +6,9 @@
   "version": "0.1.2",
   "dependencies": {
     "angular": "^1.6.9",
+    "angular-animate": "^1.6.9",
     "angular-mocks": "^1.6.9",
+    "angular-sanitize": "^1.6.9",
     "jest": "^23.6.0",
     "jest-coffee-preprocessor": "^1.0.0",
     "materia-widget-development-kit": "^2.0.0",
@@ -26,22 +28,21 @@
     ],
     "verbose": false,
     "transform": {
-      "^.+\\.coffee$": "./node_modules/jest-coffee-preprocessor/index.js"
+      "^.+\\.coffee$": "jest-coffee-preprocessor"
     },
     "moduleFileExtensions": [
       "coffee",
       "js"
     ],
     "collectCoverageFrom": [
-      "src/player.coffee",
-      "src/creator.coffee"
+      "src/**/*.coffee"
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 7,
-        "branches": 0,
-        "lines": 9,
-        "functions": 1
+        "statements": 98,
+        "branches": 95,
+        "lines": 98,
+        "functions": 100
       }
     }
   },

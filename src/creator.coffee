@@ -1,24 +1,5 @@
 # Create an angular module to import the animation module and house our controller
-ThisOrThat = angular.module 'ThisOrThatCreator', ['ngAnimate', 'ngSanitize']
-
-ThisOrThat.directive 'ngEnter', ->
-	return (scope, element, attrs) ->
-		element.bind "keydown keypress", (event) ->
-			if(event.which == 13)
-				scope.$apply ->
-					scope.$eval(attrs.ngEnter)
-				event.preventDefault()
-
-
-ThisOrThat.directive 'focusMe', ($timeout, $parse) ->
-	link: (scope, element, attrs) ->
-		model = $parse(attrs.focusMe)
-		scope.$watch model, (value) ->
-			if value
-				$timeout ->
-					element[0].focus()
-			value
-
+ThisOrThat = angular.module 'ThisOrThatCreator'
 
 # The 'Resource' service contains all app logic that does pertain to DOM manipulation
 ThisOrThat.factory 'Resource', ($sanitize) ->
@@ -32,9 +13,9 @@ ThisOrThat.factory 'Resource', ($sanitize) ->
 			Materia.CreatorCore.cancelSave 'Please enter a title.'
 			return false
 
-		for i in [0..items.length-1]
-			item = @processQsetItem items[i]
-			qsetItems.push item if item
+		for item in items
+			processedItem = @processQsetItem item
+			qsetItems.push processedItem if processedItem
 
 		qset.items = qsetItems
 		qset.options.randomizeOrder = isRandom
@@ -106,33 +87,34 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ($scope, $timeout, $sanitize, Res
 	materiaCallbacks.onSaveComplete = () -> true
 
 	materiaCallbacks.onQuestionImportComplete = (items) ->
-		for i in [0...items.length]
+		for item in items
+			_ids = []
 			_urls = []
 
-			if !items[i].questions or !items[i].answers then return
+			if !item.questions or !item.answers then return
 
 			# gets the image URLs
 			try
-				if items[i].answers?[0].options?.asset
-					_urls[0] = Materia.CreatorCore.getMediaUrl items[i].answers[0].options.asset.id
-			
-				if items[i].answers?[1].options?.asset
-					_urls[1] = Materia.CreatorCore.getMediaUrl items[i].answers[1].options.asset.id
-
+				if item.answers and item.answers[0] and item.answers[0].options and item.answers[0].options.asset
+					_ids[0] = item.answers[0].options.asset.id
+					_urls[0] = Materia.CreatorCore.getMediaUrl item.answers[0].options.asset.id
+				if item.answers and item.answers[1] and item.answers[1].options and item.answers[1].options.asset
+					_ids[0] = item.answers[1].options.asset.id
+					_urls[1] = Materia.CreatorCore.getMediaUrl item.answers[1].options.asset.id
 			catch error
 				alert 'Uh oh. Something went wrong with uploading your questions.'
 				return
 
 			# Add each imported question to the DOM
 			$scope.questions.push
-				title: items[i].questions[0].text.replace(/\&\#10\;/g, '\n')
-				images: [items[i].answers[0].options.asset.id, items[i].answers[1].options.asset.id]
+				title: item.questions[0].text.replace(/\&\#10\;/g, '\n')
+				images: _ids
 				isValid: true
-				alt: [items[i].answers[0].text, items[i].answers[1].text, items[i].options.feedback]
+				alt: [item.answers[0].text, item.answers[1].text, item.options?.feedback or '']
 				URLs: _urls
-				id: items[i].id
-				qid: items[i].questions[0].id
-				ansid: items[i].answers[0].id
+				id: item.id
+				qid: item.questions[0].id
+				ansid: item.answers[0].id
 
 		$scope.currIndex = $scope.questions.length - 1
 		$scope.$apply()
@@ -277,9 +259,9 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ($scope, $timeout, $sanitize, Res
 	$scope.validation = (action, which) ->
 		switch action
 			when 'save'
-				for i in [0...$scope.questions.length]
-					if !$scope.questions[i].title or !$scope.questions[i].alt[0] or !$scope.questions[i].alt[1] or !$scope.questions[i].images[0] or !$scope.questions[i].images[1]
-						$scope.questions[i].invalid = true
+				for q in $scope.questions
+					if !q.title or !q.alt[0] or !q.alt[1] or !q.images[0] or !q.images[1]
+						q.invalid = true
 						$scope.dialog.invalid       = true
 						$scope.$apply()
 				if $scope.dialog.invalid then return false else return true

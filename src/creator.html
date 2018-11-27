@@ -41,12 +41,12 @@
 			<div class="question-container">
 				<div class="question-slider" ng-class="{ 'activated': questions[0] }">
 					<section class="question"
-									 ng-class="{ 'sliding-in': actions.slidein, 'sliding-left': actions.slideleft, 'sliding-right': actions.slideright, 'removing': actions.remove, 'removing-last': actions.removelast, 'adding': actions.add }">
+						ng-class="{ 'sliding-in': actions.slidein, 'sliding-left': actions.slideleft, 'sliding-right': actions.slideright, 'removing': actions.remove, 'removing-last': actions.removelast, 'adding': actions.add }">
 						<header class="question-header">
 							<button class="btn red right"
-											aria-label="Delete card."
-											ng-click="removeQuestion(currIndex)"
-											ng-disabled="questions.length < 2">
+								aria-label="Delete card."
+								ng-click="removeQuestion(currIndex)"
+								ng-disabled="questions.length < 2">
 								<span class="icon-cross" aria-hidden="true"></span>
 								<span class="sr-only">Remove question</span>
 							</button>
@@ -54,11 +54,11 @@
 							<h1>Question {{currIndex + 1}}:</h1>
 
 							<input class="title"
-										 type="text"
-										 placeholder="Ex: Which of these video games is for mobile devices?"
-										 required
-										 ng-change="validation('change', currIndex); tutorialIncrement(1); limitLength()"
-										 ng-model="questions[currIndex].title">
+								type="text"
+								placeholder="Ex: Which of these video games is for mobile devices?"
+								required
+								ng-change="validation('change', currIndex); tutorialIncrement(1); limitLength()"
+								ng-model="questions[currIndex].title">
 						</header>
 
 						<div class="choices">
@@ -66,87 +66,87 @@
 								<h2 class="desc">The correct image</h2>
 
 								<button class="img-frame correct"
-												aria-label="The correct image"
-												ng-click="requestImage(currIndex, 0); tutorialIncrement(2)"
-												ng-disabled="tutorial.step && tutorial.step < 2">
+									aria-label="The correct image"
+									ng-click="requestImage(currIndex, 0); tutorialIncrement(2)"
+									ng-disabled="tutorial.step && tutorial.step < 2">
 									<img class="choice-img" ng-src="{{questions[currIndex].URLs[0]}}" alt="{{questions[currIndex].alt[0]}}">
 								</button>
 
 								<button class="clear-img btn small red"
-												ng-click="clearImage(currIndex, 0)"
-												ng-show="questions[currIndex].images[0]">
+									ng-click="clearImage(currIndex, 0)"
+									ng-show="questions[currIndex].images[0]">
 									<span class="icon-cross" aria-hidden="true"></span>
 									<span class="sr-only">Clear image</span>
 								</button>
 
 								<input type="text"
-											 placeholder="Description for the correct image"
-											 required
-											 ng-change="validation('change', currIndex); tutorialIncrement(3)"
-											 ng-model="questions[currIndex].alt[0]"
-											 ng-disabled="tutorial.step && tutorial.step < 3">
+									placeholder="Description for the correct image"
+									required
+									ng-change="validation('change', currIndex); tutorialIncrement(3)"
+									ng-model="questions[currIndex].alt[0]"
+									ng-disabled="tutorial.step && tutorial.step < 3">
 							</section>
 
 							<section class="frame-container right">
 								<h2 class="desc">The incorrect image</h2>
 
 								<button class="img-frame incorrect"
-												aria-label="The incorrect image"
-												ng-click="requestImage(currIndex, 1); tutorialIncrement(4)"
-												ng-disabled="tutorial.step && tutorial.step < 4">
+									aria-label="The incorrect image"
+									ng-click="requestImage(currIndex, 1); tutorialIncrement(4)"
+									ng-disabled="tutorial.step && tutorial.step < 4">
 									<img class="choice-img" ng-src="{{questions[currIndex].URLs[1]}}" alt="{{questions[currIndex].alt[1]}}">
 								</button>
 
 								<button class="clear-img btn small red"
-												ng-click="clearImage(currIndex, 1)"
-												ng-show="questions[currIndex].images[1]">
+									ng-click="clearImage(currIndex, 1)"
+									ng-show="questions[currIndex].images[1]">
 									<span class="icon-cross" aria-hidden="true"></span>
 									<span class="sr-only">Clear image</span>
 								</button>
 
 								<input type="text"
-											 placeholder="Description for the incorrect image"
-											 required
-											 ng-change="validation('change', currIndex); tutorialIncrement(5)"
-											 ng-model="questions[currIndex].alt[1]"
-											 ng-disabled="tutorial.step && tutorial.step < 5">
+									placeholder="Description for the incorrect image"
+									required
+									ng-change="validation('change', currIndex); tutorialIncrement(5)"
+									ng-model="questions[currIndex].alt[1]"
+									ng-disabled="tutorial.step && tutorial.step < 5">
 
 								<input type="text"
-											 placeholder="Optional feedback for an incorrect answer"
-											 class="feedback"
-											 required
-											 ng-change="validation('change', currIndex); tutorialIncrement(5)"
-											 ng-model="questions[currIndex].alt[2]"
-											 ng-disabled="tutorial.step && tutorial.step < 5">
+									placeholder="Optional feedback for an incorrect answer"
+									class="feedback"
+									required
+									ng-change="validation('change', currIndex); tutorialIncrement(5)"
+									ng-model="questions[currIndex].alt[2]"
+									ng-disabled="tutorial.step && tutorial.step < 5">
 							</section>
 						</div>
 
 						<p class="no-margin" style="text-align:right">
 							<button class="btn small transparent"
-											ng-click="duplicate(currIndex)">Duplicate</button>
+								ng-click="duplicate(currIndex)">Duplicate</button>
 						</p>
 					</section>
 				</div>
 
 				<button class="prev btn dark"
-								type="button"
-								ng-click="prev()"
-								ng-disabled="questions.length < 2">
+					type="button"
+					ng-click="prev()"
+					ng-disabled="questions.length < 2">
 					<span class="icon-backward2" aria-hidden="true"></span>
 					<span class="sr-only">Back</span>
 				</button>
 
 				<button class="next btn dark"
-								type="button"
-								ng-click="next()"
-								ng-disabled="questions.length < 2">
+					type="button"
+					ng-click="next()"
+					ng-disabled="questions.length < 2">
 					<span class="icon-forward3" aria-hidden="true"></span>
 					<span class="sr-only">Next</span>
 				</button>
 
 				<div class="arrow-box"
-						 ng-class="{ 'step1': tutorial.step == 1, 'step2': tutorial.step == 2, 'step3': tutorial.step == 3, 'step4': tutorial.step == 4, 'step5': tutorial.step == 5, 'step6 arrow-right': tutorial.step == 6 }"
-						 ng-show="tutorial.step">
+					ng-class="{ 'step1': tutorial.step == 1, 'step2': tutorial.step == 2, 'step3': tutorial.step == 3, 'step4': tutorial.step == 4, 'step5': tutorial.step == 5, 'step6 arrow-right': tutorial.step == 6 }"
+					ng-show="tutorial.step">
 					{{tutorial.text[tutorial.step - 1]}}
 				</div>
 			</div>
@@ -155,26 +155,26 @@
 				<ul class="dots left" ng-show="questions[0]">
 					<li ng-repeat="question in questions">
 						<button class="btn round hollow"
-										type="button"
-										ng-class="{'active': currIndex == $index, 'green': !question.invalid, 'red': question.invalid}"
-										ng-click="selectCurrent($index)"
-										ng-disabled="questions.length < 2">{{$index + 1}}</button>
+							type="button"
+							ng-class="{'active': currIndex == $index, 'green': !question.invalid, 'red': question.invalid}"
+							ng-click="selectCurrent($index)"
+							ng-disabled="questions.length < 2">{{$index + 1}}</button>
 					</li>
 				</ul>
 				<button class="btn green"
-								id="add-question"
-								aria-label="Add Question"
-								ng-class="{'right': questions[0]}"
-								ng-click="addQuestion(); tutorialIncrement(6)"
-								ng-disabled="tutorial.step && tutorial.step < 6">
-								Add Question
+					id="add-question"
+					aria-label="Add Question"
+					ng-class="{'right': questions[0]}"
+					ng-click="addQuestion(); tutorialIncrement(6)"
+					ng-disabled="tutorial.step && tutorial.step < 6">
+					Add Question
 				</button>
 			</nav>
 		</main>
 
 		<div class="modal-bg"
-				 ng-class="{ 'show': dialog.intro || dialog.edit || dialog.invalid }"
-				 ng-click="hideModal()">
+			ng-class="{ 'show': dialog.intro || dialog.edit || dialog.invalid }"
+			ng-click="hideModal()">
 			<!-- Invalid modal -->
 			<div class="modal-container">
 				<div class="modal invalid" ng-show="dialog.invalid" ng-click="$event.stopPropagation()">
@@ -204,22 +204,22 @@
 
 					<div class="input-group">
 						<input type="text"
-									 placeholder="My This or That widget..."
-									 autofocus="1"
-									 required
-									 focus-me="dialog.intro"
-									 ng-class="{ 'invalid': title.$error }"
-									 ng-model="introTitle"
-									 ng-enter="setTitle()">
+							placeholder="My This or That widget..."
+							autofocus="1"
+							required
+							focus-me="dialog.intro"
+							ng-class="{ 'invalid': title.$error }"
+							ng-model="introTitle"
+							ng-enter="setTitle()">
 						<input type="button" value="Get Started" ng-click="setTitle()">
 					</div>
 					<label for="tutorial">
 						<input type="checkbox"
-									 id="tutorial"
-									 ng-checked="true"
-									 ng-model="tutorial.step"
-									 ng-true-value="1"
-									 ng-false-value="null"> Show a short tutorial on using this creator
+							id="tutorial"
+							ng-checked="true"
+							ng-model="tutorial.step"
+							ng-true-value="1"
+							ng-false-value="null"> Show a short tutorial on using this creator
 					</label>
 				</div>
 				<!-- /Intro modal -->
@@ -229,11 +229,11 @@
 					<h4 class="no-margin">Give your This or That widget a title</h4>
 
 					<input type="text"
-								 placeholder="My This or That widget"
-								 autofocus="1"
-								 focus-me="dialog.edit"
-								 ng-model="title"
-								 ng-enter="setTitle()">
+						placeholder="My This or That widget"
+						autofocus="1"
+						focus-me="dialog.edit"
+						ng-model="title"
+						ng-enter="setTitle()">
 					<input type="button" value="Done" ng-click="setTitle()">
 				</div>
 				<!-- /Title edit modal -->
