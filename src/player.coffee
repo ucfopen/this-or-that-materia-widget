@@ -29,6 +29,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ($scope, $timeout) ->
 
 	materiaCallbacks.start = (instance, qset, version) ->
 		_qset = qset
+		_qset.version = version
 		if qset.options? and qset.options.randomizeOrder == true
 			_shuffle _qset.items
 
@@ -59,6 +60,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ($scope, $timeout) ->
 		_id       = _qset.items[$scope.questions.current].id
 		_value    = _qset.items[$scope.questions.current].answers[value].value
 		_ans      = _qset.items[$scope.questions.current].answers[value].text
+		_ansId    = _qset.items[$scope.questions.current].answers[value].id
 		_feedback = _qset.items[$scope.questions.current].options.feedback
 		#track which image the user selected in the game
 		$scope.questions.choice = value
@@ -74,7 +76,13 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ($scope, $timeout) ->
 			when 100
 				$scope.questions.correct[value] = 'Correct!'
 
-		Materia.Score.submitQuestionForScoring _id, _ans
+		switch parseInt(_qset.version, 10)
+			when 0, 1, NaN
+				# version 1 used answer text for checking answers
+				Materia.Score.submitQuestionForScoring _id, _ans
+			else
+				# version 2+ uses answer id for checking answers
+				Materia.Score.submitQuestionForScoring _id, _ansId, _ans
 
 		$scope.questions.selected = true
 		$scope.gameState.showNext = true
