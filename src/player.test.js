@@ -16,6 +16,16 @@ describe('Player Controller', function() {
 		$scope.nextClicked()
 	}
 
+	//convenience function to quickly answer a question and submit it for scoring with old qset versions
+	function quickCheck() {
+		$scope.answers[0].value = 0
+		$scope.checkChoice(0)
+
+		const expectedId = qset.data.items[0].id
+		const expectedAnswer = $scope.answers[0].text
+		expect(Materia.Score.submitQuestionForScoring).toHaveBeenCalledWith(expectedId, expectedAnswer)
+	}
+
 	beforeEach(() => {
 		jest.resetModules()
 
@@ -144,6 +154,29 @@ describe('Player Controller', function() {
 		expect($scope.gameState.showNext).toEqual(true)
 		const questionFeedback = qset.data.items[0].options.feedback
 		expect($scope.questions.feedback[0]).toEqual(questionFeedback)
+	})
+
+	//this one probably should not even be possible, but whatever
+	test('should send appropriate values to Score.submitQuestionForScoring based on qset version 0', () => {
+		publicMethods.start(widgetInfo, qset.data, 0)
+		quickCheck()
+	})
+	test('should send appropriate values to Score.submitQuestionForScoring based on qset version 1', () => {
+		publicMethods.start(widgetInfo, qset.data, 1)
+		quickCheck()
+	})
+
+	test('should send appropriate values to Score.submitQuestionForScoring based on qset version 2', () => {
+		publicMethods.start(widgetInfo, qset.data, 2)
+
+		$scope.answers[0].value = 0
+		$scope.checkChoice(0)
+
+		const expectedId = qset.data.items[0].id
+		const expectedAnswer = qset.data.items[0].answers[0].id
+		const expectedValue = $scope.answers[0].text
+
+		expect(Materia.Score.submitQuestionForScoring).toHaveBeenCalledWith(expectedId, expectedAnswer, expectedValue)
 	})
 
 	test('should handle an incorrect answer choice with no feedback', () => {
