@@ -3,7 +3,7 @@
   "materia": {
     "cleanName": "this-or-that"
   },
-  "version": "0.1.2",
+  "version": "1.0.2",
   "dependencies": {
     "angular": "^1.6.9",
     "angular-animate": "^1.6.9",
