@@ -44,16 +44,16 @@
 				<!-- Holds ThisOrThat -->
 				<div id="choices">
 					<div class="stand-container for-this"
-							 ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
+						ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
 						<div class="background-stand left" aria-hidden="true"></div>
 						<button class="img-frame"
-							 ng-class="{'correct': questions.correct[0] == 'Correct!', 'incorrect': questions.correct[0] == 'Incorrect'}"
-							 ng-click="checkChoice(0)"
-							 ng-disabled="questions.selected"
-							 ng-mouseenter="hands.thisRaised = true"
-							 ng-mouseleave="hands.thisRaised = false"
-							 href="#"
-							 data-title="{{answers[0].text}}">
+							ng-class="{'correct': questions.correct[0] == 'Correct!', 'incorrect': questions.correct[0] == 'Incorrect'}"
+							ng-click="checkChoice(0)"
+							ng-disabled="questions.selected"
+							ng-mouseenter="hands.thisRaised = true"
+							ng-mouseleave="hands.thisRaised = false"
+							href="#"
+							data-title="{{answers[0].text}}">
 							<span ng-class="{'overlayFeedback': questions.feedback[0] != '', 'overlay': questions.feedback[0] == ''}">{{questions.correct[0]}}</span>
 							<span class="feedback">{{questions.feedback[0]}}</span>
 							<script>
@@ -63,16 +63,16 @@
 					</div>
 
 					<div class="stand-container for-that"
-							 ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
+						ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
 						<div class="background-stand right" aria-hidden="true"></div>
 						<button class="img-frame"
-							 ng-class="{'correct': questions.correct[1] == 'Correct!', 'incorrect': questions.correct[1] == 'Incorrect'}"
-							 ng-click="checkChoice(1)"
-							 ng-disabled="questions.selected"
-							 ng-mouseenter="hands.thatRaised = true"
-							 ng-mouseleave="hands.thatRaised = false"
-							 href="#"
-							 data-title="{{answers[1].text}}">
+							ng-class="{'correct': questions.correct[1] == 'Correct!', 'incorrect': questions.correct[1] == 'Incorrect'}"
+							ng-click="checkChoice(1)"
+							ng-disabled="questions.selected"
+							ng-mouseenter="hands.thatRaised = true"
+							ng-mouseleave="hands.thatRaised = false"
+							href="#"
+							data-title="{{answers[1].text}}">
 							<span ng-class="{'overlayFeedback': questions.feedback[1] != '', 'overlay': questions.feedback[1] == ''}">{{questions.correct[1]}}</span>
 							<span class="feedback">{{questions.feedback[1]}}</span>
 							<script>
@@ -84,17 +84,17 @@
 
 				<div id="hands" ng-class="{'raised': gameState.ingame == true}" aria-hidden="true">
 					<div class="hand this-hand"
-							 ng-class="{'raised': hands.thisRaised || questions.choice == 0, 'correct': questions.correct[0] == 'Correct!', 'incorrect': questions.correct[0] == 'Incorrect'}"></div>
+						ng-class="{'raised': hands.thisRaised || questions.choice == 0, 'correct': questions.correct[0] == 'Correct!', 'incorrect': questions.correct[0] == 'Incorrect'}"></div>
 					<div class="hand that-hand"
-							 ng-class="{'raised': hands.thatRaised || questions.choice == 1, 'correct': questions.correct[1] == 'Correct!', 'incorrect': questions.correct[1] == 'Incorrect'}"></div>
+						ng-class="{'raised': hands.thatRaised || questions.choice == 1, 'correct': questions.correct[1] == 'Correct!', 'incorrect': questions.correct[1] == 'Incorrect'}"></div>
 				</div>
 
 				<div id="next-container" ng-class="{'raised': gameState.showNext}">
 					<div class="background-stand" aria-hidden="true"></div>
 					<button class="btn"
-									id="next"
-									ng-click="nextClicked()"
-									ng-disabled="!gameState.showNext">Next</button>
+						id="next"
+						ng-click="nextClicked()"
+						ng-disabled="!gameState.showNext">Next</button>
 				</div>
 			</section>
 
@@ -106,11 +106,11 @@
 
 					<div class="text-center">
 						<button class="start btn"
-										ng-click="closeIntro()"
-										ng-disabled="gameState.endgame">Start!</button>
+							ng-click="closeIntro()"
+							ng-disabled="gameState.endgame">Start!</button>
 						<button class="reset btn"
-										ng-click="viewScores()"
-										ng-disabled="!gameState.endgame">Continue to scores</button>
+							ng-click="viewScores()"
+							ng-disabled="!gameState.endgame">Continue to scores</button>
 					</div>
 				</div>
 			</div>
