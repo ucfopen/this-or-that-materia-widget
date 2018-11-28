@@ -1,10 +1,20 @@
 const path = require('path')
 const srcPath = path.join(__dirname, 'src') + path.sep
+const outputPath = path.join(process.cwd(), 'build')
 
 // load the reusable legacy webpack config from materia-widget-dev
 const widgetWebpack = require('materia-widget-development-kit/webpack-widget')
 const rules = widgetWebpack.getDefaultRules()
 const entries = widgetWebpack.getDefaultEntries()
+const copy = widgetWebpack.getDefaultCopyList()
+
+const newCopy = [
+	...copy,
+	{
+		from: path.join(__dirname, 'node_modules', 'hammerjs', 'dist', 'hammer.min.js'),
+		to: path.join(outputPath, 'assets', 'js', 'hammer.min.js'),
+	}
+]
 
 entries['creator.js'] = [
 	srcPath + 'modules/creator.coffee',
@@ -36,6 +46,7 @@ const customRules = [
 
 // options for the build
 let options = {
+	copyList: newCopy,
 	entries: entries,
 	moduleRules: customRules
 }
