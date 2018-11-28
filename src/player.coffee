@@ -115,7 +115,7 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ($scope, $timeout) ->
 			$scope.questions.transition = false
 		else
 			$scope.endGame()
-			setTimeout ->
+			$timeout ->
 				$scope.title = ""
 				$scope.$apply()
 			, 400
