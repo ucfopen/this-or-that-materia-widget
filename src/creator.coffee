@@ -98,7 +98,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ($scope, $timeout, $sanitize, Res
 					_ids[0] = item.answers[0].options.asset.id
 					_urls[0] = Materia.CreatorCore.getMediaUrl item.answers[0].options.asset.id
 				if item.answers and item.answers[1] and item.answers[1].options and item.answers[1].options.asset
-					_ids[0] = item.answers[1].options.asset.id
+					_ids[1] = item.answers[1].options.asset.id
 					_urls[1] = Materia.CreatorCore.getMediaUrl item.answers[1].options.asset.id
 			catch error
 				alert 'Uh oh. Something went wrong with uploading your questions.'
