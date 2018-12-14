@@ -115,7 +115,7 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ($scope, $timeout, $sanitize, Res
 				qid: item.questions[0].id
 				ansid: item.answers[0].id
 
-		$scope.currIndex = $scope.questions.length - 1
+		$scope.currIndex = 0
 		$scope.$apply()
 
 	materiaCallbacks.onMediaImportComplete = (media) ->
