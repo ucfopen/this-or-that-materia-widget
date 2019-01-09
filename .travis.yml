@@ -17,7 +17,7 @@ deploy:
   api_key:
     secure: "JcMXfObTqMXMA7ddnqvUPGR7GtgK04Zit5WiJ3dsjcV3ryTeWZ5ebGmqFGcsu0YCBZw1tRJ+c8lRNWatFLbbI0u88BDXrhg94UR5eN/rduRec7gFTv3Ph05fd1sajbYh7yA2pQgYTBC/j+ItLWs7AWGNm5dYJ0wY8TmU1kHVuxv5dpvNy5md2EhXwq1dTwkLvdRjKqmlC9trk53bQQQdiFemrWiNet87XKuQb+C0qBAYjcuBh78r3zv4wiq15HLw4RUDRMm0cHGAP5E7iFffCi3DYJlzcmdMmZrhYwtvUwxoBKYEVPqVmv391WVMyjX2QFjYyz90HSRuoFZ7eRUXC8t0ee5c++VH9c4KYm2yAti1atdEmfrfoBItau3MarH76CboUg4+ybnpbVouztko9aEDfcnGiHzSrQr89oiupceE69vPveJfB1DwE83SIHBb3I4m5DH7q4zT3vsQAv0NPppHM51NednINDhrnMWVLfKcR4rg+j/eRas0QkuAYnkHSPzDs4tTz1TLRk+9JiZqBn41QAGe0e6mc/j773ndfIOynlRWGmhIWVkusnzvFVbHAhSltI9/Wwm5xHF3cPyLkh1vuO4jK1NE7AqPD1SleVYcV4Thyx0UqXko25Ugqj8wy1cjnwiSKjtE1dbPzj7bWtUvOw6JgMADoj+a5K9RLLE="
   file:
-    - build/_output/this-or-that.wigt.wigt
+    - build/_output/this-or-that.wigt
     - build/_output/this-or-that-build-info.yml
   on:
     tags: true
