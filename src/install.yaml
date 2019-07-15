@@ -1,7 +1,6 @@
 ---
 general:
   name: This Or That
-  group: Materia
   height: 515
   width: 800
   in_catalog: Yes
