@@ -1,6 +1,6 @@
 ThisOrThatEngine = angular.module 'ThisOrThatEngine', ['ngAnimate', 'hammer', 'ngSanitize']
 
-ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ($scope, $timeout) ->
+ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ['$scope','$timeout',($scope, $timeout) ->
 	$scope.gameState =
 		ingame: false
 		endgame: false
@@ -136,3 +136,5 @@ ThisOrThatEngine.controller 'ThisOrThatEngineCtrl', ($scope, $timeout) ->
 		return array
 
 	Materia.Engine.start(materiaCallbacks)
+
+]

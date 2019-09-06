@@ -2,7 +2,7 @@
 ThisOrThat = angular.module 'ThisOrThatCreator'
 
 # The 'Resource' service contains all app logic that does pertain to DOM manipulation
-ThisOrThat.factory 'Resource', ($sanitize) ->
+ThisOrThat.factory 'Resource', ['$sanitize',($sanitize) ->
 	buildQset: (title, items, isRandom) ->
 		qsetItems = []
 		qset      = {}
@@ -46,10 +46,11 @@ ThisOrThat.factory 'Resource', ($sanitize) ->
 		],
 		options:
 			feedback: item.alt[2]
+]
 
 
 # Set the controller for the scope of the document body.
-ThisOrThat.controller 'ThisOrThatCreatorCtrl', ($scope, $timeout, $sanitize, Resource) ->
+ThisOrThat.controller 'ThisOrThatCreatorCtrl', ['$scope','$timeout','$sanitize', 'Resource',($scope, $timeout, $sanitize, Resource) ->
 	$scope.title      = "My This or That widget"
 	$scope.randomizeOrder = false
 	$scope.questions  = []
@@ -273,3 +274,4 @@ ThisOrThat.controller 'ThisOrThatCreatorCtrl', ($scope, $timeout, $sanitize, Res
 
 	Materia.CreatorCore.start materiaCallbacks
 
+]
