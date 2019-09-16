@@ -12,7 +12,7 @@
     "hammerjs": "1.0.5",
     "jest": "^23.6.0",
     "jest-coffee-preprocessor": "^1.0.0",
-    "materia-widget-development-kit": "2.5.0-alpha5",
+    "materia-widget-development-kit": "2.5.0",
     "ng-annotate-loader": "^0.6.1"
   },
   "scripts": {
