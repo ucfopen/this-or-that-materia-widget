@@ -13,6 +13,11 @@ const newCopy = [
 	{
 		from: path.join(__dirname, 'node_modules', 'hammerjs', 'dist', 'hammer.min.js'),
 		to: path.join(outputPath, 'assets', 'js', 'hammer.min.js'),
+	},
+	{
+		from: path.join(__dirname, 'src', '_guides', 'assets'),
+		to: path.join(outputPath, 'guides', 'assets'),
+		toType: 'dir'
 	}
 ]
 
@@ -23,25 +28,21 @@ entries['creator.js'] = [
 	srcPath + 'creator.coffee'
 ]
 
-/*
-replace the default loaderCompileCoffee with one that protects
-short style ng function definitions
-*/
-const customCoffeeLoader = {
-	test: /\.coffee$/i,
-	exclude: /node_modules/,
-	loader: require('extract-text-webpack-plugin').extract({
-		use: ['raw-loader', 'ng-annotate-loader', 'coffee-loader']
-	})
-}
+entries['guides/creator.temp.html'] = [
+	srcPath + '_guides/creator.md'
+]
+entries['guides/player.temp.html'] = [
+	srcPath + '_guides/player.md'
+]
 
 const customRules = [
 	rules.loaderDoNothingToJs,
-	customCoffeeLoader, // <--- replaces "rules.loaderCompileCoffee"
+	rules.loaderCompileCoffee,
 	rules.copyImages,
 	rules.loadHTMLAndReplaceMateriaScripts,
 	rules.loadAndPrefixCSS,
-	rules.loadAndPrefixSASS
+	rules.loadAndPrefixSASS,
+	rules.loadAndCompileMarkdown
 ]
 
 // options for the build
