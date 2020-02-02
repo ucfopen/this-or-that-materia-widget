@@ -21,8 +21,8 @@
     "start": "webpack-dev-server",
     "build": "webpack -p",
     "build-dev": "webpack",
-    "prettier-write": "prettier --write 'src/**/*.js'",
-    "prettier-check": "prettier -c '{src,src/{directives,modules}}/*.js'",
+    "prettier-write": "prettier --write 'src/**/*.{js,scss}'",
+    "prettier-check": "prettier -c '{src,src/{directives,modules}}/*.{js,scss}'",
     "test": "TZ='America/New_York' jest --verbose",
     "test-ci": "TZ='America/New_York' CI=true jest --ci --useStderr --coverage --coverageReporters text-summary cobertura"
   },

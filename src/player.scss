@@ -6,17 +6,17 @@ html {
 }
 
 // Color palette.
-$a : #223863;
-$b : #44382A;
-$c : #6B6263;
-$d : #543F3D;
-$e : #A45B5B;
-$f : #87735F;
+$a: #223863;
+$b: #44382a;
+$c: #6b6263;
+$d: #543f3d;
+$e: #a45b5b;
+$f: #87735f;
 
 $chunky-font: 'Sigmar One', cursive;
 
 body {
-	color: #FFF;
+	color: #fff;
 	background: $a url('assets/img/sprites.png');
 	background-position: -1076px -712.875px;
 	background-repeat: no-repeat;
@@ -29,10 +29,10 @@ body {
 	overflow-y: hidden;
 	cursor: default;
 
-	-webkit-user-select : none;
-		 -moz-user-select : none;
-		-ms-user-select : none;
-			user-select : none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .btn {
@@ -43,20 +43,22 @@ body {
 	color: #ffffff;
 	font-size: 32px;
 	font-family: $chunky-font;
-	text-shadow: 0 3px 3px rgba(0,0,0,0.3);
+	text-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
 	text-transform: uppercase;
 	white-space: nowrap;
 
 	background: #5fac4b;
 	border: 0;
 	border-radius: 8px;
-	box-shadow: 0 6px 6px rgba(0,0,0,0.3);
+	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
 	outline: none;
 
 	cursor: pointer;
 	-webkit-appearance: none;
 
-	&:hover { background: #73D15A; }
+	&:hover {
+		background: #73d15a;
+	}
 }
 
 .side-curtain {
@@ -123,7 +125,7 @@ body {
 		font-family: 'Buenard', serif;
 		line-height: 1.1;
 		text-align: center;
-		text-shadow: 0 6px 3px rgba(0,0,0,0.3);
+		text-shadow: 0 6px 3px rgba(0, 0, 0, 0.3);
 	}
 }
 
@@ -223,7 +225,9 @@ body {
 			z-index: 1;
 		}
 
-		.reset { display: none; }
+		.reset {
+			display: none;
+		}
 
 		&.raised {
 			margin-top: -500px;
@@ -236,8 +240,12 @@ body {
 				background-repeat: no-repeat;
 			}
 
-			.start { display: none; }
-			.reset { display: inline-block; }
+			.start {
+				display: none;
+			}
+			.reset {
+				display: inline-block;
+			}
 		}
 	}
 }
@@ -292,8 +300,12 @@ body {
 
 			z-index: 0;
 
-			&.left  { right: 28px; }
-			&.right { left: 28px; }
+			&.left {
+				right: 28px;
+			}
+			&.right {
+				left: 28px;
+			}
 		}
 
 		.img-frame {
@@ -312,7 +324,7 @@ body {
 			outline: none;
 
 			cursor: pointer;
-			transition: background-image ease .5s;
+			transition: background-image ease 0.5s;
 
 			z-index: 2;
 
@@ -355,7 +367,7 @@ body {
 				font-family: $chunky-font;
 				font-size: 24px;
 				line-height: 250px;
-				text-shadow: 0 4px 2px rgba(0,0,0,0.3);
+				text-shadow: 0 4px 2px rgba(0, 0, 0, 0.3);
 			}
 
 			.feedback {
@@ -372,7 +384,7 @@ body {
 				font-family: sans-serif;
 				font-size: 16px;
 				line-height: 16px;
-				text-shadow: 0 4px 2px rgba(0,0,0,0.3);
+				text-shadow: 0 4px 2px rgba(0, 0, 0, 0.3);
 				text-align: left;
 				word-wrap: break-word;
 			}
@@ -390,18 +402,18 @@ body {
 				font-family: $chunky-font;
 				font-size: 24px;
 				line-height: 150px;
-				text-shadow: 0 4px 2px rgba(0,0,0,0.3);
+				text-shadow: 0 4px 2px rgba(0, 0, 0, 0.3);
 				background-color: rgba(228, 43, 32, 0.6);
 			}
 
 			.feedback::-webkit-scrollbar {
-				background: rgba(0, 0, 0, 0.0);
-				width:9px;
+				background: rgba(0, 0, 0, 0);
+				width: 9px;
 			}
 
 			.feedback::-webkit-scrollbar-thumb {
 				background: rgba(196, 196, 196, 1);
-				border-radius:10px;
+				border-radius: 10px;
 			}
 
 			.choice-img {
@@ -427,11 +439,12 @@ body {
 	margin-top: -11px;
 	width: 326px;
 
-	transition: margin ease .5s;
+	transition: margin ease 0.5s;
 
 	z-index: 3;
 
-	&.raised {  }
+	&.raised {
+	}
 
 	.hand {
 		position: absolute;
@@ -441,7 +454,7 @@ body {
 		width: 177px;
 		height: 150px;
 
-		transition: transform ease .5s, top ease .5s, left ease .5s, right ease .5s;
+		transition: transform ease 0.5s, top ease 0.5s, left ease 0.5s, right ease 0.5s;
 		transform-style: flat;
 
 		&.this-hand {
@@ -462,7 +475,6 @@ body {
 				background-image: url('assets/img/sprites.png');
 				background-position: 0 -664px, center;
 				background-repeat: no-repeat;
-
 			}
 
 			&.incorrect {
@@ -528,7 +540,7 @@ body {
 		height: 75px;
 		width: 10px;
 
-		background-image: url("assets/img/sprites.png");
+		background-image: url('assets/img/sprites.png');
 		background-position: -67px -146px, center top;
 		background-repeat: no-repeat;
 	}
@@ -550,7 +562,9 @@ body {
 }
 
 @keyframes pulse-bg {
-	50% { background: #73D15A; }
+	50% {
+		background: #73d15a;
+	}
 }
 
 @keyframes correct-pulse {
@@ -562,7 +576,7 @@ body {
 }
 
 @keyframes bouncy {
-	0%  {
+	0% {
 		margin-top: 0;
 		padding-top: 40px;
 	}
@@ -578,36 +592,68 @@ body {
 }
 
 @keyframes bouncy-in-thisimg {
-	0%  { transform: translate(-365px, 0); }
-	25% { transform: translate(-10px, 0); }
-	50% { transform: translate(0, 0); }
+	0% {
+		transform: translate(-365px, 0);
+	}
+	25% {
+		transform: translate(-10px, 0);
+	}
+	50% {
+		transform: translate(0, 0);
+	}
 }
 
 @keyframes bouncy-in-thatimg {
-	0%  { transform: translate(365px, 0); }
-	25% { transform: translate(10px, 0); }
-	50% { transform: translate(0, 0); }
+	0% {
+		transform: translate(365px, 0);
+	}
+	25% {
+		transform: translate(10px, 0);
+	}
+	50% {
+		transform: translate(0, 0);
+	}
 }
 
 @keyframes bouncy-out-thisimg {
-	0%  { transform: translate(0, 0); }
-	25% { transform: translate(10px, 0); }
-	50% { transform: translate(-365px, 0); }
+	0% {
+		transform: translate(0, 0);
+	}
+	25% {
+		transform: translate(10px, 0);
+	}
+	50% {
+		transform: translate(-365px, 0);
+	}
 }
 
 @keyframes bouncy-out-thatimg {
-	0%  { transform: translate(0, 0); }
-	25% { transform: translate(-10px, 0); }
-	50% { transform: translate(365px, 0); }
+	0% {
+		transform: translate(0, 0);
+	}
+	25% {
+		transform: translate(-10px, 0);
+	}
+	50% {
+		transform: translate(365px, 0);
+	}
 }
 
 @keyframes bouncy-in-next {
-	0%  { bottom: -75px; }
-	25% { bottom: 0; }
-	50% { bottom: 3px; }
+	0% {
+		bottom: -75px;
+	}
+	25% {
+		bottom: 0;
+	}
+	50% {
+		bottom: 3px;
+	}
 }
 
-.text-center { text-align: center !important; }
+.text-center {
+	text-align: center !important;
+}
 
 .disabled {
 	cursor: not-allowed !important;
@@ -621,7 +667,7 @@ body {
 	padding: 0;
 	margin: -1px;
 	overflow: hidden;
-	clip: rect(0,0,0,0);
+	clip: rect(0, 0, 0, 0);
 	border: 0;
 }
 
@@ -632,7 +678,7 @@ body {
 	padding: 0;
 	margin: -1px;
 	overflow: hidden;
-	clip: rect(0,0,0,0);
+	clip: rect(0, 0, 0, 0);
 	border: 0;
 	speak: none;
 }

@@ -2,7 +2,7 @@
 
 @mixin clearfix {
 	&:after {
-		content: "";
+		content: '';
 		display: table;
 		height: 0;
 		clear: both;
@@ -22,7 +22,7 @@
 	&.active {
 		color: $color;
 		background-color: lighten($background, 10%);
-				border-color: lighten($border, 12%);
+		border-color: lighten($border, 12%);
 	}
 
 	&.disabled,
@@ -34,7 +34,7 @@
 		&:active,
 		&.active {
 			background-color: $background;
-					border-color: $border;
+			border-color: $border;
 		}
 	}
 }
