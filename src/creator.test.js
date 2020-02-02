@@ -1,3 +1,12 @@
+// @TODO: the anuglar modules like 'player' have
+// been re-factored to make unit testing easier
+// these tests still lag behind those changes
+// requiring them to mock all of angular, making
+// them quite a bit more complicated, and 'higher'
+// up in the unit -> functional testing ladder
+// in general we should continue to push toward more
+// direct unit tests as this project continues to evolve
+
 describe('Creator Controller', function() {
 	require('angular/angular.js')
 	require('angular-animate/angular-animate.js')
@@ -10,6 +19,7 @@ describe('Creator Controller', function() {
 	let widgetInfo
 	let qset
 	let publicMethods
+	let $sanitize
 
 	function quickQuestion(givenID) {
 		let title = 'test title ' + givenID
@@ -41,7 +51,7 @@ describe('Creator Controller', function() {
 				save: jest.fn().mockImplementation((title, qset) => {
 					//the creator core calls this on the creator when saving is successful
 					publicMethods.onSaveComplete()
-					return {title: title, qset: qset}
+					return { title: title, qset: qset }
 				}),
 				showMediaImporter: jest.fn(),
 				getMediaUrl: jest.fn(asset => {
@@ -55,10 +65,9 @@ describe('Creator Controller', function() {
 		widgetInfo = require('./demo.json')
 		qset = widgetInfo.qset
 
-		// load the required code
+		require('./creator')
+		// make angular mock work with the module
 		angular.mock.module('ThisOrThatCreator')
-		require('./modules/creator.coffee')
-		require('./creator.coffee')
 
 		// mock scope
 		$scope = {
@@ -68,7 +77,7 @@ describe('Creator Controller', function() {
 		}
 
 		// initialize the angular controller
-		inject(function(_$controller_, _$timeout_, _$sanitize_){
+		inject(function(_$controller_, _$timeout_, _$sanitize_) {
 			$timeout = _$timeout_
 			$sanitize = _$sanitize_
 			// instantiate the controller
@@ -89,12 +98,12 @@ describe('Creator Controller', function() {
 	})
 
 	test('should edit a new widget', () => {
-		defaultQuestion = {
+		const defaultQuestion = {
 			title: '',
-			images: ['',''],
+			images: ['', ''],
 			isValid: true,
-			alt: ['',''],
-			URLs: ['assets/img/placeholder.png','assets/img/placeholder.png'],
+			alt: ['', ''],
+			URLs: ['assets/img/placeholder.png', 'assets/img/placeholder.png'],
 			id: '',
 			qid: '',
 			ansid: ''
@@ -117,19 +126,6 @@ describe('Creator Controller', function() {
 		//this is called whenever an input field on the page is changed
 		$scope.setTitle()
 		expect($scope.title).toBe('My This or That widget')
-		expect($scope.dialog.intro).toBe(false)
-		expect($scope.step).toBe(1)
-	})
-
-	test('should set the title when a title is input', () => {
-		publicMethods.initNewWidget(widgetInfo)
-
-		expect($scope.title).toBe('My This or That widget')
-
-		$scope.introTitle = 'New This or That Title'
-		$scope.setTitle()
-
-		expect($scope.title).toBe('New This or That Title')
 		expect($scope.dialog.intro).toBe(false)
 		expect($scope.step).toBe(1)
 	})
@@ -177,7 +173,9 @@ describe('Creator Controller', function() {
 		publicMethods.initNewWidget(widgetInfo)
 
 		publicMethods.onSaveClicked('save')
-		expect(Materia.CreatorCore.cancelSave).toHaveBeenCalledWith('Please make sure every question is complete')
+		expect(Materia.CreatorCore.cancelSave).toHaveBeenCalledWith(
+			'Please make sure every question is complete'
+		)
 
 		$scope.validation('change', 0)
 		expect($scope.questions[0].invalid).toBe(true)
@@ -281,8 +279,8 @@ describe('Creator Controller', function() {
 	test('should not add any new questions after 50', () => {
 		publicMethods.initNewWidget(widgetInfo)
 
-		let i = 1;
-		while($scope.questions.length < 50) {
+		let i = 1
+		while ($scope.questions.length < 50) {
 			quickQuestion(i++)
 		}
 
@@ -298,8 +296,8 @@ describe('Creator Controller', function() {
 		publicMethods.initNewWidget(widgetInfo)
 
 		//just add the max number so we can move around
-		let i = 1;
-		while($scope.questions.length < 30) {
+		let i = 1
+		while ($scope.questions.length < 30) {
 			quickQuestion(i++)
 		}
 
@@ -308,15 +306,14 @@ describe('Creator Controller', function() {
 		$timeout.flush()
 		$timeout.verifyNoPendingTasks()
 		expect($scope.currIndex).toBe(25)
-
 	})
 
 	test('should move right when selecting a higher index', () => {
 		publicMethods.initNewWidget(widgetInfo)
 
 		//just add the max number so we can move around
-		let i = 1;
-		while($scope.questions.length < 40) {
+		let i = 1
+		while ($scope.questions.length < 40) {
 			quickQuestion(i++)
 		}
 
@@ -335,8 +332,8 @@ describe('Creator Controller', function() {
 		publicMethods.initNewWidget(widgetInfo)
 
 		//just add the max number so we can move around
-		let i = 1;
-		while($scope.questions.length < 40) {
+		let i = 1
+		while ($scope.questions.length < 40) {
 			quickQuestion(i++)
 		}
 
@@ -349,8 +346,8 @@ describe('Creator Controller', function() {
 	test('should loop to the start when going next on the last question', () => {
 		publicMethods.initNewWidget(widgetInfo)
 
-		let i = 1;
-		while($scope.questions.length < 50) {
+		let i = 1
+		while ($scope.questions.length < 50) {
 			quickQuestion(i++)
 		}
 
@@ -366,8 +363,8 @@ describe('Creator Controller', function() {
 	test('should loop to the end when going prev on the first question', () => {
 		publicMethods.initNewWidget(widgetInfo)
 
-		let i = 1;
-		while($scope.questions.length < 50) {
+		let i = 1
+		while ($scope.questions.length < 50) {
 			quickQuestion(i++)
 		}
 
@@ -383,8 +380,8 @@ describe('Creator Controller', function() {
 	test('should duplicate a question when there are less than 50', () => {
 		publicMethods.initNewWidget(widgetInfo)
 
-		let i = 1;
-		while($scope.questions.length < 49) {
+		let i = 1
+		while ($scope.questions.length < 49) {
 			quickQuestion(i++)
 		}
 
@@ -402,8 +399,8 @@ describe('Creator Controller', function() {
 	test('should not duplicate a question when there are 50 questions', () => {
 		publicMethods.initNewWidget(widgetInfo)
 
-		let i = 1;
-		while($scope.questions.length < 50) {
+		let i = 1
+		while ($scope.questions.length < 50) {
 			quickQuestion(i++)
 		}
 
@@ -416,8 +413,8 @@ describe('Creator Controller', function() {
 	test('should remove a question', () => {
 		publicMethods.initNewWidget(widgetInfo)
 
-		let i = 1;
-		while($scope.questions.length < 30) {
+		let i = 1
+		while ($scope.questions.length < 30) {
 			quickQuestion(i++)
 		}
 
@@ -439,7 +436,7 @@ describe('Creator Controller', function() {
 
 		quickQuestion(1)
 
-		$scope.clearImage(0, 0);
+		$scope.clearImage(0, 0)
 		expect($scope.questions[0].URLs[0]).toBe('http://placehold.it/300x250')
 		expect($scope.questions[0].images[0]).toBeNull()
 	})
@@ -447,12 +444,12 @@ describe('Creator Controller', function() {
 	test('should correctly remove all questions', () => {
 		publicMethods.initNewWidget(widgetInfo)
 
-		let i = 1;
-		while($scope.questions.length < 10) {
+		let i = 1
+		while ($scope.questions.length < 10) {
 			quickQuestion(i++)
 		}
 
-		while($scope.questions.length > 0) {
+		while ($scope.questions.length > 0) {
 			$scope.removeQuestion($scope.questions[0])
 		}
 
@@ -475,12 +472,12 @@ describe('Creator Controller', function() {
 		publicMethods.initNewWidget(widgetInfo)
 
 		let expectedTitle = ''
-		for(let i = 0; i < 500; i++) {
+		for (let i = 0; i < 500; i++) {
 			expectedTitle += 'a'
 		}
 
 		let bigTitle = ''
-		for(let i = 0; i < 520; i++) {
+		for (let i = 0; i < 520; i++) {
 			bigTitle += 'a'
 		}
 		$scope.addQuestion()
@@ -503,7 +500,7 @@ describe('Creator Controller', function() {
 		expect($scope.questions[0].URLs[0]).toBe('test url')
 		expect($scope.questions[0].images[0]).toBe(4)
 
-		const media = [{id: 5}]
+		const media = [{ id: 5 }]
 		publicMethods.onMediaImportComplete(media)
 
 		expect($scope.questions[0].URLs[0]).toBe('MEDIA_URL/5')
@@ -537,14 +534,9 @@ describe('Creator Controller', function() {
 
 		let incomplete = [
 			{
-				'id': null,
-				'questions': [
-					{ 'text': 'Which one of these dogs is a Labrador Retriever?' }
-				],
-				'answers': [
-					{options: {}},
-					{options: {}}
-				]
+				id: null,
+				questions: [{ text: 'Which one of these dogs is a Labrador Retriever?' }],
+				answers: [{ options: {} }, { options: {} }]
 			}
 		]
 	})
@@ -563,10 +555,8 @@ describe('Creator Controller', function() {
 		//first test - no answers
 		let incomplete = [
 			{
-				'id': null,
-				'questions': [
-					{ 'text': 'Which one of these dogs is a Labrador Retriever?' }
-				]
+				id: null,
+				questions: [{ text: 'Which one of these dogs is a Labrador Retriever?' }]
 			}
 		]
 
@@ -584,19 +574,16 @@ describe('Creator Controller', function() {
 
 		let incomplete = [
 			{
-				'id': null,
-				'questions': [
-					{ 'text': 'Which one of these dogs is a Labrador Retriever?' }
-				],
-				'answers': [
-					{options: {asset: {id: null}}},
-					{options: {asset: {id: null}}},
-				]
+				id: null,
+				questions: [{ text: 'Which one of these dogs is a Labrador Retriever?' }],
+				answers: [{ options: { asset: { id: null } } }, { options: { asset: { id: null } } }]
 			}
 		]
 		publicMethods.onQuestionImportComplete(incomplete)
 
-		expect(window.alert).toHaveBeenCalledWith('Uh oh. Something went wrong with uploading your questions.')
+		expect(window.alert).toHaveBeenCalledWith(
+			'Uh oh. Something went wrong with uploading your questions.'
+		)
 	})
 
 	test('should init an existing widget', () => {
@@ -604,10 +591,9 @@ describe('Creator Controller', function() {
 
 		$scope.questions = []
 
-		publicMethods.initExistingWidget(widgetInfo.name, widgetInfo, qset.data);
+		publicMethods.initExistingWidget(widgetInfo.name, widgetInfo, qset.data)
 
 		expect($scope.title).toEqual(widgetInfo.name)
 		expect($scope.questions.length).toEqual(3)
 	})
-
 })

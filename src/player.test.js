@@ -1,6 +1,15 @@
+// @TODO: the anuglar modules like 'player' have
+// been re-factored to make unit testing easier
+// these tests still lag behind those changes
+// requiring them to mock all of angular, making
+// them quite a bit more complicated, and 'higher'
+// up in the unit -> functional testing ladder
+// in general we should continue to push toward more
+// direct unit tests as this project continues to evolve
+
 describe('Player Controller', function() {
-	require('angular/angular.js');
-	require('angular-mocks/angular-mocks.js');
+	require('angular/angular.js')
+	require('angular-mocks/angular-mocks.js')
 
 	let $scope
 	let $controller
@@ -51,13 +60,12 @@ describe('Player Controller', function() {
 		widgetInfo = require('./demo.json')
 		qset = widgetInfo.qset
 
+		require('./player')
 		// load the required code
 		angular.mock.module('ThisOrThatEngine')
 		angular.module('ngAnimate', [])
 		angular.module('hammer', [])
 		angular.module('ngSanitize', [])
-
-		require('./player.coffee');
 
 		// mock scope
 		$scope = {
@@ -68,7 +76,7 @@ describe('Player Controller', function() {
 		inject(function(_$controller_, _$timeout_) {
 			$timeout = _$timeout_
 			// instantiate the controller
-			$controller = _$controller_('ThisOrThatEngineCtrl', { $scope: $scope})
+			$controller = _$controller_('ThisOrThatEngineCtrl', { $scope: $scope })
 		})
 	})
 
@@ -87,8 +95,8 @@ describe('Player Controller', function() {
 			'chance.jpg',
 			'bogart.jpg'
 		]
-		for(index in expectedImages) {
-			const fullName = 'MEDIA_URL/assets/img/demo/'+expectedImages[index]
+		for (const index in expectedImages) {
+			const fullName = 'MEDIA_URL/assets/img/demo/' + expectedImages[index]
 			expect($scope.images).toContain(fullName)
 		}
 	})
@@ -176,12 +184,16 @@ describe('Player Controller', function() {
 		const expectedAnswer = qset.data.items[0].answers[0].id
 		const expectedValue = $scope.answers[0].text
 
-		expect(Materia.Score.submitQuestionForScoring).toHaveBeenCalledWith(expectedId, expectedAnswer, expectedValue)
+		expect(Materia.Score.submitQuestionForScoring).toHaveBeenCalledWith(
+			expectedId,
+			expectedAnswer,
+			expectedValue
+		)
 	})
 
 	test('should handle an incorrect answer choice with no feedback', () => {
 		//pretend the first question has no feedback for wrong answers
-		delete(qset.data.items[0].options.feedback)
+		delete qset.data.items[0].options.feedback
 		publicMethods.start(widgetInfo, qset.data)
 
 		$scope.answers[0].value = 0
@@ -216,9 +228,7 @@ describe('Player Controller', function() {
 		const numberQuestions = qset.data.items.length
 		publicMethods.start(widgetInfo, qset.data)
 
-		const endSpy = jest.spyOn($scope, 'endGame')
-
-		for(let i = 0; i < numberQuestions; i++) {
+		for (let i = 0; i < numberQuestions; i++) {
 			quickSelect()
 			$timeout.flush()
 		}
@@ -229,10 +239,6 @@ describe('Player Controller', function() {
 			score: 0,
 			showNext: false
 		}
-
-		expect(endSpy).toHaveBeenCalledTimes(1)
-		//$scope.endGame runs and then another timer should elapse
-		$timeout.flush()
 
 		expect($scope.questions.current).toBe(numberQuestions)
 		expect($scope.gameState).toEqual(expectedState)
@@ -245,12 +251,10 @@ describe('Player Controller', function() {
 		const numberQuestions = qset.data.items.length
 		publicMethods.start(widgetInfo, qset.data)
 
-		for(let i = 0; i < numberQuestions; i++) {
+		for (let i = 0; i < numberQuestions; i++) {
 			quickSelect()
 			$timeout.flush()
 		}
-		//one more timeout after $scope.endgame
-		$timeout.flush()
 
 		$scope.viewScores()
 		//second call to Materia.Engine.end since $scope.endGame called it too
@@ -262,8 +266,8 @@ describe('Player Controller', function() {
 			data: {
 				items: [
 					{
-						questions: [{text: 'test'}],
-						answers: []
+						questions: [{ text: 'test' }],
+						answers: false
 					}
 				]
 			}
@@ -278,7 +282,7 @@ describe('Player Controller', function() {
 			materiaType: 'question',
 			id: null,
 			type: 'MC',
-			questions: [{text: questionId}],
+			questions: [{ text: questionId }],
 			answers: [
 				{
 					id: null,
@@ -303,7 +307,7 @@ describe('Player Controller', function() {
 					}
 				}
 			],
-			options: {feedback: ''}
+			options: { feedback: '' }
 		}
 	}
 
@@ -311,20 +315,20 @@ describe('Player Controller', function() {
 		const numberQuestions = 20
 
 		//kind of a hack, but it'll do
-		const expectedOrder = [9,19,3,4,5,6,7,8,0,10,11,12,13,14,15,16,17,18,1,2]
+		const expectedOrder = [9, 19, 3, 4, 5, 6, 7, 8, 0, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1, 2]
 
 		global.Math.random = jest.fn(() => 0.1)
 
 		qset.data.items = []
-		for(let i = 0; i < numberQuestions; i++) {
+		for (let i = 0; i < numberQuestions; i++) {
 			qset.data.items.push(quickQuestion(i))
 		}
 
-		qset.data.options = {randomizeOrder: true}
+		qset.data.options = { randomizeOrder: true }
 		publicMethods.start(widgetInfo, qset.data)
 
 		expect(Math.random).toHaveBeenCalledTimes(numberQuestions)
-		for(i = 0; i < numberQuestions; i++) {
+		for (let i = 0; i < numberQuestions; i++) {
 			//the way the current question is stored in scope makes it hard to check
 			//so our function above sets the question's 'title' to a number that
 			// corresponds to that question's 'index'
@@ -338,7 +342,7 @@ describe('Player Controller', function() {
 	test('should not shuffle questions if there are none', () => {
 		global.Math.random = jest.fn()
 		qset.data.items = []
-		qset.data.options = {randomizeOrder: true}
+		qset.data.options = { randomizeOrder: true }
 		publicMethods.start(widgetInfo, qset.data)
 		expect(Math.random).not.toHaveBeenCalled()
 	})

@@ -1,25 +1,17 @@
-@import "assets/css/icomoon.css";
-@import "mixins.scss";
+@import 'assets/css/icomoon.css';
+@import 'mixins.scss';
 
-@font-face {
-	font-family: 'fha_nicholson_french_ncvRg';
-	src: url('assets/fonts/fha_nicholson_french_ncv-webfont.eot');
-	src: url('assets/fonts/fha_nicholson_french_ncv-webfont.eot?#iefix') format('embedded-opentype'),
-			 url('assets/fonts/fha_nicholson_french_ncv-webfont.woff2') format('woff2'),
-			 url('assets/fonts/fha_nicholson_french_ncv-webfont.woff') format('woff'),
-			 url('assets/fonts/fha_nicholson_french_ncv-webfont.ttf') format('truetype'),
-			 url('assets/fonts/fha_nicholson_french_ncv-webfont.svg#fha_nicholson_french_ncvRg') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
+$chunky-font: 'Sigmar One', cursive;
+$paragraph-font: 'Lato', verdana, sans-serif;
+$title-font: 'Buenard', serif;
 
 // Color palette.
-$lighter: rgba(255,255,255,0.10);
-$darker: rgba(0,0,0,0.4);
+$lighter: rgba(255, 255, 255, 0.1);
+$darker: rgba(0, 0, 0, 0.4);
 $green: #70bd34;
 $red: #e42b20;
 $blue: #62a0b9;
-$gray: #BDC3C7;
+$gray: #bdc3c7;
 $background: #223863;
 $btn-color: #fff;
 $activeColor: #ddd;
@@ -27,23 +19,30 @@ $activeColor: #ddd;
 input:focus,
 select:focus,
 textarea:focus,
-button:focus { outline : none; }
+button:focus {
+	outline: none;
+}
 
-textarea { resize : none; }
+textarea {
+	resize: none;
+}
 
-html, body {
+html,
+body {
 	background: $background;
 	color: #fff;
-	font-family: 'Lato', verdana, sans-serif;
+	font-family: $paragraph-font;
 	margin: 0;
 	padding: 0;
 	-webkit-user-select: none;
-		 -moz-user-select: none;
-			-ms-user-select: none;
-					user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
-ul { list-style-type : none; }
+ul {
+	list-style-type: none;
+}
 
 .btn {
 	display: inline-block;
@@ -51,13 +50,13 @@ ul { list-style-type : none; }
 	position: relative;
 
 	font-size: 14px;
-	font-family: 'fha_nicholson_french_ncvRg';
-	text-shadow: 0 3px 3px rgba(0,0,0,0.3);
+	font-family: $paragraph-font;
+	text-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
 	text-transform: uppercase;
 
 	border: 0;
 	border-radius: 4px;
-	box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 
 	cursor: pointer;
 
@@ -65,15 +64,17 @@ ul { list-style-type : none; }
 
 	@include button-variant(transparent, #ccc, #ccc);
 
-	&:hover { background-color: #ddd; }
+	&:hover {
+		background-color: #ddd;
+	}
 
 	&.small {
 		padding: 4px 6px;
 
 		font-size: 11px;
-		text-shadow: 0 2px 2px rgba(0,0,0,0.3);
+		text-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
 
-		box-shadow: 0 3px 3px rgba(0,0,0,0.3);
+		box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
 	}
 
 	&.round {
@@ -114,10 +115,14 @@ ul { list-style-type : none; }
 
 		@include button-variant($btn-color, transparent, transparent);
 
-		&:hover { background-color: $blue; }
+		&:hover {
+			background-color: $blue;
+		}
 	}
 
-	&.active { animation: none; }
+	&.active {
+		animation: none;
+	}
 
 	&[disabled] {
 		cursor: not-allowed;
@@ -132,8 +137,8 @@ ul { list-style-type : none; }
 	left: 0px;
 	right: 0px;
 	height: 40px;
-	background: #62A0B9;
-	box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+	background: #62a0b9;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 	padding: 13px 8px;
 	z-index: 100;
 
@@ -159,7 +164,7 @@ ul { list-style-type : none; }
 
 	h1 {
 		margin-left: 8px;
-		font-family: 'Lato', serif;
+		font-family: $paragraph-font;
 		font-weight: 300;
 		font-size: 24px !important;
 		vertical-align: middle;
@@ -194,18 +199,22 @@ ul { list-style-type : none; }
 	margin-bottom: 10px;
 	padding: 10px;
 
-	color: rgba(0,0,0,0.6);
+	color: rgba(0, 0, 0, 0.6);
 
 	background-color: #fff;
 	border-radius: 4px;
-	box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 
-	p:last-of-type { margin: 0; }
+	p:last-of-type {
+		margin: 0;
+	}
 
-	&.warning { background-color: #ffd66f; }
+	&.warning {
+		background-color: #ffd66f;
+	}
 }
 
-input[type=text] {
+input[type='text'] {
 	box-sizing: border-box;
 	display: inline-block;
 	width: 100%;
@@ -229,11 +238,11 @@ input[type=text] {
 		padding: 6px 12px;
 
 		font-size: 24px;
-		font-family: 'Buenard', serif;
+		font-family: $title-font;
 	}
 
 	&.feedback {
-		margin-top:15px;
+		margin-top: 15px;
 	}
 }
 
@@ -256,7 +265,7 @@ input[type=text] {
 		border-bottom-color: #ffd66f;
 		border-width: 12px;
 		margin: -24px 0 0 -12px;
-		content: " ";
+		content: ' ';
 		position: absolute;
 		pointer-events: none;
 	}
@@ -315,15 +324,27 @@ input[type=text] {
 }
 
 @keyframes pounce-down {
-	0%   { margin-top: 0px; }
-	50%  { margin-top: 5px; }
-	100% { margin-top: 0px; }
+	0% {
+		margin-top: 0px;
+	}
+	50% {
+		margin-top: 5px;
+	}
+	100% {
+		margin-top: 0px;
+	}
 }
 
 @keyframes pounce-left {
-	0%   { margin-right: 0px; }
-	50%  { margin-right: 5px; }
-	100% { margin-right: 0px; }
+	0% {
+		margin-right: 0px;
+	}
+	50% {
+		margin-right: 5px;
+	}
+	100% {
+		margin-right: 0px;
+	}
 }
 
 .modal-bg {
@@ -367,7 +388,7 @@ input[type=text] {
 
 	background: #fff;
 	border-radius: 8px;
-	box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 	color: #333;
 
 	img {
@@ -384,7 +405,9 @@ input[type=text] {
 		margin: 5px 0px;
 	}
 
-	p { margin: 24px 0px; }
+	p {
+		margin: 24px 0px;
+	}
 
 	hr {
 		border: none;
@@ -392,10 +415,12 @@ input[type=text] {
 		margin: 20px 10px;
 	}
 
-	.input-group { margin-bottom: 15px; }
+	.input-group {
+		margin-bottom: 15px;
+	}
 
-	input[type=text],
-	input[type=button] {
+	input[type='text'],
+	input[type='button'] {
 		margin-top: 20px;
 		padding: 12px;
 		width: 150px;
@@ -410,7 +435,7 @@ input[type=text] {
 
 		cursor: pointer;
 
-		&[type=text] {
+		&[type='text'] {
 			width: 450px;
 			margin-top: 20px;
 			font-size: 16px;
@@ -428,8 +453,6 @@ input[type=text] {
 			color: fade-out($red, 0.4);
 		}
 	}
-
-
 }
 
 .question-container {
@@ -445,7 +468,7 @@ input[type=text] {
 
 	border: 4px solid $darker;
 	border-radius: 12px;
-	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 
 	overflow: hidden;
 
@@ -462,19 +485,31 @@ input[type=text] {
 
 		@include clearfix;
 
-		&.sliding-in { animation: activate-questions 0.3s 0.3s; animation-fill-mode: forwards; }
-		&.sliding-left  { animation: question-out-right 0.2s, question-in-left 0.2s 0.2s; }
-		&.sliding-right { animation: question-out-left 0.2s, question-in-right 0.2s 0.2s; }
-		&.adding        { animation: question-out-left 0.3s, question-in-up 0.3s 0.3s; }
-		&.removing      { animation: question-out-down 0.3s, question-in-right 0.3s 0.3s; }
-		&.removing-last { animation: question-out-down 0.3s, question-in-left 0.3s 0.3s; }
-
+		&.sliding-in {
+			animation: activate-questions 0.3s 0.3s;
+			animation-fill-mode: forwards;
+		}
+		&.sliding-left {
+			animation: question-out-right 0.2s, question-in-left 0.2s 0.2s;
+		}
+		&.sliding-right {
+			animation: question-out-left 0.2s, question-in-right 0.2s 0.2s;
+		}
+		&.adding {
+			animation: question-out-left 0.3s, question-in-up 0.3s 0.3s;
+		}
+		&.removing {
+			animation: question-out-down 0.3s, question-in-right 0.3s 0.3s;
+		}
+		&.removing-last {
+			animation: question-out-down 0.3s, question-in-left 0.3s 0.3s;
+		}
 
 		.question-header {
 			margin-bottom: 10px;
 			padding: 0 0 10px;
 
-			font-family: 'fha_nicholson_french_ncvRg', serif;
+			font-family: $paragraph-font;
 
 			border-bottom: 2px solid $lighter;
 
@@ -486,20 +521,23 @@ input[type=text] {
 				max-width: 540px;
 				width: 100%;
 
-				input { font-family: 'fha_nicholson_french_ncvRg'; }
+				input {
+					font-family: $chunky-font;
+				}
 			}
 
 			h1 {
 				display: inline-block;
 				margin: 0;
-				width: 200px;
-
+				width: 154px;
+				padding-left: 10px;
+				padding-right: 10px;
 				line-height: 1;
 
 				span {
 					margin-right: 8px;
 
-					color: rgba(255,255,255,0.5);
+					color: rgba(255, 255, 255, 0.5);
 				}
 			}
 
@@ -534,7 +572,7 @@ input[type=text] {
 				margin: 0;
 
 				font-size: 1.3em;
-				font-family: 'fha_nicholson_french_ncvRg';
+				font-family: $chunky-font;
 				color: #fff;
 				text-align: center;
 			}
@@ -550,9 +588,11 @@ input[type=text] {
 				border: 0;
 
 				cursor: pointer;
-				transition: background ease .5s;
+				transition: background ease 0.5s;
 
-				&[disabled] { opacity: 0.5; }
+				&[disabled] {
+					opacity: 0.5;
+				}
 
 				&:hover {
 					background-image: url('assets/img/sprites');
@@ -625,16 +665,28 @@ input[type=text] {
 
 		text-align: left;
 
-		&:last-of-type { margin-right: 0; }
+		&:last-of-type {
+			margin-right: 0;
+		}
 	}
 
-	.btn { background-color: transparent; }
+	.btn {
+		background-color: transparent;
+	}
 }
 
-.left { float: left !important; }
-.right { float: right !important; }
-.no-margin { margin: 0 !important; }
-.text-center { text-align: center !important; }
+.left {
+	float: left !important;
+}
+.right {
+	float: right !important;
+}
+.no-margin {
+	margin: 0 !important;
+}
+.text-center {
+	text-align: center !important;
+}
 .sr-only {
 	position: absolute;
 	width: 1px;
@@ -642,48 +694,83 @@ input[type=text] {
 	padding: 0;
 	margin: -1px;
 	overflow: hidden;
-	clip: rect(0,0,0,0);
+	clip: rect(0, 0, 0, 0);
 	border: 0;
 }
 
 //keyframe animations
 @keyframes fancy-fade {
-	from { opacity: 0; }
-	to   { opacity: 1; }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 @keyframes activate-questions {
-	from { transform: translate(0, -101%); }
-	to   { transform: translate(0, 0); }
+	from {
+		transform: translate(0, -101%);
+	}
+	to {
+		transform: translate(0, 0);
+	}
 }
 
 @keyframes question-out-left {
-	from { transform: translate(0, 0); }
-	to   { transform: translate(-100%, 0); }
+	from {
+		transform: translate(0, 0);
+	}
+	to {
+		transform: translate(-100%, 0);
+	}
 }
 
 @keyframes question-out-right {
-	from { transform: translate(0, 0); }
-	to   { transform: translate(100%, 0); }
+	from {
+		transform: translate(0, 0);
+	}
+	to {
+		transform: translate(100%, 0);
+	}
 }
 
 @keyframes question-in-left {
-	from { transform: translate(-100%, 0); }
-	to   { transform: translate(0, 0); }
+	from {
+		transform: translate(-100%, 0);
+	}
+	to {
+		transform: translate(0, 0);
+	}
 }
 
 @keyframes question-in-right {
-	from { transform: translate(100%, 0); }
-	to   { transform: translate(0, 0); }
+	from {
+		transform: translate(100%, 0);
+	}
+	to {
+		transform: translate(0, 0);
+	}
 }
 
 @keyframes question-in-up {
-	from { background: fade-out($green, 0.1); transform: translate(0, -100%); }
-	to   { background: $darker; transform: translate(0, 0); }
+	from {
+		background: fade-out($green, 0.1);
+		transform: translate(0, -100%);
+	}
+	to {
+		background: $darker;
+		transform: translate(0, 0);
+	}
 }
 
 @keyframes question-out-down {
-	from { background: fade-out($red, 0.1); transform: translate(0, 0); }
-	to   { background: $darker; transform: translate(0, 100%); }
+	from {
+		background: fade-out($red, 0.1);
+		transform: translate(0, 0);
+	}
+	to {
+		background: $darker;
+		transform: translate(0, 100%);
+	}
 }
-

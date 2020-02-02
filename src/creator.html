@@ -5,17 +5,18 @@
 		<meta charset='utf-8'/>
 
 		<!-- STYLESHEETS -->
-		<link href="https://fonts.googleapis.com/css?family=Buenard:700" rel="stylesheet">
-		<link href="//fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" type="text/css" href="creator.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sigmar+One&display=swap">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Buenard:700">
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,400,700">
+		<link rel="stylesheet" href="creator.css">
 
 		<!-- REQUIRED MATERIA JAVASCRIPT -->
 		<script src="materia.creatorcore.js"></script>
 
 		<!-- YOUR PREREQUISITES -->
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-animate.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-sanitize.min.js"></script>
 		<script src="assets/js/modernizr.min.js"></script>
 
 		<!-- MAIN CREATOR SCRIPT -->
@@ -210,7 +211,7 @@
 							required
 							focus-me="dialog.intro"
 							ng-class="{ 'invalid': title.$error }"
-							ng-model="introTitle"
+							ng-model="title"
 							ng-enter="setTitle()">
 						<input type="button" value="Get Started" ng-click="setTitle()">
 					</div>
