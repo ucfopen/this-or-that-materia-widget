@@ -57,7 +57,7 @@ describe('Creator Controller', function() {
 
 		// load the required code
 		angular.mock.module('ThisOrThatCreator')
-		require('./modules/creator.coffee')
+		require('./modules/creator')
 		require('./creator.coffee')
 
 		// mock scope

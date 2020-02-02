@@ -5,10 +5,10 @@
   },
   "version": "1.0.8",
   "dependencies": {
-    "angular": "^1.6.9",
-    "angular-animate": "^1.6.9",
-    "angular-mocks": "^1.6.9",
-    "angular-sanitize": "^1.6.9",
+    "angular": "^1.7.8",
+    "angular-animate": "^1.7.8",
+    "angular-mocks": "^1.7.8",
+    "angular-sanitize": "^1.7.8",
     "hammerjs": "1.0.5",
     "jest": "^23.6.0",
     "jest-coffee-preprocessor": "^1.0.0",
@@ -36,7 +36,8 @@
       "js"
     ],
     "collectCoverageFrom": [
-      "src/**/*.coffee"
+      "src/**/*.coffee",
+      "src/*.js"
     ],
     "coverageThreshold": {
       "global": {

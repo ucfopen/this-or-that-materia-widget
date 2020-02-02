@@ -57,7 +57,7 @@ describe('Player Controller', function() {
 		angular.module('hammer', [])
 		angular.module('ngSanitize', [])
 
-		require('./player.coffee');
+		require('./player');
 
 		// mock scope
 		$scope = {
@@ -216,8 +216,6 @@ describe('Player Controller', function() {
 		const numberQuestions = qset.data.items.length
 		publicMethods.start(widgetInfo, qset.data)
 
-		const endSpy = jest.spyOn($scope, 'endGame')
-
 		for(let i = 0; i < numberQuestions; i++) {
 			quickSelect()
 			$timeout.flush()
@@ -229,10 +227,6 @@ describe('Player Controller', function() {
 			score: 0,
 			showNext: false
 		}
-
-		expect(endSpy).toHaveBeenCalledTimes(1)
-		//$scope.endGame runs and then another timer should elapse
-		$timeout.flush()
 
 		expect($scope.questions.current).toBe(numberQuestions)
 		expect($scope.gameState).toEqual(expectedState)
@@ -249,21 +243,19 @@ describe('Player Controller', function() {
 			quickSelect()
 			$timeout.flush()
 		}
-		//one more timeout after $scope.endgame
-		$timeout.flush()
 
 		$scope.viewScores()
 		//second call to Materia.Engine.end since $scope.endGame called it too
 		expect(Materia.Engine.end).toHaveBeenNthCalledWith(2, true)
 	})
 
-	test('should return from randomizing answer order when there are no answers', () => {
+	test.only('should return from randomizing answer order when there are no answers', () => {
 		const testQSet = {
 			data: {
 				items: [
 					{
 						questions: [{text: 'test'}],
-						answers: []
+						answers: false
 					}
 				]
 			}

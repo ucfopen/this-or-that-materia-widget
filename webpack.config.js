@@ -5,7 +5,6 @@ const outputPath = path.join(process.cwd(), 'build')
 // load the reusable legacy webpack config from materia-widget-dev
 const widgetWebpack = require('materia-widget-development-kit/webpack-widget')
 const rules = widgetWebpack.getDefaultRules()
-const entries = widgetWebpack.getDefaultEntries()
 const copy = widgetWebpack.getDefaultCopyList()
 
 const newCopy = [
@@ -16,32 +15,38 @@ const newCopy = [
 	},
 	{
 		from: path.join(__dirname, 'src', '_guides', 'assets'),
-		to: path.join(outputPath, 'guides', 'assets'),
-		toType: 'dir'
+		to: path.join(outputPath, 'guides', 'assets')
 	}
 ]
 
-entries['creator.js'] = [
-	srcPath + 'modules/creator.coffee',
-	srcPath + 'directives/enter.coffee',
-	srcPath + 'directives/focus.coffee',
-	srcPath + 'creator.coffee'
-]
+const entries = {
+	'creator.js': [
+		'./src/creator.js'
+	],
+	'player.js': [
+		'./src/player.js'
+	],
+	'creator.css': ['./src/creator.scss', './src/creator.html'],
+	'player.css': ['./src/player.scss', './src/player.html'],
+	'guides/player.temp.html': [ './src/_guides/player.md'],
+	'guides/creator.temp.html': [ './src/_guides/creator.md']
+}
 
-entries['guides/creator.temp.html'] = [
-	srcPath + '_guides/creator.md'
-]
-entries['guides/player.temp.html'] = [
-	srcPath + '_guides/player.md'
-]
+// uses options from babel.config.js
+// placed there so that jest and webpack find it
+const babelLoaderWithPolyfillRule = {
+	test: /\.js$/,
+	use: {
+		loader: 'babel-loader'
+	}
+}
 
 const customRules = [
-	rules.loaderDoNothingToJs,
-	rules.loaderCompileCoffee,
-	rules.copyImages,
-	rules.loadHTMLAndReplaceMateriaScripts,
+	babelLoaderWithPolyfillRule,
 	rules.loadAndPrefixCSS,
 	rules.loadAndPrefixSASS,
+	rules.loadHTMLAndReplaceMateriaScripts,
+	rules.copyImages,
 	rules.loadAndCompileMarkdown
 ]
 
@@ -53,3 +58,4 @@ let options = {
 }
 
 module.exports = widgetWebpack.getLegacyWidgetBuildConfig(options)
+

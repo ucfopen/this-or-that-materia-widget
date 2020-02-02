@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!-- INJECTS IE CLASSES ONTO HTML TAG -->
-<!--[if IE 8 ]>    <html class="IE8"> <![endif]-->
-<!--[if IE 9 ]>    <html class="IE9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" ng-app="ThisOrThatEngine" ng-controller="ThisOrThatEngineCtrl"> <!--<![endif]-->
+<html lang="en" ng-app="ThisOrThatEngine" ng-controller="ThisOrThatEngineCtrl">
 	<head>
 		<title>This Or That Engine</title>
 		<meta charset="utf-8">
@@ -10,16 +7,17 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 
 		<!-- STYLESHEETS -->
-		<link href="https://fonts.googleapis.com/css?family=Buenard:700" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="player.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sigmar+One&display=swap">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Buenard:700">
+		<link rel="stylesheet" href="player.css">
 
 		<!-- REQUIRED MATERIA JAVASCRIPT -->
 		<script src="materia.enginecore.js"></script>
 
 		<!-- YOUR PREREQUISITES -->
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-animate.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-sanitize.min.js"></script>
 		<script src="assets/js/hammer.min.js"></script>
 		<script src="assets/js/angular-hammer.min.js"></script>
 		<script src="assets/js/modernizr.min.js"></script>
@@ -28,11 +26,6 @@
 		<script src="player.js"></script>
 	</head>
 	<body>
-	<!-- <div class="browserwarning">
-			<p>We're sorry</p>
-			<p>But this widget requires features that your browser does not support.</p>
-			<p>Please upgrade to a newer version to play Hangman.</p>
-		</div> -->
 		<main id="game" role="main">
 			<section id="board">
 				<div class="side-curtain upper left" aria-hidden="true"></div>
@@ -59,7 +52,7 @@
 							<span class="feedback">{{questions.feedback[0]}}</span>
 							<script>
 							</script>
-							<img class="choice-img" ng-src="{{answers[0].image}}" alt="{{answers[0].text}}">
+							<img class="choice-img" ng-src="{{answers[0].options.asset.imageUrl}}" alt="{{answers[0].text}}">
 						</button>
 					</div>
 
@@ -78,7 +71,7 @@
 							<span class="feedback">{{questions.feedback[1]}}</span>
 							<script>
 							</script>
-							<img class="choice-img" ng-src="{{answers[1].image}}" alt="{{answers[1].text}}">
+							<img class="choice-img" ng-src="{{answers[1].options.asset.imageUrl}}" alt="{{answers[1].text}}">
 						</button>
 					</div>
 				</div>

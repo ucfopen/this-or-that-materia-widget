@@ -1,17 +1,9 @@
 @import "assets/css/icomoon.css";
 @import "mixins.scss";
 
-@font-face {
-	font-family: 'fha_nicholson_french_ncvRg';
-	src: url('assets/fonts/fha_nicholson_french_ncv-webfont.eot');
-	src: url('assets/fonts/fha_nicholson_french_ncv-webfont.eot?#iefix') format('embedded-opentype'),
-			 url('assets/fonts/fha_nicholson_french_ncv-webfont.woff2') format('woff2'),
-			 url('assets/fonts/fha_nicholson_french_ncv-webfont.woff') format('woff'),
-			 url('assets/fonts/fha_nicholson_french_ncv-webfont.ttf') format('truetype'),
-			 url('assets/fonts/fha_nicholson_french_ncv-webfont.svg#fha_nicholson_french_ncvRg') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
+$chunky-font: 'Sigmar One', cursive;
+$paragraph-font: 'Lato', verdana, sans-serif;
+$title-font: 'Buenard', serif;
 
 // Color palette.
 $lighter: rgba(255,255,255,0.10);
@@ -34,7 +26,7 @@ textarea { resize : none; }
 html, body {
 	background: $background;
 	color: #fff;
-	font-family: 'Lato', verdana, sans-serif;
+	font-family: $paragraph-font;
 	margin: 0;
 	padding: 0;
 	-webkit-user-select: none;
@@ -51,7 +43,7 @@ ul { list-style-type : none; }
 	position: relative;
 
 	font-size: 14px;
-	font-family: 'fha_nicholson_french_ncvRg';
+	font-family: $paragraph-font;
 	text-shadow: 0 3px 3px rgba(0,0,0,0.3);
 	text-transform: uppercase;
 
@@ -159,7 +151,7 @@ ul { list-style-type : none; }
 
 	h1 {
 		margin-left: 8px;
-		font-family: 'Lato', serif;
+		font-family: $paragraph-font;
 		font-weight: 300;
 		font-size: 24px !important;
 		vertical-align: middle;
@@ -229,7 +221,7 @@ input[type=text] {
 		padding: 6px 12px;
 
 		font-size: 24px;
-		font-family: 'Buenard', serif;
+		font-family: $title-font;
 	}
 
 	&.feedback {
@@ -474,7 +466,7 @@ input[type=text] {
 			margin-bottom: 10px;
 			padding: 0 0 10px;
 
-			font-family: 'fha_nicholson_french_ncvRg', serif;
+			font-family: $paragraph-font;
 
 			border-bottom: 2px solid $lighter;
 
@@ -486,14 +478,15 @@ input[type=text] {
 				max-width: 540px;
 				width: 100%;
 
-				input { font-family: 'fha_nicholson_french_ncvRg'; }
+				input { font-family: $chunky-font; }
 			}
 
 			h1 {
 				display: inline-block;
 				margin: 0;
-				width: 200px;
-
+				width: 154px;
+				padding-left: 10px;
+				padding-right: 10px;
 				line-height: 1;
 
 				span {
@@ -534,7 +527,7 @@ input[type=text] {
 				margin: 0;
 
 				font-size: 1.3em;
-				font-family: 'fha_nicholson_french_ncvRg';
+				font-family: $chunky-font;
 				color: #fff;
 				text-align: center;
 			}

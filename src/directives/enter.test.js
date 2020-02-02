@@ -14,7 +14,7 @@ describe('ngEnter Directive', function(){
 
 		// load the required code
 		angular.mock.module('ThisOrThatCreator')
-		require('../modules/creator.coffee')
+		require('../modules/creator')
 		require('./enter.coffee')
 
 		// initialize the angualr controller
