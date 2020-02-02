@@ -130,7 +130,6 @@ describe('Creator Controller', function() {
 		expect($scope.step).toBe(1)
 	})
 
-
 	test('should proceed through the tutorial correctly', () => {
 		publicMethods.initNewWidget(widgetInfo)
 

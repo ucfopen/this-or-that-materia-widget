@@ -58,7 +58,6 @@ export const processQsetItem = ($sanitize, item) => {
 	}
 }
 
-
 // The 'Resource' service contains all app logic that does pertain to DOM manipulation
 export const CreatorService = function($sanitize) {
 	return {

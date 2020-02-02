@@ -1,4 +1,3 @@
-
 export const DirectiveEnter = () => (scope, element, attrs) => {
 	element.bind('keydown keypress', event => {
 		if (event.which === 13) {

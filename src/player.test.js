@@ -60,7 +60,6 @@ describe('Player Controller', function() {
 		widgetInfo = require('./demo.json')
 		qset = widgetInfo.qset
 
-
 		require('./player')
 		// load the required code
 		angular.mock.module('ThisOrThatEngine')

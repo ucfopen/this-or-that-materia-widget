@@ -1,4 +1,3 @@
-
 export const DirectiveFocus = ($timeout, $parse) => ({
 	link(scope, element, attrs) {
 		const model = $parse(attrs.focusMe)
