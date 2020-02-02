@@ -1,6 +1,6 @@
 describe('Player Controller', function() {
-	require('angular/angular.js');
-	require('angular-mocks/angular-mocks.js');
+	require('angular/angular.js')
+	require('angular-mocks/angular-mocks.js')
 
 	let $scope
 	let $controller
@@ -57,7 +57,7 @@ describe('Player Controller', function() {
 		angular.module('hammer', [])
 		angular.module('ngSanitize', [])
 
-		require('./player');
+		require('./player')
 
 		// mock scope
 		$scope = {
@@ -68,7 +68,7 @@ describe('Player Controller', function() {
 		inject(function(_$controller_, _$timeout_) {
 			$timeout = _$timeout_
 			// instantiate the controller
-			$controller = _$controller_('ThisOrThatEngineCtrl', { $scope: $scope})
+			$controller = _$controller_('ThisOrThatEngineCtrl', { $scope: $scope })
 		})
 	})
 
@@ -87,8 +87,8 @@ describe('Player Controller', function() {
 			'chance.jpg',
 			'bogart.jpg'
 		]
-		for(index in expectedImages) {
-			const fullName = 'MEDIA_URL/assets/img/demo/'+expectedImages[index]
+		for (index in expectedImages) {
+			const fullName = 'MEDIA_URL/assets/img/demo/' + expectedImages[index]
 			expect($scope.images).toContain(fullName)
 		}
 	})
@@ -176,12 +176,16 @@ describe('Player Controller', function() {
 		const expectedAnswer = qset.data.items[0].answers[0].id
 		const expectedValue = $scope.answers[0].text
 
-		expect(Materia.Score.submitQuestionForScoring).toHaveBeenCalledWith(expectedId, expectedAnswer, expectedValue)
+		expect(Materia.Score.submitQuestionForScoring).toHaveBeenCalledWith(
+			expectedId,
+			expectedAnswer,
+			expectedValue
+		)
 	})
 
 	test('should handle an incorrect answer choice with no feedback', () => {
 		//pretend the first question has no feedback for wrong answers
-		delete(qset.data.items[0].options.feedback)
+		delete qset.data.items[0].options.feedback
 		publicMethods.start(widgetInfo, qset.data)
 
 		$scope.answers[0].value = 0
@@ -216,7 +220,7 @@ describe('Player Controller', function() {
 		const numberQuestions = qset.data.items.length
 		publicMethods.start(widgetInfo, qset.data)
 
-		for(let i = 0; i < numberQuestions; i++) {
+		for (let i = 0; i < numberQuestions; i++) {
 			quickSelect()
 			$timeout.flush()
 		}
@@ -239,7 +243,7 @@ describe('Player Controller', function() {
 		const numberQuestions = qset.data.items.length
 		publicMethods.start(widgetInfo, qset.data)
 
-		for(let i = 0; i < numberQuestions; i++) {
+		for (let i = 0; i < numberQuestions; i++) {
 			quickSelect()
 			$timeout.flush()
 		}
@@ -254,7 +258,7 @@ describe('Player Controller', function() {
 			data: {
 				items: [
 					{
-						questions: [{text: 'test'}],
+						questions: [{ text: 'test' }],
 						answers: false
 					}
 				]
@@ -270,7 +274,7 @@ describe('Player Controller', function() {
 			materiaType: 'question',
 			id: null,
 			type: 'MC',
-			questions: [{text: questionId}],
+			questions: [{ text: questionId }],
 			answers: [
 				{
 					id: null,
@@ -295,7 +299,7 @@ describe('Player Controller', function() {
 					}
 				}
 			],
-			options: {feedback: ''}
+			options: { feedback: '' }
 		}
 	}
 
@@ -303,20 +307,20 @@ describe('Player Controller', function() {
 		const numberQuestions = 20
 
 		//kind of a hack, but it'll do
-		const expectedOrder = [9,19,3,4,5,6,7,8,0,10,11,12,13,14,15,16,17,18,1,2]
+		const expectedOrder = [9, 19, 3, 4, 5, 6, 7, 8, 0, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1, 2]
 
 		global.Math.random = jest.fn(() => 0.1)
 
 		qset.data.items = []
-		for(let i = 0; i < numberQuestions; i++) {
+		for (let i = 0; i < numberQuestions; i++) {
 			qset.data.items.push(quickQuestion(i))
 		}
 
-		qset.data.options = {randomizeOrder: true}
+		qset.data.options = { randomizeOrder: true }
 		publicMethods.start(widgetInfo, qset.data)
 
 		expect(Math.random).toHaveBeenCalledTimes(numberQuestions)
-		for(i = 0; i < numberQuestions; i++) {
+		for (i = 0; i < numberQuestions; i++) {
 			//the way the current question is stored in scope makes it hard to check
 			//so our function above sets the question's 'title' to a number that
 			// corresponds to that question's 'index'
@@ -330,7 +334,7 @@ describe('Player Controller', function() {
 	test('should not shuffle questions if there are none', () => {
 		global.Math.random = jest.fn()
 		qset.data.items = []
-		qset.data.options = {randomizeOrder: true}
+		qset.data.options = { randomizeOrder: true }
 		publicMethods.start(widgetInfo, qset.data)
 		expect(Math.random).not.toHaveBeenCalled()
 	})

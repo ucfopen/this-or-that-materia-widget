@@ -1,10 +1,10 @@
-const ThisOrThat = angular.module('ThisOrThatCreator');
+const ThisOrThat = angular.module('ThisOrThatCreator')
 
 ThisOrThat.directive('ngEnter', () => (scope, element, attrs) => {
-	element.bind("keydown keypress", (event) => {
-		if(event.which === 13) {
-			scope.$apply(() => scope.$eval(attrs.ngEnter));
-			event.preventDefault();
+	element.bind('keydown keypress', event => {
+		if (event.which === 13) {
+			scope.$apply(() => scope.$eval(attrs.ngEnter))
+			event.preventDefault()
 		}
 	})
 })

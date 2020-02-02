@@ -5,20 +5,24 @@
   },
   "version": "1.0.8",
   "dependencies": {
-    "angular": "^1.7.8",
-    "angular-animate": "^1.7.8",
-    "angular-mocks": "^1.7.8",
-    "angular-sanitize": "^1.7.8",
     "hammerjs": "1.0.5",
-    "jest": "^23.6.0",
-    "jest-coffee-preprocessor": "^1.0.0",
-    "materia-widget-development-kit": "2.5.0",
-    "ng-annotate-loader": "^0.6.1"
+    "materia-widget-development-kit": "2.5.0"
+  },
+  "devDependencies": {
+    "angular": "~1.7.8",
+    "angular-animate": "~1.7.8",
+    "angular-mocks": "~1.7.8",
+    "angular-sanitize": "~1.7.8",
+    "core-js": "^2.5.0",
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1"
   },
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack -p",
     "build-dev": "webpack",
+    "prettier-write": "prettier --write 'src/**/*.js'",
+    "prettier-check": "prettier -c '{src,src/{directives,modules}}/*.js'",
     "test": "TZ='America/New_York' jest --verbose",
     "test-ci": "TZ='America/New_York' CI=true jest --ci --useStderr --coverage --coverageReporters text-summary cobertura"
   },
@@ -28,16 +32,12 @@
       "lcov"
     ],
     "verbose": false,
-    "transform": {
-      "^.+\\.coffee$": "jest-coffee-preprocessor"
-    },
     "moduleFileExtensions": [
-      "coffee",
       "js"
     ],
     "collectCoverageFrom": [
-      "src/**/*.coffee",
-      "src/*.js"
+      "src/*.js",
+      "src/directives/*.js"
     ],
     "coverageThreshold": {
       "global": {

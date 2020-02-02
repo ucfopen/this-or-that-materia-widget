@@ -1,4 +1,4 @@
-describe('focusMe Directive', function(){
+describe('focusMe Directive', function() {
 	require('angular/angular.js')
 	require('angular-animate/angular-animate.js')
 	require('angular-sanitize/angular-sanitize.js')
@@ -18,15 +18,14 @@ describe('focusMe Directive', function(){
 		require('./focus.coffee')
 
 		// initialize the angualr controller
-		inject(function(_$compile_, _$controller_, _$timeout_, _$rootScope_){
+		inject(function(_$compile_, _$controller_, _$timeout_, _$rootScope_) {
 			$timeout = _$timeout_
 			$compile = _$compile_
 			$scope = _$rootScope_.$new()
 		})
 	})
 
-
-	it('should focus given elements when appropriate', function(){
+	it('should focus given elements when appropriate', function() {
 		$scope.activate = false
 
 		element = $compile(angular.element('<div focus-me="activate"></div>'))($scope)

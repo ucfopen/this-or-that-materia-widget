@@ -1,1 +1,1 @@
-const ThisOrThat = angular.module('ThisOrThatCreator', ['ngAnimate', 'ngSanitize']);
+const ThisOrThat = angular.module('ThisOrThatCreator', ['ngAnimate', 'ngSanitize'])
