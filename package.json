@@ -1,5 +1,5 @@
 {
-  "name": "@ucfcdl/this-or-that",
+  "name": "@ucfopen/this-or-that",
   "materia": {
     "cleanName": "this-or-that"
   },
@@ -37,12 +37,12 @@
     ],
     "collectCoverageFrom": [
       "src/*.js",
-      "src/directives/*.js"
+      "src/{directives,controllers,services}/*.js"
     ],
     "coverageThreshold": {
       "global": {
         "statements": 98,
-        "branches": 96,
+        "branches": 95,
         "lines": 99,
         "functions": 100
       }

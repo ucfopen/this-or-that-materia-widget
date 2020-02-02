@@ -1,3 +1,12 @@
+// @TODO: the anuglar modules like 'player' have
+// been re-factored to make unit testing easier
+// these tests still lag behind those changes
+// requiring them to mock all of angular, making
+// them quite a bit more complicated, and 'higher'
+// up in the unit -> functional testing ladder
+// in general we should continue to push toward more
+// direct unit tests as this project continues to evolve
+
 describe('Player Controller', function() {
 	require('angular/angular.js')
 	require('angular-mocks/angular-mocks.js')
@@ -51,13 +60,13 @@ describe('Player Controller', function() {
 		widgetInfo = require('./demo.json')
 		qset = widgetInfo.qset
 
+
+		require('./player')
 		// load the required code
 		angular.mock.module('ThisOrThatEngine')
 		angular.module('ngAnimate', [])
 		angular.module('hammer', [])
 		angular.module('ngSanitize', [])
-
-		require('./player')
 
 		// mock scope
 		$scope = {
@@ -87,7 +96,7 @@ describe('Player Controller', function() {
 			'chance.jpg',
 			'bogart.jpg'
 		]
-		for (index in expectedImages) {
+		for (const index in expectedImages) {
 			const fullName = 'MEDIA_URL/assets/img/demo/' + expectedImages[index]
 			expect($scope.images).toContain(fullName)
 		}
@@ -253,7 +262,7 @@ describe('Player Controller', function() {
 		expect(Materia.Engine.end).toHaveBeenNthCalledWith(2, true)
 	})
 
-	test.only('should return from randomizing answer order when there are no answers', () => {
+	test('should return from randomizing answer order when there are no answers', () => {
 		const testQSet = {
 			data: {
 				items: [
@@ -320,7 +329,7 @@ describe('Player Controller', function() {
 		publicMethods.start(widgetInfo, qset.data)
 
 		expect(Math.random).toHaveBeenCalledTimes(numberQuestions)
-		for (i = 0; i < numberQuestions; i++) {
+		for (let i = 0; i < numberQuestions; i++) {
 			//the way the current question is stored in scope makes it hard to check
 			//so our function above sets the question's 'title' to a number that
 			// corresponds to that question's 'index'

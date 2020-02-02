@@ -1,3 +1,12 @@
+// @TODO: the anuglar modules like 'player' have
+// been re-factored to make unit testing easier
+// these tests still lag behind those changes
+// requiring them to mock all of angular, making
+// them quite a bit more complicated, and 'higher'
+// up in the unit -> functional testing ladder
+// in general we should continue to push toward more
+// direct unit tests as this project continues to evolve
+
 describe('Creator Controller', function() {
 	require('angular/angular.js')
 	require('angular-animate/angular-animate.js')
@@ -10,6 +19,7 @@ describe('Creator Controller', function() {
 	let widgetInfo
 	let qset
 	let publicMethods
+	let $sanitize
 
 	function quickQuestion(givenID) {
 		let title = 'test title ' + givenID
@@ -55,10 +65,9 @@ describe('Creator Controller', function() {
 		widgetInfo = require('./demo.json')
 		qset = widgetInfo.qset
 
-		// load the required code
+		require('./creator')
+		// make angular mock work with the module
 		angular.mock.module('ThisOrThatCreator')
-		require('./modules/creator')
-		require('./creator.coffee')
 
 		// mock scope
 		$scope = {
@@ -89,7 +98,7 @@ describe('Creator Controller', function() {
 	})
 
 	test('should edit a new widget', () => {
-		defaultQuestion = {
+		const defaultQuestion = {
 			title: '',
 			images: ['', ''],
 			isValid: true,
@@ -121,18 +130,6 @@ describe('Creator Controller', function() {
 		expect($scope.step).toBe(1)
 	})
 
-	test('should set the title when a title is input', () => {
-		publicMethods.initNewWidget(widgetInfo)
-
-		expect($scope.title).toBe('My This or That widget')
-
-		$scope.introTitle = 'New This or That Title'
-		$scope.setTitle()
-
-		expect($scope.title).toBe('New This or That Title')
-		expect($scope.dialog.intro).toBe(false)
-		expect($scope.step).toBe(1)
-	})
 
 	test('should proceed through the tutorial correctly', () => {
 		publicMethods.initNewWidget(widgetInfo)

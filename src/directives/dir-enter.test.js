@@ -1,24 +1,25 @@
-describe('ngEnter Directive', function() {
+describe('ngEnter Directive', () => {
 	require('angular/angular.js')
-	require('angular-animate/angular-animate.js')
-	require('angular-sanitize/angular-sanitize.js')
 	require('angular-mocks/angular-mocks.js')
 
-	var $scope
-	var $compile
-	var $timeout
-	var element
+	let $scope
+	let $compile
+	let $timeout
+	let element
 
 	beforeEach(() => {
 		jest.resetModules()
 
-		// load the required code
+		// create the module
+		const ThisOrThat = angular.module('ThisOrThatCreator', [])
+		// make angular mock work with the module
 		angular.mock.module('ThisOrThatCreator')
-		require('../modules/creator')
-		require('./enter.coffee')
+		// load up our directive
+		const { DirectiveEnter } = require('./dir-enter')
+		ThisOrThat.directive('ngEnter', DirectiveEnter)
 
-		// initialize the angualr controller
-		inject(function(_$compile_, _$controller_, _$timeout_, _$rootScope_) {
+		// grab references to angular variables
+		inject((_$compile_, _$controller_, _$timeout_, _$rootScope_) => {
 			$timeout = _$timeout_
 			$compile = _$compile_
 			$scope = _$rootScope_.$new()
@@ -29,15 +30,15 @@ describe('ngEnter Directive', function() {
 	})
 
 	function keyPress(code) {
-		var e = document.createEvent('Events')
+		const e = document.createEvent('Events')
 		e.initEvent('keydown', true, false)
 		e.which = code
 		return e
 	}
 
-	it('should allow non-enter keypresses to function normally', function() {
+	it('should allow non-enter keypresses to function normally', () => {
 		//test with the 'a' key
-		e = keyPress(65)
+		const e = keyPress(65)
 		spyOn(e, 'preventDefault')
 		element.triggerHandler(e)
 		expect(e.preventDefault).not.toHaveBeenCalled()
@@ -48,9 +49,9 @@ describe('ngEnter Directive', function() {
 		expect(e.preventDefault).not.toHaveBeenCalled()
 	})
 
-	it('should prevent default behavior when the enter key is pressed', function() {
+	it('should prevent default behavior when the enter key is pressed', () => {
 		//spoof pressing the 'Enter' key on the input element
-		e = keyPress(13)
+		const e = keyPress(13)
 		spyOn(e, 'preventDefault')
 		element.triggerHandler(e)
 		expect(e.preventDefault).toHaveBeenCalled()

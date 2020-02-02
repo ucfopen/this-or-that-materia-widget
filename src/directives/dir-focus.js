@@ -1,6 +1,5 @@
-const ThisOrThat = angular.module('ThisOrThatCreator')
 
-ThisOrThat.directive('focusMe', ($timeout, $parse) => ({
+export const DirectiveFocus = ($timeout, $parse) => ({
 	link(scope, element, attrs) {
 		const model = $parse(attrs.focusMe)
 		scope.$watch(model, function(value) {
@@ -9,4 +8,4 @@ ThisOrThat.directive('focusMe', ($timeout, $parse) => ({
 			}
 		})
 	}
-}))
+})
