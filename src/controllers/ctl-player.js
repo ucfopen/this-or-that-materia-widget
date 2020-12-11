@@ -12,20 +12,28 @@ export const shuffleArray = array => {
 	return array
 }
 
-export const getAllImageUrls = _qset => {
-	const images = []
+export const getAllAnswerChoices = ($sce, _qset) => {
+	const answers = []
 	_qset.items.forEach(item => {
 		if (!item.answers) return
-		item.answers.forEach(ans => {
-			ans.options.asset.imageUrl = Materia.Engine.getImageAssetUrl(ans.options.asset.id)
-			images.push(ans.options.asset.imageUrl)
+		item.answers.forEach((ans, i) => {
+			if (item.options.answerType[i] === 'image' || item.options.answerType[i] === 'audio') {
+				ans.options.asset.answerChoice = [Materia.Engine.getMediaUrl(ans.options.asset.id)]
+			} else if (item.options.answerType[i] === 'text') {
+				ans.options.asset.answerChoice = [ans.options.asset.id]
+			} else {
+				console.log($sce.trustAsResourceUrl(ans.options.asset.id))
+				ans.options.asset.answerChoice = [$sce.trustAsResourceUrl(ans.options.asset.id)]
+			}
+			ans.options.asset.answerChoice[1] = item.options.answerType[i]
+			answers.push(ans.options.asset.answerChoice)
 		})
 	})
 
-	return images
+	return answers
 }
 
-export const onMateriaStart = ($scope, instance, qset, version) => {
+export const onMateriaStart = ($scope, $sce, instance, qset, version) => {
 	_qset = qset
 	_qset.version = version
 
@@ -33,14 +41,14 @@ export const onMateriaStart = ($scope, instance, qset, version) => {
 		shuffleArray(_qset.items)
 	}
 
-	$scope.images = getAllImageUrls(_qset)
+	$scope.answers = getAllAnswerChoices($sce, _qset)
+
 	showNextQuestion($scope)
 }
 
 export const showNextQuestion = $scope => {
 	$scope.questions.current++
 	const curItem = _qset.items[$scope.questions.current]
-
 	if (curItem) {
 		$scope.title = curItem.questions[0].text
 		$scope.answers = shuffleArray(curItem.answers)
@@ -117,7 +125,7 @@ export const closeIntro = $scope => {
 	$scope.gameState.ingame = true
 }
 
-export const ControllerThisOrThatPlayer = function($scope, $timeout) {
+export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.gameState = {
 		ingame: false,
 		endgame: false,
@@ -142,12 +150,12 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout) {
 
 	//for preloading
 	$scope.title = ''
-	$scope.images = []
+	$scope.answers = []
 	$scope.answers = []
 	$scope.viewScores = viewScores
 	$scope.checkChoice = checkChoice.bind(null, $scope)
 	$scope.nextClicked = nextClicked.bind(null, $scope, $timeout)
 	$scope.closeIntro = closeIntro.bind(null, $scope)
 
-	Materia.Engine.start({ start: onMateriaStart.bind(null, $scope) })
+	Materia.Engine.start({ start: onMateriaStart.bind(null, $scope, $sce) })
 }

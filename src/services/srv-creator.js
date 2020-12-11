@@ -37,7 +37,7 @@ export const processQsetItem = ($sanitize, item) => {
 				options: {
 					asset: {
 						materiaType: 'asset',
-						id: item.images[0]
+						id: item.options[0]
 					}
 				}
 			},
@@ -47,13 +47,14 @@ export const processQsetItem = ($sanitize, item) => {
 				options: {
 					asset: {
 						materiaType: 'asset',
-						id: item.images[1]
+						id: item.options[1]
 					}
 				}
 			}
 		],
 		options: {
-			feedback: item.alt[2]
+			feedback: item.alt[2],
+			answerType: item.answerType
 		}
 	}
 }

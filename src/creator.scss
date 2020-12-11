@@ -289,33 +289,47 @@ input[type='text'] {
 
 	&.step2 {
 		top: 405px;
-		left: 115px;
+		left: 129px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
 	&.step3 {
+		top: 405px;
+		left: 115px;
+		opacity: 1;
+		animation: pounce-down 1s infinite;
+	}
+
+	&.step4 {
 		top: 465px;
 		left: 105px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
-	&.step4 {
+	&.step5 {
+		top: 405px;
+		right: 129px;
+		opacity: 1;
+		animation: pounce-down 1s infinite;
+	}
+
+	&.step6 {
 		top: 405px;
 		right: 115px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
-	&.step5 {
+	&.step7 {
 		top: 465px;
 		right: 105px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
-	&.step6 {
+	&.step8 {
 		bottom: -57px;
 		right: 146px;
 		opacity: 1;
@@ -566,6 +580,13 @@ input[type='text'] {
 					top: 54px;
 					right: 25px;
 				}
+
+				.clear-type {
+					position: absolute;
+					top: 54px;
+					left: 25px;
+					z-index: 1;
+				}
 			}
 
 			.desc {
@@ -582,6 +603,7 @@ input[type='text'] {
 				margin-bottom: 15px;
 				padding: 20px;
 				width: 340px;
+				height: 290px;
 
 				background: url('assets/img/sprites') no-repeat center;
 				background-position: -1515.9720458984375px 0;
@@ -612,11 +634,38 @@ input[type='text'] {
 					background-repeat: no-repeat;
 				}
 
+				&.answer-full-height {
+					height: 290px;
+				}
+
+				.choice-textarea {
+					margin-top: 24px;
+					background: transparent;
+					border: none;
+					color: white;
+					font-size: 18px;
+				}
+
 				.choice-img {
 					height: 250px;
 					width: 300px;
 
 					border-radius: 4px;
+				}
+
+				&div {
+					height: 250px;
+					width: 300px;
+
+					border-radius: 4px;
+				}
+
+				figure, video {
+					margin: 8px 0 0;
+				}
+
+				input {
+					background: url(assets/img/sprites) no-repeat center;
 				}
 			}
 
@@ -696,6 +745,32 @@ input[type='text'] {
 	overflow: hidden;
 	clip: rect(0, 0, 0, 0);
 	border: 0;
+}
+
+.answer-types {
+	display: flex;
+	flex-direction: column;
+	height: 300px;
+
+	button {
+		width: 200px;
+    margin: auto;
+		height: 40px;
+		border: none;
+    border-radius: 8px;
+    color: black;
+		font-weight: bold;
+		text-transform: uppercase;
+    // font-family: "Sigmar One", cursive
+	}
+}
+
+.answer-margin {
+	margin-top: 24px;
+}
+
+.hidden {
+	display: none;
 }
 
 //keyframe animations

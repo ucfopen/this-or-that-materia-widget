@@ -46,7 +46,7 @@ describe('Player Controller', function() {
 				}),
 				end: jest.fn(),
 				setHeight: jest.fn(),
-				getImageAssetUrl: jest.fn(asset => {
+				getMediaUrl: jest.fn(asset => {
 					const cleaned = asset.replace(/<%MEDIA='(.+?)'%>/g, '$1')
 					return 'MEDIA_URL/' + cleaned
 				})

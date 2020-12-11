@@ -1,4 +1,4 @@
-export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, CreatorService) => {
+export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, CreatorService, $sce) => {
 	$scope.title = 'My This or That widget'
 	$scope.randomizeOrder = false
 	$scope.questions = []
@@ -9,11 +9,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		step: 1,
 		text: [
 			'Enter a question',
-			'Upload the correct image',
-			'Describe the correct image',
-			'Upload the incorrect image',
-			'Describe the incorrect image',
-			'Add more questions!'
+			'Pick the answer type',
 		]
 	}
 	$scope.actions = {
@@ -102,7 +98,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 			// Add each imported question to the DOM
 			$scope.questions.push({
 				title: item.questions[0].text.replace(/\&\#10\;/g, '\n'),
-				images: _ids,
+				options: _ids,
 				isValid: true,
 				alt: [
 					item.answers[0].text,
@@ -179,12 +175,15 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		}
 	}
 
-	$scope.addQuestion = function(title, images, imgsFilled, isValid, alt, URLs, id, qid, ansid) {
+	$scope.addQuestion = function(title, answerType, options, imgsFilled, isValid, alt, URLs, id, qid, ansid) {
 		if (title == null) {
 			title = ''
 		}
-		if (images == null) {
-			images = ['', '']
+		if (answerType == null) {
+			answerType = ['', '']
+		}
+		if (options == null) {
+			options = ['', '']
 		}
 		if (imgsFilled == null) {
 			imgsFilled = [false, false]
@@ -196,7 +195,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 			alt = ['', '']
 		}
 		if (URLs == null) {
-			URLs = ['assets/img/placeholder.png', 'assets/img/placeholder.png']
+			URLs = ['', '']
 		}
 		if (id == null) {
 			id = ''
@@ -213,7 +212,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 				$timeout(_noTransition, 660, true)
 
 				$timeout(
-					() => _updateIndex('add', { title, images, isValid, alt, URLs, id, qid, ansid }),
+					() => _updateIndex('add', { title, answerType, options, isValid, alt, URLs, id, qid, ansid }),
 					200,
 					true
 				)
@@ -221,7 +220,8 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		} else {
 			$scope.questions.push({
 				title,
-				images,
+				answerType,
+				options,
 				isValid,
 				alt,
 				URLs,
@@ -249,8 +249,36 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		}
 	}
 
+	$scope.updateAnswerType = function(type, currIndex, side) {
+		$scope.questions[currIndex].answerType[side] = type
+		$scope.tutorialIncrement(side ? 5 : 2)
+		switch (type) {
+			case 'image':
+				$scope.questions[currIndex].URLs[side] = 'assets/img/placeholder.png'
+				$scope.tutorial.text[side ? 5 : 2] = `Upload the ${side ? 'in' : ''}correct image`
+				$scope.tutorial.text[side ? 6 : 3] = `Describe the ${side ? 'in' : ''}correct image`
+				break
+			case 'text':
+				$scope.questions[currIndex].alt[side] = '-'
+				$scope.tutorial.text[side ? 5 : 2] = `Enter the ${side ? 'in' : ''}correct answer`
+				$scope.tutorial.text[side ? 6 : 3] = ``
+				break
+			case 'audio':
+				$scope.tutorial.text[side ? 5 : 2] = `Upload the ${side ? 'in' : ''}correct audio`
+				$scope.tutorial.text[side ? 6 : 3] = `Describe the ${side ? 'in' : ''}correct audio`
+				break
+			case 'video':
+				$scope.tutorial.text[side ? 5 : 2] = `Link the ${side ? 'in' : ''}correct video`
+				$scope.tutorial.text[side ? 6 : 3] = `Describe the ${side ? 'in' : ''}correct video`
+				break
+			default:
+				break
+		}
+		$scope.tutorial.text[side ? 7 : 4] = side ? 'Add more questions!' : `Pick the answer type`
+	}
+
 	$scope.requestImage = function(index, which) {
-		Materia.CreatorCore.showMediaImporter()
+		Materia.CreatorCore.showMediaImporter(['jpg', 'gif', 'png'])
 		// Save the image and which choice it's for
 		_imgRef[0] = index
 		_imgRef[1] = which
@@ -258,15 +286,47 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		$scope.validation('change', index)
 	}
 
+	$scope.requestAudio = function(index, which) {
+		Materia.CreatorCore.showMediaImporter(['mp3'])
+		// Save the image and which choice it's for
+		_imgRef[0] = index
+		_imgRef[1] = which
+
+		$scope.validation('change', index)
+	}
+
+	$scope.embedVideo = function(index, which) {
+		try {
+			let embedUrl = $scope.questions[index].options[which]
+			if (embedUrl) {
+				if (embedUrl.includes('youtu')) {
+					const stringMatch = embedUrl.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
+					embedUrl = embedUrl.includes('/embed/') ? embedUrl : ('https://www.youtube.com/embed/' + (stringMatch && stringMatch[1]));
+				} else if (embedUrl.includes('vimeo')) {
+					const stringMatch = embedUrl.match(/(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i)
+					embedUrl = embedUrl.includes('player.vimeo.com') ? embedUrl : 'https://player.vimeo.com/video/' + (stringMatch && stringMatch[1]);
+				} else if (['mp4', 'flv', 'm4a', '3gp', 'mkv'].includes(embedUrl.split('.').pop())){
+					embedUrl = embedUrl
+				} else {
+					embedUrl = ''
+				}
+			}
+			$scope.questions[index].options[which] = embedUrl
+			return $sce.trustAsResourceUrl(embedUrl)
+		} catch (e) {
+			// console.log(e)
+		}
+	}
+
 	$scope.setURL = function(URL, id) {
 		// Bind the image URL to the DOM
 		$scope.questions[_imgRef[0]].URLs[_imgRef[1]] = URL
-		$scope.questions[_imgRef[0]].images[_imgRef[1]] = id
+		$scope.questions[_imgRef[0]].options[_imgRef[1]] = id
 	}
 
 	$scope.clearImage = function(index, which) {
 		$scope.questions[index].URLs[which] = 'http://placehold.it/300x250'
-		$scope.questions[index].images[which] = null
+		$scope.questions[index].options[which] = null
 		$scope.$apply()
 	}
 
@@ -329,6 +389,16 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					break
 				case 6:
 					if ($scope.tutorial.step === 6) {
+						return $scope.tutorial.step++
+					}
+					break
+				case 7:
+					if ($scope.tutorial.step === 7) {
+						return $scope.tutorial.step++
+					}
+					break
+				case 8:
+					if ($scope.tutorial.step === 8) {
 						return ($scope.tutorial.step = null)
 					}
 					break
@@ -348,7 +418,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		switch (action) {
 			case 'save':
 				for (let q of $scope.questions) {
-					if (!q.title || !q.alt[0] || !q.alt[1] || !q.images[0] || !q.images[1]) {
+					if (!q.title || !q.alt[0] || !q.alt[1] || !q.options[0] || !q.options[1]) {
 						q.invalid = true
 						$scope.dialog.invalid = true
 						$scope.$apply()
@@ -364,8 +434,8 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					$scope.questions[which].title &&
 					$scope.questions[which].alt[0] &&
 					$scope.questions[which].alt[1] &&
-					$scope.questions[which].images[0] &&
-					$scope.questions[which].images[1]
+					$scope.questions[which].options[0] &&
+					$scope.questions[which].options[1]
 				) {
 					return ($scope.questions[which].invalid = false)
 				}

@@ -64,62 +64,271 @@
 						</header>
 
 						<div class="choices">
-							<section class="frame-container left">
-								<h2 class="desc">The correct image</h2>
+							<section ng-else class="frame-container left">
+								<h2 class="desc">The correct choice</h2>
 
-								<button class="img-frame correct"
-									aria-label="The correct image"
-									ng-click="requestImage(currIndex, 0); tutorialIncrement(2)"
+								<div
+									ng-class="{ 'hidden': questions[currIndex].answerType[0] !== '' }"
+									class="img-frame correct answer-types"
 									ng-disabled="tutorial.step && tutorial.step < 2">
-									<img class="choice-img" ng-src="{{questions[currIndex].URLs[0]}}" alt="{{questions[currIndex].alt[0]}}">
+									<button
+										ng-disabled="tutorial.step && tutorial.step < 2"
+										ng-click="updateAnswerType('image', currIndex, 0)">
+										<span>image</span>
+									</button>
+									<button
+										ng-disabled="tutorial.step && tutorial.step < 2"
+										ng-click="updateAnswerType('text', currIndex, 0)">
+										<span>text</span>
+									</button>
+									<button
+										ng-disabled="tutorial.step && tutorial.step < 2"
+										ng-click="updateAnswerType('audio', currIndex, 0)">
+										<span>audio</span>
+									</button>
+									<button
+										ng-disabled="tutorial.step && tutorial.step < 2"
+										ng-click="updateAnswerType('video', currIndex, 0)">
+										<span>video</span>
+									</button>
+								</div>
+
+								<button class="clear-type btn small gray"
+									ng-click="questions[currIndex].answerType[0] = ''; questions[currIndex].alt[0] = ''; questions[currIndex].options[0] = ''"
+									ng-show="questions[currIndex].answerType[0] !== ''">
+									<span aria-hidden="true">
+										<svg style="width: 12px; height: 12px;" viewBox="0 0 900 900" preserveAspectRatio="none">
+											<g>
+												<path d="M32 512l480 480v-288h512v-384h-512v-288z"></path>
+											</g>
+										</svg>
+									</span>
+									<span class="sr-only">Reset answer type</span>
 								</button>
 
-								<button class="clear-img btn small red"
-									ng-click="clearImage(currIndex, 0)"
-									ng-show="questions[currIndex].images[0]">
-									<span class="icon-cross" aria-hidden="true"></span>
-									<span class="sr-only">Clear image</span>
-								</button>
+								<ng-template ng-if="questions[currIndex].answerType[0] === 'image'">
+									<button class="img-frame correct"
+										aria-label="The correct image"
+										ng-click="requestImage(currIndex, 0); tutorialIncrement(3)"
+										ng-disabled="tutorial.step && tutorial.step < 3">
+										<img class="choice-img" ng-src="{{questions[currIndex].URLs[0]}}" alt="{{questions[currIndex].alt[0]}}">
+									</button>
 
-								<input type="text"
-									placeholder="Description for the correct image"
-									required
-									ng-change="validation('change', currIndex); tutorialIncrement(3)"
-									ng-model="questions[currIndex].alt[0]"
-									ng-disabled="tutorial.step && tutorial.step < 3">
+									<button class="clear-img btn small red"
+										ng-click="clearImage(currIndex, 0)"
+										ng-show="questions[currIndex].options[0]">
+										<span class="icon-cross" aria-hidden="true"></span>
+										<span class="sr-only">Clear image</span>
+									</button>
+
+									<input type="text"
+										placeholder="Description for the correct image"
+										required
+										ng-change="validation('change', currIndex); tutorialIncrement(4)"
+										ng-model="questions[currIndex].alt[0]"
+										ng-disabled="tutorial.step && tutorial.step < 4">
+								</ng-template>
+								<ng-template ng-if="questions[currIndex].answerType[0] === 'text'">
+									<div class="img-frame correct answer-full-height">
+										<textarea
+										name="correct"
+										rows="11"
+										cols="25"
+										class="choice-textarea"
+										placeholder="Correct answer"
+										required
+										ng-change="validation('change', currIndex); tutorialIncrement(3); tutorialIncrement(4)"
+										ng-model="questions[currIndex].options[0]"
+										ng-blur="questions[currIndex].alt[0] = questions[currIndex].options[0]"
+										ng-disabled="tutorial.step && tutorial.step < 3"></textarea>
+									</div>
+								</ng-template>
+
+								<ng-template ng-if="questions[currIndex].answerType[0] === 'audio'">
+									<button class="img-frame correct"
+										aria-label="The correct audio"
+										ng-click="requestAudio(currIndex, 0); tutorialIncrement(3)"
+										ng-disabled="tutorial.step && tutorial.step < 3">
+										<div>
+											<figure>
+												<figcaption>{{questions[currIndex].alt[0]}}</figcaption>
+												<audio
+													controls
+													src="{{questions[currIndex].URLs[0]}}">
+													Your browser does not support the
+													<code>audio</code> element.
+												</audio>
+											</figure>
+										</div>
+									</button>
+
+									<button class="clear-img btn small red"
+										ng-click="clearImage(currIndex, 0)"
+										ng-show="questions[currIndex].options[0]">
+										<span class="icon-cross" aria-hidden="true"></span>
+										<span class="sr-only">Clear image</span>
+									</button>
+
+									<input type="text"
+										placeholder="Description for the correct audio"
+										required
+										ng-change="validation('change', currIndex); tutorialIncrement(4)"
+										ng-model="questions[currIndex].alt[0]"
+										ng-disabled="tutorial.step && tutorial.step < 4">
+								</ng-template>
+
+								<ng-template ng-if="questions[currIndex].answerType[0] === 'video'">
+									<div class="img-frame correct answer-full-height">
+										<input type="text"
+											class="answer-margin"
+											placeholder="Enter a YouTube or Vimeo URL"
+											ng-change="tutorialIncrement(3)"
+											required
+											ng-model="questions[currIndex].options[0]"
+											ng-disabled="tutorial.step && tutorial.step < 3" />
+										<iframe width="100%" height="75%" ng-src="{{ embedVideo(currIndex, 0) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+									</div>
+									<input type="text"
+										placeholder="Description for the correct video"
+										required
+										ng-change="validation('change', currIndex); tutorialIncrement(4)"
+										ng-model="questions[currIndex].alt[0]"
+										ng-disabled="tutorial.step && tutorial.step < 4" />
+								</ng-template>
 							</section>
 
 							<section class="frame-container right">
-								<h2 class="desc">The incorrect image</h2>
+								<h2 class="desc">The incorrect choice</h2>
 
-								<button class="img-frame incorrect"
-									aria-label="The incorrect image"
-									ng-click="requestImage(currIndex, 1); tutorialIncrement(4)"
-									ng-disabled="tutorial.step && tutorial.step < 4">
-									<img class="choice-img" ng-src="{{questions[currIndex].URLs[1]}}" alt="{{questions[currIndex].alt[1]}}">
+								<div
+									ng-class="{ 'hidden': questions[currIndex].answerType[1] !== '' }"
+									class="img-frame incorrect answer-types"
+									ng-disabled="tutorial.step && tutorial.step < 5">
+									<button
+										ng-disabled="tutorial.step && tutorial.step < 5"
+										ng-click="updateAnswerType('image', currIndex, 1)">
+										<span>image</span>
+									</button>
+									<button
+										ng-disabled="tutorial.step && tutorial.step < 5"
+										ng-click="updateAnswerType('text', currIndex, 1)">
+										<span>text</span>
+									</button>
+									<button
+										ng-disabled="tutorial.step && tutorial.step < 5"
+										ng-click="updateAnswerType('audio', currIndex, 1)">
+										<span>audio</span>
+									</button>
+									<button
+										ng-disabled="tutorial.step && tutorial.step < 5"
+										ng-click="updateAnswerType('video', currIndex, 1)">
+										<span>video</span>
+									</button>
+								</div>
+
+								<button class="clear-type btn small gray"
+									ng-click="questions[currIndex].answerType[1] = ''; questions[currIndex].alt[1] = ''; questions[currIndex].options[1] = ''"
+									ng-show="questions[currIndex].answerType[1] !== ''">
+									<span aria-hidden="true">
+										<svg style="width: 12px; height: 12px;" viewBox="0 0 900 900" preserveAspectRatio="none">
+											<g>
+												<path d="M32 512l480 480v-288h512v-384h-512v-288z"></path>
+											</g>
+										</svg>
+									</span>
+									<span class="sr-only">Reset answer type</span>
 								</button>
 
-								<button class="clear-img btn small red"
-									ng-click="clearImage(currIndex, 1)"
-									ng-show="questions[currIndex].images[1]">
-									<span class="icon-cross" aria-hidden="true"></span>
-									<span class="sr-only">Clear image</span>
-								</button>
+								<ng-template ng-if="questions[currIndex].answerType[1] === 'image'">
+									<button class="img-frame incorrect"
+										aria-label="The incorrect image"
+										ng-click="requestImage(currIndex, 1); tutorialIncrement(6)"
+										ng-disabled="tutorial.step && tutorial.step < 6">
+										<img class="choice-img" ng-src="{{questions[currIndex].URLs[1]}}" alt="{{questions[currIndex].alt[1]}}">
+									</button>
 
-								<input type="text"
-									placeholder="Description for the incorrect image"
-									required
-									ng-change="validation('change', currIndex); tutorialIncrement(5)"
-									ng-model="questions[currIndex].alt[1]"
-									ng-disabled="tutorial.step && tutorial.step < 5">
+									<button class="clear-img btn small red"
+										ng-click="clearImage(currIndex, 1)"
+										ng-show="questions[currIndex].options[1]">
+										<span class="icon-cross" aria-hidden="true"></span>
+										<span class="sr-only">Clear image</span>
+									</button>
 
-								<input type="text"
-									placeholder="Optional feedback for an incorrect answer"
-									class="feedback"
-									required
-									ng-change="validation('change', currIndex); tutorialIncrement(5)"
-									ng-model="questions[currIndex].alt[2]"
-									ng-disabled="tutorial.step && tutorial.step < 5">
+									<input type="text"
+										placeholder="Description for the incorrect image"
+										required
+										ng-change="validation('change', currIndex); tutorialIncrement(7)"
+										ng-model="questions[currIndex].alt[1]"
+										ng-disabled="tutorial.step && tutorial.step < 7">
+								</ng-template>
+
+								<ng-template ng-if="questions[currIndex].answerType[1] === 'text'">
+									<div class="img-frame incorrect answer-full-height">
+										<textarea
+										name="incorrect"
+										rows="11"
+										cols="25"
+										class="choice-textarea"
+										placeholder="Incorrect answer"
+										required
+										ng-change="validation('change', currIndex); tutorialIncrement(6); tutorialIncrement(7)"
+										ng-model="questions[currIndex].options[1]"
+										ng-blur="questions[currIndex].alt[1] = questions[currIndex].options[1]"
+										ng-disabled="tutorial.step && tutorial.step < 6"></textarea>
+									</div>
+								</ng-template>
+
+								<ng-template ng-if="questions[currIndex].answerType[1] === 'audio'">
+									<button class="img-frame incorrect"
+										aria-label="The incorrect audio"
+										ng-click="requestAudio(currIndex, 1); tutorialIncrement(6)"
+										ng-disabled="tutorial.step && tutorial.step < 6">
+										<div>
+											<figure>
+												<figcaption>{{questions[currIndex].alt[1]}}</figcaption>
+												<audio
+													controls
+													src="{{questions[currIndex].URLs[1]}}">
+													Your browser does not support the
+													<code>audio</code> element.
+												</audio>
+											</figure>
+										</div>
+									</button>
+
+									<button class="clear-img btn small red"
+										ng-click="clearImage(currIndex, 1)"
+										ng-show="questions[currIndex].options[1]">
+										<span class="icon-cross" aria-hidden="true"></span>
+										<span class="sr-only">Clear image</span>
+									</button>
+
+									<input type="text"
+										placeholder="Description for the incorrect audio"
+										required
+										ng-change="validation('change', currIndex); tutorialIncrement(7)"
+										ng-model="questions[currIndex].alt[1]"
+										ng-disabled="tutorial.step && tutorial.step < 7">
+								</ng-template>
+
+								<ng-template ng-if="questions[currIndex].answerType[1] === 'video'">
+									<div class="img-frame incorrect answer-full-height">
+										<input type="text"
+											class="answer-margin"
+											placeholder="Enter a YouTube or Vimeo URL"
+											ng-change="tutorialIncrement(6)"
+											required
+											ng-model="questions[currIndex].options[1]"
+											ng-disabled="tutorial.step && tutorial.step < 6" />
+										<iframe width="100%" height="75%" ng-src="{{ embedVideo(currIndex, 1) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+									</div>
+									<input type="text"
+										placeholder="Description for the incorrect video"
+										required
+										ng-change="validation('change', currIndex); tutorialIncrement(7)"
+										ng-model="questions[currIndex].alt[1]"
+										ng-disabled="tutorial.step && tutorial.step < 7" />
+								</ng-template>
 							</section>
 						</div>
 
@@ -147,7 +356,7 @@
 				</button>
 
 				<div class="arrow-box"
-					ng-class="{ 'step1': tutorial.step == 1, 'step2': tutorial.step == 2, 'step3': tutorial.step == 3, 'step4': tutorial.step == 4, 'step5': tutorial.step == 5, 'step6 arrow-right': tutorial.step == 6 }"
+					ng-class="{ 'step1': tutorial.step == 1, 'step2': tutorial.step == 2, 'step3': tutorial.step == 3, 'step4': tutorial.step == 4, 'step5': tutorial.step == 5, 'step6': tutorial.step == 6, 'step7': tutorial.step == 7, 'step8 arrow-right': tutorial.step == 8 }"
 					ng-show="tutorial.step">
 					{{tutorial.text[tutorial.step - 1]}}
 				</div>
@@ -167,8 +376,8 @@
 					id="add-question"
 					aria-label="Add Question"
 					ng-class="{'right': questions[0]}"
-					ng-click="addQuestion(); tutorialIncrement(6)"
-					ng-disabled="tutorial.step && tutorial.step < 6">
+					ng-click="addQuestion(); tutorialIncrement(7)"
+					ng-disabled="tutorial.step && tutorial.step < 7">
 					Add Question
 				</button>
 			</nav>

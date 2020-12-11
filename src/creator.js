@@ -13,5 +13,6 @@ ThisOrThat.controller('ThisOrThatCreatorCtrl', [
 	'$timeout',
 	'$sanitize',
 	'CreatorService',
+	'$sce',
 	ControllerThisOrThatCreator
 ])

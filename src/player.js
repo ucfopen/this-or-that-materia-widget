@@ -4,5 +4,6 @@ const ThisOrThatEngine = angular.module('ThisOrThatEngine', ['ngAnimate', 'hamme
 ThisOrThatEngine.controller('ThisOrThatEngineCtrl', [
 	'$scope',
 	'$timeout',
+	'$sce',
 	ControllerThisOrThatPlayer
 ])
