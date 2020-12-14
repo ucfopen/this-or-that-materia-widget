@@ -95,9 +95,13 @@ describe('Player Controller', function() {
 			'chance.jpg',
 			'bogart.jpg'
 		]
+		const answerArray = [];
+		$scope.choices.forEach(answer => {
+			answerArray.push(answer[0]);
+		})
 		for (const index in expectedImages) {
 			const fullName = 'MEDIA_URL/assets/img/demo/' + expectedImages[index]
-			expect($scope.images).toContain(fullName)
+			expect(answerArray).toContain(fullName)
 		}
 	})
 
@@ -307,7 +311,7 @@ describe('Player Controller', function() {
 					}
 				}
 			],
-			options: { feedback: '' }
+			options: { feedback: '', answerType: ['image', 'image'] }
 		}
 	}
 

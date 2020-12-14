@@ -23,7 +23,7 @@ describe('Creator Controller', function() {
 
 	function quickQuestion(givenID) {
 		let title = 'test title ' + givenID
-		let images = ['image 1', 'image 2']
+		let options = ['image 1', 'image 2']
 		let imgsFilled = [false, false]
 		let isValid = true
 		let alt = ['alt 1', 'alt 2']
@@ -31,8 +31,9 @@ describe('Creator Controller', function() {
 		let id = '' + givenID
 		let qid = '' + givenID
 		let ansid = '' + givenID
+		let answerType = ['image', 'image']
 
-		$scope.addQuestion(title, images, imgsFilled, isValid, alt, URLs, id, qid, ansid)
+		$scope.addQuestion(title, answerType, options, imgsFilled, isValid, alt, URLs, id, qid, ansid)
 		$timeout.flush()
 		$timeout.verifyNoPendingTasks()
 	}
@@ -100,10 +101,11 @@ describe('Creator Controller', function() {
 	test('should edit a new widget', () => {
 		const defaultQuestion = {
 			title: '',
-			images: ['', ''],
+			answerType: ['', ''],
+			options: ['', ''],
 			isValid: true,
 			alt: ['', ''],
-			URLs: ['assets/img/placeholder.png', 'assets/img/placeholder.png'],
+			URLs: ['', ''],
 			id: '',
 			qid: '',
 			ansid: ''
@@ -164,8 +166,18 @@ describe('Creator Controller', function() {
 		expect($scope.tutorial.step).toBe(6)
 
 		$scope.tutorialIncrement(6)
-		expect($scope.tutorial.step).toBeNull()
+		expect($scope.tutorial.step).toBe(7)
 		$scope.tutorialIncrement(6)
+		expect($scope.tutorial.step).toBe(7)
+
+		$scope.tutorialIncrement(7)
+		expect($scope.tutorial.step).toBe(8)
+		$scope.tutorialIncrement(7)
+		expect($scope.tutorial.step).toBe(8)
+
+		$scope.tutorialIncrement(8)
+		expect($scope.tutorial.step).toBeNull()
+		$scope.tutorialIncrement(8)
 		expect($scope.tutorial.step).toBeNull()
 	})
 
@@ -186,7 +198,7 @@ describe('Creator Controller', function() {
 		publicMethods.initNewWidget(widgetInfo)
 
 		$scope.questions[0].title = 'question 1'
-		$scope.questions[0].images = ['image 1', 'image 2']
+		$scope.questions[0].options = ['image 1', 'image 2']
 		$scope.questions[0].alt = ['alt 1', 'alt 2']
 		$scope.dialog.invalid = false
 
@@ -202,7 +214,7 @@ describe('Creator Controller', function() {
 
 		//add a valid question so we don't get the 'not all questions are complete' message
 		$scope.questions[0].title = 'question 1'
-		$scope.questions[0].images = ['image 1', 'image 2']
+		$scope.questions[0].options = ['image 1', 'image 2']
 		$scope.questions[0].alt = ['alt 1', 'alt 2']
 		$scope.dialog.invalid = false
 
@@ -233,7 +245,7 @@ describe('Creator Controller', function() {
 
 		expect($scope.questions.length).toBe(2)
 		expect($scope.questions[1].title).toBe('test title 1')
-		expect($scope.questions[1].images).toEqual(['image 1', 'image 2'])
+		expect($scope.questions[1].options).toEqual(['image 1', 'image 2'])
 		expect($scope.questions[1].isValid).toBe(true)
 		expect($scope.questions[1].alt).toEqual(['alt 1', 'alt 2'])
 		expect($scope.questions[1].URLs).toEqual(['url 1', 'url 2'])
@@ -438,7 +450,7 @@ describe('Creator Controller', function() {
 
 		$scope.clearImage(0, 0)
 		expect($scope.questions[0].URLs[0]).toBe('http://placehold.it/300x250')
-		expect($scope.questions[0].images[0]).toBeNull()
+		expect($scope.questions[0].options[0]).toBeNull()
 	})
 
 	test('should correctly remove all questions', () => {
@@ -498,13 +510,13 @@ describe('Creator Controller', function() {
 		expect(Materia.CreatorCore.showMediaImporter).toHaveBeenCalled()
 
 		expect($scope.questions[0].URLs[0]).toBe('test url')
-		expect($scope.questions[0].images[0]).toBe(4)
+		expect($scope.questions[0].options[0]).toBe(4)
 
 		const media = [{ id: 5 }]
 		publicMethods.onMediaImportComplete(media)
 
 		expect($scope.questions[0].URLs[0]).toBe('MEDIA_URL/5')
-		expect($scope.questions[0].images[0]).toBe(5)
+		expect($scope.questions[0].options[0]).toBe(5)
 	})
 
 	test('should import questions', () => {

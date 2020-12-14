@@ -22,7 +22,6 @@ export const getAllAnswerChoices = ($sce, _qset) => {
 			} else if (item.options.answerType[i] === 'text') {
 				ans.options.asset.answerChoice = [ans.options.asset.id]
 			} else {
-				console.log($sce.trustAsResourceUrl(ans.options.asset.id))
 				ans.options.asset.answerChoice = [$sce.trustAsResourceUrl(ans.options.asset.id)]
 			}
 			ans.options.asset.answerChoice[1] = item.options.answerType[i]
@@ -41,7 +40,7 @@ export const onMateriaStart = ($scope, $sce, instance, qset, version) => {
 		shuffleArray(_qset.items)
 	}
 
-	$scope.answers = getAllAnswerChoices($sce, _qset)
+	$scope.choices = getAllAnswerChoices($sce, _qset)
 
 	showNextQuestion($scope)
 }
@@ -151,7 +150,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	//for preloading
 	$scope.title = ''
 	$scope.answers = []
-	$scope.answers = []
+	$scope.choices = []
 	$scope.viewScores = viewScores
 	$scope.checkChoice = checkChoice.bind(null, $scope)
 	$scope.nextClicked = nextClicked.bind(null, $scope, $timeout)
