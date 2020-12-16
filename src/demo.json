@@ -117,6 +117,82 @@
             "feedback": "",
             "answerType": ["image", "image"]
           }
+        },
+        {
+          "materiaType": "question",
+          "id": null,
+          "type": "MC",
+          "questions": [
+            {
+              "text": "Which sound are you more likely to hear in a forest?"
+            }
+          ],
+          "answers": [
+            {
+              "id": null,
+              "text": "Birds chirping",
+              "value": 100,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "id": "<%MEDIA='assets/img/demo/birds.mp3'%>"
+                }
+              }
+            },
+            {
+              "id": null,
+              "text": "A popular music video",
+              "value": 0,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "id": "https://youtu.be/dQw4w9WgXcQ"
+                }
+              }
+            }
+          ],
+          "options": {
+            "feedback": "",
+            "answerType": ["audio", "video"]
+          }
+        },
+        {
+          "materiaType": "question",
+          "id": null,
+          "type": "MC",
+          "questions": [
+            {
+              "text": "Why do valves cause inefficient fluid flow?"
+            }
+          ],
+          "answers": [
+            {
+              "id": null,
+              "text": "-",
+              "value": 100,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "id": "Form friction"
+                }
+              }
+            },
+            {
+              "id": null,
+              "text": "-",
+              "value": 0,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "id": "Skin friction"
+                }
+              }
+            }
+          ],
+          "options": {
+            "feedback": "",
+            "answerType": ["text", "text"]
+          }
         }
       ]
     }

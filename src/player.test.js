@@ -93,7 +93,8 @@ describe('Player Controller', function() {
 			'mario.jpg',
 			'wow.jpg',
 			'chance.jpg',
-			'bogart.jpg'
+			'bogart.jpg',
+			'birds.mp3',
 		]
 		const answerArray = [];
 		$scope.choices.forEach(answer => {

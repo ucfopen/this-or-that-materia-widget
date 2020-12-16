@@ -23,6 +23,7 @@ describe('Creator Controller', function() {
 
 	function quickQuestion(givenID) {
 		let title = 'test title ' + givenID
+		let answerType = ['image', 'image']
 		let options = ['image 1', 'image 2']
 		let imgsFilled = [false, false]
 		let isValid = true
@@ -31,7 +32,6 @@ describe('Creator Controller', function() {
 		let id = '' + givenID
 		let qid = '' + givenID
 		let ansid = '' + givenID
-		let answerType = ['image', 'image']
 
 		$scope.addQuestion(title, answerType, options, imgsFilled, isValid, alt, URLs, id, qid, ansid)
 		$timeout.flush()
@@ -499,6 +499,35 @@ describe('Creator Controller', function() {
 		expect($scope.questions[0].title).toBe(expectedTitle)
 	})
 
+	test('should update answer type', () => {
+		publicMethods.initNewWidget(widgetInfo)
+
+		quickQuestion(1)
+		quickQuestion(2)
+		quickQuestion(3)
+		quickQuestion(4)
+
+		$scope.updateAnswerType('text', 0, 0)
+		expect($scope.questions[0].answerType[0]).toBe('text')
+		$scope.updateAnswerType('text', 0, 1)
+		expect($scope.questions[0].answerType[1]).toBe('text')
+
+		$scope.updateAnswerType('audio', 1, 0)
+		expect($scope.questions[1].answerType[0]).toBe('audio')
+		$scope.updateAnswerType('audio', 1, 1)
+		expect($scope.questions[1].answerType[1]).toBe('audio')
+
+		$scope.updateAnswerType('video', 2, 0)
+		expect($scope.questions[2].answerType[0]).toBe('video')
+		$scope.updateAnswerType('video', 2, 1)
+		expect($scope.questions[2].answerType[1]).toBe('video')
+
+		$scope.updateAnswerType('image', 3, 0)
+		expect($scope.questions[3].answerType[0]).toBe('image')
+		$scope.updateAnswerType('image', 3, 1)
+		expect($scope.questions[3].answerType[1]).toBe('image')
+	})
+
 	test('should set an image url', () => {
 		publicMethods.initNewWidget(widgetInfo)
 
@@ -519,6 +548,62 @@ describe('Creator Controller', function() {
 		expect($scope.questions[0].options[0]).toBe(5)
 	})
 
+	test('should set an audio url', () => {
+		publicMethods.initNewWidget(widgetInfo)
+
+		quickQuestion(1)
+
+		$scope.requestAudio(0, 0)
+		$scope.setURL('test url', 4)
+
+		expect(Materia.CreatorCore.showMediaImporter).toHaveBeenCalled()
+
+		expect($scope.questions[0].URLs[0]).toBe('test url')
+		expect($scope.questions[0].options[0]).toBe(4)
+
+		const media = [{ id: 5 }]
+		publicMethods.onMediaImportComplete(media)
+
+		expect($scope.questions[0].URLs[0]).toBe('MEDIA_URL/5')
+		expect($scope.questions[0].options[0]).toBe(5)
+	})
+
+	test('should embed video', () => {
+		publicMethods.initNewWidget(widgetInfo)
+
+		quickQuestion(1)
+
+		$scope.questions[0].options[0] = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+		$scope.embedVideo(0, 0)
+		expect($scope.questions[0].options[0]).toBe('https://www.youtube.com/embed/dQw4w9WgXcQ')
+
+		$scope.questions[0].options[0] = 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+		$scope.embedVideo(0, 0)
+		expect($scope.questions[0].options[0]).toBe('https://www.youtube.com/embed/dQw4w9WgXcQ')
+
+		$scope.questions[0].options[0] = 'https://vimeo.com/148751763'
+		$scope.embedVideo(0, 0)
+		expect($scope.questions[0].options[0]).toBe('https://player.vimeo.com/video/148751763')
+
+		$scope.questions[0].options[0] = 'https://player.vimeo.com/video/148751763'
+		$scope.embedVideo(0, 0)
+		expect($scope.questions[0].options[0]).toBe('https://player.vimeo.com/video/148751763')
+
+		$scope.questions[0].options[0] = 'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4'
+		$scope.embedVideo(0, 0)
+		expect($scope.questions[0].options[0]).toBe('https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4')
+
+		$scope.questions[0].options[0] = 'lul this is not a link'
+		$scope.embedVideo(0, 0)
+		expect($scope.questions[0].options[0]).toBe('')
+
+		$scope.questions[0].options[0] = ''
+		$scope.embedVideo(0, 0)
+		expect($scope.questions[0].options[0]).toBe('')
+
+
+	})
+
 	test('should import questions', () => {
 		publicMethods.initNewWidget(widgetInfo)
 
@@ -528,7 +613,7 @@ describe('Creator Controller', function() {
 		const items = widgetInfo.qset.data.items
 		publicMethods.onQuestionImportComplete(items)
 
-		expect($scope.questions.length).toBe(3)
+		expect($scope.questions.length).toBe(5)
 		expect($scope.questions[0].title).toBe('Which of these paintings is from the Baroque period?')
 		expect($scope.questions[2].title).toBe('Which one of these dogs is a Labrador Retriever?')
 	})
@@ -542,7 +627,7 @@ describe('Creator Controller', function() {
 		const items = widgetInfo.qset.data.items
 		publicMethods.onQuestionImportComplete(items)
 
-		expect($scope.questions.length).toEqual(3)
+		expect($scope.questions.length).toEqual(5)
 
 		let incomplete = [
 			{
@@ -562,7 +647,7 @@ describe('Creator Controller', function() {
 		const items = widgetInfo.qset.data.items
 		publicMethods.onQuestionImportComplete(items)
 
-		expect($scope.questions.length).toEqual(3)
+		expect($scope.questions.length).toEqual(5)
 
 		//first test - no answers
 		let incomplete = [
@@ -573,7 +658,7 @@ describe('Creator Controller', function() {
 		]
 
 		publicMethods.onQuestionImportComplete(incomplete)
-		expect($scope.questions.length).toEqual(3)
+		expect($scope.questions.length).toEqual(5)
 	})
 
 	test('should alert when imported questions have problems', () => {
@@ -606,6 +691,6 @@ describe('Creator Controller', function() {
 		publicMethods.initExistingWidget(widgetInfo.name, widgetInfo, qset.data)
 
 		expect($scope.title).toEqual(widgetInfo.name)
-		expect($scope.questions.length).toEqual(3)
+		expect($scope.questions.length).toEqual(5)
 	})
 })

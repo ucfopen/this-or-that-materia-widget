@@ -271,8 +271,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 				$scope.tutorial.text[side ? 5 : 2] = `Link the ${side ? 'in' : ''}correct video`
 				$scope.tutorial.text[side ? 6 : 3] = `Describe the ${side ? 'in' : ''}correct video`
 				break
-			default:
-				break
 		}
 		$scope.tutorial.text[side ? 7 : 4] = side ? 'Add more questions!' : `Pick the answer type`
 	}
@@ -401,7 +399,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					if ($scope.tutorial.step === 8) {
 						return ($scope.tutorial.step = null)
 					}
-					break
 			}
 		} else {
 			return false
