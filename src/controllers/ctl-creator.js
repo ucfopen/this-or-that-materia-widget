@@ -339,10 +339,9 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 	}
 
 	$scope.limitLength = () =>
-		($scope.questions[$scope.currIndex].title = $scope.questions[$scope.currIndex].title.substring(
-			0,
-			500
-		))
+		($scope.questions[$scope.currIndex].title = $scope.questions[$scope.currIndex].title &&
+			$scope.questions[$scope.currIndex].title.substring(0, 500)
+		)
 
 	$scope.validation = function(action, which) {
 		switch (action) {
