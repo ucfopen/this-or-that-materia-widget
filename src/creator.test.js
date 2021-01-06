@@ -130,6 +130,26 @@ describe('Creator Controller', function() {
 		expect($scope.step).toBe(1)
 	})
 
+	test('should rearrange questions', () => {
+		publicMethods.initNewWidget(widgetInfo)
+		$scope.addQuestion()
+		$timeout.flush()
+		$timeout.verifyNoPendingTasks()
+
+		expect($scope.questions.length).toBe(2)
+
+		const firstQuestion = $scope.questions[0]
+
+		$scope.moveUp(0)
+		expect($scope.questions[0]).toBe(firstQuestion)
+		$scope.moveDown(0)
+		expect($scope.questions[1]).toBe(firstQuestion)
+		$scope.moveUp(1)
+		expect($scope.questions[0]).toBe(firstQuestion)
+		$scope.moveDown(1)
+		expect($scope.questions[0]).toBe(firstQuestion)
+	})
+
 	test('should proceed through the tutorial correctly', () => {
 		publicMethods.initNewWidget(widgetInfo)
 
