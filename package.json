@@ -13,7 +13,9 @@
     "angular-animate": "~1.7.9",
     "angular-mocks": "~1.7.9",
     "angular-sanitize": "~1.7.9",
+    "angularjs-dragula": "^2.0.0",
     "core-js": "^2.5.0",
+    "dragula": "^3.7.3",
     "jest": "^25.1.0",
     "prettier": "^1.19.1"
   },

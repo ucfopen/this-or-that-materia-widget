@@ -154,7 +154,7 @@
 			</div>
 
 			<nav class="question-nav">
-				<ul class="dots left" ng-show="questions[0]">
+				<ul id="dots" class="dots left" ng-show="questions[0]" dragula='"first-bag"' dragula-model="questions">
 					<li
 						ng-repeat="question in questions">
 						<button class="btn round hollow"

@@ -1,4 +1,4 @@
-export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, CreatorService) => {
+export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, CreatorService, dragulaService) => {
 	$scope.title = 'My This or That widget'
 	$scope.randomizeOrder = false
 	$scope.questions = []
@@ -27,6 +27,10 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 	const _imgRef = []
 
 	const materiaCallbacks = {}
+
+	dragulaService.options($scope, 'first-bag', {
+		direction: 'horizontal',
+	});
 
 	materiaCallbacks.initNewWidget = (widget, baseUrl) =>
 		$scope.$apply(function() {
