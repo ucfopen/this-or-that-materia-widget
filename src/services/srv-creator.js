@@ -9,6 +9,8 @@ export const buildQset = ($sanitize, title, items, isRandom) => {
 		return false
 	}
 
+	console.log(items)
+
 	for (let item of items) {
 		const processedItem = processQsetItem($sanitize, item)
 		if (processedItem) {
@@ -32,29 +34,32 @@ export const processQsetItem = ($sanitize, item) => {
 		questions: [{ text: item.ques }],
 		answers: [
 			{
-				text: item.alt[0],
+				text: item.correct.alt,
 				value: 100,
 				options: {
 					asset: {
 						materiaType: 'asset',
-						id: item.options[0]
+						id: item.correct.id,
+						value: item.correct.value,
+						type: item.correct.type
 					}
 				}
 			},
 			{
-				text: item.alt[1],
+				text: item.incorrect.alt,
 				value: 0,
 				options: {
 					asset: {
 						materiaType: 'asset',
-						id: item.options[1]
+						id: item.incorrect.id,
+						value: item.incorrect.value,
+						type: item.incorrect.type
 					}
 				}
-			}
+			},
 		],
 		options: {
-			feedback: item.alt[2],
-			answerType: item.answerType
+			feedback: '', // TODO implement
 		}
 	}
 }

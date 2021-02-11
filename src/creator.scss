@@ -577,14 +577,14 @@ input[type='text'] {
 
 				.clear-img {
 					position: absolute;
-					top: 54px;
-					right: 25px;
+					top: 58px;
+					right: 28px;
 				}
 
 				.clear-type {
 					position: absolute;
-					top: 54px;
-					left: 25px;
+					top: 58px;
+					left: 28px;
 					z-index: 1;
 				}
 			}
@@ -609,7 +609,7 @@ input[type='text'] {
 				background-position: -1515.9720458984375px 0;
 				border: 0;
 
-				cursor: pointer;
+				// cursor: pointer;
 				transition: background ease 0.5s;
 
 				&[disabled] {
@@ -639,10 +639,14 @@ input[type='text'] {
 				}
 
 				.choice-textarea {
-					margin-top: 24px;
-					background: transparent;
+					width: calc(100% - 18px);
+					height: calc(100% - 42px);
+					padding: 30px 6px 6px 6px;
+					margin-left: 3px;
+					background: #fff;
 					border: none;
-					color: white;
+					border-radius: 15px;
+					color: #000;
 					font-size: 18px;
 				}
 
@@ -754,19 +758,26 @@ input[type='text'] {
 
 	button {
 		width: 200px;
-    margin: auto;
+		margin: auto;
 		height: 40px;
 		border: none;
-    border-radius: 8px;
-    color: black;
+		border-radius: 8px;
+		color: black;
 		font-weight: bold;
 		text-transform: uppercase;
-    // font-family: "Sigmar One", cursive
+
+		cursor: pointer;
+
+		&:hover {
+			background: #caed9f;
+		}
+		// font-family: "Sigmar One", cursive
 	}
 }
 
 .answer-margin {
 	margin-top: 24px;
+	background: #fff;
 }
 
 .hidden {
