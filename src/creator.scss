@@ -598,7 +598,7 @@ input[type='text'] {
 				text-align: center;
 			}
 
-			.img-frame {
+			.img-frame, .video-frame {
 				box-sizing: border-box;
 				margin-bottom: 15px;
 				padding: 20px;
@@ -677,6 +677,43 @@ input[type='text'] {
 				margin-top: -15px;
 
 				text-align: center;
+			}
+
+			.video-frame {
+				.answer-margin {
+					// margin-top: 33px;
+					margin-top: 0px;
+					padding-left: 38px;
+					background: #fff;
+					color: #000;
+
+					border: solid 2px #fff;
+
+					&.valid {
+						background: #e1f2d3;
+					}
+
+					&.invalid {
+						background: #f0a7a3;
+					}
+				}
+
+				.video-submit {
+					margin: 10px auto;
+					padding: 5px 10px;
+					color: #000;
+					background: #fff;
+					border-radius: 5px;
+					border: none;
+
+					cursor: pointer;
+					font-weight: bold;
+
+					&:hover {
+						color: #000;
+						background: #caed9f;
+					}
+				}
 			}
 		}
 	}

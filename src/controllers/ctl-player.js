@@ -13,19 +13,38 @@ export const shuffleArray = array => {
 }
 
 export const getAllAnswerChoices = ($sce, _qset) => {
+	console.log("qset:")
+	console.log(_qset)
 	const answers = []
 	_qset.items.forEach(item => {
 		if (!item.answers) return
 		item.answers.forEach((ans, i) => {
-			if (item.options.answerType[i] === 'image' || item.options.answerType[i] === 'audio') {
-				ans.options.asset.answerChoice = [Materia.Engine.getMediaUrl(ans.options.asset.id)]
-			} else if (item.options.answerType[i] === 'text') {
-				ans.options.asset.answerChoice = [ans.options.asset.id]
-			} else {
-				ans.options.asset.answerChoice = [$sce.trustAsResourceUrl(ans.options.asset.id)]
+
+			let response = ''
+
+			if (ans.value == 100) { // correct answer
+				switch (ans.options.asset.type) {
+					case 'image':
+					case 'audio':
+						ans.options.value = Materia.Engine.getMediaUrl(ans.options.asset.id)
+						break
+					case 'text':
+						// do nothing?
+					case 'video':
+
+				}
 			}
-			ans.options.asset.answerChoice[1] = item.options.answerType[i]
-			answers.push(ans.options.asset.answerChoice)
+
+
+			// if (item.options.answerType[i] === 'image' || item.options.answerType[i] === 'audio') {
+			// 	ans.options.asset.answerChoice = [Materia.Engine.getMediaUrl(ans.options.asset.id)]
+			// } else if (item.options.answerType[i] === 'text') {
+			// 	ans.options.asset.answerChoice = [ans.options.asset.id]
+			// } else {
+			// 	ans.options.asset.answerChoice = [$sce.trustAsResourceUrl(ans.options.asset.id)]
+			// }
+			// ans.options.asset.answerChoice[1] = item.options.answerType[i]
+			// answers.push(ans.options.asset.answerChoice)
 		})
 	})
 

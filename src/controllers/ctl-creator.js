@@ -28,8 +28,8 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		type: null
 	}
 
-	$scope.CORRECT = 'CORRECT'
-	$scope.INCORRECT = 'INCORRECT'
+	$scope.CORRECT = 0
+	$scope.INCORRECT = 1
 
 	const materiaCallbacks = {}
 
@@ -156,6 +156,16 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 				qid: item.questions[0].id,
 				ansid: item.answers[0].id
 			})
+
+			if ($scope.questions[$scope.questions.length-1].correct.type == 'video') {
+				if ($scope.questions[$scope.questions.length-1].correct.value.length > 0) $scope.questions[$scope.questions.length-1].correct.videoValid = true
+				else $scope.questions[$scope.questions.length-1].correct.videoValid = false
+			}
+
+			if ($scope.questions[$scope.questions.length-1].incorrect.type == 'video') {
+				if ($scope.questions[$scope.questions.length-1].incorrect.value.length > 0) $scope.questions[$scope.questions.length-1].incorrect.videoValid = true
+				else $scope.questions[$scope.questions.length-1].incorrect.videoValid = false
+			}
 
 			// // Add each imported question to the DOM
 			// $scope.questions.push({
@@ -321,15 +331,22 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 	}
 
 	$scope.updateAnswerType = function(type, currIndex, side) {
-		// $scope.questions[currIndex].answerType[side] = type
 		let sideIndex = 0
 		if (side == $scope.CORRECT) {
 			$scope.questions[currIndex].correct.type = type
+
+			if (type == 'video') {
+				$scope.questions[currIndex].correct.videoValid = null
+			}
 		}
 		else
 		{
 			$scope.questions[currIndex].incorrect.type = type
 			sideIndex = 1
+
+			if (type == 'video') {
+				$scope.questions[currIndex].incorrect.videoValid = null
+			}
 		}
 
 		$scope.tutorialIncrement(sideIndex ? 5 : 2)
@@ -372,9 +389,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 	// which: correct || incorrect
 	$scope.requestImage = function(index, which) {
 		Materia.CreatorCore.showMediaImporter(['jpg', 'gif', 'png'])
-		// Save the image and which choice it's for
-		// _imgRef[0] = index
-		// _imgRef[1] = which
 
 		_assetRef.index = index
 		_assetRef.which = which
@@ -386,9 +400,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 	$scope.requestAudio = function(index, which) {
 		Materia.CreatorCore.showMediaImporter(['mp3'])
 		// Save the image and which choice it's for
-		// _imgRef[0] = index
-		// _imgRef[1] = which
-
+		
 		_assetRef.index = index
 		_assetRef.which = which
 		_assetRef.type = 'audio'
@@ -398,7 +410,16 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 
 	$scope.embedVideo = function(index, which) {
 		try {
-			let embedUrl = $scope.questions[index].options[which]
+			let embedUrl = which == $scope.CORRECT ? $scope.questions[$scope.currIndex].correct.value : $scope.questions[$scope.currIndex].incorrect.value
+			
+			if (which == $scope.CORRECT) {
+				if ( $scope.questions[$scope.currIndex].correct.videoValid != true) return $sce.trustAsResourceUrl('')
+			}
+			else
+			{
+				if ( $scope.questions[$scope.currIndex].incorrect.videoValid != true) return $sce.trustAsResourceUrl('')
+			}
+			
 			if (embedUrl) {
 				if (embedUrl.includes('youtu')) {
 					const stringMatch = embedUrl.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
@@ -409,24 +430,34 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 				} else if (['mp4', 'flv', 'm4a', '3gp', 'mkv'].includes(embedUrl.split('.').pop())){
 					embedUrl = embedUrl
 				} else {
+					if (which == $scope.CORRECT) {
+						$scope.questions[$scope.currIndex].correct.videoValid = false
+					}
+					else
+					{
+						$scope.questions[$scope.currIndex].incorrect.videoValid = false
+					}
+
 					embedUrl = ''
 				}
 			}
-			$scope.questions[index].options[which] = embedUrl
+
+			if (which == $scope.CORRECT) {
+				$scope.questions[$scope.currIndex].correct.value = embedUrl
+			}
+			else
+			{
+				$scope.questions[$scope.currIndex].incorrect.value = embedUrl
+			}
+
 			return $sce.trustAsResourceUrl(embedUrl)
 		} catch (e) {
-			// console.log(e)
+			console.log(e)
 		}
 	}
 
 	$scope.setURL = function(URL, id) {
 		// Bind the image URL to the DOM
-		// $scope.questions[_imgRef[0]].URLs[_imgRef[1]] = URL
-		// $scope.questions[_imgRef[0]].options[_imgRef[1]] = id
-
-		console.log(_assetRef)
-		
-
 		if (_assetRef.which == $scope.CORRECT) {
 			$scope.questions[_assetRef.index].correct.value = URL
 			$scope.questions[_assetRef.index].correct.type = _assetRef.type

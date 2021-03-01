@@ -149,7 +149,7 @@
 								<ng-template ng-if="questions[currIndex].correct.type === 'audio'">
 									<button class="img-frame correct"
 										aria-label="The correct audio"
-										ng-click="requestAudio(currIndex, 0); tutorialIncrement(3)"
+										ng-click="requestAudio(currIndex, CORRECT); tutorialIncrement(3)"
 										ng-disabled="tutorial.step && tutorial.step < 3">
 										<div>
 											<figure>
@@ -180,15 +180,22 @@
 								</ng-template>
 
 								<ng-template ng-if="questions[currIndex].correct.type === 'video'">
-									<div class="img-frame correct answer-full-height">
+									<div class="video-frame correct answer-full-height">
 										<input type="text"
 											class="answer-margin"
+											ng-class="{'valid' : questions[currIndex].correct.videoValid == true, 'invalid': questions[currIndex].correct.videoValid == false}"
 											placeholder="Enter a YouTube or Vimeo URL"
-											ng-change="tutorialIncrement(3)"
+											ng-change="tutorialIncrement(3); questions[currIndex].correct.videoValid = null"
 											required
 											ng-model="questions[currIndex].correct.value"
 											ng-disabled="tutorial.step && tutorial.step < 3" />
-										<iframe width="100%" height="75%" ng-src="{{ embedVideo(currIndex, 0) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+										<button class="video-submit" ng-click="questions[currIndex].correct.videoValid = true">Embed Video</button>
+										<iframe
+											ng-show="questions[currIndex].correct.videoValid == true"
+											ng-src="{{ embedVideo(currIndex, CORRECT) }}"
+											frameborder="0"
+											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+											allowfullscreen></iframe>
 									</div>
 									<input type="text"
 										placeholder="Description for the correct video"
@@ -283,7 +290,7 @@
 								<ng-template ng-if="questions[currIndex].incorrect.type === 'audio'">
 									<button class="img-frame incorrect"
 										aria-label="The incorrect audio"
-										ng-click="requestAudio(currIndex, 1); tutorialIncrement(6)"
+										ng-click="requestAudio(currIndex, INCORRECT); tutorialIncrement(6)"
 										ng-disabled="tutorial.step && tutorial.step < 6">
 										<div>
 											<figure>
@@ -314,15 +321,22 @@
 								</ng-template>
 
 								<ng-template ng-if="questions[currIndex].incorrect.type === 'video'">
-									<div class="img-frame incorrect answer-full-height">
+									<div class="video-frame incorrect answer-full-height">
 										<input type="text"
 											class="answer-margin"
+											ng-class="{'valid' : questions[currIndex].incorrect.videoValid == true, 'invalid': questions[currIndex].incorrect.videoValid == false}"
 											placeholder="Enter a YouTube or Vimeo URL"
-											ng-change="tutorialIncrement(6)"
+											ng-change="tutorialIncrement(6); questions[currIndex].incorrect.videoValid = null"
 											required
 											ng-model="questions[currIndex].incorrect.value"
 											ng-disabled="tutorial.step && tutorial.step < 6" />
-										<iframe width="100%" height="75%" ng-src="{{ embedVideo(currIndex, 1) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+										<button class="video-submit" ng-click="questions[currIndex].incorrect.videoValid = true">Embed Video</button>
+										<iframe
+											ng-show="questions[currIndex].incorrect.videoValid == true"
+											ng-src="{{ embedVideo(currIndex, INCORRECT) }}"
+											frameborder="0"
+											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+											allowfullscreen></iframe>
 									</div>
 									<input type="text"
 										placeholder="Description for the incorrect video"
