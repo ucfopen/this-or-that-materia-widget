@@ -38,8 +38,7 @@
             }
           ],
           "options": {
-            "feedback": "Incorrect. The Mona Lisa was painted during the Italian Renaissance by artist Leonardo DaVinci.",
-            "answerType": ["image", "image"]
+            "feedback": "Incorrect. The Mona Lisa was painted during the Italian Renaissance by artist Leonardo DaVinci."
           }
         },
         {
@@ -76,8 +75,7 @@
             }
           ],
           "options": {
-            "feedback": "",
-            "answerType": ["image", "image"]
+            "feedback": ""
           }
         },
         {
@@ -114,8 +112,7 @@
             }
           ],
           "options": {
-            "feedback": "",
-            "answerType": ["image", "image"]
+            "feedback": ""
           }
         },
         {
@@ -135,7 +132,8 @@
               "options": {
                 "asset": {
                   "materiaType": "asset",
-                  "id": "<%MEDIA='assets/img/demo/birds.mp3'%>"
+                  "id": "<%MEDIA='assets/img/demo/birds.mp3'%>",
+                  "type": "audio"
                 }
               }
             },
@@ -146,14 +144,14 @@
               "options": {
                 "asset": {
                   "materiaType": "asset",
-                  "id": "https://youtu.be/dQw4w9WgXcQ"
+                  "value": "https://youtu.be/dQw4w9WgXcQ",
+                  "type": "video"
                 }
               }
             }
           ],
           "options": {
-            "feedback": "",
-            "answerType": ["audio", "video"]
+            "feedback": ""
           }
         },
         {
@@ -173,7 +171,8 @@
               "options": {
                 "asset": {
                   "materiaType": "asset",
-                  "id": "Form friction"
+                  "value": "Form friction",
+                  "type": "text"
                 }
               }
             },
@@ -184,14 +183,14 @@
               "options": {
                 "asset": {
                   "materiaType": "asset",
-                  "id": "Skin friction"
+                  "value": "Skin friction",
+                  "type": "text"
                 }
               }
             }
           ],
           "options": {
-            "feedback": "",
-            "answerType": ["text", "text"]
+            "feedback": ""
           }
         }
       ]

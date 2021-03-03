@@ -20,31 +20,26 @@ export const getAllAnswerChoices = ($sce, _qset) => {
 		if (!item.answers) return
 		item.answers.forEach((ans, i) => {
 
-			let response = ''
-
-			if (ans.value == 100) { // correct answer
+			if (ans.options.asset.type) {
 				switch (ans.options.asset.type) {
 					case 'image':
 					case 'audio':
-						ans.options.value = Materia.Engine.getMediaUrl(ans.options.asset.id)
+						ans.options.asset.value = Materia.Engine.getMediaUrl(ans.options.asset.id)
 						break
-					case 'text':
-						// do nothing?
 					case 'video':
-
+						ans.options.asset.value = $sce.trustAsResourceUrl(ans.options.asset.value)
+						break
 				}
 			}
+			else { // old qsets do not have an asset type
+				ans.options.asset.value = Materia.Engine.getMediaUrl(ans.options.asset.id)
+				ans.options.asset.type = 'image'
+			}
 
-
-			// if (item.options.answerType[i] === 'image' || item.options.answerType[i] === 'audio') {
-			// 	ans.options.asset.answerChoice = [Materia.Engine.getMediaUrl(ans.options.asset.id)]
-			// } else if (item.options.answerType[i] === 'text') {
-			// 	ans.options.asset.answerChoice = [ans.options.asset.id]
-			// } else {
-			// 	ans.options.asset.answerChoice = [$sce.trustAsResourceUrl(ans.options.asset.id)]
-			// }
-			// ans.options.asset.answerChoice[1] = item.options.answerType[i]
-			// answers.push(ans.options.asset.answerChoice)
+			answers.push({
+				type: ans.options.asset.type,
+				value: ans.options.asset.value
+			})
 		})
 	})
 
@@ -65,14 +60,14 @@ export const onMateriaStart = ($scope, $sce, instance, qset, version) => {
 }
 
 export const showNextQuestion = $scope => {
-	$scope.questions.current++
-	const curItem = _qset.items[$scope.questions.current]
+	$scope.question.current++
+	const curItem = _qset.items[$scope.question.current]
 	if (curItem) {
 		$scope.title = curItem.questions[0].text
 		$scope.answers = shuffleArray(curItem.answers)
 
-		$scope.questions.selected = false
-		$scope.questions.transition = false
+		$scope.question.selected = false
+		$scope.question.transition = false
 	} else {
 		endGame($scope)
 	}
@@ -91,21 +86,22 @@ export const viewScores = () => {
 }
 
 export const checkChoice = ($scope, value) => {
+	// value is 0 or 1
 	//get the id, value, and text of the chosen answer
-	const curItem = _qset.items[$scope.questions.current]
+	const curItem = _qset.items[$scope.question.current]
 	const curAnswer = curItem.answers[value]
 	const _feedback = curItem.options.feedback
 	//track which image the user selected in the game
-	$scope.questions.choice = value
+	$scope.question.choice = value
 
 	switch (curAnswer.value) {
 		case 0:
-			$scope.questions.correct[value] = 'Incorrect'
-			$scope.questions.feedback[value] = curItem.options.feedback || ''
+			$scope.question.correct[value] = 'Incorrect'
+			$scope.question.feedback[value] = curItem.options.feedback || ''
 			break
 
 		case 100:
-			$scope.questions.correct[value] = 'Correct!'
+			$scope.question.correct[value] = 'Correct!'
 			break
 	}
 
@@ -123,16 +119,16 @@ export const checkChoice = ($scope, value) => {
 			Materia.Score.submitQuestionForScoring(curItem.id, curAnswer.id, curAnswer.text)
 	}
 
-	$scope.questions.selected = true
+	$scope.question.selected = true
 	$scope.gameState.showNext = true
 }
 
 export const nextClicked = ($scope, $timeout) => {
 	$scope.gameState.showNext = false
-	$scope.questions.correct = ['', '']
-	$scope.questions.feedback = ['', '']
-	$scope.questions.choice = -1
-	$scope.questions.transition = true
+	$scope.question.correct = ['', '']
+	$scope.question.feedback = ['', '']
+	$scope.question.choice = -1
+	$scope.question.transition = true
 	$scope.hands.thisRaised = false
 	$scope.hands.thatRaised = false
 
@@ -151,11 +147,11 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 		showNext: false
 	}
 
-	$scope.questions = {
+	$scope.question = {
 		choice: -1,
 		current: -1,
-		correct: ['', ''],
-		feedback: ['', ''],
+		correct: ['',''],
+		feedback: ['',''],
 		selected: false,
 		transition: false
 	}
