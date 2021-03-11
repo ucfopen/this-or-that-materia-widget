@@ -76,22 +76,22 @@
 									<button
 										ng-disabled="tutorial.step && tutorial.step < 2"
 										ng-click="updateAnswerType('image', currIndex, CORRECT)">
-										<span>image</span>
+										<span class="icon icon-image" aria-hidden="true"></span><span>image</span>
 									</button>
 									<button
 										ng-disabled="tutorial.step && tutorial.step < 2"
 										ng-click="updateAnswerType('text', currIndex, CORRECT)">
-										<span>text</span>
+										<span class="icon icon-pencil" aria-hidden="true"></span><span>text</span>
 									</button>
 									<button
 										ng-disabled="tutorial.step && tutorial.step < 2"
 										ng-click="updateAnswerType('audio', currIndex, CORRECT)">
-										<span>audio</span>
+										<span class="icon icon-music" aria-hidden="true"></span><span>audio</span>
 									</button>
 									<button
 										ng-disabled="tutorial.step && tutorial.step < 2"
 										ng-click="updateAnswerType('video', currIndex, CORRECT)">
-										<span>video</span>
+										<span class="icon icon-play" aria-hidden="true"></span><span>video</span>
 									</button>
 								</div>
 
@@ -117,7 +117,7 @@
 									</button>
 
 									<button class="clear-img btn small red"
-										ng-click="clearImage(currIndex, CORRECT)"
+										ng-click="clearMedia(currIndex, CORRECT)"
 										ng-show="questions[currIndex].correct.id">
 										<span class="icon-cross" aria-hidden="true"></span>
 										<span class="sr-only">Clear image</span>
@@ -152,7 +152,7 @@
 										ng-click="requestAudio(currIndex, CORRECT); tutorialIncrement(3)"
 										ng-disabled="tutorial.step && tutorial.step < 3">
 										<div>
-											<figure>
+											<figure ng-if="questions[currIndex].correct.value.length > 0">
 												<figcaption>{{questions[currIndex].correct.alt}}</figcaption>
 												<audio
 													controls
@@ -161,11 +161,12 @@
 													<code>audio</code> element.
 												</audio>
 											</figure>
+											<span class="audio-pre-upload" ng-if="!questions[currIndex].correct.value"><span class="icon icon-folder-upload" aria-hidden="true"></span>Click to upload or select an audio file.</span>
 										</div>
 									</button>
 
 									<button class="clear-img btn small red"
-										ng-click="clearImage(currIndex, CORRECT)"
+										ng-click="clearMedia(currIndex, CORRECT)"
 										ng-show="questions[currIndex].correct.id">
 										<span class="icon-cross" aria-hidden="true"></span>
 										<span class="sr-only">Clear image</span>
@@ -216,22 +217,22 @@
 									<button
 										ng-disabled="tutorial.step && tutorial.step < 5"
 										ng-click="updateAnswerType('image', currIndex, INCORRECT)">
-										<span>image</span>
+										<span class="icon icon-image" aria-hidden="true"></span><span>image</span>
 									</button>
 									<button
 										ng-disabled="tutorial.step && tutorial.step < 5"
 										ng-click="updateAnswerType('text', currIndex, INCORRECT)">
-										<span>text</span>
+										<span class="icon icon-pencil" aria-hidden="true"></span><span>text</span>
 									</button>
 									<button
 										ng-disabled="tutorial.step && tutorial.step < 5"
 										ng-click="updateAnswerType('audio', currIndex, INCORRECT)">
-										<span>audio</span>
+										<span class="icon icon-music" aria-hidden="true"></span><span>audio</span>
 									</button>
 									<button
 										ng-disabled="tutorial.step && tutorial.step < 5"
 										ng-click="updateAnswerType('video', currIndex, INCORRECT)">
-										<span>video</span>
+										<span class="icon icon-play" aria-hidden="true"></span><span>video</span>
 									</button>
 								</div>
 
@@ -257,7 +258,7 @@
 									</button>
 
 									<button class="clear-img btn small red"
-										ng-click="clearImage(currIndex, INCORRECT)"
+										ng-click="clearMedia(currIndex, INCORRECT)"
 										ng-show="questions[currIndex].incorrect.id">
 										<span class="icon-cross" aria-hidden="true"></span>
 										<span class="sr-only">Clear image</span>
@@ -293,7 +294,7 @@
 										ng-click="requestAudio(currIndex, INCORRECT); tutorialIncrement(6)"
 										ng-disabled="tutorial.step && tutorial.step < 6">
 										<div>
-											<figure>
+											<figure ng-if="questions[currIndex].incorrect.value.length > 0">
 												<figcaption>{{questions[currIndex].incorrect.alt}}</figcaption>
 												<audio
 													controls
@@ -302,11 +303,12 @@
 													<code>audio</code> element.
 												</audio>
 											</figure>
+											<span class="audio-pre-upload" ng-if="!questions[currIndex].incorrect.value"><span class="icon icon-folder-upload" aria-hidden="true"></span>Click to upload or select an audio file.</span>
 										</div>
 									</button>
 
 									<button class="clear-img btn small red"
-										ng-click="clearImage(currIndex, INCORRECT)"
+										ng-click="clearMedia(currIndex, INCORRECT)"
 										ng-show="questions[currIndex].incorrect.id">
 										<span class="icon-cross" aria-hidden="true"></span>
 										<span class="sr-only">Clear image</span>

@@ -171,5 +171,11 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.nextClicked = nextClicked.bind(null, $scope, $timeout)
 	$scope.closeIntro = closeIntro.bind(null, $scope)
 
+	$scope.lightboxTarget = -1
+
+	$scope.setLightboxTarget = (val) => {
+		$scope.lightboxTarget = val
+	}
+
 	Materia.Engine.start({ start: onMateriaStart.bind(null, $scope, $sce) })
 }

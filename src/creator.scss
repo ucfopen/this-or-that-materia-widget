@@ -673,6 +673,29 @@ input[type='text'] {
 				}
 			}
 
+			.audio-pre-upload {
+				display: block;
+				padding: 30px 20px;
+				
+				background: rgba(255,255,255,0.75);
+				border-radius: 10px;
+
+				font-size: 16px;
+
+				cursor: pointer;
+
+				&:hover {
+					background: rgba(255,255,255,0.95);
+				}
+
+				.icon {
+					position: relative;
+					top: 2px;
+					font-size: 1.4em;
+					margin-right: 0.5em;
+				}
+			}
+
 			.img-controls {
 				margin-top: -15px;
 
@@ -798,6 +821,7 @@ input[type='text'] {
 		margin: auto;
 		height: 40px;
 		border: none;
+		background: rgba(255,255,255,0.85);
 		border-radius: 8px;
 		color: black;
 		font-weight: bold;
@@ -805,8 +829,15 @@ input[type='text'] {
 
 		cursor: pointer;
 
+		.icon {
+			position: relative;
+			top: 2px;
+			font-size: 1.3em;
+			margin-right: 1em;
+		}
+
 		&:hover {
-			background: #caed9f;
+			background: rgba(255,255,255,0.95);
 		}
 		// font-family: "Sigmar One", cursive
 	}

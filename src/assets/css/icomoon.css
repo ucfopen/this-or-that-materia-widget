@@ -34,3 +34,21 @@
 .icon-forward3:before {
   content: "\ea20";
 }
+.icon-pencil:before {
+  content: "\e905";
+}
+.icon-image:before {
+  content: "\e90d";
+}
+.icon-music:before {
+  content: "\e911";
+}
+.icon-play:before {
+  content: "\e912";
+}
+.icon-folder-upload:before {
+  content: "\e934";
+}
+.icon-enlarge:before {
+  content: "\e989";
+}

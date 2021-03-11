@@ -471,17 +471,22 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		}
 	}
 
-	$scope.clearImage = function(index, which) {
+	$scope.clearMedia = function(index, which) {
 		if (which == $scope.CORRECT) {
-			$scope.questions[index].correct.value = 'http://placehold.it/300x250'
+			if ($scope.questions[index].correct.type == 'image') {
+				$scope.questions[index].correct.value = 'http://placehold.it/300x250'
+			}
+			else $scope.questions[index].correct.value = null
 			$scope.questions[index].correct.id = null
 		}
 		else
 		{
-			$scope.questions[index].incorrect.value = 'http://placehold.it/300x250'
+			if ($scope.questions[index].incorrect.type == 'image') {
+				$scope.questions[index].incorrect.value = 'http://placehold.it/300x250'
+			}
+			else $scope.questions[index].incorrect.value = null
 			$scope.questions[index].incorrect.id = null
 		}
-		// $scope.$apply()
 	}
 
 	$scope.clearType = function(index, which) {
