@@ -10,6 +10,12 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		text: [
 			'Enter a question',
 			'Pick the answer type',
+			'CORRECT_ITEM_SELECT',
+			'CORRECT_ITEM_DESCRIPTION',
+			'INCORRECT_ANSWER_TYPE',
+			'INCORRECT_ITEM_SELECT',
+			'INCORRECT_ITEM_DESCRIPTION',
+			'Enter some optional feedback'
 		]
 	}
 	$scope.actions = {
@@ -80,33 +86,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 				return
 			}
 
-			console.log(item)
-
-			// gets the image URLs
-			// try {
-			// 	if (
-			// 		item.answers &&
-			// 		item.answers[0] &&
-			// 		item.answers[0].options &&
-			// 		item.answers[0].options.asset
-			// 	) {
-			// 		_ids[0] = item.answers[0].options.asset.id
-			// 		_urls[0] = Materia.CreatorCore.getMediaUrl(item.answers[0].options.asset.id)
-			// 	}
-			// 	if (
-			// 		item.answers &&
-			// 		item.answers[1] &&
-			// 		item.answers[1].options &&
-			// 		item.answers[1].options.asset
-			// 	) {
-			// 		_ids[1] = item.answers[1].options.asset.id
-			// 		_urls[1] = Materia.CreatorCore.getMediaUrl(item.answers[1].options.asset.id)
-			// 	}
-			// } catch (error) {
-			// 	alert('Uh oh. Something went wrong with uploading your questions.')
-			// 	return
-			// }
-
 			try {
 				if ( !item.answers[0]?.options.asset.type || item.answers[0].options.asset.type == 'image' || item.answers[0]?.options.asset && item.answers[0].options.asset.type == 'audio') {
 					console.log("LEFT has an IMAGE or AUDIO")
@@ -131,12 +110,8 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 				}
 
 			} catch (error) {
-				console.log("ERROR CAUGHT")
 				console.log(error)
 			}
-
-			console.log(_ids)
-			console.log(_urls)
 
 			$scope.questions.push({
 				title: item.questions[0].text.replace(/\&\#10\;/g, '\n'),
@@ -144,17 +119,19 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					type: item.answers[0]?.options.asset?.type,
 					id: _ids[0],
 					alt: item.answers[0]?.text,
-					value: _urls[0]
+					value: _urls[0],
+					answerId: item.answers[0].id
 				},
 				incorrect: {
 					type: item.answers[1]?.options.asset?.type,
 					id: _ids[1],
 					alt: item.answers[1]?.text,
-					value: _urls[1]
+					value: _urls[1],
+					answerId: item.answers[1].id
 				},
 				isValid: true,
-				qid: item.questions[0].id,
-				ansid: item.answers[0].id
+				id: item.id,
+				feedback: item.options.feedback
 			})
 
 			if ($scope.questions[$scope.questions.length-1].correct.type == 'video') {
@@ -255,17 +232,18 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 				type: null,
 				value: null,
 				alt: '',
-				id: null
+				id: null,
+				answerId: null
 			},
 			incorrect: {
 				type: null,
 				value: null,
 				alt: '',
-				id: null
+				id: null,
+				answerId: null
 			},
 			isValid: true,
-			qid: '',
-			ansid: ''
+			id: null
 		}
 		// if (title == null) {
 		// 	title = ''
@@ -574,6 +552,11 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					break
 				case 8:
 					if ($scope.tutorial.step === 8) {
+						return $scope.tutorial.step++
+					}
+					break
+				case 9:
+					if ($scope.tutorial.step === 9) {
 						return ($scope.tutorial.step = null)
 					}
 			}

@@ -153,7 +153,6 @@
 										ng-disabled="tutorial.step && tutorial.step < 3">
 										<div>
 											<figure ng-if="questions[currIndex].correct.value.length > 0">
-												<figcaption>{{questions[currIndex].correct.alt}}</figcaption>
 												<audio
 													controls
 													src="{{questions[currIndex].correct.value}}">
@@ -295,7 +294,6 @@
 										ng-disabled="tutorial.step && tutorial.step < 6">
 										<div>
 											<figure ng-if="questions[currIndex].incorrect.value.length > 0">
-												<figcaption>{{questions[currIndex].incorrect.alt}}</figcaption>
 												<audio
 													controls
 													src="{{questions[currIndex].incorrect.value}}">
@@ -347,6 +345,14 @@
 										ng-model="questions[currIndex].incorrect.alt"
 										ng-disabled="tutorial.step && tutorial.step < 7" />
 								</ng-template>
+
+								<input type="text"
+										ng-if="questions[currIndex].incorrect.type != null"
+										placeholder="Optional feedback for an incorrect answer"
+										class="feedback"
+										ng-change="validation('change', currIndex); tutorialIncrement(8)"
+										ng-model="questions[currIndex].feedback"
+										ng-disabled="tutorial.step && tutorial.step < 8">
 							</section>
 						</div>
 

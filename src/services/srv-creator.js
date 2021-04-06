@@ -43,7 +43,8 @@ export const processQsetItem = ($sanitize, item) => {
 						value: item.correct.value,
 						type: item.correct.type
 					}
-				}
+				},
+				id: item.correct.answerId
 			},
 			{
 				text: item.incorrect.alt,
@@ -55,11 +56,12 @@ export const processQsetItem = ($sanitize, item) => {
 						value: item.incorrect.value,
 						type: item.incorrect.type
 					}
-				}
+				},
+				id: item.incorrect.answerId
 			},
 		],
 		options: {
-			feedback: '', // TODO implement
+			feedback: item.feedback
 		}
 	}
 }

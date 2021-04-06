@@ -1,3 +1,5 @@
+@import 'assets/css/icomoon.css';
+
 * {
 	transform-style: flat;
 }
@@ -312,6 +314,7 @@ body {
 
 		div.content-frame, button.content-frame {
 			position: relative;
+			display: inline-block;
 
 			box-sizing: border-box;
 			height: 302px;
@@ -443,13 +446,47 @@ body {
 			}
 
 			.choice-audio {
+				position: relative;
+				top: 40px;
 				height: auto;
+				margin-bottom: 50px;
+
+				background: #fff;
+				border-top-left-radius: 5px;
+				border-top-right-radius: 5px;
+				border-bottom-left-radius: 0px;
+				border-bottom-right-radius: 0px;
+
+				font-family: sans-serif;
+
+				audio {
+					position: relative;
+					bottom: -5px;
+				}
+
+				figcaption {
+					width: calc(100% - 30px);
+					padding: 15px 5px;
+					margin-left: auto;
+					margin-right: auto;
+					margin-bottom: 15px;
+
+					color: #000;
+					text-align: left;
+
+					font-size: 0.8em;
+
+					&:before {
+						font-weight: bold;
+						content: "Audio Description: ";
+					}
+				}
 			}
 
 			.video-frame {
 				position: relative;
-				top: 30px;
-				margin-bottom: 35px;
+				top: 40px;
+				margin-bottom: 45px;
 
 				.choice-video {
 					position: relative;
@@ -461,6 +498,7 @@ body {
 				display: inline-block;
 				background: #fff;
 				padding: 6px 10px;
+				width: 40%;
 
 				border: none;
 				border-radius: 4px;
@@ -469,6 +507,11 @@ body {
 				font-weight: bold;
 
 				cursor: pointer;
+
+				.icon {
+					font-size: 0.9em;
+					margin-right: 0.75em;
+				}
 
 				&:hover {
 					background: #caed9f;
@@ -768,13 +811,15 @@ body {
 			width: 30px;
 			height: 30px;
 
-			border-radius: 15px;
-			border: solid 1px #6c6c6c;
+			border: none;
+			border-radius: 5px;
 
 			color: #fff;
-			background: #000;
+			background: #e42b20;
+			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 
 			font-size: 18px;
+			font-weight: bold;
 			text-align: center;
 
 			cursor: pointer;
