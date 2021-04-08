@@ -531,7 +531,7 @@ body {
 					}
 	
 					&:hover {
-						background: #caed9f;
+						background: #ffe8c4;
 					}
 				}
 			}
@@ -544,19 +544,21 @@ body {
 }
 
 #hands {
-	position: relative;
+	position: absolute;
+	left: 50%;
+	bottom: -60px;
 
 	display: inline-block;
 	height: 150px;
-	margin: 0 auto;
-	margin-top: -11px;
+	margin: 0 0 0 -163px;
 	width: 326px;
 
 	transition: margin ease 0.5s;
 
 	z-index: 3;
 
-	&.raised {
+	&.hidden {
+		display: none;
 	}
 
 	.hand {

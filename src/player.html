@@ -137,7 +137,7 @@
 					</div>
 				</div>
 
-				<div id="hands" ng-class="{'raised': gameState.ingame == true}" aria-hidden="true">
+				<div id="hands" ng-class="{'hidden': gameState.ingame != true }" aria-hidden="true">
 					<div class="hand this-hand"
 						ng-class="{'raised': hands.thisRaised || question.choice == 0, 'correct': question.correct[0] == 'Correct!', 'incorrect': question.correct[0] == 'Incorrect'}"></div>
 					<div class="hand that-hand"

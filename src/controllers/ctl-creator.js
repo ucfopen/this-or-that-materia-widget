@@ -401,10 +401,34 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 			if (embedUrl) {
 				if (embedUrl.includes('youtu')) {
 					const stringMatch = embedUrl.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
-					embedUrl = embedUrl.includes('/embed/') ? embedUrl : ('https://www.youtube.com/embed/' + (stringMatch && stringMatch[1]));
+					console.log(stringMatch)
+					if (stringMatch != null) {
+						embedUrl = embedUrl.includes('/embed/') ? embedUrl : ('https://www.youtube.com/embed/' + (stringMatch && stringMatch[1]));
+					} else {
+						if (which == $scope.CORRECT) {
+							$scope.questions[$scope.currIndex].correct.videoValid = false
+						}
+						else
+						{
+							$scope.questions[$scope.currIndex].incorrect.videoValid = false
+						}
+						embedUrl = ''
+					}
 				} else if (embedUrl.includes('vimeo')) {
 					const stringMatch = embedUrl.match(/(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i)
-					embedUrl = embedUrl.includes('player.vimeo.com') ? embedUrl : 'https://player.vimeo.com/video/' + (stringMatch && stringMatch[1]);
+					if (stringMatch != null) {
+						embedUrl = embedUrl.includes('player.vimeo.com') ? embedUrl : 'https://player.vimeo.com/video/' + (stringMatch && stringMatch[1]);
+					}
+					else {
+						if (which == $scope.CORRECT) {
+							$scope.questions[$scope.currIndex].correct.videoValid = false
+						}
+						else
+						{
+							$scope.questions[$scope.currIndex].incorrect.videoValid = false
+						}
+						embedUrl = ''
+					}
 				} else if (['mp4', 'flv', 'm4a', '3gp', 'mkv'].includes(embedUrl.split('.').pop())){
 					embedUrl = embedUrl
 				} else {
