@@ -1,0 +1,141 @@
+/* score screen css */
+
+$chunky-font: 'Sigmar One', cursive;
+$skinny-font:  'Buenard', serif;
+
+body {
+	background: #233867;
+
+	div.content-frame {
+		width: 100%;
+
+		section.question-item {
+			display: block;
+			width: 90%;
+			margin: 15px 5% 45px 5%;
+	
+			color: #fff;
+			font-weight: bold;
+
+			text-align: center;
+			
+			h5 {
+				position: relative;
+				background: #2e4a87;
+				border-radius: 5px;
+				margin: 10px 0;
+				padding: 5px 10px;
+
+				font-family: $skinny-font;
+				font-size: 20px;
+
+				text-align: left;
+
+				.item-score {
+					position: absolute;
+					display: block;
+					right: 10px;
+					top: 6px;
+					// float: right;
+
+					// margin: 5px 5px 5px 0px;
+					margin-right: 10px;
+					// border-radius: 5px;
+					// padding: 5px 10px;
+
+					// color: #fff;
+					font-size: 14px;
+					font-weight: bold;
+					// font-family: sans-serif;
+					// &.correct {
+					// 	background: #7bc700;
+					// }
+
+					// &.incorrect {
+					// 	background: #e42b20;
+					// }
+				}
+			}
+	
+			.item-correct, .item-incorrect {
+				position: relative;
+				z-index: 2;
+				display: inline-block;
+				background: #fbb03b;
+
+				width: 240px;
+				height: 180px;
+
+				margin-right: 12px;
+	
+				padding: 6px;
+	
+				border-radius: 6px;
+
+				vertical-align: top;
+
+				.item-image, .item-audio, .item-video {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					height: 100%;
+				}
+
+				.item-text {
+					width: 210px;
+					height: 150px;
+					padding: 10px;
+					margin: 5px;
+					background: #fff;
+					color: #000;
+
+					font-weight: normal;
+					font-size: 14px;
+					font-family: sans-serif;
+
+					border-radius: 6px;
+				}
+	
+				.item-image img {
+					max-width: 240px;
+					max-height: 180px;
+				}
+
+				.item-audio audio {
+					width: 240px;
+				}
+
+				// &.selected {
+				// 	&:after {
+				// 		position: absolute;
+				// 		z-index: 1;
+				// 		display: block;
+				// 		width: 220px;
+				// 		padding: 5px 10px;
+				// 		content: "Your Selection";
+				// 		bottom: -28px;
+				// 		background: #fff;
+				// 		color: #000;
+				// 		font-size: 14px;
+				// 		font-family: sans-serif;
+				// 		border-radius: 3px;
+				// 	}
+				// }
+			}
+
+			.item-correct {
+				&.selected {
+					background: #7bc700;
+				}
+			}
+
+			.item-incorrect {
+				&.selected {
+					background: #e42b20;
+				}
+			}
+		}
+	}
+
+	
+}

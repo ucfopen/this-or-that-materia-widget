@@ -31,4 +31,28 @@ class Score_Modules_ThisOrThat extends Score_Module{
 	{
 		return $this->inst->qset->version < 2 ? $log->text : $log->value;
 	}
+
+	protected function details_for_question_answered($log)
+	{
+		$q     = $this->questions[$log->item_id];
+		$score = $this->check_answer($log);
+
+		return [
+			'data' => [
+				$this->get_ss_question($log, $q),
+				$q->id,
+				$this->get_ss_answer($log, $q),
+				$this->get_ss_expected_answers($log, $q)
+			],
+			'data_style'    => ['question', 'question_id', 'response', 'answer'],
+			'score'         => $score,
+			'feedback'      => $this->get_feedback($log, $q->answers),
+			'type'          => $log->type,
+			'style'         => $this->get_detail_style($score),
+			'tag'           => 'div',
+			'symbol'        => '%',
+			'graphic'       => 'score',
+			'display_score' => true
+		];
+	}
 }

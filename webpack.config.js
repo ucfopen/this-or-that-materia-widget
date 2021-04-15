@@ -26,6 +26,13 @@ const entries = {
 	'player.js': [
 		'./src/player.js'
 	],
+	'scoreScreen.js': [
+		'./src/scoreScreen.js'
+	],
+	'scoreScreen.css': [
+		'./src/scoreScreen.html',
+		'./src/scoreScreen.scss'
+	],
 	'creator.css': ['./src/creator.scss', './src/creator.html'],
 	'player.css': ['./src/player.scss', './src/player.html'],
 	'guides/player.temp.html': [ './src/_guides/player.md'],
