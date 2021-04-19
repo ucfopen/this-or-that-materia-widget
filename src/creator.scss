@@ -769,14 +769,14 @@ input[type='text'] {
 .dots {
 	margin: 0 0 10px;
 	padding: 0;
-	max-width: 690px;
+	max-width: 520px;
 	width: 100%;
 
 	li {
 		display: inline-block;
 		margin: 0 6px 6px 0;
 
-		text-align: left;
+		text-align: center;
 
 		&:last-of-type {
 			margin-right: 0;
@@ -834,6 +834,10 @@ input[type='text'] {
 
 			path {
 				fill: #223863;
+			}
+
+			&.disabled {
+				opacity: 0.25;
 			}
 		}
 	}
