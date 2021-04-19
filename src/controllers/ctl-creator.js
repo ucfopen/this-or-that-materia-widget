@@ -536,6 +536,18 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		$timeout(_noTransition, 660, true)
 	}
 
+	$scope.moveUp = function(index) {
+		if (index > 0) {
+			[$scope.questions[index-1], $scope.questions[index]] = [$scope.questions[index], $scope.questions[index-1]];
+		}
+	}
+
+	$scope.moveDown = function(index) {
+		if (index < $scope.questions.length - 1) {
+			[$scope.questions[index+1], $scope.questions[index]] = [$scope.questions[index], $scope.questions[index+1]];
+		}
+	}
+
 	$scope.tutorialIncrement = function(step) {
 		if ($scope.tutorial.step > 0) {
 			switch (step) {
@@ -625,7 +637,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 	}
 
 	$scope.hideModal = () =>
-		($scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = false)
+		($scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = $scope.dialog.rearrange = false)
 
 	$scope.debugDump = () =>
 		console.log($scope.questions)
