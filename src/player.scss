@@ -448,7 +448,7 @@ body {
 				}
 	
 				.choice-img {
-					background: #fff url('assets/img/throbber.gif') no-repeat center;
+					background: #fff;
 				}
 	
 				.choice-text {
@@ -795,7 +795,6 @@ body {
 	overflow: hidden;
 	clip: rect(0, 0, 0, 0);
 	border: 0;
-	speak: none;
 }
 
 .lightbox {
