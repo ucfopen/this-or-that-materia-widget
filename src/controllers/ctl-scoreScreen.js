@@ -48,6 +48,17 @@ export const ControllerThisOrThatScorescreen = ($scope, $timeout, $sanitize, $sc
 					question: qset.items[questionIndex].questions[0].text
 				}
 
+				// old qsets don't have an asset type and value property
+				if ( !item.left.asset.value && !item.left.asset.type) {
+					item.left.asset.type = 'image'
+					item.left.asset.value = Materia.ScoreCore.getMediaUrl(item.left.asset.id)
+				}
+
+				if ( !item.right.asset.value && !item.right.asset.type) {
+					item.right.asset.type = 'image'
+					item.right.asset.value = Materia.ScoreCore.getMediaUrl(item.right.asset.id)
+				}
+
 				if (item.left.asset.type == 'video') item.left.asset.value = $sce.trustAsResourceUrl(item.left.asset.value)
 				if (item.right.asset.type == 'video') item.right.asset.value = $sce.trustAsResourceUrl(item.right.asset.value)
 
