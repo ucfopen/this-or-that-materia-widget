@@ -91,6 +91,8 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					console.log("LEFT has an IMAGE or AUDIO")
 					_ids[0] = item.answers[0].options.asset.id
 					_urls[0] = Materia.CreatorCore.getMediaUrl(item.answers[0].options.asset.id)
+
+					if ( !item.answers[0].options.asset.type) item.answers[0].options.asset.type = 'image'
 				}
 				else
 				{
@@ -102,6 +104,8 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					console.log("RIGHT has an IMAGE or AUDIO")
 					_ids[1] = item.answers[1].options.asset.id
 					_urls[1] = Materia.CreatorCore.getMediaUrl(item.answers[1].options.asset.id)
+
+					if ( !item.answers[1].options.asset.type) item.answers[1].options.asset.type = 'image'
 				}
 				else
 				{
