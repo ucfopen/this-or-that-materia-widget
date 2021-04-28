@@ -16,6 +16,7 @@
 
 		<!-- YOUR PREREQUISITES -->
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-aria.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-animate.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-sanitize.min.js"></script>
 		<script src="assets/js/hammer.min.js"></script>
@@ -33,6 +34,9 @@
 				<div class="side-curtain lower left" aria-hidden="true"></div>
 				<div class="side-curtain lower right" aria-hidden="true"></div>
 
+				<!-- aria-live region to report status updates -->
+				<!-- note: browser support for aria-live is mixed, behavior may be inconsistent across browsers and devices -->
+				<span aria-live=”polite” role="status" id="assistive-alert"></span>
 				<h1 id="question" ng-bind-html="title"></h1>
 
 				<!-- Holds ThisOrThat -->
@@ -155,7 +159,7 @@
 
 			<div id="splash" ng-class="{'raised': gameState.ingame}">
 				<div class="sign" ng-class="{'raised': gameState.ingame, 'end': gameState.endgame}">
-					<div class="sign-stand" aria-hiddnen="true"></div>
+					<div class="sign-stand" aria-hidden="true"></div>
 
 					<h1>{{gameState.splashtext}}</h1>
 

@@ -12,9 +12,13 @@ export const shuffleArray = array => {
 	return array
 }
 
+// helper function to update the aria-live status region
+// angular binding does not cooperate well with aria-live, so we update the DOM element directly instead
+export const assistiveAlert = (alert) => {
+	if (document.getElementById('assistive-alert')) document.getElementById('assistive-alert').innerHTML = alert
+}
+
 export const getAllAnswerChoices = ($sce, _qset) => {
-	console.log("qset:")
-	console.log(_qset)
 	const answers = []
 	_qset.items.forEach(item => {
 		if (!item.answers) return
@@ -55,6 +59,7 @@ export const onMateriaStart = ($scope, $sce, instance, qset, version) => {
 	}
 
 	$scope.choices = getAllAnswerChoices($sce, _qset)
+	$scope.questionCount = _qset.items.length
 
 	showNextQuestion($scope)
 }
@@ -98,10 +103,12 @@ export const checkChoice = ($scope, value) => {
 		case 0:
 			$scope.question.correct[value] = 'Incorrect'
 			$scope.question.feedback[value] = curItem.options.feedback || ''
+			assistiveAlert("Your selection was incorrect.")
 			break
 
 		case 100:
 			$scope.question.correct[value] = 'Correct!'
+			assistiveAlert("Your selection was correct.")
 			break
 	}
 
@@ -132,6 +139,9 @@ export const nextClicked = ($scope, $timeout) => {
 	$scope.hands.thisRaised = false
 	$scope.hands.thatRaised = false
 
+	if ((scope.question.current + 1) < $scope.questionCount) assistiveAlert("Now on question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
+	else assistiveAlert("You have completed every question")
+
 	$timeout(showNextQuestion.bind(null, $scope), 1000)
 }
 
@@ -155,6 +165,8 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 		selected: false,
 		transition: false
 	}
+
+	$scope.questionCount = 0
 
 	// the stage hands
 	$scope.hands = {

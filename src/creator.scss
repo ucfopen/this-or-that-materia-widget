@@ -462,6 +462,11 @@ input[type='text'] {
 			cursor: initial;
 		}
 
+		&[type='button'] {
+			box-shadow: none;
+			text-shadow: none;
+		}
+
 		&.invalid {
 			border-color: $red;
 			color: fade-out($red, 0.4);
@@ -789,14 +794,30 @@ input[type='text'] {
 }
 
 .rearrange {
+	position: relative;
+	padding-bottom: 55px;
+
 	h4 {
 		text-align: center;
+	}
+
+	.btn {
+		box-shadow: none;
+		text-shadow: none;
+
+		&.done-btn {
+			position: absolute;
+			right: 15px;
+			bottom: 15px;
+		}
 	}
 
 	.dots {
 		display: flex;
 		flex-direction: column;
 		max-width: none;
+		max-height: 480px;
+		overflow: auto;
 
 		.btn {
 			cursor: auto;
@@ -806,9 +827,8 @@ input[type='text'] {
 		input {
 			width: 420px;
 			overflow: hidden;
-			margin-top: -2px;
 			font-size: 16px;
-			color: #333;
+			color: #000;
 			background: #fff;
 			border: solid 2px #70bd34;
 			padding: 11px;
@@ -817,7 +837,7 @@ input[type='text'] {
 			border-radius: 4px;
 			vertical-align: baseline;
 			outline: none;
-			opacity: 0.5;
+			opacity: 0.95;
 		}
 
 		li {

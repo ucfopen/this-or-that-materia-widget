@@ -451,7 +451,7 @@
 							ng-class="{ 'invalid': title.$error }"
 							ng-model="title"
 							ng-enter="setTitle()">
-						<input type="button" value="Get Started" ng-click="setTitle()">
+						<input class="btn green" type="button" value="Get Started" ng-click="setTitle()">
 					</div>
 					<label for="tutorial">
 						<input type="checkbox"
@@ -474,7 +474,7 @@
 						focus-me="dialog.edit"
 						ng-model="title"
 						ng-enter="setTitle()">
-					<input type="button" value="Done" ng-click="setTitle()">
+					<input class="btn green" type="button" value="Done" ng-click="setTitle()">
 				</div>
 				<!-- /Title edit modal -->
 
@@ -502,6 +502,7 @@
 							</div>
 						</li>
 					</ul>
+					<button class="btn green done-btn" ng-click="hideModal()">Done</button>
 				</div>
 				<!-- /Rearrange questions modal -->
 			</div>
