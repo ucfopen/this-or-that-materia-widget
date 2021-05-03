@@ -9,8 +9,6 @@ export const buildQset = ($sanitize, title, items, isRandom) => {
 		return false
 	}
 
-	console.log(items)
-
 	for (let item of items) {
 		const processedItem = processQsetItem($sanitize, item)
 		if (processedItem) {

@@ -48,7 +48,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 	materiaCallbacks.initExistingWidget = function(title, widget, qset, version, baseUrl) {
 		$scope.title = title
 		$scope.tutorial.step = null
-		console.log(qset)
 		materiaCallbacks.onQuestionImportComplete(qset.items)
 	}
 
@@ -88,7 +87,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 
 			try {
 				if ( !item.answers[0]?.options.asset.type || item.answers[0].options.asset.type == 'image' || item.answers[0]?.options.asset && item.answers[0].options.asset.type == 'audio') {
-					console.log("LEFT has an IMAGE or AUDIO")
 					_ids[0] = item.answers[0].options.asset.id
 					_urls[0] = Materia.CreatorCore.getMediaUrl(item.answers[0].options.asset.id)
 
@@ -101,7 +99,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 				}
 
 				if ( !item.answers[1]?.options.asset.type || item.answers[1].options.asset.type == 'image' || item.answers[1]?.options.asset && item.answers[1].options.asset.type == 'audio' ) {
-					console.log("RIGHT has an IMAGE or AUDIO")
 					_ids[1] = item.answers[1].options.asset.id
 					_urls[1] = Materia.CreatorCore.getMediaUrl(item.answers[1].options.asset.id)
 
@@ -114,7 +111,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 				}
 
 			} catch (error) {
-				console.log(error)
+				alert('Uh oh. Something went wrong with uploading your questions.')
 			}
 
 			$scope.questions.push({
@@ -228,57 +225,37 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		}
 	}
 
-	$scope.addQuestion = () => {
+	$scope.addQuestion = (premade = null) => {
 
-		let question = {
-			title: '',
-			correct: {
-				type: null,
-				value: null,
-				alt: '',
+		// premade is only used for tests; normal creator use will always default to premade = null
+		if (premade) {
+			if ( premade.title && (typeof premade.correct == 'object') && (typeof premade.incorrect == 'object') ) {
+				var question = premade
+			}
+			else return false
+		} else {
+			var question = {
+				title: '',
+				correct: {
+					type: null,
+					value: null,
+					alt: '',
+					id: null,
+					answerId: null
+				},
+				incorrect: {
+					type: null,
+					value: null,
+					alt: '',
+					id: null,
+					answerId: null
+				},
+				isValid: true,
 				id: null,
-				answerId: null
-			},
-			incorrect: {
-				type: null,
-				value: null,
-				alt: '',
-				id: null,
-				answerId: null
-			},
-			isValid: true,
-			id: null
+				feedback:''
+			}
 		}
-		// if (title == null) {
-		// 	title = ''
-		// }
-		// if (answerType == null) {
-		// 	answerType = ['', '']
-		// }
-		// if (options == null) {
-		// 	options = ['', '']
-		// }
-		// if (imgsFilled == null) {
-		// 	imgsFilled = [false, false]
-		// }
-		// if (isValid == null) {
-		// 	isValid = true
-		// }
-		// if (alt == null) {
-		// 	alt = ['', '']
-		// }
-		// if (URLs == null) {
-		// 	URLs = ['', '']
-		// }
-		// if (id == null) {
-		// 	id = ''
-		// }
-		// if (qid == null) {
-		// 	qid = ''
-		// }
-		// if (ansid == null) {
-		// 	ansid = ''
-		// }
+
 		if ($scope.questions.length > 0) {
 			if ($scope.questions.length < 50) {
 				$scope.actions.add = true
@@ -393,7 +370,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 	$scope.embedVideo = function(index, which) {
 		try {
 			let embedUrl = which == $scope.CORRECT ? $scope.questions[$scope.currIndex].correct.value : $scope.questions[$scope.currIndex].incorrect.value
-			
+
 			if (which == $scope.CORRECT) {
 				if ( $scope.questions[$scope.currIndex].correct.videoValid != true) return $sce.trustAsResourceUrl('')
 			}
@@ -405,7 +382,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 			if (embedUrl) {
 				if (embedUrl.includes('youtu')) {
 					const stringMatch = embedUrl.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
-					console.log(stringMatch)
 					if (stringMatch != null) {
 						embedUrl = embedUrl.includes('/embed/') ? embedUrl : ('https://www.youtube.com/embed/' + (stringMatch && stringMatch[1]));
 					} else {
@@ -458,7 +434,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 
 			return $sce.trustAsResourceUrl(embedUrl)
 		} catch (e) {
-			console.log(e)
+			console.warn(e)
 		}
 	}
 
@@ -643,7 +619,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		($scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = $scope.dialog.rearrange = false)
 
 	$scope.debugDump = () =>
-		console.log($scope.questions)
+		console.log('bruh')
 
 	return Materia.CreatorCore.start(materiaCallbacks)
 }

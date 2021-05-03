@@ -12,6 +12,7 @@ describe('Creator Controller', function() {
 	require('angular-animate/angular-animate.js')
 	require('angular-sanitize/angular-sanitize.js')
 	require('angular-mocks/angular-mocks.js')
+	require('angular-aria/angular-aria.js')
 
 	let $scope
 	let $controller
@@ -22,18 +23,25 @@ describe('Creator Controller', function() {
 	let $sanitize
 
 	function quickQuestion(givenID) {
-		let title = 'test title ' + givenID
-		let answerType = ['image', 'image']
-		let options = ['image 1', 'image 2']
-		let imgsFilled = [false, false]
-		let isValid = true
-		let alt = ['alt 1', 'alt 2']
-		let URLs = ['url 1', 'url 2']
-		let id = '' + givenID
-		let qid = '' + givenID
-		let ansid = '' + givenID
+		
+		$scope.addQuestion({
+			title: 'test title ' + givenID,
+			correct: {
+				type: 'image',
+				value: 'image 1',
+				alt: 'image 1 alt text',
+				id: 'image 1 id'
+			},
+			incorrect: {
+				type: 'image',
+				value: 'image 2',
+				alt: 'image 2 alt text',
+				id: 'image 2 id'
+			},
+			id: givenID,
+			feedback: 'feedback'
+		})
 
-		$scope.addQuestion(title, answerType, options, imgsFilled, isValid, alt, URLs, id, qid, ansid)
 		$timeout.flush()
 		$timeout.verifyNoPendingTasks()
 	}
@@ -101,14 +109,23 @@ describe('Creator Controller', function() {
 	test('should edit a new widget', () => {
 		const defaultQuestion = {
 			title: '',
-			answerType: ['', ''],
-			options: ['', ''],
+			correct: {
+				type: null,
+				id: null,
+				alt: '',
+				value: null,
+				answerId: null
+			},
+			incorrect: {
+				type: null,
+				id: null,
+				alt: '',
+				value: null,
+				answerId: null
+			},
 			isValid: true,
-			alt: ['', ''],
-			URLs: ['', ''],
-			id: '',
-			qid: '',
-			ansid: ''
+			id: null,
+			feedback: ''
 		}
 
 		publicMethods.initNewWidget(widgetInfo)
@@ -196,8 +213,13 @@ describe('Creator Controller', function() {
 		expect($scope.tutorial.step).toBe(8)
 
 		$scope.tutorialIncrement(8)
-		expect($scope.tutorial.step).toBeNull()
+		expect($scope.tutorial.step).toBe(9)
 		$scope.tutorialIncrement(8)
+		expect($scope.tutorial.step).toBe(9)
+
+		$scope.tutorialIncrement(9)
+		expect($scope.tutorial.step).toBeNull()
+		$scope.tutorialIncrement(9)
 		expect($scope.tutorial.step).toBeNull()
 	})
 
@@ -218,8 +240,12 @@ describe('Creator Controller', function() {
 		publicMethods.initNewWidget(widgetInfo)
 
 		$scope.questions[0].title = 'question 1'
-		$scope.questions[0].options = ['image 1', 'image 2']
-		$scope.questions[0].alt = ['alt 1', 'alt 2']
+		$scope.questions[0].correct.value = 'image 1'
+		$scope.questions[0].correct.alt = 'alt 1'
+		$scope.questions[0].correct.type = 'image'
+		$scope.questions[0].incorrect.value = 'image 2'
+		$scope.questions[0].incorrect.alt = 'alt 2'
+		$scope.questions[0].incorrect.type = 'image'
 		$scope.dialog.invalid = false
 
 		$scope.validation('change', 0)
@@ -234,8 +260,12 @@ describe('Creator Controller', function() {
 
 		//add a valid question so we don't get the 'not all questions are complete' message
 		$scope.questions[0].title = 'question 1'
-		$scope.questions[0].options = ['image 1', 'image 2']
-		$scope.questions[0].alt = ['alt 1', 'alt 2']
+		$scope.questions[0].correct.value = 'image 1'
+		$scope.questions[0].correct.alt = 'alt 1'
+		$scope.questions[0].correct.type = 'image'
+		$scope.questions[0].incorrect.value = 'image 2'
+		$scope.questions[0].incorrect.alt = 'alt 2'
+		$scope.questions[0].incorrect.type = 'image'
 		$scope.dialog.invalid = false
 
 		$scope.title = ''
@@ -265,13 +295,13 @@ describe('Creator Controller', function() {
 
 		expect($scope.questions.length).toBe(2)
 		expect($scope.questions[1].title).toBe('test title 1')
-		expect($scope.questions[1].options).toEqual(['image 1', 'image 2'])
-		expect($scope.questions[1].isValid).toBe(true)
-		expect($scope.questions[1].alt).toEqual(['alt 1', 'alt 2'])
-		expect($scope.questions[1].URLs).toEqual(['url 1', 'url 2'])
-		expect($scope.questions[1].id).toBe('1')
-		expect($scope.questions[1].qid).toBe('1')
-		expect($scope.questions[1].ansid).toBe('1')
+		expect($scope.questions[1].correct.type).toBe('image')
+		expect($scope.questions[1].correct.alt).toBe('image 1 alt text')
+		expect($scope.questions[1].correct.value).toBe('image 1')
+		expect($scope.questions[1].incorrect.type).toBe('image')
+		expect($scope.questions[1].incorrect.alt).toBe('image 2 alt text')
+		expect($scope.questions[1].incorrect.value).toBe('image 2')
+		expect($scope.questions[1].id).toBe(1)
 	})
 
 	test('should slide left when selecting the previous question', () => {
@@ -468,9 +498,9 @@ describe('Creator Controller', function() {
 
 		quickQuestion(1)
 
-		$scope.clearImage(0, 0)
-		expect($scope.questions[0].URLs[0]).toBe('http://placehold.it/300x250')
-		expect($scope.questions[0].options[0]).toBeNull()
+		$scope.clearMedia(1, $scope.CORRECT)
+		expect($scope.questions[1].correct.value).toBe('http://placehold.it/300x250')
+		expect($scope.questions[1].correct.type).toBe('image')
 	})
 
 	test('should correctly remove all questions', () => {
@@ -527,25 +557,25 @@ describe('Creator Controller', function() {
 		quickQuestion(3)
 		quickQuestion(4)
 
-		$scope.updateAnswerType('text', 0, 0)
-		expect($scope.questions[0].answerType[0]).toBe('text')
-		$scope.updateAnswerType('text', 0, 1)
-		expect($scope.questions[0].answerType[1]).toBe('text')
+		$scope.updateAnswerType('text', 0, $scope.CORRECT)
+		expect($scope.questions[0].correct.type).toBe('text')
+		$scope.updateAnswerType('text', 0, $scope.INCORRECT)
+		expect($scope.questions[0].incorrect.type).toBe('text')
 
-		$scope.updateAnswerType('audio', 1, 0)
-		expect($scope.questions[1].answerType[0]).toBe('audio')
-		$scope.updateAnswerType('audio', 1, 1)
-		expect($scope.questions[1].answerType[1]).toBe('audio')
+		$scope.updateAnswerType('audio', 1, $scope.CORRECT)
+		expect($scope.questions[1].correct.type).toBe('audio')
+		$scope.updateAnswerType('audio', 1, $scope.INCORRECT)
+		expect($scope.questions[1].incorrect.type).toBe('audio')
 
-		$scope.updateAnswerType('video', 2, 0)
-		expect($scope.questions[2].answerType[0]).toBe('video')
-		$scope.updateAnswerType('video', 2, 1)
-		expect($scope.questions[2].answerType[1]).toBe('video')
+		$scope.updateAnswerType('video', 2, $scope.CORRECT)
+		expect($scope.questions[2].correct.type).toBe('video')
+		$scope.updateAnswerType('video', 2, $scope.INCORRECT)
+		expect($scope.questions[2].incorrect.type).toBe('video')
 
-		$scope.updateAnswerType('image', 3, 0)
-		expect($scope.questions[3].answerType[0]).toBe('image')
-		$scope.updateAnswerType('image', 3, 1)
-		expect($scope.questions[3].answerType[1]).toBe('image')
+		$scope.updateAnswerType('image', 3, $scope.CORRECT)
+		expect($scope.questions[3].correct.type).toBe('image')
+		$scope.updateAnswerType('image', 3, $scope.INCORRECT)
+		expect($scope.questions[3].incorrect.type).toBe('image')
 	})
 
 	test('should set an image url', () => {
@@ -553,19 +583,19 @@ describe('Creator Controller', function() {
 
 		quickQuestion(1)
 
-		$scope.requestImage(0, 0)
+		$scope.requestImage(0, $scope.CORRECT)
 		$scope.setURL('test url', 4)
 
 		expect(Materia.CreatorCore.showMediaImporter).toHaveBeenCalled()
 
-		expect($scope.questions[0].URLs[0]).toBe('test url')
-		expect($scope.questions[0].options[0]).toBe(4)
+		expect($scope.questions[0].correct.value).toBe('test url')
+		expect($scope.questions[0].correct.id).toBe(4)
 
 		const media = [{ id: 5 }]
 		publicMethods.onMediaImportComplete(media)
 
-		expect($scope.questions[0].URLs[0]).toBe('MEDIA_URL/5')
-		expect($scope.questions[0].options[0]).toBe(5)
+		expect($scope.questions[0].correct.value).toBe('MEDIA_URL/5')
+		expect($scope.questions[0].correct.id).toBe(5)
 	})
 
 	test('should set an audio url', () => {
@@ -578,50 +608,75 @@ describe('Creator Controller', function() {
 
 		expect(Materia.CreatorCore.showMediaImporter).toHaveBeenCalled()
 
-		expect($scope.questions[0].URLs[0]).toBe('test url')
-		expect($scope.questions[0].options[0]).toBe(4)
+		expect($scope.questions[0].correct.value).toBe('test url')
+		expect($scope.questions[0].correct.id).toBe(4)
 
 		const media = [{ id: 5 }]
 		publicMethods.onMediaImportComplete(media)
 
-		expect($scope.questions[0].URLs[0]).toBe('MEDIA_URL/5')
-		expect($scope.questions[0].options[0]).toBe(5)
+		expect($scope.questions[0].correct.value).toBe('MEDIA_URL/5')
+		expect($scope.questions[0].correct.id).toBe(5)
 	})
 
 	test('should embed video', () => {
 		publicMethods.initNewWidget(widgetInfo)
 
-		quickQuestion(1)
+		// quickQuestion(1)
+		$scope.addQuestion({
+			title: 'test title 1',
+			correct: {
+				type: 'video',
+				value: '',
+				alt: '',
+				id: null
+			},
+			incorrect: {
+				type: 'image',
+				value: 'image 2',
+				alt: 'image 2 alt text',
+				id: null
+			},
+			id: 1,
+			feedback: 'feedback'
+		})
 
-		$scope.questions[0].options[0] = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-		$scope.embedVideo(0, 0)
-		expect($scope.questions[0].options[0]).toBe('https://www.youtube.com/embed/dQw4w9WgXcQ')
+		$timeout.flush()
+		$timeout.verifyNoPendingTasks()
 
-		$scope.questions[0].options[0] = 'https://www.youtube.com/embed/dQw4w9WgXcQ'
-		$scope.embedVideo(0, 0)
-		expect($scope.questions[0].options[0]).toBe('https://www.youtube.com/embed/dQw4w9WgXcQ')
+		$scope.questions[1].correct.value = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+		$scope.questions[1].correct.videoValid = true
+		$scope.embedVideo(1, $scope.CORRECT)
+		expect($scope.questions[1].correct.value).toBe('https://www.youtube.com/embed/dQw4w9WgXcQ')
 
-		$scope.questions[0].options[0] = 'https://vimeo.com/148751763'
-		$scope.embedVideo(0, 0)
-		expect($scope.questions[0].options[0]).toBe('https://player.vimeo.com/video/148751763')
+		$scope.questions[1].correct.value = 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+		$scope.questions[1].correct.videoValid = true
+		$scope.embedVideo(1, $scope.CORRECT)
+		expect($scope.questions[1].correct.value).toBe('https://www.youtube.com/embed/dQw4w9WgXcQ')
 
-		$scope.questions[0].options[0] = 'https://player.vimeo.com/video/148751763'
-		$scope.embedVideo(0, 0)
-		expect($scope.questions[0].options[0]).toBe('https://player.vimeo.com/video/148751763')
+		$scope.questions[1].correct.value = 'https://vimeo.com/148751763'
+		$scope.questions[1].correct.videoValid = true
+		$scope.embedVideo(1, $scope.CORRECT)
+		expect($scope.questions[1].correct.value).toBe('https://player.vimeo.com/video/148751763')
 
-		$scope.questions[0].options[0] = 'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4'
-		$scope.embedVideo(0, 0)
-		expect($scope.questions[0].options[0]).toBe('https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4')
+		$scope.questions[1].correct.value = 'https://player.vimeo.com/video/148751763'
+		$scope.questions[1].correct.videoValid = true
+		$scope.embedVideo(1, $scope.CORRECT)
+		expect($scope.questions[1].correct.value).toBe('https://player.vimeo.com/video/148751763')
 
-		$scope.questions[0].options[0] = 'lul this is not a link'
-		$scope.embedVideo(0, 0)
-		expect($scope.questions[0].options[0]).toBe('')
+		$scope.questions[1].correct.value = 'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4'
+		$scope.questions[1].correct.videoValid = true
+		$scope.embedVideo(1, $scope.CORRECT)
+		expect($scope.questions[1].correct.value).toBe('https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4')
 
-		$scope.questions[0].options[0] = ''
-		$scope.embedVideo(0, 0)
-		expect($scope.questions[0].options[0]).toBe('')
+		$scope.questions[1].correct.value = 'lul this is not a link'
+		$scope.questions[1].correct.videoValid = true
+		$scope.embedVideo(1, $scope.CORRECT)
+		expect($scope.questions[1].correct.value).toBe('')
 
-
+		$scope.questions[1].correct.value = ''
+		$scope.questions[1].correct.videoValid = true
+		$scope.embedVideo(1, $scope.CORRECT)
+		expect($scope.questions[1].correct.value).toBe('')
 	})
 
 	test('should import questions', () => {
@@ -693,7 +748,8 @@ describe('Creator Controller', function() {
 			{
 				id: null,
 				questions: [{ text: 'Which one of these dogs is a Labrador Retriever?' }],
-				answers: [{ options: { asset: { id: null } } }, { options: { asset: { id: null } } }]
+				answers: [{ options: { asset: { id: null } } }, { options: { asset: { id: null } } }],
+				options: { feedback: '' }
 			}
 		]
 		publicMethods.onQuestionImportComplete(incomplete)
