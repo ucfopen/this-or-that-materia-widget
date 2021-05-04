@@ -10,6 +10,7 @@
 describe('Player Controller', function() {
 	require('angular/angular.js')
 	require('angular-mocks/angular-mocks.js')
+	require('angular-aria/angular-aria.js')
 
 	let $scope
 	let $controller
@@ -98,7 +99,7 @@ describe('Player Controller', function() {
 		]
 		const answerArray = [];
 		$scope.choices.forEach(answer => {
-			answerArray.push(answer[0]);
+			answerArray.push(answer.value);
 		})
 		for (const index in expectedImages) {
 			const fullName = 'MEDIA_URL/assets/img/demo/' + expectedImages[index]
@@ -109,11 +110,11 @@ describe('Player Controller', function() {
 	test('controller selects the first question after starting', () => {
 		publicMethods.start(widgetInfo, qset.data)
 
-		expect($scope.questions.current).toEqual(0)
+		expect($scope.question.current).toEqual(0)
 		expect($scope.title).toEqual(qset.data.items[0].questions[0].text)
 		expect($scope.answers).toEqual(qset.data.items[0].answers)
-		expect($scope.questions.selected).toEqual(false)
-		expect($scope.questions.transition).toEqual(false)
+		expect($scope.question.selected).toEqual(false)
+		expect($scope.question.transition).toEqual(false)
 	})
 
 	test('closeIntro method sets state correctly', () => {
@@ -144,11 +145,11 @@ describe('Player Controller', function() {
 		$scope.answers[0].value = 100
 		$scope.checkChoice(0)
 
-		expect($scope.questions.correct[0]).toEqual('Correct!')
+		expect($scope.question.correct[0]).toEqual('Correct!')
 
-		expect($scope.questions.selected).toEqual(true)
+		expect($scope.question.selected).toEqual(true)
 		expect($scope.gameState.showNext).toEqual(true)
-		expect($scope.questions.feedback[0]).toEqual('')
+		expect($scope.question.feedback[0]).toEqual('')
 	})
 
 	test('should check an "incorrect" answer choice', () => {
@@ -162,11 +163,11 @@ describe('Player Controller', function() {
 		$scope.answers[0].value = 0
 		$scope.checkChoice(0)
 
-		expect($scope.questions.correct[0]).toEqual('Incorrect')
-		expect($scope.questions.selected).toEqual(true)
+		expect($scope.question.correct[0]).toEqual('Incorrect')
+		expect($scope.question.selected).toEqual(true)
 		expect($scope.gameState.showNext).toEqual(true)
 		const questionFeedback = qset.data.items[0].options.feedback
-		expect($scope.questions.feedback[0]).toEqual(questionFeedback)
+		expect($scope.question.feedback[0]).toEqual(questionFeedback)
 	})
 
 	//this one probably should not even be possible, but whatever
@@ -204,27 +205,27 @@ describe('Player Controller', function() {
 		$scope.answers[0].value = 0
 		$scope.checkChoice(0)
 
-		expect($scope.questions.feedback[0]).toEqual('')
+		expect($scope.question.feedback[0]).toEqual('')
 	})
 
 	test('should update when next is clicked', () => {
 		publicMethods.start(widgetInfo, qset.data)
-		expect($scope.questions.current).toBe(0)
+		expect($scope.question.current).toBe(0)
 
 		quickSelect()
 
 		expect($scope.gameState.showNext).toEqual(false)
-		expect($scope.questions.correct).toEqual(['', ''])
-		expect($scope.questions.choice).toEqual(-1)
-		expect($scope.questions.transition).toEqual(true)
+		expect($scope.question.correct).toEqual(['', ''])
+		expect($scope.question.choice).toEqual(-1)
+		expect($scope.question.transition).toEqual(true)
 		expect($scope.hands.thisRaised).toEqual(false)
 		expect($scope.hands.thatRaised).toEqual(false)
 
 		//another function should run after a timeout to increment the next question
 		$timeout.flush()
 		$timeout.verifyNoPendingTasks()
-		expect($scope.questions.current).toBe(1)
-		expect($scope.questions.transition).toEqual(false)
+		expect($scope.question.current).toBe(1)
+		expect($scope.question.transition).toEqual(false)
 		expect($scope.title).toEqual(qset.data.items[1].questions[0].text)
 		expect($scope.answers).toEqual(qset.data.items[1].answers)
 	})
@@ -245,7 +246,7 @@ describe('Player Controller', function() {
 			showNext: false
 		}
 
-		expect($scope.questions.current).toBe(numberQuestions)
+		expect($scope.question.current).toBe(numberQuestions)
 		expect($scope.gameState).toEqual(expectedState)
 
 		expect(Materia.Engine.end).toHaveBeenNthCalledWith(1, false)
