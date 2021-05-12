@@ -133,7 +133,8 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/birds.mp3'%>",
-                  "type": "audio"
+                  "type": "audio",
+                  "value": "<%MEDIA='assets/img/demo/birds.mp3'%>"
                 }
               }
             },

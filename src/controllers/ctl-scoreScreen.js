@@ -1,4 +1,4 @@
-export const ControllerThisOrThatScorescreen = ($scope, $timeout, $sanitize, $sce) => {
+export const ControllerThisOrThatScorescreen = ($scope, $sce) => {
 
 	$scope.items = []
 	
@@ -22,13 +22,6 @@ export const ControllerThisOrThatScorescreen = ($scope, $timeout, $sanitize, $sc
 	}
 
 	materiaCallbacks.start = (instance, qset, scoreTable, isPreview, qsetVersion) => {
-		console.log("instance:")
-		console.log(instance)
-		console.log("qset:")
-		console.log(qset)
-		console.log("scoreTable:")
-		console.log(scoreTable)
-
 		$scope.$apply(() => {
 			$scope.items = scoreTable.map((question, index) => {
 
@@ -36,7 +29,7 @@ export const ControllerThisOrThatScorescreen = ($scope, $timeout, $sanitize, $sc
 				// $sce.trustAsResourceUrl
 				let item = {
 					correct: (question.score == 100),
-					deduction: getIndividualScoreDeduction(scoreTable),
+					deduction: question.score == 100 ? 0 : getIndividualScoreDeduction(scoreTable),
 					left: {
 						text: qset.items[questionIndex].answers[0].text,
 						asset: qset.items[questionIndex].answers[0].options.asset

@@ -4,11 +4,9 @@
 // const { ControllerThisOrThatCreator } = require('./controllers/ctl-creator')
 const { ControllerThisOrThatScorescreen } = require('./controllers/ctl-scoreScreen')
 
-const ThisOrThat = angular.module('ThisOrThatScorescreen', ['ngSanitize'])
+const ThisOrThat = angular.module('ThisOrThatScorescreen', [])
 ThisOrThat.controller('ThisOrThatScoreCtrl', [
 	'$scope',
-	'$timeout',
-	'$sanitize',
 	'$sce',
 	ControllerThisOrThatScorescreen
 ])

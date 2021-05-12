@@ -501,6 +501,28 @@ describe('Creator Controller', function() {
 		$scope.clearMedia(1, $scope.CORRECT)
 		expect($scope.questions[1].correct.value).toBe('http://placehold.it/300x250')
 		expect($scope.questions[1].correct.type).toBe('image')
+
+		$scope.clearMedia(1, $scope.INCORRECT)
+		expect($scope.questions[1].incorrect.value).toBe('http://placehold.it/300x250')
+		expect($scope.questions[1].incorrect.type).toBe('image')
+	})
+
+	test('should clear media type', () => {
+		publicMethods.initNewWidget(widgetInfo)
+
+		quickQuestion(1)
+
+		$scope.clearType(1, $scope.CORRECT)
+		expect($scope.questions[1].correct.type).toBe(null)
+		expect($scope.questions[1].correct.id).toBe(null)
+		expect($scope.questions[1].correct.value).toBe(null)
+		expect($scope.questions[1].correct.alt).toBe('')
+
+		$scope.clearType(1, $scope.INCORRECT)
+		expect($scope.questions[1].incorrect.type).toBe(null)
+		expect($scope.questions[1].incorrect.id).toBe(null)
+		expect($scope.questions[1].incorrect.value).toBe(null)
+		expect($scope.questions[1].incorrect.alt).toBe('')
 	})
 
 	test('should correctly remove all questions', () => {
@@ -672,6 +694,24 @@ describe('Creator Controller', function() {
 		$scope.questions[1].correct.videoValid = true
 		$scope.embedVideo(1, $scope.CORRECT)
 		expect($scope.questions[1].correct.value).toBe('')
+
+		$scope.questions[1].correct.value = $scope.questions[1].incorrect.value = 'this isnt actually a youtube link'
+		$scope.questions[1].correct.videoValid = $scope.questions[1].incorrect.videoValid = true
+		$scope.embedVideo(1, $scope.CORRECT)
+		$scope.embedVideo(1, $scope.INCORRECT)
+		expect($scope.questions[1].correct.videoValid).toBe(false)
+		expect($scope.questions[1].incorrect.videoValid).toBe(false)
+		expect($scope.questions[1].correct.value).toBe('')
+		expect($scope.questions[1].incorrect.value).toBe('')
+
+		$scope.questions[1].correct.value = $scope.questions[1].incorrect.value = 'this isnt actually a vimeo link'
+		$scope.questions[1].correct.videoValid = $scope.questions[1].incorrect.videoValid = true
+		$scope.embedVideo(1, $scope.CORRECT)
+		$scope.embedVideo(1, $scope.INCORRECT)
+		expect($scope.questions[1].correct.videoValid).toBe(false)
+		expect($scope.questions[1].incorrect.videoValid).toBe(false)
+		expect($scope.questions[1].correct.value).toBe('')
+		expect($scope.questions[1].incorrect.value).toBe('')
 
 		$scope.questions[1].correct.value = ''
 		$scope.questions[1].correct.videoValid = true
