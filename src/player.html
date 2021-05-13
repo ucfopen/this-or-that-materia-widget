@@ -53,6 +53,8 @@
 								ng-disabled="question.selected"
 								ng-mouseenter="hands.thisRaised = true"
 								ng-mouseleave="hands.thisRaised = false"
+								ng-focus="hands.thisRaised = true"
+								ng-blur="hands.thisRaised = false"
 								href="#"
 								data-title="{{answers[0].text}}">
 								<span ng-class="{'overlayFeedback': question.feedback[0] != '', 'overlay': question.feedback[0] == ''}">{{question.correct[0]}}</span>
@@ -86,6 +88,8 @@
 									ng-click="checkChoice(0)"
 									ng-mouseenter="hands.thisRaised = true"
 									ng-mouseleave="hands.thisRaised = false"
+									ng-focus="hands.thisRaised = true"
+									ng-blur="hands.thisRaised = false"
 									ng-disabled="question.selected">Select</button>
 							</div>
 						</div>
@@ -102,6 +106,8 @@
 								ng-disabled="question.selected"
 								ng-mouseenter="hands.thatRaised = true"
 								ng-mouseleave="hands.thatRaised = false"
+								ng-focus="hands.thatRaised = true"
+								ng-blur="hands.thatRaised = false"
 								href="#"
 								data-title="{{answers[1].text}}">
 								<span ng-class="{'overlayFeedback': question.feedback[1] != '', 'overlay': question.feedback[1] == ''}">{{question.correct[1]}}</span>
@@ -135,6 +141,8 @@
 									ng-click="checkChoice(1)"
 									ng-mouseenter="hands.thatRaised = true"
 									ng-mouseleave="hands.thatRaised = false"
+									ng-focus="hands.thisRaised = true"
+									ng-blur="hands.thisRaised = false"
 									ng-disabled="question.selected">Select</button>
 							</div>
 						</div>

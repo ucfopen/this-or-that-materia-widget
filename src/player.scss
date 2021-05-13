@@ -681,12 +681,20 @@ body {
 		//animation: pulse-bg 1s infinite;
 
 		z-index: 10;
+
+		&:focus {
+			outline: solid 2px #fff;
+		}
 	}
 }
 
 .start,
 .reset {
 	animation: pulse-bg 1s infinite;
+
+	&:focus {
+		outline: solid 2px #fff;
+	}
 }
 
 @keyframes pulse-bg {
