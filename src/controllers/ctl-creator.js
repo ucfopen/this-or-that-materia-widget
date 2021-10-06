@@ -26,7 +26,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		remove: false,
 		removelast: false
 	}
-	// const _imgRef = []
 
 	const _assetRef = {
 		index: null,
@@ -144,22 +143,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 				if ($scope.questions[$scope.questions.length-1].incorrect.value.length > 0) $scope.questions[$scope.questions.length-1].incorrect.videoValid = true
 				else $scope.questions[$scope.questions.length-1].incorrect.videoValid = false
 			}
-
-			// // Add each imported question to the DOM
-			// $scope.questions.push({
-			// 	title: item.questions[0].text.replace(/\&\#10\;/g, '\n'),
-			// 	options: _ids,
-			// 	isValid: true,
-			// 	alt: [
-			// 		item.answers[0].text,
-			// 		item.answers[1].text,
-			// 		(item.options != null ? item.options.feedback : undefined) || ''
-			// 	],
-			// 	URLs: _urls,
-			// 	id: item.id,
-			// 	qid: item.questions[0].id,
-			// 	ansid: item.answers[0].id
-			// })
 		}
 
 		$scope.currIndex = 0
@@ -617,9 +600,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 
 	$scope.hideModal = () =>
 		($scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = $scope.dialog.rearrange = false)
-
-	$scope.debugDump = () =>
-		console.log('bruh')
 
 	return Materia.CreatorCore.start(materiaCallbacks)
 }

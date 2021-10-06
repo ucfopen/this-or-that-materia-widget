@@ -153,7 +153,7 @@
 											<figure ng-if="questions[currIndex].correct.value.length > 0">
 												<audio
 													controls
-													src="{{questions[currIndex].correct.value}}">
+													ng-src="{{questions[currIndex].correct.value}}">
 													Your browser does not support the
 													<code>audio</code> element.
 												</audio>
@@ -294,7 +294,7 @@
 											<figure ng-if="questions[currIndex].incorrect.value.length > 0">
 												<audio
 													controls
-													src="{{questions[currIndex].incorrect.value}}">
+													ng-src="{{questions[currIndex].incorrect.value}}">
 													Your browser does not support the
 													<code>audio</code> element.
 												</audio>
