@@ -60,7 +60,7 @@
 								<span ng-class="{'overlayFeedback': question.feedback[0] != '', 'overlay': question.feedback[0] == ''}">{{question.correct[0]}}</span>
 								<span class="feedback">{{question.feedback[0]}}</span>
 								<img ng-if="answers[0].options.asset.type === 'image'" class="choice choice-img" ng-src="{{answers[0].options.asset.value}}" alt="{{answers[0].text}}">
-								<div ng-if="answers[0].options.asset.type === 'text'" class="choice choice-text">
+								<div ng-if="answers[0].options.asset.type === 'text'" class="choice choice-text" ng-style="{ 'font-size': getAdjustedTextSize(answers[0].options.asset.value) + 'px'}">
 									<span>{{answers[0].options.asset.value}}</span>
 								</div>
 							</button>
@@ -74,7 +74,7 @@
 									<figcaption>{{answers[0].text}}</figcaption>
 									<audio
 										controls
-										src="{{answers[0].options.asset.value}}">
+										ng-src="{{answers[0].options.asset.value}}">
 										Your browser does not support the
 										<code>audio</code> element.
 									</audio>
@@ -113,7 +113,7 @@
 								<span ng-class="{'overlayFeedback': question.feedback[1] != '', 'overlay': question.feedback[1] == ''}">{{question.correct[1]}}</span>
 								<span class="feedback">{{question.feedback[1]}}</span>
 								<img ng-if="answers[1].options.asset.type === 'image'" class="choice choice-img" ng-src="{{answers[1].options.asset.value}}" alt="{{answers[1].text}}">
-								<div ng-if="answers[1].options.asset.type === 'text'" class="choice choice-text">
+								<div ng-if="answers[1].options.asset.type === 'text'" class="choice choice-text" ng-style="{ 'font-size': getAdjustedTextSize(answers[1].options.asset.value) + 'px'}">
 									<span>{{answers[1].options.asset.value}}</span>
 								</div>
 							</button>
@@ -127,7 +127,7 @@
 									<figcaption>{{answers[1].text}}</figcaption>
 									<audio
 										controls
-										src="{{answers[1].options.asset.value}}">
+										ng-src="{{answers[1].options.asset.value}}">
 										Your browser does not support the
 										<code>audio</code> element.
 									</audio>

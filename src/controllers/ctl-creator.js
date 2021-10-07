@@ -294,13 +294,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		$scope.tutorialIncrement(sideIndex ? 5 : 2)
 		switch (type) {
 			case 'image':
-				if (side == $scope.CORRECT) {
-					$scope.questions[currIndex].correct.value = 'assets/img/placeholder.png'
-				}
-				else
-				{
-					$scope.questions[currIndex].incorrect.value = 'assets/img/placeholder.png'
-				}
 				$scope.tutorial.text[sideIndex ? 5 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct image`
 				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct image`
 				break
@@ -438,18 +431,12 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 
 	$scope.clearMedia = function(index, which) {
 		if (which == $scope.CORRECT) {
-			if ($scope.questions[index].correct.type == 'image') {
-				$scope.questions[index].correct.value = 'http://placehold.it/300x250'
-			}
-			else $scope.questions[index].correct.value = null
+			$scope.questions[index].correct.value = null
 			$scope.questions[index].correct.id = null
 		}
 		else
 		{
-			if ($scope.questions[index].incorrect.type == 'image') {
-				$scope.questions[index].incorrect.value = 'http://placehold.it/300x250'
-			}
-			else $scope.questions[index].incorrect.value = null
+			$scope.questions[index].incorrect.value = null
 			$scope.questions[index].incorrect.id = null
 		}
 	}

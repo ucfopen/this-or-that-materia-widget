@@ -189,5 +189,15 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 		$scope.lightboxTarget = val
 	}
 
+	$scope.getAdjustedTextSize = (text) => {
+		if (text.length < 140) return 28
+		else {
+			let offset = text.length - 140
+			let scaleFactor = offset / 12 // adjust this value to increase or decrease the rate of text scaling
+
+			return (28 - Math.ceil(scaleFactor)) > 16 ? 28 - Math.ceil(scaleFactor) : 16
+		}
+	}
+
 	Materia.Engine.start({ start: onMateriaStart.bind(null, $scope, $sce) })
 }

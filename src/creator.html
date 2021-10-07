@@ -111,7 +111,8 @@
 										aria-label="The correct image"
 										ng-click="requestImage(currIndex, CORRECT); tutorialIncrement(3)"
 										ng-disabled="tutorial.step && tutorial.step < 3">
-										<img class="choice-img" ng-src="{{questions[currIndex].correct.value}}" alt="{{questions[currIndex].alt[0]}}">
+										<img class="choice-img" ng-if="questions[currIndex].correct.value.length > 0" ng-src="{{questions[currIndex].correct.value}}" alt="{{questions[currIndex].alt[0]}}">
+										<span class="pre-upload" ng-if="!questions[currIndex].correct.value"><span class="icon icon-folder-upload" aria-hidden="true"></span>Click to upload or select an image file.</span>
 									</button>
 
 									<button class="clear-img btn small red"
@@ -136,6 +137,7 @@
 										cols="25"
 										class="choice-textarea"
 										placeholder="Correct answer"
+										maxlength="420"
 										required
 										ng-change="validation('change', currIndex); tutorialIncrement(3); tutorialIncrement(4)"
 										ng-model="questions[currIndex].correct.value"
@@ -158,7 +160,7 @@
 													<code>audio</code> element.
 												</audio>
 											</figure>
-											<span class="audio-pre-upload" ng-if="!questions[currIndex].correct.value"><span class="icon icon-folder-upload" aria-hidden="true"></span>Click to upload or select an audio file.</span>
+											<span class="pre-upload" ng-if="!questions[currIndex].correct.value"><span class="icon icon-folder-upload" aria-hidden="true"></span>Click to upload or select an audio file.</span>
 										</div>
 									</button>
 
@@ -251,7 +253,8 @@
 										aria-label="The incorrect image"
 										ng-click="requestImage(currIndex, INCORRECT); tutorialIncrement(6)"
 										ng-disabled="tutorial.step && tutorial.step < 6">
-										<img class="choice-img" ng-src="{{questions[currIndex].incorrect.value}}" alt="{{questions[currIndex].incorrect.alt}}">
+										<img class="choice-img" ng-if="questions[currIndex].incorrect.value.length > 0" ng-src="{{questions[currIndex].incorrect.value}}" alt="{{questions[currIndex].incorrect.alt}}">
+										<span class="pre-upload" ng-if="!questions[currIndex].incorrect.value"><span class="icon icon-folder-upload" aria-hidden="true"></span>Click to upload or select an image file.</span>
 									</button>
 
 									<button class="clear-img btn small red"
@@ -277,6 +280,7 @@
 										cols="25"
 										class="choice-textarea"
 										placeholder="Incorrect answer"
+										maxlength="420"
 										required
 										ng-change="validation('change', currIndex); tutorialIncrement(6); tutorialIncrement(7)"
 										ng-model="questions[currIndex].incorrect.value"
@@ -299,7 +303,7 @@
 													<code>audio</code> element.
 												</audio>
 											</figure>
-											<span class="audio-pre-upload" ng-if="!questions[currIndex].incorrect.value"><span class="icon icon-folder-upload" aria-hidden="true"></span>Click to upload or select an audio file.</span>
+											<span class="pre-upload" ng-if="!questions[currIndex].incorrect.value"><span class="icon icon-folder-upload" aria-hidden="true"></span>Click to upload or select an audio file.</span>
 										</div>
 									</button>
 
