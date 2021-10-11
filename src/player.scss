@@ -324,7 +324,6 @@ body {
 		}
 
 		div.frame-wrapper {
-		// div.content-frame, button.content-frame {
 			position: relative;
 			display: inline-block;
 
@@ -469,10 +468,11 @@ body {
 					width: calc(100% - 70px);
 					padding: 10px;
 	
-					background: #fff;
+					background: #fcf3e3;
 					border-radius: 10px;
 	
 					font-size: 18px;
+					font-family: 'Buenard', serif;
 				}
 	
 				.choice-audio {
@@ -480,8 +480,8 @@ body {
 					top: 40px;
 					height: auto;
 					margin-bottom: 50px;
-	
-					background: #fff;
+
+					background: #fcf3e3;
 					border-top-left-radius: 5px;
 					border-top-right-radius: 5px;
 					border-bottom-left-radius: 0px;
@@ -504,7 +504,8 @@ body {
 						color: #000;
 						text-align: left;
 	
-						font-size: 0.8em;
+						font-size: 1em;
+						font-family: 'Buenard', serif;
 	
 						&:before {
 							font-weight: bold;
