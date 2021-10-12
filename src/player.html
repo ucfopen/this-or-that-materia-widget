@@ -16,6 +16,7 @@
 
 		<!-- YOUR PREREQUISITES -->
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-aria.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-animate.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular-sanitize.min.js"></script>
 		<script src="assets/js/hammer.min.js"></script>
@@ -33,54 +34,126 @@
 				<div class="side-curtain lower left" aria-hidden="true"></div>
 				<div class="side-curtain lower right" aria-hidden="true"></div>
 
+				<!-- aria-live region to report status updates -->
+				<!-- note: browser support for aria-live is mixed, behavior may be inconsistent across browsers and devices -->
+				<span aria-live=”polite” role="status" id="assistive-alert"></span>
 				<h1 id="question" ng-bind-html="title"></h1>
 
 				<!-- Holds ThisOrThat -->
 				<div id="choices">
+					<!-- LEFT -->
 					<div class="stand-container for-this"
-						ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
+						ng-class="{'raised': gameState.ingame, 'lowered': question.transition}">
 						<div class="background-stand left" aria-hidden="true"></div>
-						<button class="img-frame"
-							ng-class="{'correct': questions.correct[0] == 'Correct!', 'incorrect': questions.correct[0] == 'Incorrect'}"
-							ng-click="checkChoice(0)"
-							ng-disabled="questions.selected"
-							ng-mouseenter="hands.thisRaised = true"
-							ng-mouseleave="hands.thisRaised = false"
-							href="#"
-							data-title="{{answers[0].text}}">
-							<span ng-class="{'overlayFeedback': questions.feedback[0] != '', 'overlay': questions.feedback[0] == ''}">{{questions.correct[0]}}</span>
-							<span class="feedback">{{questions.feedback[0]}}</span>
-							<script>
-							</script>
-							<img class="choice-img" ng-src="{{answers[0].options.asset.imageUrl}}" alt="{{answers[0].text}}">
-						</button>
+						<div class="frame-wrapper" ng-class="{'correct': question.correct[0] == 'Correct!', 'incorrect': question.correct[0] == 'Incorrect'}">
+							<!-- the button version of the frame: for images and text -->
+							<button class="content-frame"
+								ng-if="answers[0].options.asset.type === 'image' || answers[0].options.asset.type === 'text'"
+								ng-click="checkChoice(0)"
+								ng-disabled="question.selected"
+								ng-mouseenter="hands.thisRaised = true"
+								ng-mouseleave="hands.thisRaised = false"
+								ng-focus="hands.thisRaised = true"
+								ng-blur="hands.thisRaised = false"
+								href="#"
+								data-title="{{answers[0].text}}">
+								<span ng-class="{'overlayFeedback': question.feedback[0] != '', 'overlay': question.feedback[0] == ''}">{{question.correct[0]}}</span>
+								<span class="feedback">{{question.feedback[0]}}</span>
+								<img ng-if="answers[0].options.asset.type === 'image'" class="choice choice-img" ng-src="{{answers[0].options.asset.value}}" alt="{{answers[0].text}}">
+								<div ng-if="answers[0].options.asset.type === 'text'" class="choice choice-text" ng-style="{ 'font-size': getAdjustedTextSize(answers[0].options.asset.value) + 'px'}">
+									<span>{{answers[0].options.asset.value}}</span>
+								</div>
+							</button>
+							<!-- the div version of the frame: for audio and video -->
+							<div class="content-frame"
+								ng-if="answers[0].options.asset.type === 'audio' || answers[0].options.asset.type === 'video'"
+								data-title="{{answers[0].text}}">
+								<span ng-show="question.selected" ng-class="{'overlayFeedback': question.feedback[0] != '', 'overlay': question.feedback[0] == ''}">{{question.correct[0]}}</span>
+								<span ng-show="question.selected" class="feedback">{{question.feedback[0]}}</span>
+								<figure class="choice choice-audio" ng-if="answers[0].options.asset.type == 'audio'">
+									<figcaption>{{answers[0].text}}</figcaption>
+									<audio
+										controls
+										ng-src="{{answers[0].options.asset.value}}">
+										Your browser does not support the
+										<code>audio</code> element.
+									</audio>
+								</figure>
+								<section class="video-frame" ng-if="answers[0].options.asset.type === 'video'">
+									<iframe class="choice choice-video"  width="100%" height="10%" ng-src="{{ answers[0].options.asset.value }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+								</section>
+								<button class="expand-into-lightbox" ng-if="answers[0].options.asset.type === 'video'" ng-click="setLightboxTarget(0)"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
+								<button 
+									class="submit-selected"
+									ng-click="checkChoice(0)"
+									ng-mouseenter="hands.thisRaised = true"
+									ng-mouseleave="hands.thisRaised = false"
+									ng-focus="hands.thisRaised = true"
+									ng-blur="hands.thisRaised = false"
+									ng-disabled="question.selected">Select</button>
+							</div>
+						</div>
 					</div>
-
+					<!-- RIGHT -->
 					<div class="stand-container for-that"
-						ng-class="{'raised': gameState.ingame, 'lowered': questions.transition}">
+						ng-class="{'raised': gameState.ingame, 'lowered': question.transition}">
 						<div class="background-stand right" aria-hidden="true"></div>
-						<button class="img-frame"
-							ng-class="{'correct': questions.correct[1] == 'Correct!', 'incorrect': questions.correct[1] == 'Incorrect'}"
-							ng-click="checkChoice(1)"
-							ng-disabled="questions.selected"
-							ng-mouseenter="hands.thatRaised = true"
-							ng-mouseleave="hands.thatRaised = false"
-							href="#"
-							data-title="{{answers[1].text}}">
-							<span ng-class="{'overlayFeedback': questions.feedback[1] != '', 'overlay': questions.feedback[1] == ''}">{{questions.correct[1]}}</span>
-							<span class="feedback">{{questions.feedback[1]}}</span>
-							<script>
-							</script>
-							<img class="choice-img" ng-src="{{answers[1].options.asset.imageUrl}}" alt="{{answers[1].text}}">
-						</button>
+						<div class="frame-wrapper" ng-class="{'correct': question.correct[1] == 'Correct!', 'incorrect': question.correct[1] == 'Incorrect'}">
+							<!-- the button version of the frame: for images and text -->
+							<button class="content-frame"
+								ng-if="answers[1].options.asset.type === 'image' || answers[1].options.asset.type === 'text'"
+								ng-click="checkChoice(1)"
+								ng-disabled="question.selected"
+								ng-mouseenter="hands.thatRaised = true"
+								ng-mouseleave="hands.thatRaised = false"
+								ng-focus="hands.thatRaised = true"
+								ng-blur="hands.thatRaised = false"
+								href="#"
+								data-title="{{answers[1].text}}">
+								<span ng-class="{'overlayFeedback': question.feedback[1] != '', 'overlay': question.feedback[1] == ''}">{{question.correct[1]}}</span>
+								<span class="feedback">{{question.feedback[1]}}</span>
+								<img ng-if="answers[1].options.asset.type === 'image'" class="choice choice-img" ng-src="{{answers[1].options.asset.value}}" alt="{{answers[1].text}}">
+								<div ng-if="answers[1].options.asset.type === 'text'" class="choice choice-text" ng-style="{ 'font-size': getAdjustedTextSize(answers[1].options.asset.value) + 'px'}">
+									<span>{{answers[1].options.asset.value}}</span>
+								</div>
+							</button>
+							<!-- the div version of the frame: for audio and video -->
+							<div class="content-frame"
+								ng-if="answers[1].options.asset.type === 'audio' || answers[1].options.asset.type === 'video'"
+								data-title="{{answers[1].text}}">
+								<span ng-show="question.selected" ng-class="{'overlayFeedback': question.feedback[1] != '', 'overlay': question.feedback[1] == ''}">{{question.correct[1]}}</span>
+								<span ng-show="question.selected" class="feedback">{{question.feedback[1]}}</span>
+								<figure class="choice choice-audio" ng-if="answers[1].options.asset.type == 'audio'">
+									<figcaption>{{answers[1].text}}</figcaption>
+									<audio
+										controls
+										ng-src="{{answers[1].options.asset.value}}">
+										Your browser does not support the
+										<code>audio</code> element.
+									</audio>
+								</figure>
+								<section class="video-frame" ng-if="answers[1].options.asset.type === 'video'">
+									<iframe class="choice choice-video"  width="100%" height="10%" ng-src="{{ answers[1].options.asset.value }}" frameborder="0" allowfullscreen></iframe>
+								</section>
+								<button class="expand-into-lightbox" ng-if="answers[1].options.asset.type === 'video'" ng-click="setLightboxTarget(1)"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
+								<button 
+									class="submit-selected"
+									ng-click="checkChoice(1)"
+									ng-mouseenter="hands.thatRaised = true"
+									ng-mouseleave="hands.thatRaised = false"
+									ng-focus="hands.thisRaised = true"
+									ng-blur="hands.thisRaised = false"
+									ng-disabled="question.selected">Select</button>
+							</div>
+						</div>
 					</div>
 				</div>
 
-				<div id="hands" ng-class="{'raised': gameState.ingame == true}" aria-hidden="true">
+				<div id="hands" ng-class="{'hidden': gameState.ingame != true }" aria-hidden="true">
 					<div class="hand this-hand"
-						ng-class="{'raised': hands.thisRaised || questions.choice == 0, 'correct': questions.correct[0] == 'Correct!', 'incorrect': questions.correct[0] == 'Incorrect'}"></div>
+						ng-class="{'raised': hands.thisRaised || question.choice == 0, 'correct': question.correct[0] == 'Correct!', 'incorrect': question.correct[0] == 'Incorrect'}"></div>
 					<div class="hand that-hand"
-						ng-class="{'raised': hands.thatRaised || questions.choice == 1, 'correct': questions.correct[1] == 'Correct!', 'incorrect': questions.correct[1] == 'Incorrect'}"></div>
+						ng-class="{'raised': hands.thatRaised || question.choice == 1, 'correct': question.correct[1] == 'Correct!', 'incorrect': question.correct[1] == 'Incorrect'}"></div>
 				</div>
 
 				<div id="next-container" ng-class="{'raised': gameState.showNext}">
@@ -94,7 +167,7 @@
 
 			<div id="splash" ng-class="{'raised': gameState.ingame}">
 				<div class="sign" ng-class="{'raised': gameState.ingame, 'end': gameState.endgame}">
-					<div class="sign-stand" aria-hiddnen="true"></div>
+					<div class="sign-stand" aria-hidden="true"></div>
 
 					<h1>{{gameState.splashtext}}</h1>
 
@@ -108,8 +181,13 @@
 					</div>
 				</div>
 			</div>
-
-			<img class="hidden-asset" ng-src="{{images[$index]}}" ng-repeat="image in images track by $index">
+			<section class="lightbox" ng-class="{ 'show': lightboxTarget != -1}" ng-hide="lightboxTarget == -1" ng-click="setLightboxTarget(-1)">
+				<div class="lightbox-content">
+					<button class="lightbox-close" ng-click="setLightboxTarget(-1)">X</button>
+					<iframe class="lightbox-video" ng-if="answers[lightboxTarget].options.asset.type == 'video'" ng-src="{{answers[lightboxTarget].options.asset.value}}" frameborder="0" allowfullscreen></iframe>
+				</div>
+			</section>
+			<img class="hidden-asset" ng-if="choices[$index].type == 'image'" ng-src="{{choices[$index].value}}" ng-repeat="choice in choices track by $index">
 		</main>
 	</body>
 </html>

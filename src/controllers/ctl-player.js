@@ -12,20 +12,45 @@ export const shuffleArray = array => {
 	return array
 }
 
-export const getAllImageUrls = _qset => {
-	const images = []
+// helper function to update the aria-live status region
+// angular binding does not cooperate well with aria-live, so we update the DOM element directly instead
+export const assistiveAlert = (alert) => {
+	if (document.getElementById('assistive-alert')) document.getElementById('assistive-alert').innerHTML = alert
+}
+
+export const getAllAnswerChoices = ($sce, _qset) => {
+	const answers = []
 	_qset.items.forEach(item => {
 		if (!item.answers) return
-		item.answers.forEach(ans => {
-			ans.options.asset.imageUrl = Materia.Engine.getImageAssetUrl(ans.options.asset.id)
-			images.push(ans.options.asset.imageUrl)
+		item.answers.forEach((ans, i) => {
+
+			if (ans.options.asset.type) {
+				switch (ans.options.asset.type) {
+					case 'image':
+					case 'audio':
+						ans.options.asset.value = Materia.Engine.getMediaUrl(ans.options.asset.id)
+						break
+					case 'video':
+						ans.options.asset.value = $sce.trustAsResourceUrl(ans.options.asset.value)
+						break
+				}
+			}
+			else { // old qsets do not have an asset type
+				ans.options.asset.value = Materia.Engine.getMediaUrl(ans.options.asset.id)
+				ans.options.asset.type = 'image'
+			}
+
+			answers.push({
+				type: ans.options.asset.type,
+				value: ans.options.asset.value
+			})
 		})
 	})
 
-	return images
+	return answers
 }
 
-export const onMateriaStart = ($scope, instance, qset, version) => {
+export const onMateriaStart = ($scope, $sce, instance, qset, version) => {
 	_qset = qset
 	_qset.version = version
 
@@ -33,20 +58,21 @@ export const onMateriaStart = ($scope, instance, qset, version) => {
 		shuffleArray(_qset.items)
 	}
 
-	$scope.images = getAllImageUrls(_qset)
+	$scope.choices = getAllAnswerChoices($sce, _qset)
+	$scope.questionCount = _qset.items.length
+
 	showNextQuestion($scope)
 }
 
 export const showNextQuestion = $scope => {
-	$scope.questions.current++
-	const curItem = _qset.items[$scope.questions.current]
-
+	$scope.question.current++
+	const curItem = _qset.items[$scope.question.current]
 	if (curItem) {
 		$scope.title = curItem.questions[0].text
 		$scope.answers = shuffleArray(curItem.answers)
 
-		$scope.questions.selected = false
-		$scope.questions.transition = false
+		$scope.question.selected = false
+		$scope.question.transition = false
 	} else {
 		endGame($scope)
 	}
@@ -65,21 +91,24 @@ export const viewScores = () => {
 }
 
 export const checkChoice = ($scope, value) => {
+	// value is 0 or 1
 	//get the id, value, and text of the chosen answer
-	const curItem = _qset.items[$scope.questions.current]
+	const curItem = _qset.items[$scope.question.current]
 	const curAnswer = curItem.answers[value]
 	const _feedback = curItem.options.feedback
 	//track which image the user selected in the game
-	$scope.questions.choice = value
+	$scope.question.choice = value
 
 	switch (curAnswer.value) {
 		case 0:
-			$scope.questions.correct[value] = 'Incorrect'
-			$scope.questions.feedback[value] = curItem.options.feedback || ''
+			$scope.question.correct[value] = 'Incorrect'
+			$scope.question.feedback[value] = curItem.options.feedback || ''
+			assistiveAlert("Your selection was incorrect.")
 			break
 
 		case 100:
-			$scope.questions.correct[value] = 'Correct!'
+			$scope.question.correct[value] = 'Correct!'
+			assistiveAlert("Your selection was correct.")
 			break
 	}
 
@@ -97,18 +126,21 @@ export const checkChoice = ($scope, value) => {
 			Materia.Score.submitQuestionForScoring(curItem.id, curAnswer.id, curAnswer.text)
 	}
 
-	$scope.questions.selected = true
+	$scope.question.selected = true
 	$scope.gameState.showNext = true
 }
 
 export const nextClicked = ($scope, $timeout) => {
 	$scope.gameState.showNext = false
-	$scope.questions.correct = ['', '']
-	$scope.questions.feedback = ['', '']
-	$scope.questions.choice = -1
-	$scope.questions.transition = true
+	$scope.question.correct = ['', '']
+	$scope.question.feedback = ['', '']
+	$scope.question.choice = -1
+	$scope.question.transition = true
 	$scope.hands.thisRaised = false
 	$scope.hands.thatRaised = false
+
+	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert("Now on question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
+	else assistiveAlert("You have completed every question")
 
 	$timeout(showNextQuestion.bind(null, $scope), 1000)
 }
@@ -117,7 +149,7 @@ export const closeIntro = $scope => {
 	$scope.gameState.ingame = true
 }
 
-export const ControllerThisOrThatPlayer = function($scope, $timeout) {
+export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.gameState = {
 		ingame: false,
 		endgame: false,
@@ -125,14 +157,16 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout) {
 		showNext: false
 	}
 
-	$scope.questions = {
+	$scope.question = {
 		choice: -1,
 		current: -1,
-		correct: ['', ''],
-		feedback: ['', ''],
+		correct: ['',''],
+		feedback: ['',''],
 		selected: false,
 		transition: false
 	}
+
+	$scope.questionCount = 0
 
 	// the stage hands
 	$scope.hands = {
@@ -142,12 +176,28 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout) {
 
 	//for preloading
 	$scope.title = ''
-	$scope.images = []
 	$scope.answers = []
+	$scope.choices = []
 	$scope.viewScores = viewScores
 	$scope.checkChoice = checkChoice.bind(null, $scope)
 	$scope.nextClicked = nextClicked.bind(null, $scope, $timeout)
 	$scope.closeIntro = closeIntro.bind(null, $scope)
 
-	Materia.Engine.start({ start: onMateriaStart.bind(null, $scope) })
+	$scope.lightboxTarget = -1
+
+	$scope.setLightboxTarget = (val) => {
+		$scope.lightboxTarget = val
+	}
+
+	$scope.getAdjustedTextSize = (text) => {
+		if (text.length < 140) return 28
+		else {
+			let offset = text.length - 140
+			let scaleFactor = offset / 12 // adjust this value to increase or decrease the rate of text scaling
+
+			return (28 - Math.ceil(scaleFactor)) > 16 ? 28 - Math.ceil(scaleFactor) : 16
+		}
+	}
+
+	Materia.Engine.start({ start: onMateriaStart.bind(null, $scope, $sce) })
 }

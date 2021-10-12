@@ -1,4 +1,4 @@
-export const DirectiveFocus = ($timeout, $parse) => ({
+export const DirectiveFocus = ['$timeout', '$parse', ($timeout, $parse) => ({
 	link(scope, element, attrs) {
 		const model = $parse(attrs.focusMe)
 		scope.$watch(model, function(value) {
@@ -7,4 +7,4 @@ export const DirectiveFocus = ($timeout, $parse) => ({
 			}
 		})
 	}
-})
+})]

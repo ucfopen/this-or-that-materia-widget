@@ -32,28 +32,34 @@ export const processQsetItem = ($sanitize, item) => {
 		questions: [{ text: item.ques }],
 		answers: [
 			{
-				text: item.alt[0],
+				text: item.correct.alt,
 				value: 100,
 				options: {
 					asset: {
 						materiaType: 'asset',
-						id: item.images[0]
+						id: item.correct.id,
+						value: item.correct.value,
+						type: item.correct.type
 					}
-				}
+				},
+				id: item.correct.answerId
 			},
 			{
-				text: item.alt[1],
+				text: item.incorrect.alt,
 				value: 0,
 				options: {
 					asset: {
 						materiaType: 'asset',
-						id: item.images[1]
+						id: item.incorrect.id,
+						value: item.incorrect.value,
+						type: item.incorrect.type
 					}
-				}
-			}
+				},
+				id: item.incorrect.answerId
+			},
 		],
 		options: {
-			feedback: item.alt[2]
+			feedback: item.feedback
 		}
 	}
 }

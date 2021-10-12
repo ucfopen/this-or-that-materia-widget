@@ -1115,6 +1115,11 @@ angular-animate@~1.7.9:
   resolved "https://registry.yarnpkg.com/angular-animate/-/angular-animate-1.7.9.tgz#a397f82434c1e7ed5b7a298fa70fc3de989a6785"
   integrity sha512-fV+AISy/HTzurQH2ngsJg+lLIvfu0ahc1h4AYKauaXVw97rZc2k4iUA1bMstiEyClsdayQX568kjQc1NK+oYhw==
 
+angular-aria@1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/angular-aria/-/angular-aria-1.8.2.tgz#3e5d546e549d8bddcf0b8031c677d3129d82a76d"
+  integrity sha512-xWT1Lm+Xug2GM6nGNMioBP4hXt3sj2eGaExa4cVCZUYSVWezgyuD1RiLgzJzwTkBGYplHQUzQaz3yDY8jVI6yQ==
+
 angular-mocks@1.6.9:
   version "1.6.9"
   resolved "https://registry.yarnpkg.com/angular-mocks/-/angular-mocks-1.6.9.tgz#4fed8c8293a5080e0919a7ff0dcf0f704864b7ba"
@@ -5297,10 +5302,10 @@ materia-server-client-assets@2.1.0:
     js-snakecase "^1.2.0"
     ngmodal ucfcdl/ngModal#v1.2.2
 
-materia-widget-development-kit@2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/materia-widget-development-kit/-/materia-widget-development-kit-2.5.0.tgz#0cc4d82854abf21286c18367cbede374529385b6"
-  integrity sha512-nvYBA/ZBm4SXpLWo6cccm0EDplmBAkcY4c9mjWCuY2BUwJvBgxvA33cKscYg0ktmI3dolPCYMXnb5CERx4239g==
+materia-widget-development-kit@2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/materia-widget-development-kit/-/materia-widget-development-kit-2.5.2.tgz#831c7852bf2021cce8ed80a2b92d6153532b92f3"
+  integrity sha512-rth0CHtNm1R+5f1poDjHpx5iGzPTw9PjBexlp8KoBr/NaOFEPP8SCxZtBq2YltwRUcH3MOukLoa4k+566uTRXQ==
   dependencies:
     "@babel/core" "^7.4.5"
     "@babel/preset-env" "^7.4.5"

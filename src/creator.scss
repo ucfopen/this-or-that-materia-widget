@@ -289,33 +289,47 @@ input[type='text'] {
 
 	&.step2 {
 		top: 405px;
-		left: 115px;
+		left: 129px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
 	&.step3 {
+		top: 405px;
+		left: 115px;
+		opacity: 1;
+		animation: pounce-down 1s infinite;
+	}
+
+	&.step4 {
 		top: 465px;
 		left: 105px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
-	&.step4 {
+	&.step5 {
+		top: 405px;
+		right: 129px;
+		opacity: 1;
+		animation: pounce-down 1s infinite;
+	}
+
+	&.step6 {
 		top: 405px;
 		right: 115px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
-	&.step5 {
+	&.step7 {
 		top: 465px;
 		right: 105px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
-	&.step6 {
+	&.step8 {
 		bottom: -57px;
 		right: 146px;
 		opacity: 1;
@@ -448,6 +462,11 @@ input[type='text'] {
 			cursor: initial;
 		}
 
+		&[type='button'] {
+			box-shadow: none;
+			text-shadow: none;
+		}
+
 		&.invalid {
 			border-color: $red;
 			color: fade-out($red, 0.4);
@@ -563,8 +582,15 @@ input[type='text'] {
 
 				.clear-img {
 					position: absolute;
-					top: 54px;
-					right: 25px;
+					top: 58px;
+					right: 28px;
+				}
+
+				.clear-type {
+					position: absolute;
+					top: 58px;
+					left: 28px;
+					z-index: 1;
 				}
 			}
 
@@ -577,17 +603,18 @@ input[type='text'] {
 				text-align: center;
 			}
 
-			.img-frame {
+			.img-frame, .video-frame {
 				box-sizing: border-box;
 				margin-bottom: 15px;
 				padding: 20px;
 				width: 340px;
+				height: 290px;
 
 				background: url('assets/img/sprites') no-repeat center;
 				background-position: -1515.9720458984375px 0;
 				border: 0;
 
-				cursor: pointer;
+				// cursor: pointer;
 				transition: background ease 0.5s;
 
 				&[disabled] {
@@ -612,11 +639,65 @@ input[type='text'] {
 					background-repeat: no-repeat;
 				}
 
+				&.answer-full-height {
+					height: 290px;
+				}
+
+				.choice-textarea {
+					width: calc(100% - 18px);
+					height: calc(100% - 42px);
+					padding: 30px 6px 6px 6px;
+					margin-left: 3px;
+					background: #fff;
+					border: none;
+					border-radius: 15px;
+					color: #000;
+					font-size: 18px;
+				}
+
 				.choice-img {
 					height: 250px;
 					width: 300px;
 
 					border-radius: 4px;
+				}
+
+				&div {
+					height: 250px;
+					width: 300px;
+
+					border-radius: 4px;
+				}
+
+				figure, video {
+					margin: 8px 0 0;
+				}
+
+				input {
+					background: url(assets/img/sprites) no-repeat center;
+				}
+			}
+
+			.pre-upload {
+				display: block;
+				padding: 30px 20px;
+				
+				background: rgba(255,255,255,0.75);
+				border-radius: 10px;
+
+				font-size: 16px;
+
+				cursor: pointer;
+
+				&:hover {
+					background: rgba(255,255,255,0.95);
+				}
+
+				.icon {
+					position: relative;
+					top: 2px;
+					font-size: 1.4em;
+					margin-right: 0.5em;
 				}
 			}
 
@@ -624,6 +705,43 @@ input[type='text'] {
 				margin-top: -15px;
 
 				text-align: center;
+			}
+
+			.video-frame {
+				.answer-margin {
+					// margin-top: 33px;
+					margin-top: 0px;
+					padding-left: 38px;
+					background: #fff;
+					color: #000;
+
+					border: solid 2px #fff;
+
+					&.valid {
+						background: #e1f2d3;
+					}
+
+					&.invalid {
+						background: #f0a7a3;
+					}
+				}
+
+				.video-submit {
+					margin: 10px auto;
+					padding: 5px 10px;
+					color: #000;
+					background: #fff;
+					border-radius: 5px;
+					border: none;
+
+					cursor: pointer;
+					font-weight: bold;
+
+					&:hover {
+						color: #000;
+						background: #caed9f;
+					}
+				}
 			}
 		}
 	}
@@ -656,14 +774,14 @@ input[type='text'] {
 .dots {
 	margin: 0 0 10px;
 	padding: 0;
-	max-width: 690px;
+	max-width: 520px;
 	width: 100%;
 
 	li {
 		display: inline-block;
 		margin: 0 6px 6px 0;
 
-		text-align: left;
+		text-align: center;
 
 		&:last-of-type {
 			margin-right: 0;
@@ -672,6 +790,81 @@ input[type='text'] {
 
 	.btn {
 		background-color: transparent;
+	}
+}
+
+.rearrange {
+	position: relative;
+	padding-bottom: 55px;
+
+	h4 {
+		text-align: center;
+	}
+
+	.btn {
+		box-shadow: none;
+		text-shadow: none;
+
+		&.done-btn {
+			position: absolute;
+			right: 15px;
+			bottom: 15px;
+		}
+	}
+
+	.dots {
+		display: flex;
+		flex-direction: column;
+		max-width: none;
+		max-height: 480px;
+		overflow: auto;
+
+		.btn {
+			cursor: auto;
+			margin: 2px 6px 0;
+		}
+
+		input {
+			width: 420px;
+			overflow: hidden;
+			font-size: 16px;
+			color: #000;
+			background: #fff;
+			border: solid 2px #70bd34;
+			padding: 11px;
+			margin-left: 0px;
+			cursor: initial;
+			border-radius: 4px;
+			vertical-align: baseline;
+			outline: none;
+			opacity: 0.95;
+		}
+
+		li {
+			display: flex;
+		}
+
+		.arrow-up,
+		.arrow-down {
+			margin: 2px 12px 0;
+			padding-top: 10px;
+			height: 40px;
+			width: 40px;
+			cursor: pointer;
+
+			path {
+				fill: #223863;
+			}
+
+			&.disabled {
+				opacity: 0.25;
+			}
+		}
+	}
+
+	.confirm {
+		margin: auto;
+		display: block;
 	}
 }
 
@@ -696,6 +889,47 @@ input[type='text'] {
 	overflow: hidden;
 	clip: rect(0, 0, 0, 0);
 	border: 0;
+}
+
+.answer-types {
+	display: flex;
+	flex-direction: column;
+	height: 300px;
+
+	button {
+		width: 200px;
+		margin: auto;
+		height: 40px;
+		border: none;
+		background: rgba(255,255,255,0.85);
+		border-radius: 8px;
+		color: black;
+		font-weight: bold;
+		text-transform: uppercase;
+
+		cursor: pointer;
+
+		.icon {
+			position: relative;
+			top: 2px;
+			font-size: 1.3em;
+			margin-right: 1em;
+		}
+
+		&:hover {
+			background: rgba(255,255,255,0.95);
+		}
+		// font-family: "Sigmar One", cursive
+	}
+}
+
+.answer-margin {
+	margin-top: 24px;
+	background: #fff;
+}
+
+.hidden {
+	display: none;
 }
 
 //keyframe animations
