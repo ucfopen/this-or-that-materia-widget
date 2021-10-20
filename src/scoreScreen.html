@@ -39,6 +39,7 @@
 						{{ item.left.asset.value }}
 					</div>
 					<div class="item-audio" ng-if="item.left.asset.type == 'audio'">
+						<span>{{item.left.text}}</span>
 						<audio
 							controls
 							ng-src="{{item.left.asset.value}}">
@@ -58,6 +59,7 @@
 						{{ item.right.asset.value }}
 					</div>
 					<div class="item-audio" ng-if="item.right.asset.type == 'audio'">
+						<span>{{item.right.text}}</span>
 						<audio
 							controls
 							ng-src="{{item.right.asset.value}}">

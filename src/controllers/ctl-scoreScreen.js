@@ -41,19 +41,21 @@ export const ControllerThisOrThatScorescreen = ($scope, $sce) => {
 					question: qset.items[questionIndex].questions[0].text
 				}
 
-				// old qsets don't have an asset type and value property
-				if ( !item.left.asset.value && !item.left.asset.type) {
+				// **** left side ****
+				if ( !item.left.asset.value && !item.left.asset.type) { // old qsets don't have an asset type and value property
 					item.left.asset.type = 'image'
 					item.left.asset.value = Materia.ScoreCore.getMediaUrl(item.left.asset.id)
 				}
+				else if (item.left.asset.type == 'audio') item.left.asset.value =  Materia.ScoreCore.getMediaUrl(item.left.asset.id)
+				else if (item.left.asset.type == 'video') item.left.asset.value = $sce.trustAsResourceUrl(item.left.asset.value)
 
-				if ( !item.right.asset.value && !item.right.asset.type) {
+				// **** right side ****
+				if ( !item.right.asset.value && !item.right.asset.type) { // old qsets don't have an asset type and value property
 					item.right.asset.type = 'image'
 					item.right.asset.value = Materia.ScoreCore.getMediaUrl(item.right.asset.id)
 				}
-
-				if (item.left.asset.type == 'video') item.left.asset.value = $sce.trustAsResourceUrl(item.left.asset.value)
-				if (item.right.asset.type == 'video') item.right.asset.value = $sce.trustAsResourceUrl(item.right.asset.value)
+				else if (item.right.asset.type == 'audio') item.right.asset.value = Materia.ScoreCore.getMediaUrl(item.right.asset.id)
+				else if (item.right.asset.type == 'video') item.right.asset.value = $sce.trustAsResourceUrl(item.right.asset.value)
 
 				return item
 			})
