@@ -66,6 +66,25 @@ body {
 					height: 100%;
 				}
 
+				.item-audio {
+					flex-direction: column;
+					
+					span {
+						width: 230px;
+						padding: 10px 5px;
+						color: #000;
+						background: #fcf3e3;
+
+						border-top-left-radius: 5px;
+						border-top-right-radius: 5px;
+						border-bottom-left-radius: 0px;
+						border-bottom-right-radius: 0px;
+
+						font-family: 'Buenard', serif;
+						font-size: 0.9em;
+					}
+				}
+
 				.item-text {
 					width: 210px;
 					height: 150px;
