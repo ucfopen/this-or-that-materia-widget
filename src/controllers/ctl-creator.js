@@ -323,7 +323,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 	// index: index of question
 	// which: correct || incorrect
 	$scope.requestImage = function(index, which) {
-		Materia.CreatorCore.showMediaImporter(['jpg', 'gif', 'png'])
+		Materia.CreatorCore.showMediaImporter(['image'])
 
 		_assetRef.index = index
 		_assetRef.which = which
@@ -333,7 +333,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 	}
 
 	$scope.requestAudio = function(index, which) {
-		Materia.CreatorCore.showMediaImporter(['mp3'])
+		Materia.CreatorCore.showMediaImporter(['audio'])
 		// Save the image and which choice it's for
 		
 		_assetRef.index = index
