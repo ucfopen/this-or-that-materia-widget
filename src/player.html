@@ -48,7 +48,7 @@
 						<div class="frame-wrapper" ng-class="{'correct': question.correct[0] == 'Correct!', 'incorrect': question.correct[0] == 'Incorrect'}">
 							<!-- the button version of the frame: for images and text -->
 							<button class="content-frame"
-								ng-if="answers[0].options.asset.type === 'image' || answers[0].options.asset.type === 'text'"
+								ng-if="answers[0].options.asset.type === 'text'"
 								ng-click="checkChoice(0)"
 								ng-disabled="question.selected"
 								ng-mouseenter="hands.thisRaised = true"
@@ -59,14 +59,13 @@
 								data-title="{{answers[0].text}}">
 								<span ng-class="{'overlayFeedback': question.feedback[0] != '', 'overlay': question.feedback[0] == ''}">{{question.correct[0]}}</span>
 								<span class="feedback">{{question.feedback[0]}}</span>
-								<img ng-if="answers[0].options.asset.type === 'image'" class="choice choice-img" ng-src="{{answers[0].options.asset.value}}" alt="{{answers[0].text}}">
 								<div ng-if="answers[0].options.asset.type === 'text'" class="choice choice-text" ng-style="{ 'font-size': getAdjustedTextSize(answers[0].options.asset.value) + 'px'}">
 									<span>{{answers[0].options.asset.value}}</span>
 								</div>
 							</button>
 							<!-- the div version of the frame: for audio and video -->
 							<div class="content-frame"
-								ng-if="answers[0].options.asset.type === 'audio' || answers[0].options.asset.type === 'video'"
+								ng-if="answers[0].options.asset.type === 'audio' || answers[0].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
 								data-title="{{answers[0].text}}">
 								<span ng-show="question.selected" ng-class="{'overlayFeedback': question.feedback[0] != '', 'overlay': question.feedback[0] == ''}">{{question.correct[0]}}</span>
 								<span ng-show="question.selected" class="feedback">{{question.feedback[0]}}</span>
@@ -82,15 +81,28 @@
 								<section class="video-frame" ng-if="answers[0].options.asset.type === 'video'">
 									<iframe class="choice choice-video"  width="100%" height="10%" ng-src="{{ answers[0].options.asset.value }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
 								</section>
-								<button class="expand-into-lightbox" ng-if="answers[0].options.asset.type === 'video'" ng-click="setLightboxTarget(0)"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
-								<button 
+								<button class="video-expand-into-lightbox" ng-if="answers[0].options.asset.type === 'video'" ng-click="setLightboxTarget(0)"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
+								<button
 									class="submit-selected"
+									ng-if="answers[0].options.asset.type === 'video' || answers[0].options.asset.type === 'audio'"
 									ng-click="checkChoice(0)"
 									ng-mouseenter="hands.thisRaised = true"
 									ng-mouseleave="hands.thisRaised = false"
 									ng-focus="hands.thisRaised = true"
 									ng-blur="hands.thisRaised = false"
 									ng-disabled="question.selected">Select</button>
+								<img
+									ng-if="answers[0].options.asset.type === 'image'"
+									ng-click="checkChoice(0)"
+									ng-mouseenter="hands.thisRaised = true"
+									ng-mouseleave="hands.thisRaised = false"
+									ng-focus="hands.thisRaised = true"
+									ng-blur="hands.thisRaised = false"
+									ng-disabled="question.selected"
+									class="choice choice-img"
+									ng-src="{{answers[0].options.asset.value}}"
+									alt="{{answers[0].text}}">
+								<button class="image-expand-into-lightbox" ng-if="answers[0].options.asset.type === 'image'" ng-click="setLightboxTarget(0)"><span class="icon icon-enlarge" aria-hidden="true"></span></button>
 							</div>
 						</div>
 					</div>
@@ -101,7 +113,7 @@
 						<div class="frame-wrapper" ng-class="{'correct': question.correct[1] == 'Correct!', 'incorrect': question.correct[1] == 'Incorrect'}">
 							<!-- the button version of the frame: for images and text -->
 							<button class="content-frame"
-								ng-if="answers[1].options.asset.type === 'image' || answers[1].options.asset.type === 'text'"
+								ng-if="answers[1].options.asset.type === 'text'"
 								ng-click="checkChoice(1)"
 								ng-disabled="question.selected"
 								ng-mouseenter="hands.thatRaised = true"
@@ -112,14 +124,13 @@
 								data-title="{{answers[1].text}}">
 								<span ng-class="{'overlayFeedback': question.feedback[1] != '', 'overlay': question.feedback[1] == ''}">{{question.correct[1]}}</span>
 								<span class="feedback">{{question.feedback[1]}}</span>
-								<img ng-if="answers[1].options.asset.type === 'image'" class="choice choice-img" ng-src="{{answers[1].options.asset.value}}" alt="{{answers[1].text}}">
 								<div ng-if="answers[1].options.asset.type === 'text'" class="choice choice-text" ng-style="{ 'font-size': getAdjustedTextSize(answers[1].options.asset.value) + 'px'}">
 									<span>{{answers[1].options.asset.value}}</span>
 								</div>
 							</button>
 							<!-- the div version of the frame: for audio and video -->
 							<div class="content-frame"
-								ng-if="answers[1].options.asset.type === 'audio' || answers[1].options.asset.type === 'video'"
+								ng-if="answers[1].options.asset.type === 'audio' || answers[1].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
 								data-title="{{answers[1].text}}">
 								<span ng-show="question.selected" ng-class="{'overlayFeedback': question.feedback[1] != '', 'overlay': question.feedback[1] == ''}">{{question.correct[1]}}</span>
 								<span ng-show="question.selected" class="feedback">{{question.feedback[1]}}</span>
@@ -135,15 +146,28 @@
 								<section class="video-frame" ng-if="answers[1].options.asset.type === 'video'">
 									<iframe class="choice choice-video"  width="100%" height="10%" ng-src="{{ answers[1].options.asset.value }}" frameborder="0" allowfullscreen></iframe>
 								</section>
-								<button class="expand-into-lightbox" ng-if="answers[1].options.asset.type === 'video'" ng-click="setLightboxTarget(1)"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
-								<button 
+								<button class="video-expand-into-lightbox" ng-if="answers[1].options.asset.type === 'video'" ng-click="setLightboxTarget(1)"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
+								<button
 									class="submit-selected"
+									ng-if="answers[1].options.asset.type === 'video' || answers[1].options.asset.type === 'audio'"
 									ng-click="checkChoice(1)"
 									ng-mouseenter="hands.thatRaised = true"
 									ng-mouseleave="hands.thatRaised = false"
 									ng-focus="hands.thisRaised = true"
 									ng-blur="hands.thisRaised = false"
 									ng-disabled="question.selected">Select</button>
+								<img
+									ng-if="answers[1].options.asset.type === 'image'"
+									ng-click="checkChoice(1)"
+									ng-mouseenter="hands.thisRaised = true"
+									ng-mouseleave="hands.thisRaised = false"
+									ng-focus="hands.thisRaised = true"
+									ng-blur="hands.thisRaised = false"
+									ng-disabled="question.selected"
+									class="choice choice-img"
+									ng-src="{{answers[1].options.asset.value}}"
+									alt="{{answers[1].text}}">
+								<button class="image-expand-into-lightbox" ng-if="answers[1].options.asset.type === 'image'" ng-click="setLightboxTarget(1)"><span class="icon icon-enlarge" aria-hidden="true"></span></button>
 							</div>
 						</div>
 					</div>
@@ -184,7 +208,7 @@
 			<section class="lightbox" ng-class="{ 'show': lightboxTarget != -1}" ng-hide="lightboxTarget == -1" ng-click="setLightboxTarget(-1)">
 				<div class="lightbox-content">
 					<button class="lightbox-close" ng-click="setLightboxTarget(-1)">X</button>
-					<iframe class="lightbox-video" ng-if="answers[lightboxTarget].options.asset.type == 'video'" ng-src="{{answers[lightboxTarget].options.asset.value}}" frameborder="0" allowfullscreen></iframe>
+					<iframe class="lightbox-iframe" ng-if="answers[lightboxTarget].options.asset.type == 'video' || answers[lightboxTarget].options.asset.type == 'image'" ng-src="{{answers[lightboxTarget].options.asset.value}}" frameborder="0" allowfullscreen></iframe>
 				</div>
 			</section>
 			<img class="hidden-asset" ng-if="choices[$index].type == 'image'" ng-src="{{choices[$index].value}}" ng-repeat="choice in choices track by $index">
