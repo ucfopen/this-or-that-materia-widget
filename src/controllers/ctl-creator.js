@@ -12,10 +12,11 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 			'Pick the answer type',
 			'CORRECT_ITEM_SELECT',
 			'CORRECT_ITEM_DESCRIPTION',
+			'CORRECT_ITEM_FEEDBACK',
 			'INCORRECT_ANSWER_TYPE',
 			'INCORRECT_ITEM_SELECT',
 			'INCORRECT_ITEM_DESCRIPTION',
-			'Enter some optional feedback'
+			'INCORRECT_ITEM_FEEDBACK'
 		]
 	}
 	$scope.actions = {
@@ -120,18 +121,19 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					id: _ids[0],
 					alt: item.answers[0]?.text,
 					value: _urls[0],
-					answerId: item.answers[0].id
+					answerId: item.answers[0].id,
+					feedback: item.answers[0].feedback
 				},
 				incorrect: {
 					type: item.answers[1]?.options.asset?.type,
 					id: _ids[1],
 					alt: item.answers[1]?.text,
 					value: _urls[1],
-					answerId: item.answers[1].id
+					answerId: item.answers[1].id,
+					feedback: item.answers[1].feedback
 				},
 				isValid: true,
-				id: item.id,
-				feedback: item.options.feedback
+				id: item.id
 			})
 
 			if ($scope.questions[$scope.questions.length-1].correct.type == 'video') {
@@ -224,18 +226,19 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					value: null,
 					alt: '',
 					id: null,
-					answerId: null
+					answerId: null,
+					feedback:''
 				},
 				incorrect: {
 					type: null,
 					value: null,
 					alt: '',
 					id: null,
-					answerId: null
+					answerId: null,
+					feedback:''
 				},
 				isValid: true,
-				id: null,
-				feedback:''
+				id: null
 			}
 		}
 

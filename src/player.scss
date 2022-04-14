@@ -354,8 +354,9 @@ body {
 				background-position: -1116.9600830078125px 0, center;
 				background-repeat: no-repeat;
 
-				.overlay {
-					background-color: rgba(110, 199, 47, 0.4);
+				.overlayFeedback {
+					text-shadow: 0 4px 2px rgba(0, 0, 0, 0.6);
+					background-color: rgba(110, 199, 47, 0.9);
 				}
 			}
 
@@ -364,8 +365,9 @@ body {
 				background-position: -721px 0, center;
 				background-repeat: no-repeat;
 
-				.overlay {
-					background-color: rgba(228, 43, 32, 0.6);
+				.overlayFeedback {
+					text-shadow: 0 4px 2px rgba(0, 0, 0, 0.6);
+					background-color: rgba(228, 43, 32, 0.9);
 				}
 			}
 
@@ -433,8 +435,6 @@ body {
 					font-family: $chunky-font;
 					font-size: 24px;
 					line-height: 150px;
-					text-shadow: 0 4px 2px rgba(0, 0, 0, 0.6);
-					background-color: rgba(228, 43, 32, 0.9);
 				}
 
 				.feedback::-webkit-scrollbar {

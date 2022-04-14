@@ -42,6 +42,7 @@ export const processQsetItem = ($sanitize, item) => {
 						type: item.correct.type
 					}
 				},
+				feedback: item.correct.feedback,
 				id: item.correct.answerId
 			},
 			{
@@ -55,12 +56,10 @@ export const processQsetItem = ($sanitize, item) => {
 						type: item.incorrect.type
 					}
 				},
+				feedback: item.incorrect.feedback,
 				id: item.incorrect.answerId
 			},
-		],
-		options: {
-			feedback: item.feedback
-		}
+		]
 	}
 }
 

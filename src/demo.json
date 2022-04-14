@@ -23,7 +23,8 @@
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/the_fall_of_phaeton.jpg'%>"
                 }
-              }
+              },
+              "feedback": "The Fall of Phaeton by Peter Paul Rubens"
             },
             {
               "id": null,
@@ -34,12 +35,10 @@
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/mona_lisa.jpg'%>"
                 }
-              }
+              },
+              "feedback": "The Mona Lisa was painted during the Italian Renaissance by artist Leonardo DaVinci."
             }
-          ],
-          "options": {
-            "feedback": "Incorrect. The Mona Lisa was painted during the Italian Renaissance by artist Leonardo DaVinci."
-          }
+          ]
         },
         {
           "materiaType": "question",
@@ -73,10 +72,7 @@
                 }
               }
             }
-          ],
-          "options": {
-            "feedback": ""
-          }
+          ]
         },
         {
           "materiaType": "question",
@@ -110,10 +106,7 @@
                 }
               }
             }
-          ],
-          "options": {
-            "feedback": ""
-          }
+          ]
         },
         {
           "materiaType": "question",
@@ -150,10 +143,7 @@
                 }
               }
             }
-          ],
-          "options": {
-            "feedback": ""
-          }
+          ]
         },
         {
           "materiaType": "question",
@@ -189,10 +179,7 @@
                 }
               }
             }
-          ],
-          "options": {
-            "feedback": ""
-          }
+          ]
         }
       ]
     }

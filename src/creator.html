@@ -128,6 +128,7 @@
 										ng-change="validation('change', currIndex); tutorialIncrement(4)"
 										ng-model="questions[currIndex].correct.alt"
 										ng-disabled="tutorial.step && tutorial.step < 4">
+
 								</ng-template>
 								<ng-template ng-if="questions[currIndex].correct.type === 'text'">
 									<div class="img-frame correct answer-full-height">
@@ -204,6 +205,13 @@
 										ng-model="questions[currIndex].correct.alt"
 										ng-disabled="tutorial.step && tutorial.step < 4" />
 								</ng-template>
+								<input type="text"
+										ng-if="questions[currIndex].correct.type != null"
+										placeholder="Optional feedback for a correct answer"
+										class="feedback"
+										ng-change="validation('change', currIndex); tutorialIncrement(5)"
+										ng-model="questions[currIndex].correct.feedback"
+										ng-disabled="tutorial.step && tutorial.step < 5">
 							</section>
 
 							<section class="frame-container right">
@@ -353,7 +361,7 @@
 										placeholder="Optional feedback for an incorrect answer"
 										class="feedback"
 										ng-change="validation('change', currIndex); tutorialIncrement(8)"
-										ng-model="questions[currIndex].feedback"
+										ng-model="questions[currIndex].incorrect.feedback"
 										ng-disabled="tutorial.step && tutorial.step < 8">
 							</section>
 						</div>

@@ -95,19 +95,20 @@ export const checkChoice = ($scope, value) => {
 	//get the id, value, and text of the chosen answer
 	const curItem = _qset.items[$scope.question.current]
 	const curAnswer = curItem.answers[value]
-	const _feedback = curItem.options.feedback
+	const _feedback = curAnswer.feedback
 	//track which image the user selected in the game
 	$scope.question.choice = value
 
 	switch (curAnswer.value) {
 		case 0:
 			$scope.question.correct[value] = 'Incorrect'
-			$scope.question.feedback[value] = curItem.options.feedback || ''
+			$scope.question.feedback[value] = _feedback || ''
 			assistiveAlert("Your selection was incorrect.")
 			break
 
 		case 100:
 			$scope.question.correct[value] = 'Correct!'
+			$scope.question.feedback[value] = _feedback || ''
 			assistiveAlert("Your selection was correct.")
 			break
 	}
