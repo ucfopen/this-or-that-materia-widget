@@ -24,7 +24,7 @@
                   "id": "<%MEDIA='assets/img/demo/the_fall_of_phaeton.jpg'%>"
                 }
               },
-              "feedback": "The Fall of Phaeton by Peter Paul Rubens"
+              "feedback": "The Fall of Phaeton was painted during the Baroque period by artist Peter Paul Rubens."
             },
             {
               "id": null,
@@ -59,7 +59,8 @@
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/mario.jpg'%>"
                 }
-              }
+              },
+              "feedback": "Super Mario 64 was released in 1996 for the Nintendo 64."
             },
             {
               "id": null,
@@ -70,7 +71,8 @@
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/wow.jpg'%>"
                 }
-              }
+              },
+              "feedback": "World of Warcraft was released in 2004."
             }
           ]
         },
@@ -93,7 +95,8 @@
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/chance.jpg'%>"
                 }
-              }
+              },
+              "feedback": "This large yellow dog named Chance is a Labrador Retriever."
             },
             {
               "id": null,
@@ -104,7 +107,8 @@
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/bogart.jpg'%>"
                 }
-              }
+              },
+              "feedback": "This small black and white dog named Bogart is not a Labrador Retriever."
             }
           ]
         },
@@ -129,7 +133,8 @@
                   "type": "audio",
                   "value": "<%MEDIA='assets/img/demo/birds.mp3'%>"
                 }
-              }
+              },
+              "feedback": "You are more likely to hear birds chirping in a forest."
             },
             {
               "id": null,
@@ -141,7 +146,8 @@
                   "value": "https://www.youtube.com/embed/dQw4w9WgXcQ",
                   "type": "video"
                 }
-              }
+              },
+              "feedback": "You are less likely to get rick-rolled in a forest."
             }
           ]
         },
@@ -165,7 +171,8 @@
                   "value": "Io, Europa, Ganymede, Callisto",
                   "type": "text"
                 }
-              }
+              },
+              "feedback": "Io, Europa, Ganymede, Callisto are the four Galilean Moons of Jupiter."
             },
             {
               "id": null,
@@ -177,7 +184,8 @@
                   "value": "Titan, Iapetus, Mimas, Enceladus",
                   "type": "text"
                 }
-              }
+              },
+              "feedback": "Titan, Iapetus, Mimas, Enceladus are moons of Saturn."
             }
           ]
         }
