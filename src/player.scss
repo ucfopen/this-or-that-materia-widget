@@ -458,8 +458,7 @@ body {
 				}
 
 				.choice-img {
-					max-width: 100%;
-					max-height: 100%;
+					object-fit: cover;
 					background: #fff;
 					margin-top: 20px;
 				}
@@ -887,11 +886,38 @@ body {
 			}
 		}
 
-		.lightbox-iframe {
+		.lightbox-video {
 			width: calc(100% - 20px);
 			height: calc(100% - 20px);
 			margin-top: 10px;
 			margin-left: 10px;
+		}
+
+		.lightbox-image-container {
+			height: calc(100% - 20px);
+			margin-top: 10px;
+			margin-left: 10px;
+			overflow: auto;
+		}
+
+		.lightbox-image {
+			height: calc(100% - 20px);
+			position: relative;
+			display: block;
+			margin: 20px auto 0 auto;
+		}
+
+		.lightbox-image:hover {
+			cursor: zoom-in;
+		}
+
+		.lightbox-image-zoom {
+			width: calc(100% - 20px);
+			height: auto;
+		}
+
+		.lightbox-image-zoom:hover {
+			cursor: zoom-out;
 		}
 
 	}

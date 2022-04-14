@@ -189,6 +189,12 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 		$scope.lightboxTarget = val
 	}
 
+	$scope.lightboxZoom = 0
+
+	$scope.setLightboxZoom = (val) => {
+		$scope.lightboxZoom = val
+	}
+
 	$scope.getAdjustedTextSize = (text) => {
 		if (text.length < 140) return 28
 		else {

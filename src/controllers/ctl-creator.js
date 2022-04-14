@@ -335,7 +335,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 	$scope.requestAudio = function(index, which) {
 		Materia.CreatorCore.showMediaImporter(['audio'])
 		// Save the image and which choice it's for
-		
+
 		_assetRef.index = index
 		_assetRef.which = which
 		_assetRef.type = 'audio'
@@ -354,7 +354,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 			{
 				if ( $scope.questions[$scope.currIndex].incorrect.videoValid != true) return $sce.trustAsResourceUrl('')
 			}
-			
+
 			if (embedUrl) {
 				if (embedUrl.includes('youtu')) {
 					const stringMatch = embedUrl.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
