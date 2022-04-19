@@ -12,11 +12,12 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 			'Pick the answer type',
 			'CORRECT_ITEM_SELECT',
 			'CORRECT_ITEM_DESCRIPTION',
-			'CORRECT_ITEM_FEEDBACK',
-			'INCORRECT_ANSWER_TYPE',
+			'Enter some optional feedback',
+			'Pick the answer type',
 			'INCORRECT_ITEM_SELECT',
 			'INCORRECT_ITEM_DESCRIPTION',
-			'INCORRECT_ITEM_FEEDBACK'
+			'Enter some optional feedback',
+			'Add another question'
 		]
 	}
 	$scope.actions = {
@@ -294,11 +295,12 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 			}
 		}
 
-		$scope.tutorialIncrement(sideIndex ? 5 : 2)
+		$scope.tutorialIncrement(sideIndex ? 6 : 2)
+		console.log(sideIndex)
 		switch (type) {
 			case 'image':
-				$scope.tutorial.text[sideIndex ? 5 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct image`
-				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct image`
+				$scope.tutorial.text[sideIndex ? 6 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct image`
+				$scope.tutorial.text[sideIndex ? 7 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct image`
 				break
 			case 'text':
 				if (side == $scope.CORRECT) {
@@ -308,19 +310,18 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 				{
 					$scope.questions[currIndex].incorrect.alt = '-'
 				}
-				$scope.tutorial.text[sideIndex ? 5 : 2] = `Enter the ${sideIndex ? 'in' : ''}correct answer`
-				$scope.tutorial.text[sideIndex ? 6 : 3] = ``
+				$scope.tutorial.text[sideIndex ? 6 : 2] = `Enter the ${sideIndex ? 'in' : ''}correct answer`
+				$scope.tutorial.text[sideIndex ? 7 : 3] = ``
 				break
 			case 'audio':
-				$scope.tutorial.text[sideIndex ? 5 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct audio`
-				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct audio`
+				$scope.tutorial.text[sideIndex ? 6 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct audio`
+				$scope.tutorial.text[sideIndex ? 7 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct audio`
 				break
 			case 'video':
-				$scope.tutorial.text[sideIndex ? 5 : 2] = `Link the ${sideIndex ? 'in' : ''}correct video`
-				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct video`
+				$scope.tutorial.text[sideIndex ? 6 : 2] = `Link the ${sideIndex ? 'in' : ''}correct video`
+				$scope.tutorial.text[sideIndex ? 7 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct video`
 				break
 		}
-		$scope.tutorial.text[sideIndex ? 7 : 4] = sideIndex ? 'Add more questions!' : `Pick the answer type`
 	}
 
 	// index: index of question
@@ -546,7 +547,17 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					break
 				case 9:
 					if ($scope.tutorial.step === 9) {
-						return ($scope.tutorial.step = null)
+						return $scope.tutorial.step++
+					}
+					break
+				case 10:
+					if ($scope.tutorial.step === 10) {
+						return ($scope.tutorial.step++)
+					}
+					break
+				case 11:
+					if ($scope.tutorial.step === 11) {
+						return ($scope.tutorial.step = NULL)
 					}
 			}
 		} else {
