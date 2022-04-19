@@ -22,9 +22,9 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/the_fall_of_phaeton.jpg'%>"
-                }
-              },
-              "feedback": "The Fall of Phaeton was painted during the Baroque period by artist Peter Paul Rubens."
+                },
+                "feedback": "The Fall of Phaeton was painted during the Baroque period by artist Peter Paul Rubens."
+              }
             },
             {
               "id": null,
@@ -34,9 +34,9 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/mona_lisa.jpg'%>"
-                }
-              },
-              "feedback": "The Mona Lisa was painted during the Italian Renaissance by artist Leonardo DaVinci."
+                },
+                "feedback": "The Mona Lisa was painted during the Italian Renaissance by artist Leonardo DaVinci."
+              }
             }
           ]
         },
@@ -58,9 +58,9 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/mario.jpg'%>"
-                }
-              },
-              "feedback": "Super Mario 64 was released in 1996 for the Nintendo 64."
+                },
+                "feedback": "Super Mario 64 was released in 1996 for the Nintendo 64."
+              }
             },
             {
               "id": null,
@@ -70,9 +70,9 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/wow.jpg'%>"
-                }
-              },
-              "feedback": "World of Warcraft was released in 2004."
+                },
+                "feedback": "World of Warcraft was released in 2004."
+              }
             }
           ]
         },
@@ -94,9 +94,9 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/chance.jpg'%>"
-                }
-              },
-              "feedback": "This large yellow dog named Chance is a Labrador Retriever."
+                },
+                "feedback": "This large yellow dog named Chance is a Labrador Retriever."
+              }
             },
             {
               "id": null,
@@ -106,9 +106,9 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/bogart.jpg'%>"
-                }
-              },
-              "feedback": "This small black and white dog named Bogart is not a Labrador Retriever."
+                },
+                "feedback": "This small black and white dog named Bogart is not a Labrador Retriever."
+              }
             }
           ]
         },
@@ -132,9 +132,9 @@
                   "id": "<%MEDIA='assets/img/demo/birds.mp3'%>",
                   "type": "audio",
                   "value": "<%MEDIA='assets/img/demo/birds.mp3'%>"
-                }
-              },
-              "feedback": "You are more likely to hear birds chirping in a forest."
+                },
+                "feedback": "You are more likely to hear birds chirping in a forest."
+              }
             },
             {
               "id": null,
@@ -145,9 +145,9 @@
                   "materiaType": "asset",
                   "value": "https://www.youtube.com/embed/dQw4w9WgXcQ",
                   "type": "video"
-                }
-              },
-              "feedback": "You are less likely to get rick-rolled in a forest."
+                },
+                "feedback": "You are less likely to get rick-rolled in a forest."
+              }
             }
           ]
         },
@@ -170,9 +170,9 @@
                   "materiaType": "asset",
                   "value": "Io, Europa, Ganymede, Callisto",
                   "type": "text"
-                }
-              },
-              "feedback": "Io, Europa, Ganymede, Callisto are the four Galilean Moons of Jupiter."
+                },
+                "feedback": "Io, Europa, Ganymede, Callisto are the four Galilean Moons of Jupiter."
+              }
             },
             {
               "id": null,
@@ -183,9 +183,9 @@
                   "materiaType": "asset",
                   "value": "Titan, Iapetus, Mimas, Enceladus",
                   "type": "text"
-                }
-              },
-              "feedback": "Titan, Iapetus, Mimas, Enceladus are moons of Saturn."
+                },
+                "feedback": "Titan, Iapetus, Mimas, Enceladus are moons of Saturn."
+              }
             }
           ]
         }

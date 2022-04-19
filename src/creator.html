@@ -210,7 +210,7 @@
 										placeholder="Optional feedback for a correct answer"
 										class="feedback"
 										ng-change="validation('change', currIndex); tutorialIncrement(5);"
-										ng-model="questions[currIndex].correct.feedback"
+										ng-model="questions[currIndex].correct.options.feedback"
 										ng-disabled="tutorial.step && tutorial.step < 5">
 							</section>
 
@@ -355,13 +355,13 @@
 										ng-model="questions[currIndex].incorrect.alt"
 										ng-disabled="tutorial.step && tutorial.step < 8" />
 								</ng-template>
-
+								
 								<input type="text"
 										ng-if="questions[currIndex].incorrect.type != null"
 										placeholder="Optional feedback for an incorrect answer"
 										class="feedback"
 										ng-change="validation('change', currIndex); tutorialIncrement(9)"
-										ng-model="questions[currIndex].incorrect.feedback"
+										ng-model="questions[currIndex].incorrect.options.feedback"
 										ng-disabled="tutorial.step && tutorial.step < 9">
 							</section>
 						</div>

@@ -123,7 +123,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					alt: item.answers[0]?.text,
 					value: _urls[0],
 					answerId: item.answers[0].id,
-					feedback: item.answers[0].feedback
+					feedback: item.answers[0].options.feedback ? item.answers[0].options.feedback : '',
 				},
 				incorrect: {
 					type: item.answers[1]?.options.asset?.type,
@@ -131,7 +131,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					alt: item.answers[1]?.text,
 					value: _urls[1],
 					answerId: item.answers[1].id,
-					feedback: item.answers[1].feedback
+					feedback: item.answers[1].options.feedback ? item.answers[1].options.feedback : item.options.feedback,
 				},
 				isValid: true,
 				id: item.id
