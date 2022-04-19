@@ -23,7 +23,7 @@ describe('Creator Controller', function() {
 	let $sanitize
 
 	function quickQuestion(givenID) {
-		
+
 		$scope.addQuestion({
 			title: 'test title ' + givenID,
 			correct: {

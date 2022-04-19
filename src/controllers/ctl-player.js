@@ -95,7 +95,7 @@ export const checkChoice = ($scope, value) => {
 	//get the id, value, and text of the chosen answer
 	const curItem = _qset.items[$scope.question.current]
 	const curAnswer = curItem.answers[value]
-	const _feedback = curAnswer.feedback
+	const _feedback = curAnswer.options.feedback || curItem.options.feedback;
 	//track which image the user selected in the game
 	$scope.question.choice = value
 

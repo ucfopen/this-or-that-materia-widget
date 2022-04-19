@@ -58,7 +58,7 @@
 								href="#"
 								data-title="{{answers[0].text}}">
 								<span ng-show="question.correct[0] != ''" ng-class="{'overlayFeedback': question.correct[0] != ''}">{{question.correct[0]}}</span>
-								<span ng-show="question.correct[0] != '' && answers[0].options.feedback" class="feedback">{{answers[0].options.feedback}}</span>
+								<span ng-show="question.correct[0] != '' && question.feedback[0]" class="feedback">{{question.feedback[0]}}</span>
 								<div ng-if="answers[0].options.asset.type === 'text'" class="choice choice-text" ng-style="{ 'font-size': getAdjustedTextSize(answers[0].options.asset.value) + 'px'}">
 									<span>{{answers[0].options.asset.value}}</span>
 								</div>
@@ -68,7 +68,7 @@
 								ng-if="answers[0].options.asset.type === 'audio' || answers[0].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
 								data-title="{{answers[0].text}}">
 								<span ng-show="question.correct[0] != ''" ng-class="{'overlayFeedback': question.correct[0] != ''}">{{question.correct[0]}}</span>
-								<span ng-show="question.correct[0] != '' && answers[0].options.feedback" class="feedback">{{answers[0].options.feedback}}</span>
+								<span ng-show="question.correct[0] != '' && question.feedback[0]" class="feedback">{{question.feedback[0]}}</span>
 								<figure class="choice choice-audio" ng-if="answers[0].options.asset.type == 'audio'">
 									<figcaption>{{answers[0].text}}</figcaption>
 									<audio
@@ -123,7 +123,6 @@
 								href="#"
 								data-title="{{answers[1].text}}">
 								<span ng-show="question.correct[1] != ''" ng-class="{'overlayFeedback': question.correct[1] != ''}">{{question.correct[1]}}</span>
-								<span ng-show="question.correct[1] != '' && answers[1].options.feedback || question.feedback[1]" class="feedback">{{answers[1].options.feedback}}</span>
 								<span ng-show="question.correct[1] != '' && question.feedback[1]" class="feedback">{{question.feedback[1]}}</span>
 								<div ng-if="answers[1].options.asset.type === 'text'" class="choice choice-text" ng-style="{ 'font-size': getAdjustedTextSize(answers[1].options.asset.value) + 'px'}">
 									<span>{{answers[1].options.asset.value}}</span>
@@ -134,7 +133,6 @@
 								ng-if="answers[1].options.asset.type === 'audio' || answers[1].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
 								data-title="{{answers[1].text}}">
 								<span ng-show="question.correct[1] != ''" ng-class="{'overlayFeedback': question.correct[1] != ''}">{{question.correct[1]}}</span>
-								<span ng-show="question.correct[1] != '' && answers[1].options.feedback || question.feedback[1]" class="feedback">{{answers[1].options.feedback}}</span>
 								<span ng-show="question.correct[1] != '' && question.feedback[1]" class="feedback">{{question.feedback[1]}}</span>
 								<figure class="choice choice-audio" ng-if="answers[1].options.asset.type == 'audio'">
 									<figcaption>{{answers[1].text}}</figcaption>

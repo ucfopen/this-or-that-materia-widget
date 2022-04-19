@@ -1,0 +1,200 @@
+{
+  "name": "This or That",
+  "qset": {
+    "version": 2,
+    "data": {
+      "items": [
+        {
+          "materiaType": "question",
+          "id": null,
+          "type": "MC",
+          "questions": [
+            {
+              "text": "Which of these paintings is from the Baroque period?"
+            }
+          ],
+          "answers": [
+            {
+              "id": null,
+              "text": "The Fall of Phaeton by Peter Paul Rubens",
+              "value": 100,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "id": "<%MEDIA='assets/img/demo/the_fall_of_phaeton.jpg'%>"
+                }
+              }
+            },
+            {
+              "id": null,
+              "text": "The Mona Lisa by Leonardo DaVinci",
+              "value": 0,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "id": "<%MEDIA='assets/img/demo/mona_lisa.jpg'%>"
+                }
+              }
+            }
+          ],
+          "options": {
+            "feedback": "Incorrect. The Mona Lisa was painted during the Italian Renaissance by artist Leonardo DaVinci."
+          }
+        },
+        {
+          "materiaType": "question",
+          "id": null,
+          "type": "MC",
+          "questions": [
+            {
+              "text": "Which of these video games is from the 1990s?"
+            }
+          ],
+          "answers": [
+            {
+              "id": null,
+              "text": "Super Mario 64",
+              "value": 100,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "id": "<%MEDIA='assets/img/demo/mario.jpg'%>"
+                }
+              }
+            },
+            {
+              "id": null,
+              "text": "World of Warcraft",
+              "value": 0,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "id": "<%MEDIA='assets/img/demo/wow.jpg'%>"
+                }
+              }
+            }
+          ],
+          "options": {
+            "feedback": ""
+          }
+        },
+        {
+          "materiaType": "question",
+          "id": null,
+          "type": "MC",
+          "questions": [
+            {
+              "text": "Which one of these dogs is a Labrador Retriever?"
+            }
+          ],
+          "answers": [
+            {
+              "id": null,
+              "text": "A large yellow dog named Chance",
+              "value": 100,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "id": "<%MEDIA='assets/img/demo/chance.jpg'%>"
+                }
+              }
+            },
+            {
+              "id": null,
+              "text": "A small black and white dog named Bogart",
+              "value": 0,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "id": "<%MEDIA='assets/img/demo/bogart.jpg'%>"
+                }
+              }
+            }
+          ],
+          "options": {
+            "feedback": ""
+          }
+        },
+        {
+          "materiaType": "question",
+          "id": null,
+          "type": "MC",
+          "questions": [
+            {
+              "text": "Which sound are you more likely to hear in a forest?"
+            }
+          ],
+          "answers": [
+            {
+              "id": null,
+              "text": "Birds chirping",
+              "value": 100,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "id": "<%MEDIA='assets/img/demo/birds.mp3'%>",
+                  "type": "audio",
+                  "value": "<%MEDIA='assets/img/demo/birds.mp3'%>"
+                }
+              }
+            },
+            {
+              "id": null,
+              "text": "A popular music video",
+              "value": 0,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "value": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                  "type": "video"
+                }
+              }
+            }
+          ],
+          "options": {
+            "feedback": ""
+          }
+        },
+        {
+          "materiaType": "question",
+          "id": null,
+          "type": "MC",
+          "questions": [
+            {
+              "text": "What are the four Galilean Moons of Jupiter?"
+            }
+          ],
+          "answers": [
+            {
+              "id": null,
+              "text": "-",
+              "value": 100,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "value": "Io, Europa, Ganymede, Callisto",
+                  "type": "text"
+                }
+              }
+            },
+            {
+              "id": null,
+              "text": "-",
+              "value": 0,
+              "options": {
+                "asset": {
+                  "materiaType": "asset",
+                  "value": "Titan, Iapetus, Mimas, Enceladus",
+                  "type": "text"
+                }
+              }
+            }
+          ],
+          "options": {
+            "feedback": ""
+          }
+        }
+      ]
+    }
+  }
+}
