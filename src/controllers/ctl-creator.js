@@ -123,7 +123,9 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					alt: item.answers[0]?.text,
 					value: _urls[0],
 					answerId: item.answers[0].id,
-					feedback: item.answers[0].options.feedback ? item.answers[0].options.feedback : '',
+					options: {
+						feedback: item.answers[0].options.feedback ? item.answers[0].options.feedback : '',
+					}
 				},
 				incorrect: {
 					type: item.answers[1]?.options.asset?.type,
@@ -131,7 +133,9 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					alt: item.answers[1]?.text,
 					value: _urls[1],
 					answerId: item.answers[1].id,
-					feedback: item.answers[1].options.feedback ? item.answers[1].options.feedback : item.options.feedback,
+					options: {
+						feedback: item.answers[1].options.feedback ? item.answers[1].options.feedback : '',
+					}
 				},
 				isValid: true,
 				id: item.id
@@ -228,7 +232,10 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					alt: '',
 					id: null,
 					answerId: null,
-					feedback:''
+					options:
+					{
+						feedback:''
+					}
 				},
 				incorrect: {
 					type: null,
@@ -236,7 +243,10 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					alt: '',
 					id: null,
 					answerId: null,
-					feedback:''
+					options:
+					{
+						feedback:''
+					}
 				},
 				isValid: true,
 				id: null
@@ -504,61 +514,14 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 
 	$scope.tutorialIncrement = function(step) {
 		if ($scope.tutorial.step > 0) {
-			switch (step) {
-				case 1:
-					if ($scope.tutorial.step === 1) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 2:
-					if ($scope.tutorial.step === 2) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 3:
-					if ($scope.tutorial.step === 3) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 4:
-					if ($scope.tutorial.step === 4) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 5:
-					if ($scope.tutorial.step === 5) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 6:
-					if ($scope.tutorial.step === 6) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 7:
-					if ($scope.tutorial.step === 7) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 8:
-					if ($scope.tutorial.step === 8) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 9:
-					if ($scope.tutorial.step === 9) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 10:
-					if ($scope.tutorial.step === 10) {
-						return ($scope.tutorial.step++)
-					}
-					break
-				case 11:
-					if ($scope.tutorial.step === 11) {
-						return ($scope.tutorial.step = NULL)
-					}
+			if (step == $scope.tutorial.step)
+			{
+				if (step == 11) {
+					return $scope.tutorial.step = NULL
+				}
+				else {
+					return $scope.tutorial.step++
+				}
 			}
 		} else {
 			return false
