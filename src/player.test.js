@@ -159,7 +159,8 @@ describe('Player Controller', function() {
 
 		expect($scope.question.selected).toEqual(true)
 		expect($scope.gameState.showNext).toEqual(true)
-		expect($scope.question.feedback[0]).toEqual('')
+		const correctFeedback = qset.data.items[0].answers[0].options.feedback
+		expect($scope.answers[0].options.feedback).toEqual(correctFeedback)
 	})
 
 	test('should check an "incorrect" answer choice', () => {
@@ -176,8 +177,8 @@ describe('Player Controller', function() {
 		expect($scope.question.correct[0]).toEqual('Incorrect')
 		expect($scope.question.selected).toEqual(true)
 		expect($scope.gameState.showNext).toEqual(true)
-		const questionFeedback = qset.data.items[0].options.feedback
-		expect($scope.question.feedback[0]).toEqual(questionFeedback)
+		const correctFeedback = qset.data.items[0].answers[0].options.feedback
+		expect($scope.answers[0].options.feedback).toEqual(correctFeedback)
 	})
 
 	//this one probably should not even be possible, but whatever
@@ -207,15 +208,15 @@ describe('Player Controller', function() {
 		)
 	})
 
-	test('should handle an incorrect answer choice with no feedback', () => {
+	test('should handle an answer choice with no feedback', () => {
 		//pretend the first question has no feedback for wrong answers
-		delete qset.data.items[0].options.feedback
+		delete qset.data.items[0].answers[0].options.feedback
 		publicMethods.start(widgetInfo, qset.data)
 
 		$scope.answers[0].value = 0
 		$scope.checkChoice(0)
 
-		expect($scope.question.feedback[0]).toEqual('')
+		expect($scope.answers[0].options.feedback).toEqual('')
 	})
 
 	test('should update when next is clicked', () => {
@@ -308,7 +309,8 @@ describe('Player Controller', function() {
 						asset: {
 							materiaType: 'asset',
 							id: ''
-						}
+						},
+						feedback: ''
 					}
 				},
 				{
@@ -319,11 +321,12 @@ describe('Player Controller', function() {
 						asset: {
 							materiaType: 'asset',
 							id: ''
-						}
+						},
+						feedback: ''
 					}
 				}
 			],
-			options: { feedback: '', answerType: ['image', 'image'] }
+			options: { answerType: ['image', 'image'] }
 		}
 	}
 

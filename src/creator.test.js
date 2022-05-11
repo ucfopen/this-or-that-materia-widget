@@ -114,18 +114,23 @@ describe('Creator Controller', function() {
 				id: null,
 				alt: '',
 				value: null,
-				answerId: null
+				answerId: null,
+				options: {
+					feedback: ''
+				}
 			},
 			incorrect: {
 				type: null,
 				id: null,
 				alt: '',
 				value: null,
-				answerId: null
+				answerId: null,
+				options: {
+					feedback: ''
+				}
 			},
 			isValid: true,
-			id: null,
-			feedback: ''
+			id: null
 		}
 
 		publicMethods.initNewWidget(widgetInfo)
@@ -218,8 +223,18 @@ describe('Creator Controller', function() {
 		expect($scope.tutorial.step).toBe(9)
 
 		$scope.tutorialIncrement(9)
-		expect($scope.tutorial.step).toBeNull()
+		expect($scope.tutorial.step).toBe(10)
 		$scope.tutorialIncrement(9)
+		expect($scope.tutorial.step).toBe(10)
+
+		$scope.tutorialIncrement(10)
+		expect($scope.tutorial.step).toBe(11)
+		$scope.tutorialIncrement(10)
+		expect($scope.tutorial.step).toBe(11)
+
+		$scope.tutorialIncrement(11)
+		expect($scope.tutorial.step).toBeNull()
+		$scope.tutorialIncrement(11)
 		expect($scope.tutorial.step).toBeNull()
 	})
 
@@ -650,16 +665,17 @@ describe('Creator Controller', function() {
 				type: 'video',
 				value: '',
 				alt: '',
-				id: null
+				id: null,
+				feedback: 'feedback'
 			},
 			incorrect: {
 				type: 'image',
 				value: 'image 2',
 				alt: 'image 2 alt text',
-				id: null
+				id: null,
+				feedback: 'feedback'
 			},
 			id: 1,
-			feedback: 'feedback'
 		})
 
 		$timeout.flush()
