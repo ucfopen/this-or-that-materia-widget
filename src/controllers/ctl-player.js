@@ -102,7 +102,7 @@ export const checkChoice = ($scope, value) => {
 	switch (curAnswer.value) {
 		case 0:
 			$scope.question.correct[value] = 'Incorrect'
-			$scope.answers[value].options.feedback = _feedback || ''
+			$scope.answers[value].options.feedback = _feedback || _qset.items[$scope.question.current].options.feedback ? _qset.items[$scope.question.current].options.feedback : ''
 			assistiveAlert("Your selection was incorrect.")
 			break
 

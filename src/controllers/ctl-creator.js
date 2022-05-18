@@ -134,7 +134,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					value: _urls[1],
 					answerId: item.answers[1].id,
 					options: {
-						feedback: item.answers[1].options.feedback ? item.answers[1].options.feedback : '',
+						feedback: item.answers[1].options.feedback ? item.answers[1].options.feedback : (item.options.feedback ? item.options.feedback : ''),
 					}
 				},
 				isValid: true,
