@@ -30,16 +30,21 @@ describe('Creator Controller', function() {
 				type: 'image',
 				value: 'image 1',
 				alt: 'image 1 alt text',
-				id: 'image 1 id'
+				id: 'image 1 id',
+				options: {
+					feedback: 'feedback 1'
+				}
 			},
 			incorrect: {
 				type: 'image',
 				value: 'image 2',
 				alt: 'image 2 alt text',
-				id: 'image 2 id'
+				id: 'image 2 id',
+				options: {
+					feedback: 'feedback 2'
+				}
 			},
-			id: givenID,
-			feedback: 'feedback'
+			id: givenID
 		})
 
 		$timeout.flush()
@@ -316,7 +321,10 @@ describe('Creator Controller', function() {
 		expect($scope.questions[1].incorrect.type).toBe('image')
 		expect($scope.questions[1].incorrect.alt).toBe('image 2 alt text')
 		expect($scope.questions[1].incorrect.value).toBe('image 2')
+		expect($scope.questions[1].correct.options.feedback).toBe('feedback 1')
+		expect($scope.questions[1].incorrect.options.feedback).toBe('feedback 2')
 		expect($scope.questions[1].id).toBe(1)
+
 	})
 
 	test('should slide left when selecting the previous question', () => {
@@ -666,14 +674,18 @@ describe('Creator Controller', function() {
 				value: '',
 				alt: '',
 				id: null,
-				feedback: 'feedback'
+				options: {
+					feedback: 'feedback 1'
+				}
 			},
 			incorrect: {
 				type: 'image',
 				value: 'image 2',
 				alt: 'image 2 alt text',
 				id: null,
-				feedback: 'feedback'
+				options: {
+					feedback: 'feedback 2'
+				}
 			},
 			id: 1,
 		})
@@ -756,17 +768,16 @@ describe('Creator Controller', function() {
 		expect($scope.questions.length).toBe(0)
 
 		const items = widgetInfo.qset.data.items
+
+		// remove assets and feedback
+		items.forEach(item => {
+			delete item.answers.options
+		})
+
 		publicMethods.onQuestionImportComplete(items)
 
 		expect($scope.questions.length).toEqual(5)
 
-		let incomplete = [
-			{
-				id: null,
-				questions: [{ text: 'Which one of these dogs is a Labrador Retriever?' }],
-				answers: [{ options: {} }, { options: {} }]
-			}
-		]
 	})
 
 	test('should not import questions without answers', () => {
@@ -804,8 +815,8 @@ describe('Creator Controller', function() {
 			{
 				id: null,
 				questions: [{ text: 'Which one of these dogs is a Labrador Retriever?' }],
-				answers: [{ options: { asset: { id: null } } }, { options: { asset: { id: null } } }],
-				options: { feedback: '' }
+				answers: [{ options: { asset: { id: null }, feedback: ''}}, { options: { asset: { id: null }, feedback: ''}}],
+				options: {}
 			}
 		]
 		publicMethods.onQuestionImportComplete(incomplete)

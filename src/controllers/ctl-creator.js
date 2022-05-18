@@ -134,7 +134,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					value: _urls[1],
 					answerId: item.answers[1].id,
 					options: {
-						feedback: item.answers[1].options.feedback ? item.answers[1].options.feedback : (item.options.feedback ? item.options.feedback : ''),
+						feedback: item.answers[1].options.feedback ? item.answers[1].options.feedback : (item.options && item.options.feedback ? item.options.feedback : ''),
 					}
 				},
 				isValid: true,
@@ -306,7 +306,6 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		}
 
 		$scope.tutorialIncrement(sideIndex ? 6 : 2)
-		console.log(sideIndex)
 		switch (type) {
 			case 'image':
 				$scope.tutorial.text[sideIndex ? 6 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct image`

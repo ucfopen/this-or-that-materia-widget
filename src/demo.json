@@ -132,8 +132,7 @@
                   "id": "<%MEDIA='assets/img/demo/birds.mp3'%>",
                   "type": "audio",
                   "value": "<%MEDIA='assets/img/demo/birds.mp3'%>"
-                },
-                "feedback": "You are more likely to hear birds chirping in a forest."
+                }
               }
             },
             {
@@ -145,11 +144,13 @@
                   "materiaType": "asset",
                   "value": "https://www.youtube.com/embed/dQw4w9WgXcQ",
                   "type": "video"
-                },
-                "feedback": "You are less likely to get rick-rolled in a forest."
+                }
               }
             }
-          ]
+          ],
+          "options": {
+            "feedback": "You are less likely to get rick rolled in a forest."
+          }
         },
         {
           "materiaType": "question",

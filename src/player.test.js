@@ -177,8 +177,8 @@ describe('Player Controller', function() {
 		expect($scope.question.correct[0]).toEqual('Incorrect')
 		expect($scope.question.selected).toEqual(true)
 		expect($scope.gameState.showNext).toEqual(true)
-		const correctFeedback = qset.data.items[0].answers[0].options.feedback
-		expect($scope.answers[0].options.feedback).toEqual(correctFeedback)
+		const incorrectFeedback = qset.data.items[0].answers[0].options.feedback
+		expect($scope.answers[0].options.feedback).toEqual(incorrectFeedback)
 	})
 
 	//this one probably should not even be possible, but whatever
@@ -209,14 +209,37 @@ describe('Player Controller', function() {
 	})
 
 	test('should handle an answer choice with no feedback', () => {
-		//pretend the first question has no feedback for wrong answers
-		delete qset.data.items[0].answers[0].options.feedback
+		// pretend incorrect question has no feedback but correct question does
 		publicMethods.start(widgetInfo, qset.data)
+		delete qset.data.items[0].answers[0].options.feedback
 
 		$scope.answers[0].value = 0
 		$scope.checkChoice(0)
 
+		// selected answer should have no feedback
 		expect($scope.answers[0].options.feedback).toEqual('')
+
+		const correctFeedback = qset.data.items[0].answers[1].options.feedback
+		expect($scope.answers[1].options.feedback).toEqual(correctFeedback)
+
+	})
+
+	test('should handle questions with old feedback solution', () => {
+		// pretend question has feedback inside items instead of individual answers
+
+		publicMethods.start(widgetInfo, qset.data)
+
+		delete qset.data.items[0].answers[0].options.feedback
+		delete qset.data.items[0].answers[1].options.feedback
+
+		qset.data.items[0].options = {}
+		qset.data.items[0].options.feedback = 'Incorrect. The Mona Lisa was painted during the Italian Renaissance by artist Leonardo DaVinci.'
+
+		$scope.answers[0].value = 0
+		$scope.checkChoice(0)
+
+		expect($scope.answers[0].options.feedback).toEqual(qset.data.items[0].options.feedback)
+
 	})
 
 	test('should update when next is clicked', () => {
@@ -239,6 +262,20 @@ describe('Player Controller', function() {
 		expect($scope.question.transition).toEqual(false)
 		expect($scope.title).toEqual(qset.data.items[1].questions[0].text)
 		expect($scope.answers).toEqual(qset.data.items[1].answers)
+	})
+
+	test('should toggle lightbox modal', () => {
+		$scope.setLightboxTarget(0)
+		expect($scope.lightboxTarget).toBe(0)
+		$scope.setLightboxTarget(1)
+		expect($scope.lightboxTarget).toBe(1)
+	})
+
+	test('should toggle lightbox zoom', () => {
+		$scope.setLightboxZoom(100)
+		expect($scope.lightboxZoom).toBe(100)
+		$scope.setLightboxZoom(0)
+		expect($scope.lightboxZoom).toBe(0)
 	})
 
 	test('should end the game when all questions are done', () => {

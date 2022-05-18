@@ -44,6 +44,12 @@ export const getAllAnswerChoices = ($sce, _qset) => {
 				type: ans.options.asset.type,
 				value: ans.options.asset.value
 			})
+
+			// old qsets do not have feedback inside answers
+			if (!ans.options.feedback)
+			{
+				ans.options.feedback = '';
+			}
 		})
 	})
 
@@ -102,7 +108,7 @@ export const checkChoice = ($scope, value) => {
 	switch (curAnswer.value) {
 		case 0:
 			$scope.question.correct[value] = 'Incorrect'
-			$scope.answers[value].options.feedback = _feedback || _qset.items[$scope.question.current].options.feedback ? _qset.items[$scope.question.current].options.feedback : ''
+			$scope.answers[value].options.feedback = _feedback || (curItem.options && curItem.options.feedback ? curItem.options.feedback : '')
 			assistiveAlert("Your selection was incorrect.")
 			break
 
