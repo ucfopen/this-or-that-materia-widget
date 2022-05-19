@@ -44,6 +44,12 @@ export const getAllAnswerChoices = ($sce, _qset) => {
 				type: ans.options.asset.type,
 				value: ans.options.asset.value
 			})
+
+			// old qsets do not have feedback inside answers
+			if (!ans.options.feedback)
+			{
+				ans.options.feedback = '';
+			}
 		})
 	})
 
@@ -95,19 +101,20 @@ export const checkChoice = ($scope, value) => {
 	//get the id, value, and text of the chosen answer
 	const curItem = _qset.items[$scope.question.current]
 	const curAnswer = curItem.answers[value]
-	const _feedback = curItem.options.feedback
+	const _feedback = curAnswer.options.feedback;
 	//track which image the user selected in the game
 	$scope.question.choice = value
 
 	switch (curAnswer.value) {
 		case 0:
 			$scope.question.correct[value] = 'Incorrect'
-			$scope.question.feedback[value] = curItem.options.feedback || ''
+			$scope.answers[value].options.feedback = _feedback || (curItem.options && curItem.options.feedback ? curItem.options.feedback : '')
 			assistiveAlert("Your selection was incorrect.")
 			break
 
 		case 100:
 			$scope.question.correct[value] = 'Correct!'
+			$scope.answers[value].options.feedback = _feedback || ''
 			assistiveAlert("Your selection was correct.")
 			break
 	}
@@ -133,7 +140,8 @@ export const checkChoice = ($scope, value) => {
 export const nextClicked = ($scope, $timeout) => {
 	$scope.gameState.showNext = false
 	$scope.question.correct = ['', '']
-	$scope.question.feedback = ['', '']
+	$scope.answers[0].options.feedback = ''
+	$scope.answers[1].options.feedback = ''
 	$scope.question.choice = -1
 	$scope.question.transition = true
 	$scope.hands.thisRaised = false
@@ -161,7 +169,6 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 		choice: -1,
 		current: -1,
 		correct: ['',''],
-		feedback: ['',''],
 		selected: false,
 		transition: false
 	}
@@ -187,6 +194,12 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 
 	$scope.setLightboxTarget = (val) => {
 		$scope.lightboxTarget = val
+	}
+
+	$scope.lightboxZoom = 0
+
+	$scope.setLightboxZoom = (val) => {
+		$scope.lightboxZoom = val
 	}
 
 	$scope.getAdjustedTextSize = (text) => {

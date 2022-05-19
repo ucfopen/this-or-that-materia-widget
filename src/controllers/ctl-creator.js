@@ -12,10 +12,12 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 			'Pick the answer type',
 			'CORRECT_ITEM_SELECT',
 			'CORRECT_ITEM_DESCRIPTION',
-			'INCORRECT_ANSWER_TYPE',
+			'Enter some optional feedback',
+			'Pick the answer type',
 			'INCORRECT_ITEM_SELECT',
 			'INCORRECT_ITEM_DESCRIPTION',
-			'Enter some optional feedback'
+			'Enter some optional feedback',
+			'Add another question'
 		]
 	}
 	$scope.actions = {
@@ -120,18 +122,23 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					id: _ids[0],
 					alt: item.answers[0]?.text,
 					value: _urls[0],
-					answerId: item.answers[0].id
+					answerId: item.answers[0].id,
+					options: {
+						feedback: item.answers[0].options.feedback ? item.answers[0].options.feedback : '',
+					}
 				},
 				incorrect: {
 					type: item.answers[1]?.options.asset?.type,
 					id: _ids[1],
 					alt: item.answers[1]?.text,
 					value: _urls[1],
-					answerId: item.answers[1].id
+					answerId: item.answers[1].id,
+					options: {
+						feedback: item.answers[1].options.feedback ? item.answers[1].options.feedback : (item.options && item.options.feedback ? item.options.feedback : ''),
+					}
 				},
 				isValid: true,
-				id: item.id,
-				feedback: item.options.feedback
+				id: item.id
 			})
 
 			if ($scope.questions[$scope.questions.length-1].correct.type == 'video') {
@@ -224,18 +231,25 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 					value: null,
 					alt: '',
 					id: null,
-					answerId: null
+					answerId: null,
+					options:
+					{
+						feedback:''
+					}
 				},
 				incorrect: {
 					type: null,
 					value: null,
 					alt: '',
 					id: null,
-					answerId: null
+					answerId: null,
+					options:
+					{
+						feedback:''
+					}
 				},
 				isValid: true,
-				id: null,
-				feedback:''
+				id: null
 			}
 		}
 
@@ -291,11 +305,11 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 			}
 		}
 
-		$scope.tutorialIncrement(sideIndex ? 5 : 2)
+		$scope.tutorialIncrement(sideIndex ? 6 : 2)
 		switch (type) {
 			case 'image':
-				$scope.tutorial.text[sideIndex ? 5 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct image`
-				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct image`
+				$scope.tutorial.text[sideIndex ? 6 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct image`
+				$scope.tutorial.text[sideIndex ? 7 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct image`
 				break
 			case 'text':
 				if (side == $scope.CORRECT) {
@@ -305,19 +319,18 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 				{
 					$scope.questions[currIndex].incorrect.alt = '-'
 				}
-				$scope.tutorial.text[sideIndex ? 5 : 2] = `Enter the ${sideIndex ? 'in' : ''}correct answer`
-				$scope.tutorial.text[sideIndex ? 6 : 3] = ``
+				$scope.tutorial.text[sideIndex ? 6 : 2] = `Enter the ${sideIndex ? 'in' : ''}correct answer`
+				$scope.tutorial.text[sideIndex ? 7 : 3] = ``
 				break
 			case 'audio':
-				$scope.tutorial.text[sideIndex ? 5 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct audio`
-				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct audio`
+				$scope.tutorial.text[sideIndex ? 6 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct audio`
+				$scope.tutorial.text[sideIndex ? 7 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct audio`
 				break
 			case 'video':
-				$scope.tutorial.text[sideIndex ? 5 : 2] = `Link the ${sideIndex ? 'in' : ''}correct video`
-				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct video`
+				$scope.tutorial.text[sideIndex ? 6 : 2] = `Link the ${sideIndex ? 'in' : ''}correct video`
+				$scope.tutorial.text[sideIndex ? 7 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct video`
 				break
 		}
-		$scope.tutorial.text[sideIndex ? 7 : 4] = sideIndex ? 'Add more questions!' : `Pick the answer type`
 	}
 
 	// index: index of question
@@ -335,7 +348,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 	$scope.requestAudio = function(index, which) {
 		Materia.CreatorCore.showMediaImporter(['audio'])
 		// Save the image and which choice it's for
-		
+
 		_assetRef.index = index
 		_assetRef.which = which
 		_assetRef.type = 'audio'
@@ -354,7 +367,7 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 			{
 				if ( $scope.questions[$scope.currIndex].incorrect.videoValid != true) return $sce.trustAsResourceUrl('')
 			}
-			
+
 			if (embedUrl) {
 				if (embedUrl.includes('youtu')) {
 					const stringMatch = embedUrl.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
@@ -500,51 +513,14 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 
 	$scope.tutorialIncrement = function(step) {
 		if ($scope.tutorial.step > 0) {
-			switch (step) {
-				case 1:
-					if ($scope.tutorial.step === 1) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 2:
-					if ($scope.tutorial.step === 2) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 3:
-					if ($scope.tutorial.step === 3) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 4:
-					if ($scope.tutorial.step === 4) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 5:
-					if ($scope.tutorial.step === 5) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 6:
-					if ($scope.tutorial.step === 6) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 7:
-					if ($scope.tutorial.step === 7) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 8:
-					if ($scope.tutorial.step === 8) {
-						return $scope.tutorial.step++
-					}
-					break
-				case 9:
-					if ($scope.tutorial.step === 9) {
-						return ($scope.tutorial.step = null)
-					}
+			if (step == $scope.tutorial.step)
+			{
+				if (step == 11) {
+					return $scope.tutorial.step = null
+				}
+				else {
+					return $scope.tutorial.step++
+				}
 			}
 		} else {
 			return false

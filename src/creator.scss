@@ -309,29 +309,42 @@ input[type='text'] {
 	}
 
 	&.step5 {
-		top: 405px;
-		right: 129px;
+		top: 530px;
+		left: 105px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
 	&.step6 {
 		top: 405px;
-		right: 115px;
+		right: 130px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
 	&.step7 {
-		top: 465px;
+		top: 405px;
 		right: 105px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
 
 	&.step8 {
-		bottom: -57px;
-		right: 146px;
+		top: 465px;
+		right: 105px;
+		opacity: 1;
+		animation: pounce-down 1s infinite;
+	}
+	// Feedback for incorrect
+	&.step9 {
+		top: 530px;
+		right: 105px;
+		opacity: 1;
+		animation: pounce-down 1s infinite;
+	}
+	// Add question
+	&.step10 {
+		right: 135px;
 		opacity: 1;
 		animation: pounce-left 1s infinite;
 	}
@@ -658,6 +671,7 @@ input[type='text'] {
 				.choice-img {
 					height: 250px;
 					width: 300px;
+					object-fit: cover;
 
 					border-radius: 4px;
 				}
@@ -681,7 +695,7 @@ input[type='text'] {
 			.pre-upload {
 				display: block;
 				padding: 30px 20px;
-				
+
 				background: rgba(255,255,255,0.75);
 				border-radius: 10px;
 

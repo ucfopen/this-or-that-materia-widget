@@ -22,8 +22,7 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/the_fall_of_phaeton.jpg'%>"
-                },
-                "feedback": "The Fall of Phaeton was painted during the Baroque period by artist Peter Paul Rubens."
+                }
               }
             },
             {
@@ -34,11 +33,13 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/mona_lisa.jpg'%>"
-                },
-                "feedback": "The Mona Lisa was painted during the Italian Renaissance by artist Leonardo DaVinci."
+                }
               }
             }
-          ]
+          ],
+          "options": {
+            "feedback": "Incorrect. The Mona Lisa was painted during the Italian Renaissance by artist Leonardo DaVinci."
+          }
         },
         {
           "materiaType": "question",
@@ -58,8 +59,7 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/mario.jpg'%>"
-                },
-                "feedback": "Super Mario 64 was released in 1996 for the Nintendo 64."
+                }
               }
             },
             {
@@ -70,11 +70,13 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/wow.jpg'%>"
-                },
-                "feedback": "World of Warcraft was released in 2004."
+                }
               }
             }
-          ]
+          ],
+          "options": {
+            "feedback": ""
+          }
         },
         {
           "materiaType": "question",
@@ -94,8 +96,7 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/chance.jpg'%>"
-                },
-                "feedback": "This large yellow dog named Chance is a Labrador Retriever."
+                }
               }
             },
             {
@@ -106,11 +107,13 @@
                 "asset": {
                   "materiaType": "asset",
                   "id": "<%MEDIA='assets/img/demo/bogart.jpg'%>"
-                },
-                "feedback": "This small black and white dog named Bogart is not a Labrador Retriever."
+                }
               }
             }
-          ]
+          ],
+          "options": {
+            "feedback": ""
+          }
         },
         {
           "materiaType": "question",
@@ -149,7 +152,7 @@
             }
           ],
           "options": {
-            "feedback": "You are less likely to get rick rolled in a forest."
+            "feedback": ""
           }
         },
         {
@@ -171,8 +174,7 @@
                   "materiaType": "asset",
                   "value": "Io, Europa, Ganymede, Callisto",
                   "type": "text"
-                },
-                "feedback": "Io, Europa, Ganymede, Callisto are the four Galilean Moons of Jupiter."
+                }
               }
             },
             {
@@ -184,11 +186,13 @@
                   "materiaType": "asset",
                   "value": "Titan, Iapetus, Mimas, Enceladus",
                   "type": "text"
-                },
-                "feedback": "Titan, Iapetus, Mimas, Enceladus are moons of Saturn."
+                }
               }
             }
-          ]
+          ],
+          "options": {
+            "feedback": ""
+          }
         }
       ]
     }

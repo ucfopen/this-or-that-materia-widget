@@ -128,6 +128,7 @@
 										ng-change="validation('change', currIndex); tutorialIncrement(4)"
 										ng-model="questions[currIndex].correct.alt"
 										ng-disabled="tutorial.step && tutorial.step < 4">
+
 								</ng-template>
 								<ng-template ng-if="questions[currIndex].correct.type === 'text'">
 									<div class="img-frame correct answer-full-height">
@@ -204,6 +205,13 @@
 										ng-model="questions[currIndex].correct.alt"
 										ng-disabled="tutorial.step && tutorial.step < 4" />
 								</ng-template>
+								<input type="text"
+										ng-if="questions[currIndex].correct.type != null"
+										placeholder="Optional feedback for a correct answer"
+										class="feedback"
+										ng-change="validation('change', currIndex); tutorialIncrement(5);"
+										ng-model="questions[currIndex].correct.options.feedback"
+										ng-disabled="tutorial.step && tutorial.step < 5">
 							</section>
 
 							<section class="frame-container right">
@@ -212,24 +220,24 @@
 								<div
 									ng-class="{ 'hidden': questions[currIndex].incorrect.type !== null }"
 									class="img-frame incorrect answer-types"
-									ng-disabled="tutorial.step && tutorial.step < 5">
+									ng-disabled="tutorial.step && tutorial.step < 6">
 									<button
-										ng-disabled="tutorial.step && tutorial.step < 5"
+										ng-disabled="tutorial.step && tutorial.step < 6"
 										ng-click="updateAnswerType('image', currIndex, INCORRECT)">
 										<span class="icon icon-image" aria-hidden="true"></span><span>image</span>
 									</button>
 									<button
-										ng-disabled="tutorial.step && tutorial.step < 5"
+										ng-disabled="tutorial.step && tutorial.step < 6"
 										ng-click="updateAnswerType('text', currIndex, INCORRECT)">
 										<span class="icon icon-pencil" aria-hidden="true"></span><span>text</span>
 									</button>
 									<button
-										ng-disabled="tutorial.step && tutorial.step < 5"
+										ng-disabled="tutorial.step && tutorial.step < 6"
 										ng-click="updateAnswerType('audio', currIndex, INCORRECT)">
 										<span class="icon icon-music" aria-hidden="true"></span><span>audio</span>
 									</button>
 									<button
-										ng-disabled="tutorial.step && tutorial.step < 5"
+										ng-disabled="tutorial.step && tutorial.step < 6"
 										ng-click="updateAnswerType('video', currIndex, INCORRECT)">
 										<span class="icon icon-play" aria-hidden="true"></span><span>video</span>
 									</button>
@@ -251,8 +259,8 @@
 								<ng-template ng-if="questions[currIndex].incorrect.type === 'image'">
 									<button class="img-frame incorrect"
 										aria-label="The incorrect image"
-										ng-click="requestImage(currIndex, INCORRECT); tutorialIncrement(6)"
-										ng-disabled="tutorial.step && tutorial.step < 6">
+										ng-click="requestImage(currIndex, INCORRECT); tutorialIncrement(7)"
+										ng-disabled="tutorial.step && tutorial.step < 7">
 										<img class="choice-img" ng-if="questions[currIndex].incorrect.value.length > 0" ng-src="{{questions[currIndex].incorrect.value}}" alt="{{questions[currIndex].incorrect.alt}}">
 										<span class="pre-upload" ng-if="!questions[currIndex].incorrect.value"><span class="icon icon-folder-upload" aria-hidden="true"></span>Click to upload or select an image file.</span>
 									</button>
@@ -267,9 +275,9 @@
 									<input type="text"
 										placeholder="Description for the incorrect image"
 										required
-										ng-change="validation('change', currIndex); tutorialIncrement(7)"
+										ng-change="validation('change', currIndex); tutorialIncrement(8)"
 										ng-model="questions[currIndex].incorrect.alt"
-										ng-disabled="tutorial.step && tutorial.step < 7">
+										ng-disabled="tutorial.step && tutorial.step < 8">
 								</ng-template>
 
 								<ng-template ng-if="questions[currIndex].incorrect.type === 'text'">
@@ -282,18 +290,18 @@
 										placeholder="Incorrect answer"
 										maxlength="412"
 										required
-										ng-change="validation('change', currIndex); tutorialIncrement(6); tutorialIncrement(7)"
+										ng-change="validation('change', currIndex); tutorialIncrement(7); tutorialIncrement(8)"
 										ng-model="questions[currIndex].incorrect.value"
 										ng-blur="questions[currIndex].incorrect.alt = questions[currIndex].incorrect.value"
-										ng-disabled="tutorial.step && tutorial.step < 6"></textarea>
+										ng-disabled="tutorial.step && tutorial.step < 7"></textarea>
 									</div>
 								</ng-template>
 
 								<ng-template ng-if="questions[currIndex].incorrect.type === 'audio'">
 									<button class="img-frame incorrect"
 										aria-label="The incorrect audio"
-										ng-click="requestAudio(currIndex, INCORRECT); tutorialIncrement(6)"
-										ng-disabled="tutorial.step && tutorial.step < 6">
+										ng-click="requestAudio(currIndex, INCORRECT); tutorialIncrement(7)"
+										ng-disabled="tutorial.step && tutorial.step < 7">
 										<div>
 											<figure ng-if="questions[currIndex].incorrect.value.length > 0">
 												<audio
@@ -317,9 +325,9 @@
 									<input type="text"
 										placeholder="Description for the incorrect audio"
 										required
-										ng-change="validation('change', currIndex); tutorialIncrement(7)"
+										ng-change="validation('change', currIndex); tutorialIncrement(8)"
 										ng-model="questions[currIndex].incorrect.alt"
-										ng-disabled="tutorial.step && tutorial.step < 7">
+										ng-disabled="tutorial.step && tutorial.step < 8">
 								</ng-template>
 
 								<ng-template ng-if="questions[currIndex].incorrect.type === 'video'">
@@ -328,10 +336,10 @@
 											class="answer-margin"
 											ng-class="{'valid' : questions[currIndex].incorrect.videoValid == true, 'invalid': questions[currIndex].incorrect.videoValid == false}"
 											placeholder="Enter a YouTube or Vimeo URL"
-											ng-change="tutorialIncrement(6); questions[currIndex].incorrect.videoValid = null"
+											ng-change="tutorialIncrement(7); questions[currIndex].incorrect.videoValid = null"
 											required
 											ng-model="questions[currIndex].incorrect.value"
-											ng-disabled="tutorial.step && tutorial.step < 6" />
+											ng-disabled="tutorial.step && tutorial.step < 7" />
 										<button class="video-submit" ng-click="questions[currIndex].incorrect.videoValid = true">Embed Video</button>
 										<iframe
 											ng-show="questions[currIndex].incorrect.videoValid == true"
@@ -343,18 +351,18 @@
 									<input type="text"
 										placeholder="Description for the incorrect video"
 										required
-										ng-change="validation('change', currIndex); tutorialIncrement(7)"
+										ng-change="validation('change', currIndex); tutorialIncrement(8)"
 										ng-model="questions[currIndex].incorrect.alt"
-										ng-disabled="tutorial.step && tutorial.step < 7" />
+										ng-disabled="tutorial.step && tutorial.step < 8" />
 								</ng-template>
 
 								<input type="text"
 										ng-if="questions[currIndex].incorrect.type != null"
 										placeholder="Optional feedback for an incorrect answer"
 										class="feedback"
-										ng-change="validation('change', currIndex); tutorialIncrement(8)"
-										ng-model="questions[currIndex].feedback"
-										ng-disabled="tutorial.step && tutorial.step < 8">
+										ng-change="validation('change', currIndex); tutorialIncrement(9)"
+										ng-model="questions[currIndex].incorrect.options.feedback"
+										ng-disabled="tutorial.step && tutorial.step < 9">
 							</section>
 						</div>
 
@@ -382,7 +390,7 @@
 				</button>
 
 				<div class="arrow-box"
-					ng-class="{ 'step1': tutorial.step == 1, 'step2': tutorial.step == 2, 'step3': tutorial.step == 3, 'step4': tutorial.step == 4, 'step5': tutorial.step == 5, 'step6': tutorial.step == 6, 'step7': tutorial.step == 7, 'step8 arrow-right': tutorial.step == 8 }"
+					ng-class="{ 'step1': tutorial.step == 1, 'step2': tutorial.step == 2, 'step3': tutorial.step == 3, 'step4': tutorial.step == 4, 'step5': tutorial.step == 5, 'step6': tutorial.step == 6, 'step7': tutorial.step == 7, 'step8': tutorial.step == 8, 'step9': tutorial.step == 9, 'step10 arrow-right': tutorial.step == 10}"
 					ng-show="tutorial.step">
 					{{tutorial.text[tutorial.step - 1]}}
 				</div>
@@ -402,15 +410,15 @@
 					class="rearrange-questions btn green"
 					aria-label="Rearrange Questions"
 					ng-click="dialog.rearrange = true"
-					ng-disabled="randomizeOrder || (tutorial.step && tutorial.step < 6) || questions.length < 2">
+					ng-disabled="randomizeOrder || (tutorial.step && tutorial.step < 10) || questions.length < 2">
 					Rearrange Questions
 				</button>
 				<button class="btn green"
 					id="add-question"
 					aria-label="Add Question"
 					ng-class="{'right': questions[0]}"
-					ng-click="addQuestion(); tutorialIncrement(7)"
-					ng-disabled="tutorial.step && tutorial.step < 7">
+					ng-click="addQuestion(); tutorialIncrement(10)"
+					ng-disabled="tutorial.step && tutorial.step < 10">
 					Add Question
 				</button>
 			</nav>
