@@ -864,6 +864,7 @@ body {
 			position: absolute;
 			top: 5px;
 			right: 5px;
+			z-index: 800;
 
 			width: 30px;
 			height: 30px;
@@ -896,15 +897,15 @@ body {
 		.lightbox-image-container {
 			height: calc(100% - 20px);
 			margin-top: 10px;
-			margin-left: 10px;
 			overflow: auto;
 		}
 
 		.lightbox-image {
-			height: calc(100% - 20px);
+			max-width: calc(100% - 20px);
+			max-height: calc(100% - 20px);
 			position: relative;
 			display: block;
-			margin: 20px auto 0 auto;
+			margin: 10px auto 0 auto;
 		}
 
 		.lightbox-image:hover {
@@ -913,6 +914,7 @@ body {
 
 		.lightbox-image-zoom {
 			width: calc(100% - 20px);
+			object-fit: cover;
 			height: auto;
 		}
 
