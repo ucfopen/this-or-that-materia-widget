@@ -63,7 +63,7 @@
 									<span>{{answers[0].options.asset.value}}</span>
 								</div>
 							</button>
-							<!-- the div version of the frame: for audio and video and images-->
+							<!-- the div version of the frame: for images, audio and video -->
 							<div class="content-frame"
 								ng-if="answers[0].options.asset.type === 'audio' || answers[0].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
 								data-title="{{answers[0].text}}">
@@ -81,7 +81,7 @@
 								<section class="video-frame" ng-if="answers[0].options.asset.type === 'video'">
 									<iframe class="choice choice-video"  width="100%" height="10%" ng-src="{{ answers[0].options.asset.value }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
 								</section>
-								<button class="video-expand-into-lightbox" ng-if="answers[0].options.asset.type === 'video'" ng-click="setLightboxTarget(0)"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
+								<button class="video-expand-into-lightbox" ng-if="answers[0].options.asset.type === 'video'" ng-click="setLightboxTarget(0)" ng-disabled="question.selected"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
 								<button
 									class="submit-selected"
 									ng-if="answers[0].options.asset.type === 'video' || answers[0].options.asset.type === 'audio'"
@@ -91,7 +91,7 @@
 									ng-focus="hands.thisRaised = true"
 									ng-blur="hands.thisRaised = false"
 									ng-disabled="question.selected">Select</button>
-								<img
+								<button
 									ng-if="answers[0].options.asset.type === 'image'"
 									ng-click="!question.selected && checkChoice(0)"
 									ng-mouseenter="hands.thisRaised = true"
@@ -99,10 +99,12 @@
 									ng-focus="hands.thisRaised = true"
 									ng-blur="hands.thisRaised = false"
 									ng-disabled="question.selected"
-									class="choice choice-img"
-									ng-src="{{answers[0].options.asset.value}}"
-									alt="{{answers[0].text}}">
-								<button class="image-expand-into-lightbox" ng-if="answers[0].options.asset.type === 'image'" ng-click="setLightboxTarget(0)"><span class="icon icon-enlarge" aria-hidden="true"></span></button>
+									class="choice choice-img">
+									<img
+										ng-src="{{answers[0].options.asset.value}}"
+										alt="{{answers[0].text}}" />
+									</button>
+								<button class="image-expand-into-lightbox" ng-if="answers[0].options.asset.type === 'image'" ng-click="setLightboxTarget(0)" ng-disabled="question.selected"><span class="icon icon-enlarge" aria-hidden="true"></span></button>
 							</div>
 						</div>
 					</div>
@@ -111,7 +113,7 @@
 						ng-class="{'raised': gameState.ingame, 'lowered': question.transition}">
 						<div class="background-stand right" aria-hidden="true"></div>
 						<div class="frame-wrapper" ng-class="{'correct': question.correct[1] == 'Correct!', 'incorrect': question.correct[1] == 'Incorrect'}">
-							<!-- the button version of the frame: for images and text -->
+							<!-- the button version of the frame: for text -->
 							<button class="content-frame"
 								ng-if="answers[1].options.asset.type === 'text'"
 								ng-click="checkChoice(1)"
@@ -128,7 +130,7 @@
 									<span>{{answers[1].options.asset.value}}</span>
 								</div>
 							</button>
-							<!-- the div version of the frame: for audio and video -->
+							<!-- the div version of the frame: for images, audio and video -->
 							<div class="content-frame"
 								ng-if="answers[1].options.asset.type === 'audio' || answers[1].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
 								data-title="{{answers[1].text}}">
@@ -146,7 +148,7 @@
 								<section class="video-frame" ng-if="answers[1].options.asset.type === 'video'">
 									<iframe class="choice choice-video"  width="100%" height="10%" ng-src="{{ answers[1].options.asset.value }}" frameborder="0" allowfullscreen></iframe>
 								</section>
-								<button class="video-expand-into-lightbox" ng-if="answers[1].options.asset.type === 'video'" ng-click="setLightboxTarget(1)"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
+								<button class="video-expand-into-lightbox" ng-if="answers[1].options.asset.type === 'video'" ng-click="setLightboxTarget(1)" ng-disabled="question.selected"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
 								<button
 									class="submit-selected"
 									ng-if="answers[1].options.asset.type === 'video' || answers[1].options.asset.type === 'audio'"
@@ -156,17 +158,20 @@
 									ng-focus="hands.thisRaised = true"
 									ng-blur="hands.thisRaised = false"
 									ng-disabled="question.selected">Select</button>
-								<img
+								<button
 									ng-if="answers[1].options.asset.type === 'image'"
 									ng-click="!question.selected && checkChoice(1)"
-									ng-mouseenter="hands.thisRaised = true"
-									ng-mouseleave="hands.thisRaised = false"
-									ng-focus="hands.thisRaised = true"
-									ng-blur="hands.thisRaised = false"
+									ng-mouseenter="hands.thatRaised = true"
+									ng-mouseleave="hands.thatRaised = false"
+									ng-focus="hands.thatRaised = true"
+									ng-blur="hands.thatRaised = false"
 									class="choice choice-img"
-									ng-src="{{answers[1].options.asset.value}}"
-									alt="{{answers[1].text}}">
-								<button class="image-expand-into-lightbox" ng-if="answers[1].options.asset.type === 'image'" ng-click="setLightboxTarget(1)"><span class="icon icon-enlarge" aria-hidden="true"></span></button>
+									ng-disabled="question.selected">
+									<img
+										ng-src="{{answers[1].options.asset.value}}"
+										alt="{{answers[1].text}}" />
+								</button>
+								<button class="image-expand-into-lightbox" ng-if="answers[1].options.asset.type === 'image'" ng-click="setLightboxTarget(1)" ng-disabled="question.selected"><span class="icon icon-enlarge" aria-hidden="true"></span></button>
 							</div>
 						</div>
 					</div>
