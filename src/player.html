@@ -155,8 +155,8 @@
 									ng-click="checkChoice(1)"
 									ng-mouseenter="hands.thatRaised = true"
 									ng-mouseleave="hands.thatRaised = false"
-									ng-focus="hands.thisRaised = true"
-									ng-blur="hands.thisRaised = false"
+									ng-focus="hands.thatRaised = true"
+									ng-blur="hands.thatRaised = false"
 									ng-disabled="question.selected">Select</button>
 								<button
 									ng-if="answers[1].options.asset.type === 'image'"
