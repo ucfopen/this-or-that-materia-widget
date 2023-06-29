@@ -109,7 +109,7 @@ export const checkChoice = ($scope, value) => {
 		case 0:
 			$scope.question.correct[value] = 'Incorrect'
 			$scope.answers[value].options.feedback = _feedback || (curItem.options && curItem.options.feedback ? curItem.options.feedback : '')
-			assistiveAlert("Your selection was inco " + _feedback)
+			assistiveAlert("Your selection was incorrect. " + _feedback)
 			break
 
 		case 100:
@@ -155,6 +155,7 @@ export const nextClicked = ($scope, $timeout) => {
 
 export const closeIntro = $scope => {
 	$scope.gameState.ingame = true
+	assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
 }
 
 export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
@@ -189,6 +190,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.checkChoice = checkChoice.bind(null, $scope)
 	$scope.nextClicked = nextClicked.bind(null, $scope, $timeout)
 	$scope.closeIntro = closeIntro.bind(null, $scope)
+	$scope.selectedChoice = -1
 
 	$scope.lightboxTarget = -1
 
@@ -200,6 +202,10 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 
 	$scope.setLightboxZoom = (val) => {
 		$scope.lightboxZoom = val
+	}
+
+	$scope.selectChoice = (val) => {
+		$scope.selectedChoice = val;
 	}
 
 	$scope.getAdjustedTextSize = (text) => {

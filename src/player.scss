@@ -255,6 +255,11 @@ body {
 			}
 		}
 	}
+
+	#instructions {
+		position: absolute;
+		opacity: 0;
+	}
 }
 
 #choices {
