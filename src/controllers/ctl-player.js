@@ -79,8 +79,7 @@ export const showNextQuestion = $scope => {
 
 		$scope.question.selected = false
 		$scope.question.transition = false
-
-		$scope.selectChoice(0)
+		$scope.selectedChoice = -1
 	} else {
 		endGame($scope)
 	}
@@ -149,7 +148,7 @@ export const nextClicked = ($scope, $timeout) => {
 	$scope.hands.thisRaised = false
 	$scope.hands.thatRaised = false
 
-	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert("Now on question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text)
+	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert("Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text)
 	else assistiveAlert("You have completed every question")
 
 	$timeout(showNextQuestion.bind(null, $scope), 1000)
@@ -158,7 +157,6 @@ export const nextClicked = ($scope, $timeout) => {
 export const closeIntro = $scope => {
 	$scope.gameState.ingame = true
 	assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
-	$scope.selectChoice(0)
 }
 
 export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
@@ -166,7 +164,8 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 		ingame: false,
 		endgame: false,
 		score: 0,
-		showNext: false
+		showNext: false,
+		splashtext: "This or That"
 	}
 
 	$scope.question = {
