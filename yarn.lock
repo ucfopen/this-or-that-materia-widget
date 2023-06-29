@@ -6283,7 +6283,12 @@ next-tick@^1.1.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
 
-"ngmodal@github:ucfcdl/ngModal#v1.2.2":
+ng-focus-if@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/ng-focus-if/-/ng-focus-if-1.0.7.tgz#79945fd4b6c97f329aec8fa7ca43ffa456e49bc7"
+  integrity sha512-08B1VbPx9U8pegnhk3SDelOGNil3X+gDHqdefDIJLzaxomKR7Dom12HcJ/U4ur2ody2yeXWmXgb2zT8nkMaSGQ==
+
+ngmodal@ucfcdl/ngModal#v1.2.2:
   version "1.2.2"
   resolved "https://codeload.github.com/ucfcdl/ngModal/tar.gz/6abad982bdb8f258ffcdc20316a907c2292399d2"
 

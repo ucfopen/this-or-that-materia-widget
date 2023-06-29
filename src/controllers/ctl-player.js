@@ -109,13 +109,13 @@ export const checkChoice = ($scope, value) => {
 		case 0:
 			$scope.question.correct[value] = 'Incorrect'
 			$scope.answers[value].options.feedback = _feedback || (curItem.options && curItem.options.feedback ? curItem.options.feedback : '')
-			assistiveAlert("Your selection was incorrect.")
+			assistiveAlert("Your selection was inco " + _feedback)
 			break
 
 		case 100:
 			$scope.question.correct[value] = 'Correct!'
 			$scope.answers[value].options.feedback = _feedback || ''
-			assistiveAlert("Your selection was correct.")
+			assistiveAlert("Your selection was correct. " + _feedback)
 			break
 	}
 
