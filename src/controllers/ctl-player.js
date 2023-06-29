@@ -147,7 +147,7 @@ export const nextClicked = ($scope, $timeout) => {
 	$scope.hands.thisRaised = false
 	$scope.hands.thatRaised = false
 
-	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert("Now on question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
+	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert("Now on question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text)
 	else assistiveAlert("You have completed every question")
 
 	$timeout(showNextQuestion.bind(null, $scope), 1000)

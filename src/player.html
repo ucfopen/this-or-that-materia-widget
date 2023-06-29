@@ -41,7 +41,7 @@
 				<h1 id="question" ng-bind-html="title"></h1>
 
 				<!-- Holds ThisOrThat -->
-				<div id="choices" inert="{{lightboxTarget != -1 || gameState.endgame ? 'true' : undefined}}" ng-hide="gameState.endgame" autofocus>
+				<div id="choices" inert="{{lightboxTarget != -1 || gameState.endgame ? 'true' : undefined}}" ng-hide="gameState.endgame">
 					<!-- LEFT -->
 					<div class="stand-container for-this"
 						ng-class="{'raised': gameState.ingame, 'lowered': question.transition}">
