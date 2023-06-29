@@ -28,8 +28,7 @@
 	</head>
 	<body>
 		<main id="game" role="main"
-		ng-select-this="selectChoice(0)"
-		ng-select-that="selectChoice(1)">
+		ng-keydown="selectChoice($event)">
 
 			<!-- aria-live region to report status updates -->
 			<!-- note: browser support for aria-live is mixed, behavior may be inconsistent across browsers and devices -->

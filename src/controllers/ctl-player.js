@@ -79,6 +79,8 @@ export const showNextQuestion = $scope => {
 
 		$scope.question.selected = false
 		$scope.question.transition = false
+
+		$scope.selectChoice(0)
 	} else {
 		endGame($scope)
 	}
@@ -156,6 +158,7 @@ export const nextClicked = ($scope, $timeout) => {
 export const closeIntro = $scope => {
 	$scope.gameState.ingame = true
 	assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
+	$scope.selectChoice(0)
 }
 
 export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
@@ -204,8 +207,16 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 		$scope.lightboxZoom = val
 	}
 
-	$scope.selectChoice = (val) => {
-		$scope.selectedChoice = val;
+	$scope.selectChoice = (event) => {
+		if ($scope.gameState.ingame)
+		{
+			if (event.key == 'q' || event.key == 'Q') {
+				$scope.selectedChoice = 0;
+			}
+			else if (event.key == 'e' || event.key == 'E') {
+				$scope.selectedChoice = 1;
+			}
+		}
 	}
 
 	$scope.getAdjustedTextSize = (text) => {
