@@ -201,22 +201,6 @@ body {
 
 		transition: margin ease 1s;
 
-		.sign-stand {
-			position: absolute;
-			left: 50%;
-			bottom: 0;
-
-			background-image: url('assets/img/sprites.png');
-			background-position: -67px -146px, center top;
-			background-repeat: no-repeat;
-
-			height: 500px;
-			margin-left: -30px;
-			width: 60px;
-
-			z-index: 0;
-		}
-
 		h1 {
 			position: relative;
 
@@ -256,6 +240,29 @@ body {
 				display: inline-block;
 			}
 		}
+	}
+
+	.sign-stand {
+		position: absolute;
+		left: 50%;
+		bottom: 0;
+
+		background-image: url('assets/img/sprites.png');
+		background-position: -67px -146px, center top;
+		background-repeat: no-repeat;
+
+		height: 500px;
+		margin-left: -30px;
+		width: 60px;
+
+		z-index: 0;
+	}
+
+	#aria-label {
+		position: absolute;
+		opacity: 0;
+		height: 0;
+		width: 0;
 	}
 
 	#instructions {

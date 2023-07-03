@@ -90,6 +90,7 @@ export const endGame = $scope => {
 	$scope.gameState.endgame = true
 	Materia.Engine.end(false)
 	$scope.title = ''
+	$scope.continueToScores = true
 	$scope.$apply()
 }
 
@@ -149,14 +150,13 @@ export const nextClicked = ($scope, $timeout) => {
 	$scope.hands.thatRaised = false
 
 	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert("Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text)
-	else assistiveAlert("You have completed every question")
 
 	$timeout(showNextQuestion.bind(null, $scope), 1000)
 }
 
 export const closeIntro = $scope => {
 	$scope.gameState.ingame = true
-	assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
+	assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current].questions[0].text)
 }
 
 export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
@@ -195,9 +195,45 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.selectedChoice = -1
 
 	$scope.lightboxTarget = -1
+	$scope.focusThisExpand = false
+	$scope.focusThatExpand = false
 
+	$scope.pressedQOnce = false
+
+	// Opens or closes the image lightbox
+	// Values of val:
+	// ---- 0  : open image for "this" option
+	// ---- 1  : open image for "that" option
+	// ---- -1 : close image
 	$scope.setLightboxTarget = (val) => {
-		$scope.lightboxTarget = val
+		// Open the lightbox
+		if (val == 0 || val == 1)
+		{
+			assistiveAlert("Viewing image.")
+			$scope.lightboxTarget = val
+		}
+		// Close the lightbox
+		else
+		{
+			assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
+			// If image for "this" option is currently open, focus "this" option's expand image button
+			if ($scope.lightboxTarget == 0)
+			{
+				$scope.focusThisExpand = true
+				setTimeout(() => {
+					$scope.focusThisExpand = false
+				}, 1000)
+			}
+			// Else focus "that" option's expand image button
+			else if ($scope.lightboxTarget == 1)
+			{
+				$scope.focusThatExpand = true
+				setTimeout(() => {
+					$scope.focusThatExpand = false
+				}, 1000)
+			}
+			$scope.lightboxTarget = -1
+		}
 	}
 
 	$scope.lightboxZoom = 0
@@ -209,11 +245,26 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.selectChoice = (event) => {
 		if ($scope.gameState.ingame)
 		{
-			if (event.key == 'q' || event.key == 'Q') {
+			// Focus this
+			if (event.key == 'a' || event.key == 'A') {
 				$scope.selectedChoice = 0;
 			}
-			else if (event.key == 'e' || event.key == 'E') {
+			// Focus that
+			else if (event.key == 'd' || event.key == 'D') {
 				$scope.selectedChoice = 1;
+			}
+			// Read question info, toggle between question number and title
+			// so that screenreader detects a change in the aria-live region
+			else if (event.key == 'q' || event.key == 'Q') {
+				if (!$scope.pressedQOnce)
+				{
+					assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
+					$scope.pressedQOnce = true
+				}
+				else {
+					assistiveAlert(_qset.items[$scope.question.current].questions[0].text)
+					$scope.pressedQOnce = false
+				}
 			}
 		}
 	}
