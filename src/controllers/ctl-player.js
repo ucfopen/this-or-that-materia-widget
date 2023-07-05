@@ -148,8 +148,11 @@ export const nextClicked = ($scope, $timeout) => {
 	$scope.question.transition = true
 	$scope.hands.thisRaised = false
 	$scope.hands.thatRaised = false
+	$scope.reachedFocusEnd = true
 
 	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert("Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text)
+	else
+	assistiveAlert("You have completed every question.")
 
 	$timeout(showNextQuestion.bind(null, $scope), 1000)
 }
@@ -197,6 +200,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.lightboxTarget = -1
 	$scope.focusThisExpand = false
 	$scope.focusThatExpand = false
+	$scope.resetFocus = false;
 
 	$scope.pressedQOnce = false
 

@@ -271,6 +271,12 @@ body {
 	}
 }
 
+#focus-start, #focus-end {
+	width: 0;
+	height: 0;
+	position: absolute;
+}
+
 #choices {
 	display: flex;
 	width: 750px;

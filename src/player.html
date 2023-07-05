@@ -41,15 +41,13 @@
 
 					<p id="instructions" aria-hidden="{{gameState.endgame}}">Controls (optional): Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.</p>
 
-					<p id="aria-label" ng-if="gameState.endgame">You have completed every question.</p>
-
 					<button class="start btn"
 						ng-click="closeIntro()"
 						aria-hidden="{{gameState.endgame}}"
 						ng-attr-inert="{{gameState.endgame? 'true' : undefined}}">Start!</button>
 					<button class="reset btn"
 						ng-click="viewScores()" ng-attr-inert="{{!gameState.endgame ? 'true' : undefined}}"
-						aria-hidden="{{!gameState.endgame}}" focus-me="{{continueToScores}}">Continue to scores</button>
+						aria-hidden="{{!gameState.endgame}}" focus-me="continueToScores">Continue to scores</button>
 				</div>
 			</div>
 
@@ -58,6 +56,9 @@
 				<div class="side-curtain upper right" aria-hidden="true"></div>
 				<div class="side-curtain lower left" aria-hidden="true"></div>
 				<div class="side-curtain lower right" aria-hidden="true"></div>
+
+				<div tabindex="{{resetFocus ? 0 : -1}}" id="focus-start" focus-me="resetFocus == true" ng-focus="resetFocus = false"></div>
+
 				<h1 id="question" ng-bind-html="title"></h1>
 
 				<!-- Holds ThisOrThat -->
@@ -248,6 +249,8 @@
 						ng-click="nextClicked()"
 						focus-me="question.selected">Next</button>
 				</div>
+
+				<div tabindex="0" id="focus-end" focus-me="reachedFocusEnd" ng-focus="resetFocus = true; reachedFocusEnd = false;"></div>
 			</section>
 			<section class="lightbox" ng-class="{ 'show': lightboxTarget >= 0}" ng-hide="lightboxTarget == -1" aria-modal="true">
 				<div class="lightbox-content">
@@ -257,7 +260,7 @@
 						<img role="img" class="lightbox-image" ng-src="{{answers[lightboxTarget].options.asset.value}}" alt="{{answers[lightboxTarget].text}}" ng-class="{'lightbox-image-zoom': lightboxZoom == 1}" ng-click="setLightboxZoom(!lightboxZoom)">
 					</div>
 				</div>
-				<div class='modal-bg' ng-click="setLightboxTarget(-1)" aria-hidden="true" tab-index="-1">
+				<div class='modal-bg' ng-click="setLightboxTarget(-1)" aria-hidden="true" tabindex="-1">
 				</div>
 			</section>
 		</main>
