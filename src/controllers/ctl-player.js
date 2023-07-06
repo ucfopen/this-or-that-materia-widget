@@ -169,7 +169,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 		endgame: false,
 		score: 0,
 		showNext: false,
-		splashtext: "This or That"
+		splashText: "This or That"
 	}
 
 	$scope.question = {

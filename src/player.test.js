@@ -125,7 +125,8 @@ describe('Player Controller', function() {
 			ingame: false,
 			endgame: false,
 			score: 0,
-			showNext: false
+			showNext: false,
+			splashText: "This or That"
 		}
 
 		expect($scope.gameState).toEqual(gameState)
@@ -291,7 +292,8 @@ describe('Player Controller', function() {
 			ingame: false,
 			endgame: true,
 			score: 0,
-			showNext: false
+			showNext: false,
+			splashText: "This or That"
 		}
 
 		expect($scope.question.current).toBe(numberQuestions)
