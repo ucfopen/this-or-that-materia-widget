@@ -219,7 +219,11 @@ body {
 		}
 
 		.reset {
-			display: none;
+			opacity: 0;
+
+			&.end {
+				opacity: 1;
+			}
 		}
 
 		&.raised {

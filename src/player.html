@@ -36,18 +36,30 @@
 			<div id="splash" ng-class="{'raised': gameState.ingame}">
 				<div class="sign-stand" aria-hidden="true"></div>
 
-				<div class="sign" ng-class="{'raised': gameState.ingame, 'end': gameState.endgame}" role="{{gameState.endgame ? 'alertdialog' : 'dialog'}}" aria-describedby="instructions" aria-modal="true" ng-hide="gameState.ingame" aria-hidden="{{gameState.ingame}}" ng-attr-inert="{{gameState.ingame ? 'true' : undefined }}">
-					<h1 id="splashText" aria-hidden="{{gameState.endgame}}">{{gameState.splashtext}}</h1>
+				<div
+					class="sign"
+					ng-class="{'raised': gameState.ingame, 'end': gameState.endgame}"
+					role="{{gameState.endgame ? 'alertdialog' : 'dialog'}}"
+					aria-describedby="instructions"
+					aria-modal="true"
+					aria-hidden="{{gameState.ingame}}"
+					ng-attr-inert="{{gameState.ingame ? 'true' : undefined }}">
 
-					<p id="instructions" aria-hidden="{{gameState.endgame}}">Controls (optional): Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.</p>
+					<h1 id="splashText" aria-hidden="{{gameState.endgame || gameState.ingame}}">{{gameState.splashtext}}</h1>
+
+					<p id="instructions" aria-hidden="{{gameState.endgame || gameState.ingame}}">Controls (optional): Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.</p>
 
 					<button class="start btn"
 						ng-click="closeIntro()"
-						aria-hidden="{{gameState.endgame}}"
-						ng-attr-inert="{{gameState.endgame? 'true' : undefined}}">Start!</button>
+						aria-hidden="{{gameState.endgame || gameState.ingame }}"
+						ng-attr-inert="{{gameState.endgame || gameState.ingame ? 'true' : undefined}}"
+						ng-hide="gameState.endgame || gameState.ingame">Start!</button>
 					<button class="reset btn"
-						ng-click="viewScores()" ng-attr-inert="{{!gameState.endgame ? 'true' : undefined}}"
-						aria-hidden="{{!gameState.endgame}}" focus-me="continueToScores || gameState.endgame">Continue to scores</button>
+						ng-class="{'end': gameState.endgame}"
+						ng-click="viewScores()"
+						ng-attr-inert="{{!gameState.endgame ? 'true' : undefined}}"
+						aria-hidden="{{!gameState.endgame}}"
+						focus-me="continueToScores || gameState.endgame">Continue to scores</button>
 				</div>
 			</div>
 
@@ -242,12 +254,13 @@
 						ng-class="{'raised': hands.thatRaised || question.choice == 1, 'correct': question.correct[1] == 'Correct!', 'incorrect': question.correct[1] == 'Incorrect'}"></div>
 				</div>
 
-				<div id="next-container" ng-class="{'raised': gameState.showNext}" ng-attr-inert="{{!gameState.showNext || lightboxTarget >= 0 ? 'true' : undefined}}" aria-hidden="{{!gameState.showNext || lightboxTarget >= 0}}">
+				<div id="next-container" ng-class="{'raised': gameState.showNext}" aria-hidden="{{!gameState.showNext || lightboxTarget >= 0}}">
 					<div class="background-stand" aria-hidden="true"></div>
 					<button class="btn"
 						id="next"
 						ng-click="nextClicked()"
-						focus-me="gameState.showNext">Next</button>
+						focus-me="gameState.showNext"
+						ng-attr-inert="{{!gameState.showNext || lightboxTarget >= 0 ? 'true' : undefined}}">Next</button>
 				</div>
 
 				<div tabindex="0" id="focus-end" focus-me="reachedFocusEnd" ng-focus="resetFocus = true; reachedFocusEnd = false;"></div>

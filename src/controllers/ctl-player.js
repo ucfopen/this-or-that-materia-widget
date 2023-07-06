@@ -149,7 +149,6 @@ export const nextClicked = ($scope, $timeout) => {
 	$scope.hands.thisRaised = false
 	$scope.hands.thatRaised = false
 	$scope.reachedFocusEnd = true
-	console.log('hi')
 
 	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert("Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text)
 	else
@@ -160,6 +159,7 @@ export const nextClicked = ($scope, $timeout) => {
 
 export const closeIntro = $scope => {
 	$scope.gameState.ingame = true
+	$scope.resetFocus = true
 	assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current].questions[0].text)
 }
 
