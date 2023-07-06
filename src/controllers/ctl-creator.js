@@ -198,13 +198,19 @@ export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, Creator
 		}
 	}
 
+	const _copyQuestion = function(original) {
+		let newQuestion = angular.copy(original)
+		newQuestion.id = null // force the question ID to be null in case an ID has already been provisioned
+		return newQuestion
+	}
+
 	// View actions
 	$scope.duplicate = function(index) {
 		if ($scope.questions.length < 50) {
 			$scope.actions.add = true
 			$timeout(_noTransition, 660, true)
 
-			$timeout(() => _updateIndex('add', angular.copy($scope.questions[index])), 200, true)
+			$timeout(() => _updateIndex('add', _copyQuestion($scope.questions[index])), 200, true)
 		}
 	}
 

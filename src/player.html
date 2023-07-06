@@ -206,10 +206,10 @@
 									ng-click="checkChoice(1)"
 									ng-mouseenter="hands.thatRaised = true"
 									ng-mouseleave="hands.thatRaised = false"
-									ng-focus="hands.thisRaised = true"
+									ng-focus="hands.thatRaised = true"
 									aria-label="{{answers[1].text}}"
 									focus-me="selectedChoice == 1"
-									ng-blur="hands.thisRaised = false" aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+									ng-blur="hands.thatRaised = false" aria-hidden="{{question.selected || lightboxTarget >= 0}}"
 									ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}">Select</button>
 								<button
 									ng-if="answers[1].options.asset.type === 'image'"
