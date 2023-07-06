@@ -27,11 +27,11 @@
 		<script src="player.js"></script>
 	</head>
 	<body>
-		<main id="game" role="main">
 
-			<!-- aria-live region to report status updates -->
-			<!-- note: browser support for aria-live is mixed, behavior may be inconsistent across browsers and devices -->
-			<div aria-live="assertive" role="status" id="assistive-alert" aria-atomic="true"></div>
+		<!-- aria-live region to report status updates -->
+		<!-- note: browser support for aria-live is mixed, behavior may be inconsistent across browsers and devices -->
+		<div aria-live="assertive" role="status" id="assistive-alert" aria-atomic="true"></div>
+		<main id="game" role="main">
 
 			<div id="splash" ng-class="{'raised': gameState.ingame}">
 				<div class="sign-stand" aria-hidden="true"></div>
@@ -47,7 +47,7 @@
 						ng-attr-inert="{{gameState.endgame? 'true' : undefined}}">Start!</button>
 					<button class="reset btn"
 						ng-click="viewScores()" ng-attr-inert="{{!gameState.endgame ? 'true' : undefined}}"
-						aria-hidden="{{!gameState.endgame}}" focus-me="continueToScores">Continue to scores</button>
+						aria-hidden="{{!gameState.endgame}}" focus-me="continueToScores || gameState.endgame">Continue to scores</button>
 				</div>
 			</div>
 
@@ -247,7 +247,7 @@
 					<button class="btn"
 						id="next"
 						ng-click="nextClicked()"
-						focus-me="question.selected">Next</button>
+						focus-me="gameState.showNext">Next</button>
 				</div>
 
 				<div tabindex="0" id="focus-end" focus-me="reachedFocusEnd" ng-focus="resetFocus = true; reachedFocusEnd = false;"></div>

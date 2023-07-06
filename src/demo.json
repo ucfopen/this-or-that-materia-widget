@@ -144,13 +144,11 @@
                   "materiaType": "asset",
                   "value": "https://www.youtube.com/embed/dQw4w9WgXcQ",
                   "type": "video"
-                }
+                },
+                "feedback": "You are less likely to get rick rolled in a forest."
               }
             }
-          ],
-          "options": {
-            "feedback": "You are less likely to get rick rolled in a forest."
-          }
+          ]
         },
         {
           "materiaType": "question",

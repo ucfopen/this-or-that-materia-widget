@@ -672,7 +672,7 @@ body {
 	right: 40px;
 
 	bottom: 100px;
-	display: none;
+	opacity: 0;
 	height: 75px;
 	width: 95px;
 
@@ -683,6 +683,7 @@ body {
 		//animation-fill: forwards;
 		bottom: 0;
 		display: block;
+		opacity: 1;
 	}
 
 	.background-stand {
