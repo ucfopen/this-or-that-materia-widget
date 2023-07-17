@@ -99,6 +99,9 @@ export const viewScores = () => {
 }
 
 export const checkChoice = ($scope, value) => {
+	if ($scope.question.selected)
+		return;
+
 	// value is 0 or 1
 	//get the id, value, and text of the chosen answer
 	const curItem = _qset.items[$scope.question.current]
@@ -151,10 +154,8 @@ export const nextClicked = ($scope, $timeout) => {
 	$scope.reachedFocusEnd = true
 
 	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert("Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text)
-	else
-	assistiveAlert("You have completed every question.")
 
-	$timeout(showNextQuestion.bind(null, $scope), 1000)
+	$timeout(showNextQuestion.bind(null, $scope), 1200)
 }
 
 export const closeIntro = $scope => {
@@ -204,6 +205,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.resetFocus = false;
 
 	$scope.pressedQOnce = false
+	$scope.pressedH = false
 
 	// Opens or closes the image lightbox
 	// Values of val:
@@ -258,18 +260,32 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 			else if (event.key == 'd' || event.key == 'D') {
 				$scope.selectedChoice = 1;
 			}
-			// Read question info, toggle between question number and title
+			// Read question info, have two descriptions that are identical except for two colons in second one
 			// so that screenreader detects a change in the aria-live region
 			else if (event.key == 'q' || event.key == 'Q') {
 				if (!$scope.pressedQOnce)
 				{
-					assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
+					assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current].questions[0].text)
 					$scope.pressedQOnce = true
 				}
 				else {
-					assistiveAlert(_qset.items[$scope.question.current].questions[0].text)
+					assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ":: " + _qset.items[$scope.question.current].questions[0].text)
 					$scope.pressedQOnce = false
 				}
+			}
+			else if (event.key == 'h' || event.key == 'H') {
+				// Since aria-live is only read if there's a change in text, there are two descriptions so that if H is pressed more than one time, it will still be read out.
+				if ($scope.pressedH)
+				{
+					assistiveAlert("Controls: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")
+					$scope.pressedH = false
+				}
+				else
+				{
+					assistiveAlert("Keyboard Controls: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")
+					$scope.pressedH = true
+				}
+
 			}
 		}
 	}

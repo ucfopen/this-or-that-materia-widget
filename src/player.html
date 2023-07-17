@@ -40,25 +40,26 @@
 					class="sign"
 					ng-class="{'raised': gameState.ingame, 'end': gameState.endgame}"
 					role="{{gameState.endgame ? 'alertdialog' : 'dialog'}}"
-					aria-describedby="instructions"
+					aria-describedby="start-btn"
 					aria-modal="true"
 					aria-hidden="{{gameState.ingame}}"
 					ng-attr-inert="{{gameState.ingame ? 'true' : undefined }}">
 
 					<h1 id="splashText" aria-hidden="{{gameState.endgame || gameState.ingame}}">{{gameState.splashText}}</h1>
 
-					<p id="instructions" aria-hidden="{{gameState.endgame || gameState.ingame}}">Controls (optional): Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.</p>
-
 					<button class="start btn"
+						id="start-btn"
 						ng-click="closeIntro()"
 						aria-hidden="{{gameState.endgame || gameState.ingame }}"
 						ng-attr-inert="{{gameState.endgame || gameState.ingame ? 'true' : undefined}}"
+						aria-label="Start button. Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press H to hear the controls. You may also navigate using your screen reader's dedicated key bindings or tab key."
 						ng-hide="gameState.endgame || gameState.ingame">Start!</button>
 					<button class="reset btn"
 						ng-class="{'end': gameState.endgame}"
 						ng-click="viewScores()"
 						ng-attr-inert="{{!gameState.endgame ? 'true' : undefined}}"
 						aria-hidden="{{!gameState.endgame}}"
+						aria-label="You have completed every question. Continue to scores."
 						focus-me="continueToScores || gameState.endgame">Continue to scores</button>
 				</div>
 			</div>

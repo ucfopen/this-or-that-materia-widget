@@ -404,4 +404,22 @@ describe('Player Controller', function() {
 		publicMethods.start(widgetInfo, qset.data)
 		expect(Math.random).not.toHaveBeenCalled()
 	})
+
+	test('should select this or that on key presses', () => {
+		$scope.gameState.ingame = true
+		$scope.pressedQOnce = false
+		//dispatchEvent(new Event('keydown', { 'key': 'a'}));
+		$scope.selectChoice({key: 'a'})
+		expect($scope.selectedChoice).toBe(0);
+		$scope.selectChoice({key: 'A'})
+		expect($scope.selectedChoice).toBe(0);
+		$scope.selectChoice({key: 'd'})
+		expect($scope.selectedChoice).toBe(1);
+		$scope.selectChoice({key: 'D'})
+		expect($scope.selectedChoice).toBe(1);
+		// $scope.selectChoice({key: 'q'})
+		// expect($scope.pressedQOnce).toBe(true);
+		// $scope.selectChoice({key: 'Q'})
+		// expect($scope.pressedQOnce).toBe(false);
+	})
 })
