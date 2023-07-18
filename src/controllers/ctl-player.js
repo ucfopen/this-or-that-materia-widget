@@ -14,8 +14,8 @@ export const shuffleArray = array => {
 
 // helper function to update the aria-live status region
 // angular binding does not cooperate well with aria-live, so we update the DOM element directly instead
-export const assistiveAlert = (alert) => {
-	if (document.getElementById('assistive-alert')) document.getElementById('assistive-alert').innerHTML = alert
+export const assistiveAlert = ($scope, alert) => {
+	$scope.assistiveAlertText = alert
 }
 
 export const getAllAnswerChoices = ($sce, _qset) => {
@@ -114,13 +114,13 @@ export const checkChoice = ($scope, value) => {
 		case 0:
 			$scope.question.correct[value] = 'Incorrect'
 			$scope.answers[value].options.feedback = _feedback || (curItem.options && curItem.options.feedback ? curItem.options.feedback : '')
-			assistiveAlert("Your selection was incorrect. " + _feedback)
+			assistiveAlert($scope, "Your selection was incorrect. " + _feedback)
 			break
 
 		case 100:
 			$scope.question.correct[value] = 'Correct!'
 			$scope.answers[value].options.feedback = _feedback || ''
-			assistiveAlert("Your selection was correct. " + _feedback)
+			assistiveAlert($scope, "Your selection was correct. " + _feedback)
 			break
 	}
 
@@ -153,7 +153,7 @@ export const nextClicked = ($scope, $timeout) => {
 	$scope.hands.thatRaised = false
 	$scope.reachedFocusEnd = true
 
-	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert("Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text)
+	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert($scope, "Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text)
 
 	$timeout(showNextQuestion.bind(null, $scope), 1200)
 }
@@ -161,7 +161,7 @@ export const nextClicked = ($scope, $timeout) => {
 export const closeIntro = $scope => {
 	$scope.gameState.ingame = true
 	$scope.resetFocus = true
-	assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current].questions[0].text)
+	assistiveAlert($scope, "Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current].questions[0].text)
 }
 
 export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
@@ -206,6 +206,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 
 	$scope.pressedQOnce = false
 	$scope.pressedH = false
+	$scope.assistiveAlertText = ""
 
 	// Opens or closes the image lightbox
 	// Values of val:
@@ -216,13 +217,13 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 		// Open the lightbox
 		if (val == 0 || val == 1)
 		{
-			assistiveAlert("Viewing image.")
+			assistiveAlert($scope, "Viewing image.")
 			$scope.lightboxTarget = val
 		}
 		// Close the lightbox
 		else
 		{
-			assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
+			assistiveAlert($scope, "Question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
 			// If image for "this" option is currently open, focus "this" option's expand image button
 			if ($scope.lightboxTarget == 0)
 			{
@@ -265,24 +266,23 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 			else if (event.key == 'q' || event.key == 'Q') {
 				if (!$scope.pressedQOnce)
 				{
-					assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current].questions[0].text)
+					assistiveAlert($scope, "Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current].questions[0].text)
 					$scope.pressedQOnce = true
 				}
 				else {
-					assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ":: " + _qset.items[$scope.question.current].questions[0].text)
+					assistiveAlert($scope, "Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ":: " + _qset.items[$scope.question.current].questions[0].text)
 					$scope.pressedQOnce = false
 				}
-			}
-			else if (event.key == 'h' || event.key == 'H') {
+			} else if (event.key == 'h' || event.key == 'H') {
 				// Since aria-live is only read if there's a change in text, there are two descriptions so that if H is pressed more than one time, it will still be read out.
 				if ($scope.pressedH)
 				{
-					assistiveAlert("Controls: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")
+					assistiveAlert($scope, "Keyboard Controls: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")
 					$scope.pressedH = false
 				}
 				else
 				{
-					assistiveAlert("Keyboard Controls: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")
+					assistiveAlert($scope, "Keyboard Controls:: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")
 					$scope.pressedH = true
 				}
 

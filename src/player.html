@@ -30,7 +30,7 @@
 
 		<!-- aria-live region to report status updates -->
 		<!-- note: browser support for aria-live is mixed, behavior may be inconsistent across browsers and devices -->
-		<div aria-live="assertive" role="status" id="assistive-alert" aria-atomic="true"></div>
+		<div aria-live="assertive" role="status" id="assistive-alert" aria-atomic="true">{{assistiveAlertText}}</div>
 		<main id="game" role="main">
 
 			<div id="splash" ng-class="{'raised': gameState.ingame}">

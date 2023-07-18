@@ -6,7 +6,6 @@
 // up in the unit -> functional testing ladder
 // in general we should continue to push toward more
 // direct unit tests as this project continues to evolve
-
 describe('Player Controller', function() {
 	require('angular/angular.js')
 	require('angular-mocks/angular-mocks.js')
@@ -62,6 +61,7 @@ describe('Player Controller', function() {
 		qset = widgetInfo.qset
 
 		require('./player')
+		const player = require('./controllers/ctl-player')
 		// load the required code
 		angular.mock.module('ThisOrThatEngine')
 		angular.module('ngAnimate', [])
@@ -70,7 +70,9 @@ describe('Player Controller', function() {
 
 		// mock scope
 		$scope = {
-			$apply: jest.fn()
+			$apply: jest.fn(),
+			// mock assistive alert
+			assistiveAlert: jest.fn()
 		}
 
 		// use angular mock to access angular modules
@@ -182,6 +184,18 @@ describe('Player Controller', function() {
 		expect($scope.answers[0].options.feedback).toEqual(incorrectFeedback)
 	})
 
+	test('should not check a choice if selected', () => {
+		publicMethods.start(widgetInfo, qset.data)
+
+		$scope.checkChoice(0)
+		expect($scope.question.selected).toEqual(true)
+		expect($scope.question.choice).toEqual(0)
+		// Question selection should not be updated again
+		$scope.checkChoice(1)
+		expect($scope.question.choice).toEqual(0)
+
+	})
+
 	//this one probably should not even be possible, but whatever
 	test('should send appropriate values to Score.submitQuestionForScoring based on qset version 0', () => {
 		publicMethods.start(widgetInfo, qset.data, 0)
@@ -266,10 +280,30 @@ describe('Player Controller', function() {
 	})
 
 	test('should toggle lightbox modal', () => {
+		// Mock setTimeout
+		jest.useFakeTimers()
+		jest.spyOn(global, 'setTimeout')
+
+		// Open left expand image
 		$scope.setLightboxTarget(0)
 		expect($scope.lightboxTarget).toBe(0)
+		// Test closing
+		$scope.setLightboxTarget(-1)
+		expect($scope.focusThisExpand).toBe(true)
+		// Run the setTimeout timer
+		jest.runAllTimers()
+		expect($scope.focusThisExpand).toBe(false)
+
+		// Open right expand image
 		$scope.setLightboxTarget(1)
 		expect($scope.lightboxTarget).toBe(1)
+		// Test closing right expand
+		$scope.setLightboxTarget(-1)
+		expect($scope.focusThatExpand).toBe(true)
+		// Run the setTimeout timer
+		jest.runAllTimers()
+		expect($scope.focusThatExpand).toBe(false)
+		expect($scope.lightboxTarget).toBe(-1)
 	})
 
 	test('should toggle lightbox zoom', () => {
@@ -405,21 +439,38 @@ describe('Player Controller', function() {
 		expect(Math.random).not.toHaveBeenCalled()
 	})
 
-	test('should select this or that on key presses', () => {
+	test('should test key presses', () => {
+		publicMethods.start(widgetInfo, qset.data)
+		$scope.gameState.ingame = false
+		// Start screen should not register key presses
+		$scope.selectChoice({key: 'a'})
+		expect($scope.selectedChoice).toBe(-1);
+
+		// Enter game
 		$scope.gameState.ingame = true
-		$scope.pressedQOnce = false
-		//dispatchEvent(new Event('keydown', { 'key': 'a'}));
+		// Test this selection
 		$scope.selectChoice({key: 'a'})
 		expect($scope.selectedChoice).toBe(0);
 		$scope.selectChoice({key: 'A'})
 		expect($scope.selectedChoice).toBe(0);
+		// Test that selection
 		$scope.selectChoice({key: 'd'})
 		expect($scope.selectedChoice).toBe(1);
 		$scope.selectChoice({key: 'D'})
 		expect($scope.selectedChoice).toBe(1);
-		// $scope.selectChoice({key: 'q'})
-		// expect($scope.pressedQOnce).toBe(true);
-		// $scope.selectChoice({key: 'Q'})
-		// expect($scope.pressedQOnce).toBe(false);
+		// Test question key
+		$scope.selectChoice({key: 'q'})
+		expect($scope.assistiveAlertText).toBe("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + qset.data.items[$scope.question.current].questions[0].text);
+		$scope.selectChoice({key: 'Q'})
+		expect($scope.assistiveAlertText).toBe("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ":: " + qset.data.items[$scope.question.current].questions[0].text);
+		// Test help key
+		$scope.selectChoice({key: 'h'})
+		expect($scope.assistiveAlertText).toBe("Keyboard Controls:: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")
+		$scope.selectChoice({key: 'h'})
+		expect($scope.assistiveAlertText).toBe("Keyboard Controls: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")
+		// Test case insensitive key presses
+		$scope.selectChoice({key: 'H'})
+		expect($scope.assistiveAlertText).toBe("Keyboard Controls:: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")
+
 	})
 })
