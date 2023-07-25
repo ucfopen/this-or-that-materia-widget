@@ -164,6 +164,10 @@ export const closeIntro = $scope => {
 	assistiveAlert($scope, "Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current].questions[0].text)
 }
 
+export const toggleInstructions = $scope => {
+	$scope.instructionsOpen = !$scope.instructionsOpen;
+}
+
 export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.gameState = {
 		ingame: false,
@@ -197,6 +201,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.checkChoice = checkChoice.bind(null, $scope)
 	$scope.nextClicked = nextClicked.bind(null, $scope, $timeout)
 	$scope.closeIntro = closeIntro.bind(null, $scope)
+	$scope.toggleInstructions = toggleInstructions.bind(null, $scope)
 	$scope.selectedChoice = -1
 
 	$scope.lightboxTarget = -1
@@ -273,8 +278,9 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 					assistiveAlert($scope, "Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ":: " + _qset.items[$scope.question.current].questions[0].text)
 					$scope.pressedQOnce = false
 				}
-			} else if (event.key == 'h' || event.key == 'H') {
+			} else if (event.key == 'Escape') {
 				// Since aria-live is only read if there's a change in text, there are two descriptions so that if H is pressed more than one time, it will still be read out.
+				$scope.instructionsOpen = !$scope.instructionsOpen
 				if ($scope.pressedH)
 				{
 					assistiveAlert($scope, "Keyboard Controls: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")

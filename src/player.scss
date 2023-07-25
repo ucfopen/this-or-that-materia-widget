@@ -14,6 +14,10 @@ $c: #6b6263;
 $d: #543f3d;
 $e: #a45b5b;
 $f: #87735f;
+$w: #5fac4b;
+$x: rgba(110, 199, 47, 0.9);
+$y: #ffb743;
+$z: #ffa30f;
 
 $chunky-font: 'Sigmar One', cursive;
 
@@ -43,13 +47,13 @@ body {
 	position: relative;
 
 	color: #ffffff;
-	font-size: 32px;
+	font-size: 28px;
 	font-family: $chunky-font;
 	text-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
 	text-transform: uppercase;
 	white-space: nowrap;
 
-	background: #5fac4b;
+	background-color: $x;
 	border: 0;
 	border-radius: 8px;
 	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
@@ -57,6 +61,18 @@ body {
 
 	cursor: pointer;
 	-webkit-appearance: none;
+
+	&#start-btn {
+		background: $x;
+	}
+
+	&#instructions-btn {
+		background: $y;
+		font-size: 24px;
+		&:hover {
+			background: $z;
+		}
+	}
 
 	&:hover {
 		background: #73d15a;
@@ -201,18 +217,19 @@ body {
 
 		transition: margin ease 1s;
 
-		h1 {
+		#splashText {
 			position: relative;
 
 			display: block;
-			height: 317px;
-			margin: 0 0 15px;
-			width: 484px;
+			height: 282px;
+			width: 430px;
+			margin: auto;
 
 			color: transparent;
 
 			background-image: url('assets/img/sprites.png');
-			background-position: -199px 0, center;
+			background-position: -177px 0, center;
+			background-size: 1669px;
 			background-repeat: no-repeat;
 
 			z-index: 1;
@@ -369,7 +386,7 @@ body {
 
 				.overlayFeedback {
 					text-shadow: 0 4px 2px rgba(0, 0, 0, 0.6);
-					background-color: rgba(110, 199, 47, 0.9);
+					background-color: $x;
 				}
 			}
 
@@ -713,13 +730,77 @@ body {
 		}
 	}
 }
+.start-btns {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	margin-top: 10px;
+	align-items: center;
+}
 
-.start,
+#ingame-instructions-btn {
+	position: absolute;
+	top: -100px;
+	left: 25px;
+	z-index: 10;
+	width: 48px;
+	height: 48px;
+	padding: 0;
+
+	background-color: $z;
+	color: #fff;
+	border: none;
+	border-radius: 100%;
+
+	font-size: 32px;
+	font-family: $chunky-font;
+
+	transition: top ease 1.5s;
+
+	&.drop {
+		top: 65px;
+	}
+
+	&:hover {
+		background-color: $y;
+		box-shadow: 0px 5px 10px $a;
+		cursor: pointer;
+	}
+}
+
+#start-btn,
 .reset {
 	animation: pulse-bg 1s infinite;
 
 	&:focus {
 		outline: solid 2px #fff;
+	}
+}
+
+.instructions {
+	position: absolute;
+	margin: auto;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	width: 420px;
+	height: 350px;
+	background-color: #223863;
+	border-radius: 10%;
+	z-index: 21;
+	text-align: center;
+	border: $z 2px solid;
+	box-shadow:0px 5px 10px $a;
+
+	dl, dd {
+		padding: 0;
+		margin: 0;
+	}
+
+	button {
+		margin-top: 1em;
+		background-color:rgba(110, 199, 47, 0.9)
 	}
 }
 

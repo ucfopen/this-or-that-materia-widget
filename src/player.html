@@ -47,13 +47,25 @@
 
 					<h1 id="splashText" aria-hidden="{{gameState.endgame || gameState.ingame}}">{{gameState.splashText}}</h1>
 
-					<button class="start btn"
-						id="start-btn"
-						ng-click="closeIntro()"
+					<div class="start-btns">
+						<button class="start btn"
+						id="instructions-btn"
+						ng-click="toggleInstructions()"
 						aria-hidden="{{gameState.endgame || gameState.ingame }}"
-						ng-attr-inert="{{gameState.endgame || gameState.ingame ? 'true' : undefined}}"
-						aria-label="Start button. Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press H to hear the controls. You may also navigate using your screen reader's dedicated key bindings or tab key."
-						ng-hide="gameState.endgame || gameState.ingame">Start!</button>
+						ng-attr-inert="{{gameState.endgame ? 'true' : undefined}}"
+						aria-label="Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press Escape to open the instructions. You may also navigate using your screen reader's dedicated key bindings."
+						ng-hide="gameState.endgame || gameState.ingame">
+							Keyboard Controls
+						</button>
+						<button class="start btn"
+							id="start-btn"
+							ng-click="closeIntro()"
+							aria-hidden="{{gameState.endgame || gameState.ingame }}"
+							ng-attr-inert="{{gameState.endgame || gameState.ingame ? 'true' : undefined}}"
+							ng-hide="gameState.endgame || gameState.ingame">
+							Start!
+						</button>
+					</div>
 					<button class="reset btn"
 						ng-class="{'end': gameState.endgame}"
 						ng-click="viewScores()"
@@ -64,11 +76,14 @@
 				</div>
 			</div>
 
-			<section id="board" ng-attr-inert="{{!gameState.ingame || gameState.endgame || lightboxTarget >= 0 ? 'true' : undefined }}" aria-hidden="{{!gameState.ingame || gameState.endgame || lightboxTarget >= 0 ? true : false}}" ng-hide="gameState.endgame">
+			<section id="board" ng-attr-inert="{{!gameState.ingame || gameState.endgame  || instructionsOpen || lightboxTarget >= 0 ? 'true' : undefined}}" aria-hidden="{{!gameState.ingame || gameState.endgame || instructionsOpen || lightboxTarget >= 0 ? true : false}}" ng-hide="gameState.endgame">
 				<div class="side-curtain upper left" aria-hidden="true"></div>
 				<div class="side-curtain upper right" aria-hidden="true"></div>
 				<div class="side-curtain lower left" aria-hidden="true"></div>
 				<div class="side-curtain lower right" aria-hidden="true"></div>
+
+				<button id="ingame-instructions-btn" title="Help"
+				ng-click="toggleInstructions()" ng-class="{'drop': gameState.ingame}" aria-label="Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press Escape to open the instructions. You may also navigate using your screen reader's dedicated key bindings.">?</button>
 
 				<div tabindex="{{resetFocus ? 0 : -1}}" id="focus-start" focus-me="resetFocus == true" ng-focus="resetFocus = false"></div>
 
@@ -85,7 +100,7 @@
 							<button class="content-frame"
 								ng-if="answers[0].options.asset.type === 'text'"
 								ng-click="checkChoice(0)"
-								aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+								aria-hidden="{{lightboxTarget >= 0}}"
 								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}"
 								ng-mouseenter="hands.thisRaised = true"
 								ng-mouseleave="hands.thisRaised = false"
@@ -93,8 +108,9 @@
 								ng-blur="hands.thisRaised = false"
 								focus-me="selectedChoice == 0"
 								href="#"
-								data-title="{{answers[0].text}}">
-								<div>
+								data-title="{{answers[0].text}}"
+								aria-label="{{question.selected ? ((question.correct[0] == 'Correct!' || question.correct[1] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[0].options.feedback) : ''}}">
+								<div aria-hidden="true">
 									<span ng-show="question.correct[0] != ''" ng-class="{'overlayFeedback': question.correct[0] != ''}">{{question.correct[0]}}</span>
 									<span ng-show="question.correct[0] != '' && answers[0].options.feedback" class="feedback">{{answers[0].options.feedback}}</span>
 								</div>
@@ -105,8 +121,9 @@
 							<!-- the div version of the frame: for images, audio and video -->
 							<div class="content-frame"
 								ng-if="answers[0].options.asset.type === 'audio' || answers[0].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
-								data-title="{{answers[0].text}}">
-								<div>
+								data-title="{{answers[0].text}}"
+								aria-label="{{question.selected ? ((question.correct[0] == 'Correct!' || question.correct[1] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[0].options.feedback) : ''}}">
+								<div aria-hidden="true">
 									<span ng-show="question.correct[0] != ''" ng-class="{'overlayFeedback': question.correct[0] != ''}">{{question.correct[0]}}</span>
 									<span ng-show="question.correct[0] != '' && answers[0].options.feedback" class="feedback">{{answers[0].options.feedback}}</span>
 								</div>
@@ -171,7 +188,7 @@
 							<button class="content-frame"
 								ng-if="answers[1].options.asset.type === 'text'"
 								ng-click="checkChoice(1)"
-								aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+								aria-hidden="{{lightboxTarget >= 0}}"
 								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}"
 								ng-mouseenter="hands.thatRaised = true"
 								ng-mouseleave="hands.thatRaised = false"
@@ -179,8 +196,9 @@
 								ng-blur="hands.thatRaised = false"
 								href="#"
 								focus-me="selectedChoice == 1"
-								data-title="{{answers[1].text}}">
-								<div>
+								data-title="{{answers[1].text}}"
+								aria-label="{{question.selected ? ((question.correct[1] == 'Correct!'  || question.correct[0] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[1].options.feedback) : ''}}">
+								<div aria-hidden="true">
 									<span ng-show="question.correct[1] != ''" ng-class="{'overlayFeedback': question.correct[1] != ''}">{{question.correct[1]}}</span>
 									<span ng-show="question.correct[1] != '' && answers[1].options.feedback" class="feedback">{{answers[1].options.feedback}}</span>
 								</div>
@@ -191,8 +209,8 @@
 							<!-- the div version of the frame: for images, audio and video -->
 							<div class="content-frame"
 								ng-if="answers[1].options.asset.type === 'audio' || answers[1].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
-								data-title="{{answers[1].text}}">
-								<div>
+								data-title="{{answers[1].text}}" aria-label="{{question.selected ? ((question.correct[1] == 'Correct!'  || question.correct[0] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[1].options.feedback) : ''}}">
+								<div aria-hidden="true">
 									<span ng-show="question.correct[1] != ''" ng-class="{'overlayFeedback': question.correct[1] != ''}">{{question.correct[1]}}</span>
 									<span ng-show="question.correct[1] != '' && answers[1].options.feedback" class="feedback">{{answers[1].options.feedback}}</span>
 								</div>
@@ -276,6 +294,18 @@
 				</div>
 				<div class='modal-bg' ng-click="setLightboxTarget(-1)" aria-hidden="true" tabindex="-1">
 				</div>
+			</section>
+			<section class="instructions" id="instructions-container" ng-show="instructionsOpen" aria-role="dialog" aria-hidden="{{!instructionsOpen}}" ng-attr-inert="{{instructionsOpen ? undefined : 'true'}}">
+				<h2>Keyboard Controls</h2>
+				<dl>
+					<dt><strong>"A" and "D" Keys</strong> </dt>
+					<dd>Select left or right option.</dd>
+					<dt><strong>"Q"</strong> </dt>
+					<dd>Listen to the question.</dd>
+					<dt><strong>Escape Key</strong> </dt>
+					<dd>Open/Close the instructions.</dd>
+				</dl>
+				<button class="btn" ng-click="toggleInstructions()">Okay</button>
 			</section>
 		</main>
 	</body>
