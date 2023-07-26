@@ -69,13 +69,14 @@ body {
 	&#instructions-btn {
 		background: $y;
 		font-size: 24px;
-		&:hover {
+		&:hover, &:focus {
 			background: $z;
 		}
 	}
 
-	&:hover {
+	&:hover, &:focus {
 		background: #73d15a;
+		outline: solid 2px #fff;
 	}
 }
 
@@ -573,7 +574,7 @@ body {
 						margin-right: 0.75em;
 					}
 
-					&:hover {
+					&:hover, &:focus {
 						background: #ffe8c4;
 					}
 				}
@@ -761,7 +762,7 @@ body {
 		top: 65px;
 	}
 
-	&:hover {
+	&:hover, &:focus {
 		background-color: $y;
 		box-shadow: 0px 5px 10px $a;
 		cursor: pointer;
@@ -785,7 +786,7 @@ body {
 	bottom: 0;
 	right: 0;
 	width: 420px;
-	height: 350px;
+	height: 370px;
 	background-color: #223863;
 	border-radius: 10%;
 	z-index: 21;
@@ -796,6 +797,10 @@ body {
 	dl, dd {
 		padding: 0;
 		margin: 0;
+	}
+
+	dt {
+		margin-top: 10px;
 	}
 
 	button {
@@ -985,7 +990,7 @@ body {
 
 			cursor: pointer;
 
-			&:hover {
+			&:hover, &:focus {
 				background: #6c6c6c;
 			}
 		}

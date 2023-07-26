@@ -43,7 +43,7 @@
 					aria-describedby="start-btn"
 					aria-modal="true"
 					aria-hidden="{{gameState.ingame}}"
-					ng-attr-inert="{{gameState.ingame ? 'true' : undefined }}">
+					ng-attr-inert="{{gameState.ingame || instructionsOpen ? 'true' : undefined }}">
 
 					<h1 id="splashText" aria-hidden="{{gameState.endgame || gameState.ingame}}">{{gameState.splashText}}</h1>
 
@@ -53,6 +53,7 @@
 						ng-click="toggleInstructions()"
 						aria-hidden="{{gameState.endgame || gameState.ingame }}"
 						ng-attr-inert="{{gameState.endgame ? 'true' : undefined}}"
+						focus-me="!instructionsOpen"
 						aria-label="Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press Escape to open the instructions. You may also navigate using your screen reader's dedicated key bindings."
 						ng-hide="gameState.endgame || gameState.ingame">
 							Keyboard Controls
@@ -295,17 +296,17 @@
 				<div class='modal-bg' ng-click="setLightboxTarget(-1)" aria-hidden="true" tabindex="-1">
 				</div>
 			</section>
-			<section class="instructions" id="instructions-container" ng-show="instructionsOpen" aria-role="dialog" aria-hidden="{{!instructionsOpen}}" ng-attr-inert="{{instructionsOpen ? undefined : 'true'}}">
+			<section class="instructions" id="instructions-container" ng-show="instructionsOpen" role="alertdialog" aria-describedby="controls" aria-hidden="{{!instructionsOpen}}" ng-attr-inert="{{instructionsOpen ? undefined : 'true'}}">
 				<h2>Keyboard Controls</h2>
-				<dl>
-					<dt><strong>"A" and "D" Keys</strong> </dt>
-					<dd>Select left or right option.</dd>
-					<dt><strong>"Q"</strong> </dt>
-					<dd>Listen to the question.</dd>
-					<dt><strong>Escape Key</strong> </dt>
-					<dd>Open/Close the instructions.</dd>
+				<dl id="controls">
+					<dt>Use the <strong>"A" and "D" keys</strong> </dt>
+					<dd>to select left or right option.</dd>
+					<dt>Use the <strong>"Q"</strong> key</dt>
+					<dd>to listen to the question.</dd>
+					<dt>Press the <strong>Escape Key</strong></dt>
+					<dd>to Open or Close the instructions.</dd>
 				</dl>
-				<button class="btn" ng-click="toggleInstructions()">Okay</button>
+				<button class="btn" focus-me="instructionsOpen" ng-click="toggleInstructions()">Okay</button>
 			</section>
 		</main>
 	</body>
