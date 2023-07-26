@@ -230,7 +230,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 		// Close the lightbox
 		else
 		{
-			assistiveAlert($scope, "Question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
+			assistiveAlert($scope, "Closed image viewer.")
 			// If image for "this" option is currently open, focus "this" option's expand image button
 			if ($scope.lightboxTarget == 0)
 			{

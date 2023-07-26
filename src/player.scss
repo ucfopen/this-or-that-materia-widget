@@ -332,28 +332,6 @@ body {
 			}
 		}
 
-		.background-stand {
-			position: absolute;
-			top: 50%;
-
-			height: 64px;
-			margin-top: -35px;
-			width: 100%;
-
-			background-image: url('assets/img/sprites.png');
-			background-position: -195.8839111328125px -971.9755554199219px, center;
-			background-repeat: repeat-x;
-
-			z-index: 0;
-
-			&.left {
-				right: 28px;
-			}
-			&.right {
-				left: 28px;
-			}
-		}
-
 		div.frame-wrapper {
 			position: relative;
 			display: inline-block;
@@ -599,6 +577,35 @@ body {
 	}
 }
 
+.background-stand {
+	position: absolute;
+	top: 50%;
+
+	height: 64px;
+	margin-top: -35px;
+	width: 100%;
+
+	background-image: url('assets/img/sprites.png');
+	background-position: -195.8839111328125px -971.9755554199219px, center;
+	background-repeat: repeat-x;
+
+	z-index: 0;
+
+	&.left {
+		right: 28px;
+	}
+	&.right {
+		left: 28px;
+	}
+	&.top-right {
+		top: 55px;
+		right: -25px;
+		z-index: -1;
+		background-position: -183.8839111328125px -1022.9755554199219px, center;
+		height: 10px;
+	}
+}
+
 #hands {
 	position: absolute;
 	left: 50%;
@@ -766,6 +773,79 @@ body {
 		background-color: $y;
 		box-shadow: 0px 5px 10px $a;
 		cursor: pointer;
+	}
+}
+
+#questions-remaining {
+	position: absolute;
+	top: -100px;
+	right: 25px;
+	z-index: 10;
+	background: none;
+	border: none;
+	margin: 0;
+	padding: 0;
+
+	transition: top ease 1.5s;
+	perspective: 500px;
+
+	p {
+		margin: 0 auto;
+		padding: 0;
+		width: 50px;
+		height: 50px;
+
+		background-color: $z;
+		color: #fff;
+		border: none;
+		border-radius: 100%;
+		box-shadow: 0px 5px 10px $a;
+
+		font-family: $chunky-font;
+
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+
+		span {
+			font-size: 14px;
+		}
+	}
+
+	#questions-remaining-inner {
+		width: 50px;
+		height: 50px;
+		z-index: 10;
+		position: relative;
+
+		transform-style: preserve-3d;
+		transition: transform 0.8s;
+		transform-origin: center;
+	}
+
+	&.drop {
+		top: 65px;
+	}
+
+	&:hover, &:focus {
+		#questions-remaining-inner {
+			transform: rotateX(180deg);
+		}
+
+		cursor: pointer;
+	}
+
+	#remaining-front {
+		backface-visibility: hidden;
+		font-size: 24px;
+	}
+
+	#remaining-back {
+		font-size: 14px;
+		transform: rotateX(180deg);
+		transform-origin: top;
+		backface-visibility: hidden;
 	}
 }
 
