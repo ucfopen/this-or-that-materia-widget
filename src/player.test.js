@@ -296,9 +296,11 @@ describe('Player Controller', function() {
 
 		// Open right expand image
 		$scope.setLightboxTarget(1)
+		expect($scope.assistiveAlertText).toBe("Viewing image.")
 		expect($scope.lightboxTarget).toBe(1)
 		// Test closing right expand
 		$scope.setLightboxTarget(-1)
+		expect($scope.assistiveAlertText).toBe("Closed image viewer.")
 		expect($scope.focusThatExpand).toBe(true)
 		// Run the setTimeout timer
 		jest.runAllTimers()
@@ -445,6 +447,11 @@ describe('Player Controller', function() {
 		// Start screen should not register key presses
 		$scope.selectChoice({key: 'a'})
 		expect($scope.selectedChoice).toBe(-1);
+		// Start screen should open instructions
+		$scope.selectChoice({key: 'Escape'})
+		expect($scope.instructionsOpen).toBe(true)
+		$scope.selectChoice({key: 'Escape'})
+		expect($scope.instructionsOpen).toBe(false)
 
 		// Enter game
 		$scope.gameState.ingame = true
@@ -464,13 +471,10 @@ describe('Player Controller', function() {
 		$scope.selectChoice({key: 'Q'})
 		expect($scope.assistiveAlertText).toBe("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ":: " + qset.data.items[$scope.question.current].questions[0].text);
 		// Test help key
-		$scope.selectChoice({key: 'h'})
-		expect($scope.assistiveAlertText).toBe("Keyboard Controls:: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")
-		$scope.selectChoice({key: 'h'})
-		expect($scope.assistiveAlertText).toBe("Keyboard Controls: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")
-		// Test case insensitive key presses
-		$scope.selectChoice({key: 'H'})
-		expect($scope.assistiveAlertText).toBe("Keyboard Controls:: Press A to select the first choice. Press D to select the second choice. Then, press Enter to lock in your answer. Press Q to hear the question number. Press Q twice to hear the question again.")
+		$scope.selectChoice({key: 'Escape'})
+		expect($scope.instructionsOpen).toBe(true)
+		$scope.selectChoice({key: 'Escape'})
+		expect($scope.instructionsOpen).toBe(false)
 
 	})
 })
