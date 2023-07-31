@@ -26,6 +26,11 @@ meta_data:
     - Media
     - Scorable
     - Mobile Friendly
+  accessibility_keyboard: Full # values can be Full | Limited | None
+  accessibility_reader: Full # values can be Full | Limited | None
+  accessibility_description: >
+    Supports standard navigation. Includes custom controls to supplement standard navigation.
+    These controls are communicated visually and to screenreaders.
   supported_data:
     - Multiple Choice
   about: >
