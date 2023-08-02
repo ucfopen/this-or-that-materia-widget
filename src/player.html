@@ -86,7 +86,7 @@
 				<button id="ingame-instructions-btn" title="Help"
 				ng-click="toggleInstructions()" ng-class="{'drop': gameState.ingame}" aria-label="Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press H to open the instructions. You may also navigate using your screen reader's dedicated key bindings.">?</button>
 
-				<div id="questions-remaining" title="Questions Remaining" ng-mouseover="showBack = true" ng-mouseout="showBack = false" ng-class="{'drop': gameState.ingame, 'front': !showBack, 'back': showBack}" aria-label="{{questionCount - question.current + ' questions remaining. On question ' + (question.current + 1) + ' of ' + questionCount + ': ' + title}}" role="status" tabindex="0">
+				<div id="questions-remaining" title="Questions Remaining" focus-me="question.transition == true" ng-mouseover="showBack = true" ng-mouseout="showBack = false" ng-class="{'drop': gameState.ingame, 'front': !showBack, 'back': showBack}" aria-label="{{questionsRemainingText}}" role="status" tabindex="0">
 					<div id="questions-remaining-inner" aria-hidden="true">
 						<p id="remaining-front">{{question.current + 1}}</p>
 						<p id="remaining-back">of {{questionCount}}</p>
@@ -280,7 +280,7 @@
 						ng-class="{'raised': hands.thatRaised || question.choice == 1, 'correct': question.correct[1] == 'Correct!', 'incorrect': question.correct[1] == 'Incorrect'}"></div>
 				</div>
 
-				<div id="next-container" ng-class="{'raised': gameState.showNext}" aria-hidden="{{!gameState.showNext || lightboxTarget >= 0}}">
+				<div id="next-container" ng-class="{'raised': gameState.showNext}" aria-hidden="{{(!gameState.showNext && question.transition == false) || lightboxTarget >= 0}}">
 					<div class="background-stand" aria-hidden="true"></div>
 					<button class="btn"
 						id="next"

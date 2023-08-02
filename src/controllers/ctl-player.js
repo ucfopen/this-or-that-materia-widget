@@ -67,6 +67,8 @@ export const onMateriaStart = ($scope, $sce, instance, qset, version) => {
 	$scope.choices = getAllAnswerChoices($sce, _qset)
 	$scope.questionCount = _qset.items.length
 
+	$scope.questionsRemainingText = ($scope.questionCount - $scope.question.current - 1) + " questions remaining. Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text
+
 	showNextQuestion($scope)
 }
 
@@ -80,8 +82,6 @@ export const showNextQuestion = $scope => {
 		$scope.question.selected = false
 		$scope.question.transition = false
 		$scope.selectedChoice = -1
-
-		document.getElementById('questions-remaining').focus()
 	} else {
 		endGame($scope)
 	}
@@ -145,6 +145,10 @@ export const checkChoice = ($scope, value) => {
 }
 
 export const nextClicked = ($scope, $timeout) => {
+	if ($scope.question.current + 1 < $scope.questionCount) {
+		$scope.questionsRemainingText = ($scope.questionCount - $scope.question.current - 1) + " questions remaining. Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text
+	}
+
 	$scope.gameState.showNext = false
 	$scope.question.correct = ['', '']
 	$scope.answers[0].options.feedback = ''
@@ -153,9 +157,6 @@ export const nextClicked = ($scope, $timeout) => {
 	$scope.question.transition = true
 	$scope.hands.thisRaised = false
 	$scope.hands.thatRaised = false
-	$scope.reachedFocusEnd = true
-
-	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert($scope, "Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text)
 
 	$timeout(showNextQuestion.bind(null, $scope), 1200)
 }
@@ -189,6 +190,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	}
 
 	$scope.questionCount = 0
+	$scope.questionsRemainingText = ''
 
 	// the stage hands
 	$scope.hands = {
@@ -214,7 +216,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.resetFocus = false;
 
 	$scope.pressedQOnce = false
-	$scope.pressedH = false
+	$scope.prevFocus = null
 	$scope.assistiveAlertText = ""
 
 	// Opens or closes the image lightbox
@@ -283,9 +285,21 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 					$scope.pressedQOnce = false
 				}
 			} else if (event.key == 'H' || event.key == 'h') {
+				if (!$scope.instructionsOpen) {
+					$scope.prevFocus = event.target
+				} else {
+					if ($scope.prevFocus) $scope.prevFocus.focus()
+				}
 				toggleInstructions($scope);
 			}
-		} else if (event.key == 'H' || event.key == 'h') toggleInstructions($scope);
+		} else if (event.key == 'H' || event.key == 'h') {
+			if (!$scope.instructionsOpen) {
+				$scope.prevFocus = event.target
+			} else {
+				if ($scope.prevFocus) $scope.prevFocus.focus()
+			}
+			toggleInstructions($scope);
+		}
 	}
 
 	$scope.getAdjustedTextSize = (text) => {
