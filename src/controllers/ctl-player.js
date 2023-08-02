@@ -15,7 +15,7 @@ export const shuffleArray = array => {
 // helper function to update the aria-live status region
 // angular binding does not cooperate well with aria-live, so we update the DOM element directly instead
 export const assistiveAlert = ($scope, alert) => {
-	$scope.assistiveAlertText = alert
+	document.getElementById('assistive-alert').innerText = alert
 }
 
 export const getAllAnswerChoices = ($sce, _qset) => {
@@ -80,6 +80,8 @@ export const showNextQuestion = $scope => {
 		$scope.question.selected = false
 		$scope.question.transition = false
 		$scope.selectedChoice = -1
+
+		document.getElementById('questions-remaining').focus()
 	} else {
 		endGame($scope)
 	}
