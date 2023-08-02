@@ -280,10 +280,10 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 					assistiveAlert($scope, "Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ":: " + _qset.items[$scope.question.current].questions[0].text)
 					$scope.pressedQOnce = false
 				}
-			} else if (event.key == 'Escape') {
+			} else if (event.key == 'H' || event.key == 'h') {
 				toggleInstructions($scope);
 			}
-		} else if (event.key == 'Escape') toggleInstructions($scope);
+		} else if (event.key == 'H' || event.key == 'h') toggleInstructions($scope);
 	}
 
 	$scope.getAdjustedTextSize = (text) => {

@@ -45,7 +45,7 @@
 					aria-hidden="{{gameState.ingame}}"
 					ng-attr-inert="{{gameState.ingame || instructionsOpen ? 'true' : undefined }}">
 
-					<h1 id="splashText" aria-hidden="{{gameState.endgame || gameState.ingame}}">{{gameState.splashText}}</h1>
+					<h1 id="splashText" aria-label="Welcome to {{gameState.splashText}}"aria-hidden="{{gameState.endgame || gameState.ingame}}">{{gameState.splashText}}</h1>
 
 					<div class="start-btns">
 						<button class="start btn"
@@ -54,7 +54,7 @@
 						aria-hidden="{{gameState.endgame || gameState.ingame }}"
 						ng-attr-inert="{{gameState.endgame ? 'true' : undefined}}"
 						focus-me="!instructionsOpen"
-						aria-label="Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press Escape to open the instructions. You may also navigate using your screen reader's dedicated key bindings."
+						aria-label="Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press H to open the instructions. You may also navigate using your screen reader's dedicated key bindings."
 						ng-hide="gameState.endgame || gameState.ingame">
 							Keyboard Controls
 						</button>
@@ -84,17 +84,15 @@
 				<div class="side-curtain lower right" aria-hidden="true"></div>
 
 				<button id="ingame-instructions-btn" title="Help"
-				ng-click="toggleInstructions()" ng-class="{'drop': gameState.ingame}" aria-label="Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press Escape to open the instructions. You may also navigate using your screen reader's dedicated key bindings.">?</button>
+				ng-click="toggleInstructions()" ng-class="{'drop': gameState.ingame}" aria-label="Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press H to open the instructions. You may also navigate using your screen reader's dedicated key bindings.">?</button>
 
-				<button id="questions-remaining" title="Questions Remaining" ng-mouseover="showBack = true" ng-mouseout="showBack = false" ng-class="{'drop': gameState.ingame, 'front': !showBack, 'back': showBack}" aria-label="{{'On question ' + (question.current + 1) + ' of ' + questionCount + '.'}}">
+				<div id="questions-remaining" title="Questions Remaining" ng-mouseover="showBack = true" ng-mouseout="showBack = false" ng-class="{'drop': gameState.ingame, 'front': !showBack, 'back': showBack}" aria-label="{{questionCount - question.current + ' questions remaining. On question ' + (question.current + 1) + ' of ' + questionCount + ': ' + title}}" role="status" tabindex="0">
 					<div id="questions-remaining-inner" aria-hidden="true">
 						<p id="remaining-front">{{question.current + 1}}</p>
 						<p id="remaining-back">of {{questionCount}}</p>
 						<div class="background-stand top-right" aria-hidden="true"></div>
 					</div>
-				</button>
-
-				<div tabindex="{{resetFocus ? 0 : -1}}" id="focus-start" focus-me="resetFocus == true" ng-focus="resetFocus = false"></div>
+				</div>
 
 				<h1 id="question" ng-bind-html="title"></h1>
 
@@ -290,8 +288,6 @@
 						focus-me="gameState.showNext"
 						ng-attr-inert="{{!gameState.showNext || lightboxTarget >= 0 ? 'true' : undefined}}">Next</button>
 				</div>
-
-				<div tabindex="0" id="focus-end" focus-me="reachedFocusEnd" ng-focus="resetFocus = true; reachedFocusEnd = false;"></div>
 			</section>
 			<section class="lightbox" ng-class="{ 'show': lightboxTarget >= 0}" ng-hide="lightboxTarget == -1" aria-modal="true">
 				<div class="lightbox-content">
