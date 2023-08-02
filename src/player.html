@@ -158,7 +158,7 @@
 									ng-mouseenter="hands.thisRaised = true"
 									ng-mouseleave="hands.thisRaised = false"
 									ng-focus="hands.thisRaised = true"
-									aria-label="{{answers[0].text}}"
+									aria-label="{{answers[0].text}}. Use the arrow keys to navigate to the {{answers[0].options.asset.type}}."
 									focus-me="selectedChoice == 0"
 									ng-blur="hands.thisRaised = false"
 									aria-hidden="{{question.selected || lightboxTarget >= 0}}"
@@ -245,7 +245,7 @@
 									ng-mouseenter="hands.thatRaised = true"
 									ng-mouseleave="hands.thatRaised = false"
 									ng-focus="hands.thatRaised = true"
-									aria-label="{{answers[1].text}}"
+									aria-label="{{answers[1].text}}. Use the arrow keys to navigate to the {{answers[1].options.asset.type}}."
 									focus-me="selectedChoice == 1"
 									ng-blur="hands.thatRaised = false" aria-hidden="{{question.selected || lightboxTarget >= 0}}"
 									ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}">Select</button>
