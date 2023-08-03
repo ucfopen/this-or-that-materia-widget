@@ -30,7 +30,7 @@
 
 		<!-- aria-live region to report status updates -->
 		<!-- note: browser support for aria-live is mixed, behavior may be inconsistent across browsers and devices -->
-		<div aria-live="assertive" role="status" id="assistive-alert" aria-atomic="true"></div>
+		<div aria-live="assertive" role="status" id="assistive-alert"></div>
 		<main id="game" role="main">
 
 			<div id="splash" ng-class="{'raised': gameState.ingame}">
@@ -40,12 +40,10 @@
 					class="sign"
 					ng-class="{'raised': gameState.ingame, 'end': gameState.endgame}"
 					role="{{gameState.endgame ? 'alertdialog' : 'dialog'}}"
-					aria-describedby="start-btn"
 					aria-modal="true"
-					aria-hidden="{{gameState.ingame}}"
-					ng-attr-inert="{{gameState.ingame || instructionsOpen ? 'true' : undefined }}">
-
-					<h1 id="splashText" aria-label="Welcome to {{gameState.splashText}}"aria-hidden="{{gameState.endgame || gameState.ingame}}">{{gameState.splashText}}</h1>
+					aria-hidden="{{focusStatusButton}}"
+					ng-attr-inert="{{gameState.ingame || focusStatusButton || instructionsOpen ? 'true' : undefined }}">
+					<h1 id="splashText" aria-label="Welcome to {{gameState.splashText}}"aria-hidden="{{gameState.ingame}}">{{gameState.splashText}}</h1>
 
 					<div class="start-btns">
 						<button class="start btn"
@@ -86,7 +84,7 @@
 				<button id="ingame-instructions-btn" title="Help"
 				ng-click="toggleInstructions()" ng-class="{'drop': gameState.ingame}" aria-label="Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press H to open the instructions. You may also navigate using your screen reader's dedicated key bindings.">?</button>
 
-				<div id="questions-remaining" title="Questions Remaining" focus-me="question.transition == true" ng-mouseover="showBack = true" ng-mouseout="showBack = false" ng-class="{'drop': gameState.ingame, 'front': !showBack, 'back': showBack}" aria-label="{{questionsRemainingText}}" role="status" tabindex="0">
+				<div id="questions-remaining" title="Questions Remaining" focus-me="focusStatusButton" ng-mouseover="showBack = true" ng-mouseout="showBack = false" ng-class="{'drop': gameState.ingame, 'front': !showBack, 'back': showBack}" aria-label="{{questionsRemainingText}}" role="status" tabindex="0">
 					<div id="questions-remaining-inner" aria-hidden="true">
 						<p id="remaining-front">{{question.current + 1}}</p>
 						<p id="remaining-back">of {{questionCount}}</p>
@@ -300,7 +298,7 @@
 				<div class='modal-bg' ng-click="setLightboxTarget(-1)" aria-hidden="true" tabindex="-1">
 				</div>
 			</section>
-			<section class="instructions" id="instructions-container" ng-show="instructionsOpen" role="alertdialog" aria-describedby="controls" aria-hidden="{{!instructionsOpen}}" ng-attr-inert="{{instructionsOpen ? undefined : 'true'}}">
+			<section class="instructions" id="instructions-container" ng-show="instructionsOpen" role="alertdialog" aria-describedby="controls" aria-hidden="{{!instructionsOpen}}">
 				<h2>Keyboard Controls</h2>
 				<dl id="controls">
 					<dt>Use the <strong>"A" and "D" keys</strong> </dt>
@@ -310,7 +308,7 @@
 					<dt>Press the <strong>"H" Key</strong></dt>
 					<dd>to Open or Close the instructions.</dd>
 				</dl>
-				<button class="btn" focus-me="instructionsOpen" ng-click="toggleInstructions()">Okay</button>
+				<button class="btn" focus-me="instructionsOpen" ng-click="toggleInstructions()"  aria-hidden="{{!instructionsOpen}}">Okay</button>
 			</section>
 		</main>
 	</body>

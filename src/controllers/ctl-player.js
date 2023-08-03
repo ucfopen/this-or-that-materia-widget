@@ -73,6 +73,8 @@ export const onMateriaStart = ($scope, $sce, instance, qset, version) => {
 }
 
 export const showNextQuestion = $scope => {
+	$scope.focusStatusButton = false
+
 	$scope.question.current++
 	const curItem = _qset.items[$scope.question.current]
 	if (curItem) {
@@ -90,6 +92,7 @@ export const showNextQuestion = $scope => {
 export const endGame = $scope => {
 	$scope.gameState.ingame = false
 	$scope.gameState.endgame = true
+	$scope.gameState.splashText = 'The End'
 	Materia.Engine.end(false)
 	$scope.title = ''
 	$scope.continueToScores = true
@@ -145,8 +148,14 @@ export const checkChoice = ($scope, value) => {
 }
 
 export const nextClicked = ($scope, $timeout) => {
+	// update the questions remaining status aria-label
 	if ($scope.question.current + 1 < $scope.questionCount) {
-		$scope.questionsRemainingText = ($scope.questionCount - $scope.question.current - 1) + " questions remaining. Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text
+		let questionsRemaining = ($scope.questionCount - $scope.question.current - 1)
+		$scope.questionsRemainingText = questionsRemaining + " question" + (questionsRemaining > 1 ? "s" : "") + "  remaining. Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text
+		$scope.focusStatusButton = true
+	} else {
+		$scope.questionsRemainingText = 'No questions remaining.'
+		$scope.focusStatusButton = false
 	}
 
 	$scope.gameState.showNext = false
@@ -161,15 +170,25 @@ export const nextClicked = ($scope, $timeout) => {
 	$timeout(showNextQuestion.bind(null, $scope), 1200)
 }
 
-export const closeIntro = $scope => {
+export const closeIntro = ($scope, $timeout) => {
 	$scope.gameState.ingame = true
-	$scope.resetFocus = true
-	assistiveAlert($scope, "Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current].questions[0].text)
+	// make splash modal aria-hidden and focus status indicator
+	$scope.focusStatusButton = true
+	$timeout(() => {
+		assistiveAlert($scope, "Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current].questions[0].text)
+		// set this to false so we can trigger it in nextClicked
+		$scope.focusStatusButton = false
+	}, 1200)
 }
 
 export const toggleInstructions = $scope => {
-	// Since aria-live is only read if there's a change in text, there are two descriptions so that if H is pressed more than one time, it will still be read out.
 	$scope.instructionsOpen = !$scope.instructionsOpen
+
+	if (!$scope.instructionsOpen && $scope.prevFocus) {
+		console.log($scope.prevFocus)
+		$scope.prevFocus.focus()
+		$scope.prevFocus = null
+	}
 }
 
 export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
@@ -205,7 +224,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.viewScores = viewScores
 	$scope.checkChoice = checkChoice.bind(null, $scope)
 	$scope.nextClicked = nextClicked.bind(null, $scope, $timeout)
-	$scope.closeIntro = closeIntro.bind(null, $scope)
+	$scope.closeIntro = closeIntro.bind(null, $scope, $timeout)
 	$scope.toggleInstructions = toggleInstructions.bind(null, $scope)
 	$scope.instructionsOpen = false
 	$scope.selectedChoice = -1
@@ -213,11 +232,10 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.lightboxTarget = -1
 	$scope.focusThisExpand = false
 	$scope.focusThatExpand = false
-	$scope.resetFocus = false;
+	$scope.focusStatusButton = false
 
 	$scope.pressedQOnce = false
 	$scope.prevFocus = null
-	$scope.assistiveAlertText = ""
 
 	// Opens or closes the image lightbox
 	// Values of val:
@@ -287,16 +305,12 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 			} else if (event.key == 'H' || event.key == 'h') {
 				if (!$scope.instructionsOpen) {
 					$scope.prevFocus = event.target
-				} else {
-					if ($scope.prevFocus) $scope.prevFocus.focus()
 				}
 				toggleInstructions($scope);
 			}
 		} else if (event.key == 'H' || event.key == 'h') {
 			if (!$scope.instructionsOpen) {
 				$scope.prevFocus = event.target
-			} else {
-				if ($scope.prevFocus) $scope.prevFocus.focus()
 			}
 			toggleInstructions($scope);
 		}
