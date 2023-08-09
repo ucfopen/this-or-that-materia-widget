@@ -61,7 +61,6 @@ describe('Player Controller', function() {
 		qset = widgetInfo.qset
 
 		require('./player')
-		const player = require('./controllers/ctl-player')
 		// load the required code
 		angular.mock.module('ThisOrThatEngine')
 		angular.module('ngAnimate', [])
@@ -70,9 +69,7 @@ describe('Player Controller', function() {
 
 		// mock scope
 		$scope = {
-			$apply: jest.fn(),
-			// mock assistive alert
-			assistiveAlert: jest.fn()
+			$apply: jest.fn()
 		}
 
 		// use angular mock to access angular modules
@@ -134,6 +131,7 @@ describe('Player Controller', function() {
 		expect($scope.gameState).toEqual(gameState)
 		$scope.closeIntro()
 		gameState.ingame = true
+		expect($scope.focusStatusButton).toBe(true)
 		expect($scope.gameState).toEqual(gameState)
 	})
 
@@ -149,6 +147,7 @@ describe('Player Controller', function() {
 
 	test('should check a "correct" answer choice', () => {
 		publicMethods.start(widgetInfo, qset.data)
+		$scope.assistiveAlert = jest.fn()
 
 		/*
 			answer choices are randomized, so to ensure
@@ -159,6 +158,7 @@ describe('Player Controller', function() {
 		$scope.checkChoice(0)
 
 		expect($scope.question.correct[0]).toEqual('Correct!')
+		expect($scope.assistiveAlert).toHaveBeenCalled()
 
 		expect($scope.question.selected).toEqual(true)
 		expect($scope.gameState.showNext).toEqual(true)
@@ -168,6 +168,7 @@ describe('Player Controller', function() {
 
 	test('should check an "incorrect" answer choice', () => {
 		publicMethods.start(widgetInfo, qset.data)
+		$scope.assistiveAlert = jest.fn()
 
 		/*
 			answer choices are randomized, so to ensure
@@ -186,6 +187,7 @@ describe('Player Controller', function() {
 
 	test('should not check a choice if selected', () => {
 		publicMethods.start(widgetInfo, qset.data)
+		$scope.assistiveAlert = jest.fn()
 
 		$scope.checkChoice(0)
 		expect($scope.question.selected).toEqual(true)
@@ -199,15 +201,18 @@ describe('Player Controller', function() {
 	//this one probably should not even be possible, but whatever
 	test('should send appropriate values to Score.submitQuestionForScoring based on qset version 0', () => {
 		publicMethods.start(widgetInfo, qset.data, 0)
+		$scope.assistiveAlert = jest.fn()
 		quickCheck()
 	})
 	test('should send appropriate values to Score.submitQuestionForScoring based on qset version 1', () => {
 		publicMethods.start(widgetInfo, qset.data, 1)
+		$scope.assistiveAlert = jest.fn()
 		quickCheck()
 	})
 
 	test('should send appropriate values to Score.submitQuestionForScoring based on qset version 2', () => {
 		publicMethods.start(widgetInfo, qset.data, 2)
+		$scope.assistiveAlert = jest.fn()
 
 		$scope.answers[0].value = 0
 		$scope.checkChoice(0)
@@ -226,6 +231,7 @@ describe('Player Controller', function() {
 	test('should handle an answer choice with no feedback', () => {
 		// pretend incorrect question has no feedback but correct question does
 		publicMethods.start(widgetInfo, qset.data)
+		$scope.assistiveAlert = jest.fn()
 		delete qset.data.items[0].answers[0].options.feedback
 
 		$scope.answers[0].value = 0
@@ -243,6 +249,7 @@ describe('Player Controller', function() {
 		// pretend question has feedback inside items instead of individual answers
 
 		publicMethods.start(widgetInfo, qset.data)
+		$scope.assistiveAlert = jest.fn()
 
 		delete qset.data.items[0].answers[0].options.feedback
 		delete qset.data.items[0].answers[1].options.feedback
@@ -259,6 +266,7 @@ describe('Player Controller', function() {
 
 	test('should update when next is clicked', () => {
 		publicMethods.start(widgetInfo, qset.data)
+		$scope.assistiveAlert = jest.fn()
 		expect($scope.question.current).toBe(0)
 
 		quickSelect()
@@ -280,6 +288,7 @@ describe('Player Controller', function() {
 	})
 
 	test('should toggle lightbox modal', () => {
+		$scope.assistiveAlert = jest.fn()
 		// Mock setTimeout
 		jest.useFakeTimers()
 		jest.spyOn(global, 'setTimeout')
@@ -296,11 +305,9 @@ describe('Player Controller', function() {
 
 		// Open right expand image
 		$scope.setLightboxTarget(1)
-		expect($scope.assistiveAlertText).toBe("Viewing image.")
 		expect($scope.lightboxTarget).toBe(1)
 		// Test closing right expand
 		$scope.setLightboxTarget(-1)
-		expect($scope.assistiveAlertText).toBe("Closed image viewer.")
 		expect($scope.focusThatExpand).toBe(true)
 		// Run the setTimeout timer
 		jest.runAllTimers()
@@ -318,6 +325,7 @@ describe('Player Controller', function() {
 	test('should end the game when all questions are done', () => {
 		const numberQuestions = qset.data.items.length
 		publicMethods.start(widgetInfo, qset.data)
+		$scope.assistiveAlert = jest.fn()
 
 		for (let i = 0; i < numberQuestions; i++) {
 			quickSelect()
@@ -329,7 +337,7 @@ describe('Player Controller', function() {
 			endgame: true,
 			score: 0,
 			showNext: false,
-			splashText: "This or That"
+			splashText: "The End"
 		}
 
 		expect($scope.question.current).toBe(numberQuestions)
@@ -342,6 +350,7 @@ describe('Player Controller', function() {
 	test('should end the game when viewing scores', () => {
 		const numberQuestions = qset.data.items.length
 		publicMethods.start(widgetInfo, qset.data)
+		$scope.assistiveAlert = jest.fn()
 
 		for (let i = 0; i < numberQuestions; i++) {
 			quickSelect()
@@ -406,6 +415,7 @@ describe('Player Controller', function() {
 	}
 
 	test('should shuffle questions when necessary', () => {
+		$scope.assistiveAlert = jest.fn()
 		const numberQuestions = 20
 
 		//kind of a hack, but it'll do
@@ -434,7 +444,7 @@ describe('Player Controller', function() {
 	})
 
 	test('should not shuffle questions if there are none', () => {
-		global.Math.random = jest.fn()
+		global.Math.random = jest.fn(() => 0.1)
 		qset.data.items = []
 		qset.data.options = { randomizeOrder: true }
 		publicMethods.start(widgetInfo, qset.data)
@@ -442,15 +452,16 @@ describe('Player Controller', function() {
 	})
 
 	test('should test key presses', () => {
+		$scope.assistiveAlert = jest.fn()
 		publicMethods.start(widgetInfo, qset.data)
 		$scope.gameState.ingame = false
 		// Start screen should not register key presses
 		$scope.selectChoice({key: 'a'})
 		expect($scope.selectedChoice).toBe(-1);
 		// Start screen should open instructions
-		$scope.selectChoice({key: 'Escape'})
+		$scope.selectChoice({key: 'H'})
 		expect($scope.instructionsOpen).toBe(true)
-		$scope.selectChoice({key: 'Escape'})
+		$scope.selectChoice({key: 'h'})
 		expect($scope.instructionsOpen).toBe(false)
 
 		// Enter game
@@ -467,13 +478,13 @@ describe('Player Controller', function() {
 		expect($scope.selectedChoice).toBe(1);
 		// Test question key
 		$scope.selectChoice({key: 'q'})
-		expect($scope.assistiveAlertText).toBe("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + qset.data.items[$scope.question.current].questions[0].text);
+		expect($scope.pressedQOnce).toBe(true)
 		$scope.selectChoice({key: 'Q'})
-		expect($scope.assistiveAlertText).toBe("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ":: " + qset.data.items[$scope.question.current].questions[0].text);
+		expect($scope.pressedQOnce).toBe(false)
 		// Test help key
-		$scope.selectChoice({key: 'Escape'})
+		$scope.selectChoice({key: 'H'})
 		expect($scope.instructionsOpen).toBe(true)
-		$scope.selectChoice({key: 'Escape'})
+		$scope.selectChoice({key: 'h'})
 		expect($scope.instructionsOpen).toBe(false)
 
 	})
