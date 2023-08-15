@@ -14,6 +14,10 @@ $c: #6b6263;
 $d: #543f3d;
 $e: #a45b5b;
 $f: #87735f;
+$w: #5fac4b;
+$x: rgba(110, 199, 47, 0.9);
+$y: #ffb743;
+$z: #ffa30f;
 
 $chunky-font: 'Sigmar One', cursive;
 
@@ -43,13 +47,13 @@ body {
 	position: relative;
 
 	color: #ffffff;
-	font-size: 32px;
+	font-size: 28px;
 	font-family: $chunky-font;
 	text-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
 	text-transform: uppercase;
 	white-space: nowrap;
 
-	background: #5fac4b;
+	background-color: $x;
 	border: 0;
 	border-radius: 8px;
 	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
@@ -58,15 +62,28 @@ body {
 	cursor: pointer;
 	-webkit-appearance: none;
 
-	&:hover {
+	&#start-btn {
+		background: $x;
+	}
+
+	&#instructions-btn {
+		background: $y;
+		font-size: 24px;
+		&:hover, &:focus {
+			background: $z;
+		}
+	}
+
+	&:hover, &:focus {
 		background: #73d15a;
+		outline: solid 2px #fff;
 	}
 }
 
 .side-curtain {
 	position: absolute;
 
-	z-index: 998;
+	z-index: 10;
 
 	&.upper {
 		top: 0;
@@ -129,17 +146,13 @@ body {
 		text-align: center;
 		text-shadow: 0 6px 3px rgba(0, 0, 0, 0.3);
 	}
+}
 
-	#assistive-alert {
-		position: absolute;
-		margin: -1px;
-		border: 0;
-		padding: 0;
-		width: 1px;
-		height: 1px;
-		overflow: hidden;
-		clip: rect(0 0 0 0);
-	}
+#assistive-alert {
+	position: absolute;
+	width: 0;
+	height: 0;
+	opacity: 0;
 }
 
 .error-notice-container {
@@ -187,7 +200,7 @@ body {
 
 	text-align: center;
 
-	z-index: 1000;
+	z-index: 20;
 	transition: max-height ease 1s;
 
 	&.raised {
@@ -205,41 +218,30 @@ body {
 
 		transition: margin ease 1s;
 
-		.sign-stand {
-			position: absolute;
-			left: 50%;
-			bottom: 0;
-
-			background-image: url('assets/img/sprites.png');
-			background-position: -67px -146px, center top;
-			background-repeat: no-repeat;
-
-			height: 500px;
-			margin-left: -30px;
-			width: 60px;
-
-			z-index: 0;
-		}
-
-		h1 {
+		#splashText {
 			position: relative;
 
 			display: block;
-			height: 317px;
-			margin: 0 0 15px;
-			width: 484px;
+			height: 282px;
+			width: 430px;
+			margin: auto;
 
 			color: transparent;
 
 			background-image: url('assets/img/sprites.png');
-			background-position: -199px 0, center;
+			background-position: -177px 0, center;
+			background-size: 1669px;
 			background-repeat: no-repeat;
 
 			z-index: 1;
 		}
 
 		.reset {
-			display: none;
+			opacity: 0;
+
+			&.end {
+				opacity: 1;
+			}
 		}
 
 		&.raised {
@@ -261,6 +263,35 @@ body {
 			}
 		}
 	}
+
+	.sign-stand {
+		position: absolute;
+		left: 50%;
+		bottom: 0;
+
+		background-image: url('assets/img/sprites.png');
+		background-position: -67px -146px, center top;
+		background-repeat: no-repeat;
+
+		height: 500px;
+		margin-left: -30px;
+		width: 60px;
+
+		z-index: 0;
+	}
+
+	#aria-label {
+		position: absolute;
+		opacity: 0;
+		height: 0;
+		width: 0;
+	}
+}
+
+#focus-start, #focus-end {
+	width: 0;
+	height: 0;
+	position: absolute;
 }
 
 #choices {
@@ -301,28 +332,6 @@ body {
 			}
 		}
 
-		.background-stand {
-			position: absolute;
-			top: 50%;
-
-			height: 64px;
-			margin-top: -35px;
-			width: 100%;
-
-			background-image: url('assets/img/sprites.png');
-			background-position: -195.8839111328125px -971.9755554199219px, center;
-			background-repeat: repeat-x;
-
-			z-index: 0;
-
-			&.left {
-				right: 28px;
-			}
-			&.right {
-				left: 28px;
-			}
-		}
-
 		div.frame-wrapper {
 			position: relative;
 			display: inline-block;
@@ -356,7 +365,7 @@ body {
 
 				.overlayFeedback {
 					text-shadow: 0 4px 2px rgba(0, 0, 0, 0.6);
-					background-color: rgba(110, 199, 47, 0.9);
+					background-color: $x;
 				}
 			}
 
@@ -381,24 +390,6 @@ body {
 				background: none;
 				border: none;
 
-				.overlay {
-					position: absolute;
-					top: 20px;
-					right: 23px;
-					bottom: 32px;
-					left: 23px;
-
-					z-index: 498;
-
-					border-radius: 4px;
-
-					color: #fff;
-					font-family: $chunky-font;
-					font-size: 24px;
-					line-height: 250px;
-					text-shadow: 0 4px 2px rgba(0, 0, 0, 0.3);
-				}
-
 				.feedback {
 					position: absolute;
 					top: 115px;
@@ -406,7 +397,7 @@ body {
 					bottom: 32px;
 					left: 33px;
 
-					z-index: 499;
+					z-index: 2;
 
 					border-radius: 4px;
 					overflow-y: auto;
@@ -427,7 +418,7 @@ body {
 					bottom: 32px;
 					left: 23px;
 
-					z-index: 499;
+					z-index: 2;
 
 					border-radius: 4px;
 
@@ -459,7 +450,7 @@ body {
 					cursor: pointer;
 
 					&.choice-img {
-						
+
 						background: #fff;
 						margin-top: 20px;
 						padding: 0;
@@ -561,7 +552,7 @@ body {
 						margin-right: 0.75em;
 					}
 
-					&:hover {
+					&:hover, &:focus {
 						background: #ffe8c4;
 					}
 				}
@@ -583,6 +574,35 @@ body {
 		button.content-frame {
 			cursor: pointer;
 		}
+	}
+}
+
+.background-stand {
+	position: absolute;
+	top: 50%;
+
+	height: 64px;
+	margin-top: -35px;
+	width: 100%;
+
+	background-image: url('assets/img/sprites.png');
+	background-position: -195.8839111328125px -971.9755554199219px, center;
+	background-repeat: repeat-x;
+
+	z-index: 0;
+
+	&.left {
+		right: 28px;
+	}
+	&.right {
+		left: 28px;
+	}
+	&.top-right {
+		top: 55px;
+		right: -25px;
+		z-index: -1;
+		background-position: -183.8839111328125px -1022.9755554199219px, center;
+		height: 10px;
 	}
 }
 
@@ -676,7 +696,7 @@ body {
 	right: 40px;
 
 	bottom: 100px;
-	display: none;
+	opacity: 0;
 	height: 75px;
 	width: 95px;
 
@@ -687,6 +707,7 @@ body {
 		//animation-fill: forwards;
 		bottom: 0;
 		display: block;
+		opacity: 1;
 	}
 
 	.background-stand {
@@ -710,20 +731,166 @@ body {
 
 		//animation: pulse-bg 1s infinite;
 
-		z-index: 10;
+		z-index: 4;
 
 		&:focus {
 			outline: solid 2px #fff;
 		}
 	}
 }
+.start-btns {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	margin-top: 10px;
+	align-items: center;
+}
 
-.start,
+#ingame-instructions-btn {
+	position: absolute;
+	top: -100px;
+	left: 25px;
+	z-index: 10;
+	width: 48px;
+	height: 48px;
+	padding: 0;
+
+	background-color: $z;
+	color: #fff;
+	border: none;
+	border-radius: 100%;
+
+	font-size: 32px;
+	font-family: $chunky-font;
+
+	transition: top ease 1.5s;
+
+	&.drop {
+		top: 65px;
+	}
+
+	&:hover, &:focus {
+		background-color: $y;
+		box-shadow: 0px 5px 10px $a;
+		cursor: pointer;
+	}
+}
+
+#questions-remaining {
+	position: absolute;
+	top: -100px;
+	right: 25px;
+	z-index: 10;
+	background: none;
+	border: none;
+	margin: 0;
+	padding: 0;
+
+	transition: top ease 1.5s;
+	perspective: 500px;
+
+	p {
+		margin: 0 auto;
+		padding: 0;
+		width: 50px;
+		height: 50px;
+
+		background-color: $z;
+		color: #fff;
+		border: none;
+		border-radius: 100%;
+		box-shadow: 0px 5px 10px $a;
+
+		font-family: $chunky-font;
+
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+
+		span {
+			font-size: 14px;
+		}
+	}
+
+	#questions-remaining-inner {
+		width: 50px;
+		height: 50px;
+		z-index: 10;
+		position: relative;
+
+		transform-style: preserve-3d;
+		transition: transform 0.8s;
+		transform-origin: center;
+	}
+
+	&.drop {
+		top: 65px;
+	}
+
+	&:hover, &:focus {
+		#questions-remaining-inner {
+			transform: rotateX(180deg);
+		}
+
+		cursor: pointer;
+	}
+
+	#remaining-front {
+		backface-visibility: hidden;
+		font-size: 24px;
+	}
+
+	#remaining-back {
+		font-size: 14px;
+		transform: rotateX(180deg);
+		transform-origin: top;
+		backface-visibility: hidden;
+	}
+}
+
+#start-btn,
 .reset {
 	animation: pulse-bg 1s infinite;
 
 	&:focus {
 		outline: solid 2px #fff;
+	}
+}
+
+.instructions {
+	position: absolute;
+	margin: auto;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	width: 420px;
+	height: 370px;
+	background-color: #223863;
+	border-radius: 10%;
+	z-index: 21;
+	text-align: center;
+	border: $z 2px solid;
+	box-shadow:0px 5px 10px $a;
+
+	#controls {
+		font-family: 'Buenard', serif;
+		font-size: 1.2em;
+	}
+
+	dl, dd {
+		padding: 0;
+		margin: 0;
+	}
+
+	dt {
+		margin-top: 10px;
+	}
+
+	button {
+		margin-top: 1em;
+		background-color:rgba(110, 199, 47, 0.9)
 	}
 }
 
@@ -850,7 +1017,7 @@ body {
 
 .lightbox {
 	position: absolute;
-	z-index: -500;
+	z-index: -1;
 	width: 100%;
 	height: 100%;
 	top: 0%;
@@ -861,11 +1028,24 @@ body {
 	cursor: pointer;
 
 	&.show {
-		z-index: 500;
+		z-index: 20;
+	}
+
+	.modal-bg {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		z-index: 20;
+
+		background: rgba(0, 0, 0, 0.5);
+
+		&:hover { cursor: pointer; }
 	}
 
 	.lightbox-content {
-		position: relative;
+		position: absolute;
+		z-index: 30;
 		width: 80%;
 		height: 80%;
 		margin: 10%;
@@ -877,7 +1057,7 @@ body {
 			position: absolute;
 			top: 5px;
 			right: 5px;
-			z-index: 800;
+			z-index: 30;
 
 			width: 30px;
 			height: 30px;
@@ -895,7 +1075,7 @@ body {
 
 			cursor: pointer;
 
-			&:hover {
+			&:hover, &:focus {
 				background: #6c6c6c;
 			}
 		}

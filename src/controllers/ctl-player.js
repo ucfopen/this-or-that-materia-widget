@@ -12,12 +12,6 @@ export const shuffleArray = array => {
 	return array
 }
 
-// helper function to update the aria-live status region
-// angular binding does not cooperate well with aria-live, so we update the DOM element directly instead
-export const assistiveAlert = (alert) => {
-	if (document.getElementById('assistive-alert')) document.getElementById('assistive-alert').innerHTML = alert
-}
-
 export const getAllAnswerChoices = ($sce, _qset) => {
 	const answers = []
 	_qset.items.forEach(item => {
@@ -67,10 +61,15 @@ export const onMateriaStart = ($scope, $sce, instance, qset, version) => {
 	$scope.choices = getAllAnswerChoices($sce, _qset)
 	$scope.questionCount = _qset.items.length
 
+	if ($scope.questionCount > 0)
+		$scope.questionsRemainingText = ($scope.questionCount - $scope.question.current - 1) + " questions remaining. Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text
+
 	showNextQuestion($scope)
 }
 
 export const showNextQuestion = $scope => {
+	$scope.focusStatusButton = false
+
 	$scope.question.current++
 	const curItem = _qset.items[$scope.question.current]
 	if (curItem) {
@@ -79,6 +78,7 @@ export const showNextQuestion = $scope => {
 
 		$scope.question.selected = false
 		$scope.question.transition = false
+		$scope.selectedChoice = -1
 	} else {
 		endGame($scope)
 	}
@@ -87,8 +87,10 @@ export const showNextQuestion = $scope => {
 export const endGame = $scope => {
 	$scope.gameState.ingame = false
 	$scope.gameState.endgame = true
+	$scope.gameState.splashText = 'The End'
 	Materia.Engine.end(false)
 	$scope.title = ''
+	$scope.continueToScores = true
 	$scope.$apply()
 }
 
@@ -97,6 +99,9 @@ export const viewScores = () => {
 }
 
 export const checkChoice = ($scope, value) => {
+	if ($scope.question.selected)
+		return;
+
 	// value is 0 or 1
 	//get the id, value, and text of the chosen answer
 	const curItem = _qset.items[$scope.question.current]
@@ -109,13 +114,13 @@ export const checkChoice = ($scope, value) => {
 		case 0:
 			$scope.question.correct[value] = 'Incorrect'
 			$scope.answers[value].options.feedback = _feedback || (curItem.options && curItem.options.feedback ? curItem.options.feedback : '')
-			assistiveAlert("Your selection was incorrect.")
+			$scope.assistiveAlert("Your selection was incorrect. " + _feedback)
 			break
 
 		case 100:
 			$scope.question.correct[value] = 'Correct!'
 			$scope.answers[value].options.feedback = _feedback || ''
-			assistiveAlert("Your selection was correct.")
+			$scope.assistiveAlert("Your selection was correct. " + _feedback)
 			break
 	}
 
@@ -138,6 +143,16 @@ export const checkChoice = ($scope, value) => {
 }
 
 export const nextClicked = ($scope, $timeout) => {
+	// update the questions remaining status aria-label
+	if ($scope.question.current + 1 < $scope.questionCount) {
+		let questionsRemaining = ($scope.questionCount - $scope.question.current - 1)
+		$scope.questionsRemainingText = questionsRemaining + " question" + (questionsRemaining > 1 ? "s" : "") + "  remaining. Now on question " + ($scope.question.current + 2) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current + 1].questions[0].text
+		$scope.focusStatusButton = true
+	} else {
+		$scope.questionsRemainingText = 'No questions remaining.'
+		$scope.focusStatusButton = false
+	}
+
 	$scope.gameState.showNext = false
 	$scope.question.correct = ['', '']
 	$scope.answers[0].options.feedback = ''
@@ -147,14 +162,27 @@ export const nextClicked = ($scope, $timeout) => {
 	$scope.hands.thisRaised = false
 	$scope.hands.thatRaised = false
 
-	if (($scope.question.current + 1) < $scope.questionCount) assistiveAlert("Now on question " + ($scope.question.current + 1) + " of " + $scope.questionCount)
-	else assistiveAlert("You have completed every question")
-
-	$timeout(showNextQuestion.bind(null, $scope), 1000)
+	$timeout(showNextQuestion.bind(null, $scope), 1200)
 }
 
-export const closeIntro = $scope => {
+export const closeIntro = ($scope, $timeout) => {
 	$scope.gameState.ingame = true
+	// make splash modal aria-hidden and focus status indicator
+	$scope.focusStatusButton = true
+	$timeout(() => {
+		$scope.assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current].questions[0].text)
+		// set this to false so we can trigger it in nextClicked
+		$scope.focusStatusButton = false
+	}, 1200)
+}
+
+export const toggleInstructions = $scope => {
+	$scope.instructionsOpen = !$scope.instructionsOpen
+
+	if (!$scope.instructionsOpen && $scope.prevFocus) {
+		$scope.prevFocus.focus()
+		$scope.prevFocus = null
+	}
 }
 
 export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
@@ -162,7 +190,8 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 		ingame: false,
 		endgame: false,
 		score: 0,
-		showNext: false
+		showNext: false,
+		splashText: "This or That"
 	}
 
 	$scope.question = {
@@ -174,6 +203,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	}
 
 	$scope.questionCount = 0
+	$scope.questionsRemainingText = ''
 
 	// the stage hands
 	$scope.hands = {
@@ -188,18 +218,96 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.viewScores = viewScores
 	$scope.checkChoice = checkChoice.bind(null, $scope)
 	$scope.nextClicked = nextClicked.bind(null, $scope, $timeout)
-	$scope.closeIntro = closeIntro.bind(null, $scope)
+	$scope.closeIntro = closeIntro.bind(null, $scope, $timeout)
+	$scope.toggleInstructions = toggleInstructions.bind(null, $scope)
+	$scope.instructionsOpen = false
+	$scope.selectedChoice = -1
 
 	$scope.lightboxTarget = -1
+	$scope.focusThisExpand = false
+	$scope.focusThatExpand = false
+	$scope.focusStatusButton = false
 
+	$scope.pressedQOnce = false
+	$scope.prevFocus = null
+
+	// Opens or closes the image lightbox
+	// Values of val:
+	// ---- 0  : open image for "this" option
+	// ---- 1  : open image for "that" option
+	// ---- -1 : close image
 	$scope.setLightboxTarget = (val) => {
-		$scope.lightboxTarget = val
+		// Open the lightbox
+		if (val == 0 || val == 1)
+		{
+			$scope.assistiveAlert("Viewing image.")
+			$scope.lightboxTarget = val
+		}
+		// Close the lightbox
+		else
+		{
+			$scope.assistiveAlert("Closed image viewer.")
+			// If image for "this" option is currently open, focus "this" option's expand image button
+			if ($scope.lightboxTarget == 0)
+			{
+				$scope.focusThisExpand = true
+				setTimeout(() => {
+					$scope.focusThisExpand = false
+				}, 1000)
+			}
+			// Else focus "that" option's expand image button
+			else if ($scope.lightboxTarget == 1)
+			{
+				$scope.focusThatExpand = true
+				setTimeout(() => {
+					$scope.focusThatExpand = false
+				}, 1000)
+			}
+			$scope.lightboxTarget = -1
+		}
 	}
 
 	$scope.lightboxZoom = 0
 
 	$scope.setLightboxZoom = (val) => {
 		$scope.lightboxZoom = val
+	}
+
+	$scope.selectChoice = (event) => {
+		if ($scope.gameState.ingame)
+		{
+			// Focus this
+			if (event.key == 'a' || event.key == 'A') {
+				$scope.selectedChoice = 0;
+			}
+			// Focus that
+			else if (event.key == 'd' || event.key == 'D') {
+				$scope.selectedChoice = 1;
+			}
+			// Read question info, have two descriptions that are identical except for two colons in second one
+			// so that screenreader detects a change in the aria-live region
+			else if (event.key == 'q' || event.key == 'Q') {
+				if (!$scope.pressedQOnce)
+				{
+					$scope.assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ": " + _qset.items[$scope.question.current].questions[0].text)
+					$scope.pressedQOnce = true
+				}
+				else {
+					$scope.assistiveAlert("Question " + ($scope.question.current + 1) + " of " + $scope.questionCount + ":: " + _qset.items[$scope.question.current].questions[0].text)
+					$scope.pressedQOnce = false
+				}
+			} else if (event.key == 'H' || event.key == 'h') {
+				if (!$scope.instructionsOpen) {
+					$scope.prevFocus = event.target
+				}
+				toggleInstructions($scope);
+			}
+		} else if (event.key == 'H' || event.key == 'h') {
+			if (!$scope.instructionsOpen) {
+				$scope.prevFocus = event.target
+			}
+			toggleInstructions($scope);
+		}
 	}
 
 	$scope.getAdjustedTextSize = (text) => {
@@ -210,6 +318,12 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 
 			return (28 - Math.ceil(scaleFactor)) > 16 ? 28 - Math.ceil(scaleFactor) : 16
 		}
+	}
+
+	// helper function to update the aria-live status region
+	// angular binding does not cooperate well with aria-live, so we update the DOM element directly instead
+	$scope.assistiveAlert = (alert) => {
+		document.getElementById('assistive-alert').innerText = alert
 	}
 
 	Materia.Engine.start({ start: onMateriaStart.bind(null, $scope, $sce) })

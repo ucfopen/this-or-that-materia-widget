@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="ThisOrThatEngine" ng-controller="ThisOrThatEngineCtrl">
+<html lang="en" ng-app="ThisOrThatEngine" ng-controller="ThisOrThatEngineCtrl" ng-keydown="selectChoice($event)">
 	<head>
 		<title>This Or That Engine</title>
 		<meta charset="utf-8">
@@ -27,20 +27,75 @@
 		<script src="player.js"></script>
 	</head>
 	<body>
+
+		<!-- aria-live region to report status updates -->
+		<!-- note: browser support for aria-live is mixed, behavior may be inconsistent across browsers and devices -->
+		<div aria-live="assertive" role="status" id="assistive-alert"></div>
 		<main id="game" role="main">
-			<section id="board">
+
+			<div id="splash" ng-class="{'raised': gameState.ingame}">
+				<div class="sign-stand" aria-hidden="true"></div>
+
+				<div
+					class="sign"
+					ng-class="{'raised': gameState.ingame, 'end': gameState.endgame}"
+					role="{{gameState.endgame ? 'alertdialog' : 'dialog'}}"
+					aria-modal="true"
+					aria-hidden="{{focusStatusButton}}"
+					ng-attr-inert="{{gameState.ingame || focusStatusButton || instructionsOpen ? 'true' : undefined }}">
+					<h1 id="splashText" aria-label="Welcome to {{gameState.splashText}}"aria-hidden="{{gameState.ingame}}">{{gameState.splashText}}</h1>
+
+					<div class="start-btns">
+						<button class="start btn"
+						id="instructions-btn"
+						ng-click="toggleInstructions()"
+						aria-hidden="{{gameState.endgame || gameState.ingame }}"
+						ng-attr-inert="{{gameState.endgame ? 'true' : undefined}}"
+						focus-me="!instructionsOpen"
+						aria-label="Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press H to open the instructions. You may also navigate using your screen reader's dedicated key bindings."
+						ng-hide="gameState.endgame || gameState.ingame">
+							Keyboard Controls
+						</button>
+						<button class="start btn"
+							id="start-btn"
+							ng-click="closeIntro()"
+							aria-hidden="{{gameState.endgame || gameState.ingame }}"
+							ng-attr-inert="{{gameState.endgame || gameState.ingame ? 'true' : undefined}}"
+							ng-hide="gameState.endgame || gameState.ingame">
+							Start!
+						</button>
+					</div>
+					<button class="reset btn"
+						ng-class="{'end': gameState.endgame}"
+						ng-click="viewScores()"
+						ng-attr-inert="{{!gameState.endgame ? 'true' : undefined}}"
+						aria-hidden="{{!gameState.endgame}}"
+						aria-label="You have completed every question. Continue to scores."
+						focus-me="continueToScores || gameState.endgame">Continue to scores</button>
+				</div>
+			</div>
+
+			<section id="board" ng-attr-inert="{{!gameState.ingame || gameState.endgame  || instructionsOpen || lightboxTarget >= 0 ? 'true' : undefined}}" aria-hidden="{{!gameState.ingame || gameState.endgame || instructionsOpen || lightboxTarget >= 0 ? true : false}}" ng-hide="gameState.endgame">
 				<div class="side-curtain upper left" aria-hidden="true"></div>
 				<div class="side-curtain upper right" aria-hidden="true"></div>
 				<div class="side-curtain lower left" aria-hidden="true"></div>
 				<div class="side-curtain lower right" aria-hidden="true"></div>
 
-				<!-- aria-live region to report status updates -->
-				<!-- note: browser support for aria-live is mixed, behavior may be inconsistent across browsers and devices -->
-				<span aria-live=”polite” role="status" id="assistive-alert"></span>
+				<button id="ingame-instructions-btn" title="Help"
+				ng-click="toggleInstructions()" ng-class="{'drop': gameState.ingame}" aria-label="Keyboard controls: Press A to select the first choice. Press D to select the second choice. Then, click to lock in your answer. Press Q to hear the question again. Press H to open the instructions. You may also navigate using your screen reader's dedicated key bindings.">?</button>
+
+				<div id="questions-remaining" title="Questions Remaining" focus-me="focusStatusButton" ng-mouseover="showBack = true" ng-mouseout="showBack = false" ng-class="{'drop': gameState.ingame, 'front': !showBack, 'back': showBack}" aria-label="{{questionsRemainingText}}" role="status" tabindex="0">
+					<div id="questions-remaining-inner" aria-hidden="true">
+						<p id="remaining-front">{{question.current + 1}}</p>
+						<p id="remaining-back">of {{questionCount}}</p>
+						<div class="background-stand top-right" aria-hidden="true"></div>
+					</div>
+				</div>
+
 				<h1 id="question" ng-bind-html="title"></h1>
 
 				<!-- Holds ThisOrThat -->
-				<div id="choices">
+				<div id="choices" ng-hide="gameState.endgame">
 					<!-- LEFT -->
 					<div class="stand-container for-this"
 						ng-class="{'raised': gameState.ingame, 'lowered': question.transition}">
@@ -50,15 +105,20 @@
 							<button class="content-frame"
 								ng-if="answers[0].options.asset.type === 'text'"
 								ng-click="checkChoice(0)"
-								ng-disabled="question.selected"
+								aria-hidden="{{lightboxTarget >= 0}}"
+								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}"
 								ng-mouseenter="hands.thisRaised = true"
 								ng-mouseleave="hands.thisRaised = false"
 								ng-focus="hands.thisRaised = true"
 								ng-blur="hands.thisRaised = false"
+								focus-me="selectedChoice == 0"
 								href="#"
-								data-title="{{answers[0].text}}">
-								<span ng-show="question.correct[0] != ''" ng-class="{'overlayFeedback': question.correct[0] != ''}">{{question.correct[0]}}</span>
-								<span ng-show="question.correct[0] != '' && answers[0].options.feedback" class="feedback">{{answers[0].options.feedback}}</span>
+								data-title="{{answers[0].text}}"
+								aria-label="{{question.selected ? ((question.correct[0] == 'Correct!' || question.correct[1] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[0].options.feedback) : ''}}">
+								<div aria-hidden="true">
+									<span ng-show="question.correct[0] != ''" ng-class="{'overlayFeedback': question.correct[0] != ''}">{{question.correct[0]}}</span>
+									<span ng-show="question.correct[0] != '' && answers[0].options.feedback" class="feedback">{{answers[0].options.feedback}}</span>
+								</div>
 								<div ng-if="answers[0].options.asset.type === 'text'" class="choice choice-text" ng-style="{ 'font-size': getAdjustedTextSize(answers[0].options.asset.value) + 'px'}">
 									<span>{{answers[0].options.asset.value}}</span>
 								</div>
@@ -66,9 +126,12 @@
 							<!-- the div version of the frame: for images, audio and video -->
 							<div class="content-frame"
 								ng-if="answers[0].options.asset.type === 'audio' || answers[0].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
-								data-title="{{answers[0].text}}">
-								<span ng-show="question.correct[0] != ''" ng-class="{'overlayFeedback': question.correct[0] != ''}">{{question.correct[0]}}</span>
-								<span ng-show="question.correct[0] != '' && answers[0].options.feedback" class="feedback">{{answers[0].options.feedback}}</span>
+								data-title="{{answers[0].text}}"
+								aria-label="{{question.selected ? ((question.correct[0] == 'Correct!' || question.correct[1] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[0].options.feedback) : ''}}">
+								<div aria-hidden="true">
+									<span ng-show="question.correct[0] != ''" ng-class="{'overlayFeedback': question.correct[0] != ''}">{{question.correct[0]}}</span>
+									<span ng-show="question.correct[0] != '' && answers[0].options.feedback" class="feedback">{{answers[0].options.feedback}}</span>
+								</div>
 								<figure class="choice choice-audio" ng-if="answers[0].options.asset.type == 'audio'">
 									<figcaption>{{answers[0].text}}</figcaption>
 									<audio
@@ -81,7 +144,11 @@
 								<section class="video-frame" ng-if="answers[0].options.asset.type === 'video'">
 									<iframe class="choice choice-video"  width="100%" height="10%" ng-src="{{ answers[0].options.asset.value }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
 								</section>
-								<button class="video-expand-into-lightbox" ng-if="answers[0].options.asset.type === 'video'" ng-click="setLightboxTarget(0)" ng-disabled="question.selected"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
+								<button class="video-expand-into-lightbox"
+								id="lightbox-button-0"
+								aria-label="Expand video"
+								ng-if="answers[0].options.asset.type === 'video'" ng-click="setLightboxTarget(0)" aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}" focus-me="focusThisExpand"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
 								<button
 									class="submit-selected"
 									ng-if="answers[0].options.asset.type === 'video' || answers[0].options.asset.type === 'audio'"
@@ -89,22 +156,31 @@
 									ng-mouseenter="hands.thisRaised = true"
 									ng-mouseleave="hands.thisRaised = false"
 									ng-focus="hands.thisRaised = true"
+									aria-label="{{answers[0].text}}. Use the arrow keys to navigate to the {{answers[0].options.asset.type}}."
+									focus-me="selectedChoice == 0"
 									ng-blur="hands.thisRaised = false"
-									ng-disabled="question.selected">Select</button>
+									aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+									ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}">Select</button>
 								<button
 									ng-if="answers[0].options.asset.type === 'image'"
 									ng-click="!question.selected && checkChoice(0)"
 									ng-mouseenter="hands.thisRaised = true"
 									ng-mouseleave="hands.thisRaised = false"
 									ng-focus="hands.thisRaised = true"
+									focus-me="selectedChoice == 0"
 									ng-blur="hands.thisRaised = false"
-									ng-disabled="question.selected"
+									aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+									ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}"
 									class="choice choice-img">
 									<img
 										ng-src="{{answers[0].options.asset.value}}"
 										alt="{{answers[0].text}}" />
 									</button>
-								<button class="image-expand-into-lightbox" ng-if="answers[0].options.asset.type === 'image'" ng-click="setLightboxTarget(0)" ng-disabled="question.selected"><span class="icon icon-enlarge" aria-hidden="true"></span></button>
+								<button class="image-expand-into-lightbox"
+								aria-label="{{answers[1].options.asset.type === 'video' ? 'Expand video' : 'Expand image'}}"
+								id="lightbox-button-0"
+								ng-if="answers[0].options.asset.type === 'image'" ng-click="setLightboxTarget(0)" aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}" focus-me="focusThisExpand"><span class="icon icon-enlarge" aria-hidden="true"></span></button>
 							</div>
 						</div>
 					</div>
@@ -117,15 +193,20 @@
 							<button class="content-frame"
 								ng-if="answers[1].options.asset.type === 'text'"
 								ng-click="checkChoice(1)"
-								ng-disabled="question.selected"
+								aria-hidden="{{lightboxTarget >= 0}}"
+								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}"
 								ng-mouseenter="hands.thatRaised = true"
 								ng-mouseleave="hands.thatRaised = false"
 								ng-focus="hands.thatRaised = true"
 								ng-blur="hands.thatRaised = false"
 								href="#"
-								data-title="{{answers[1].text}}">
-								<span ng-show="question.correct[1] != ''" ng-class="{'overlayFeedback': question.correct[1] != ''}">{{question.correct[1]}}</span>
-								<span ng-show="question.correct[1] != '' && answers[1].options.feedback" class="feedback">{{answers[1].options.feedback}}</span>
+								focus-me="selectedChoice == 1"
+								data-title="{{answers[1].text}}"
+								aria-label="{{question.selected ? ((question.correct[1] == 'Correct!'  || question.correct[0] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[1].options.feedback) : ''}}">
+								<div aria-hidden="true">
+									<span ng-show="question.correct[1] != ''" ng-class="{'overlayFeedback': question.correct[1] != ''}">{{question.correct[1]}}</span>
+									<span ng-show="question.correct[1] != '' && answers[1].options.feedback" class="feedback">{{answers[1].options.feedback}}</span>
+								</div>
 								<div ng-if="answers[1].options.asset.type === 'text'" class="choice choice-text" ng-style="{ 'font-size': getAdjustedTextSize(answers[1].options.asset.value) + 'px'}">
 									<span>{{answers[1].options.asset.value}}</span>
 								</div>
@@ -133,9 +214,11 @@
 							<!-- the div version of the frame: for images, audio and video -->
 							<div class="content-frame"
 								ng-if="answers[1].options.asset.type === 'audio' || answers[1].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
-								data-title="{{answers[1].text}}">
-								<span ng-show="question.correct[1] != ''" ng-class="{'overlayFeedback': question.correct[1] != ''}">{{question.correct[1]}}</span>
-								<span ng-show="question.correct[1] != '' && answers[1].options.feedback" class="feedback">{{answers[1].options.feedback}}</span>
+								data-title="{{answers[1].text}}" aria-label="{{question.selected ? ((question.correct[1] == 'Correct!'  || question.correct[0] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[1].options.feedback) : ''}}">
+								<div aria-hidden="true">
+									<span ng-show="question.correct[1] != ''" ng-class="{'overlayFeedback': question.correct[1] != ''}">{{question.correct[1]}}</span>
+									<span ng-show="question.correct[1] != '' && answers[1].options.feedback" class="feedback">{{answers[1].options.feedback}}</span>
+								</div>
 								<figure class="choice choice-audio" ng-if="answers[1].options.asset.type == 'audio'">
 									<figcaption>{{answers[1].text}}</figcaption>
 									<audio
@@ -148,7 +231,11 @@
 								<section class="video-frame" ng-if="answers[1].options.asset.type === 'video'">
 									<iframe class="choice choice-video"  width="100%" height="10%" ng-src="{{ answers[1].options.asset.value }}" frameborder="0" allowfullscreen></iframe>
 								</section>
-								<button class="video-expand-into-lightbox" ng-if="answers[1].options.asset.type === 'video'" ng-click="setLightboxTarget(1)" ng-disabled="question.selected"><span class="icon icon-enlarge" aria-hidden="true"></span>Expand</button>
+								<button class="video-expand-into-lightbox"
+								aria-label="Expand video"
+								id="lightbox-button-1"
+								ng-if="answers[1].options.asset.type === 'video'" ng-click="setLightboxTarget(1)" aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}" focus-me="focusThatExpand"><span class="icon icon-enlarge"></span>Expand</button>
 								<button
 									class="submit-selected"
 									ng-if="answers[1].options.asset.type === 'video' || answers[1].options.asset.type === 'audio'"
@@ -156,22 +243,29 @@
 									ng-mouseenter="hands.thatRaised = true"
 									ng-mouseleave="hands.thatRaised = false"
 									ng-focus="hands.thatRaised = true"
-									ng-blur="hands.thatRaised = false"
-									ng-disabled="question.selected">Select</button>
+									aria-label="{{answers[1].text}}. Use the arrow keys to navigate to the {{answers[1].options.asset.type}}."
+									focus-me="selectedChoice == 1"
+									ng-blur="hands.thatRaised = false" aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+									ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}">Select</button>
 								<button
 									ng-if="answers[1].options.asset.type === 'image'"
 									ng-click="!question.selected && checkChoice(1)"
 									ng-mouseenter="hands.thatRaised = true"
 									ng-mouseleave="hands.thatRaised = false"
 									ng-focus="hands.thatRaised = true"
+									focus-me="selectedChoice == 1"
 									ng-blur="hands.thatRaised = false"
 									class="choice choice-img"
-									ng-disabled="question.selected">
+									aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+									ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}">
 									<img
 										ng-src="{{answers[1].options.asset.value}}"
 										alt="{{answers[1].text}}" />
 								</button>
-								<button class="image-expand-into-lightbox" ng-if="answers[1].options.asset.type === 'image'" ng-click="setLightboxTarget(1)" ng-disabled="question.selected"><span class="icon icon-enlarge" aria-hidden="true"></span></button>
+								<button class="image-expand-into-lightbox"
+								aria-label="{{answers[1].options.asset.type === 'video' ? 'Expand video' : 'Expand image'}}"
+								id="lightbox-button-0" ng-if="answers[1].options.asset.type === 'image'" ng-click="setLightboxTarget(1)" aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}" focus-me="focusThatExpand"><span class="icon icon-enlarge" aria-hidden="true"></span></button>
 							</div>
 						</div>
 					</div>
@@ -184,41 +278,38 @@
 						ng-class="{'raised': hands.thatRaised || question.choice == 1, 'correct': question.correct[1] == 'Correct!', 'incorrect': question.correct[1] == 'Incorrect'}"></div>
 				</div>
 
-				<div id="next-container" ng-class="{'raised': gameState.showNext}">
+				<div id="next-container" ng-class="{'raised': gameState.showNext}" aria-hidden="{{(!gameState.showNext && question.transition == false) || lightboxTarget >= 0}}">
 					<div class="background-stand" aria-hidden="true"></div>
 					<button class="btn"
 						id="next"
 						ng-click="nextClicked()"
-						ng-disabled="!gameState.showNext">Next</button>
+						focus-me="gameState.showNext"
+						ng-attr-inert="{{!gameState.showNext || lightboxTarget >= 0 ? 'true' : undefined}}">Next</button>
 				</div>
 			</section>
-
-			<div id="splash" ng-class="{'raised': gameState.ingame}">
-				<div class="sign" ng-class="{'raised': gameState.ingame, 'end': gameState.endgame}">
-					<div class="sign-stand" aria-hidden="true"></div>
-
-					<h1>{{gameState.splashtext}}</h1>
-
-					<div class="text-center">
-						<button class="start btn"
-							ng-click="closeIntro()"
-							ng-disabled="gameState.endgame">Start!</button>
-						<button class="reset btn"
-							ng-click="viewScores()"
-							ng-disabled="!gameState.endgame">Continue to scores</button>
-					</div>
-				</div>
-			</div>
-			<section class="lightbox" ng-class="{ 'show': lightboxTarget != -1}" ng-hide="lightboxTarget == -1">
+			<section class="lightbox" ng-class="{ 'show': lightboxTarget >= 0}" ng-hide="lightboxTarget == -1" aria-modal="true">
 				<div class="lightbox-content">
-					<button class="lightbox-close" ng-click="setLightboxTarget(-1)">X</button>
+					<button class="lightbox-close" ng-click="setLightboxTarget(-1)" aria-label="Close image" focus-me="lightboxTarget >= 0">X</button>
 					<iframe class="lightbox-video" ng-if="answers[lightboxTarget].options.asset.type == 'video'" ng-src="{{answers[lightboxTarget].options.asset.value}}" frameborder="0" allowfullscreen></iframe>
 					<div ng-if="answers[lightboxTarget].options.asset.type == 'image'" class="lightbox-image-container">
-						<img class="lightbox-image" ng-src="{{answers[lightboxTarget].options.asset.value}}" alt="{{answers[lightboxTarget].text}}" ng-class="{'lightbox-image-zoom': lightboxZoom == 1}" ng-click="setLightboxZoom(!lightboxZoom)">
+						<img role="img" class="lightbox-image" ng-src="{{answers[lightboxTarget].options.asset.value}}" alt="{{answers[lightboxTarget].text}}" ng-class="{'lightbox-image-zoom': lightboxZoom == 1}" ng-click="setLightboxZoom(!lightboxZoom)">
 					</div>
 				</div>
+				<div class='modal-bg' ng-click="setLightboxTarget(-1)" aria-hidden="true" tabindex="-1">
+				</div>
 			</section>
-			<img class="hidden-asset" ng-if="choices[$index].type == 'image'" ng-src="{{choices[$index].value}}" ng-repeat="choice in choices track by $index">
+			<section class="instructions" id="instructions-container" ng-show="instructionsOpen" role="alertdialog" aria-describedby="controls" aria-hidden="{{!instructionsOpen}}">
+				<h2>Keyboard Controls</h2>
+				<dl id="controls">
+					<dt>Use the <strong>"A" and "D" keys</strong> </dt>
+					<dd>to select left or right option.</dd>
+					<dt>Use the <strong>"Q"</strong> key</dt>
+					<dd>to listen to the question.</dd>
+					<dt>Press the <strong>"H" Key</strong></dt>
+					<dd>to Open or Close the instructions.</dd>
+				</dl>
+				<button class="btn" focus-me="instructionsOpen" ng-click="toggleInstructions()"  aria-hidden="{{!instructionsOpen}}">Okay</button>
+			</section>
 		</main>
 	</body>
 </html>
