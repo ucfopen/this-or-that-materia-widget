@@ -20,23 +20,21 @@ const newCopy = [
 ]
 
 const entries = {
-	'creator.js': [
-		'./src/creator.js'
+	'player': [
+		path.join(srcPath, 'player.html'),
+		path.join(srcPath, 'player.js'),
+		path.join(srcPath, 'player.scss')
 	],
-	'player.js': [
-		'./src/player.js'
+	'creator': [
+		path.join(srcPath, 'creator.html'),
+		path.join(srcPath, 'creator.js'),
+		path.join(srcPath, 'creator.scss'),
 	],
-	'scoreScreen.js': [
-		'./src/scoreScreen.js'
-	],
-	'scoreScreen.css': [
-		'./src/scoreScreen.html',
-		'./src/scoreScreen.scss'
-	],
-	'creator.css': ['./src/creator.scss', './src/creator.html'],
-	'player.css': ['./src/player.scss', './src/player.html'],
-	'guides/player.temp.html': [ './src/_guides/player.md'],
-	'guides/creator.temp.html': [ './src/_guides/creator.md']
+	'scoreScreen': [
+		path.join(srcPath, 'scoreScreen.html'),
+		path.join(srcPath, 'scoreScreen.js'),
+		path.join(srcPath, 'scoreScreen.scss')
+	]
 }
 
 // uses options from babel.config.js
@@ -50,11 +48,9 @@ const babelLoaderWithPolyfillRule = {
 
 const customRules = [
 	babelLoaderWithPolyfillRule,
-	rules.loadAndPrefixCSS,
 	rules.loadAndPrefixSASS,
 	rules.loadHTMLAndReplaceMateriaScripts,
 	rules.copyImages,
-	rules.loadAndCompileMarkdown
 ]
 
 // options for the build
