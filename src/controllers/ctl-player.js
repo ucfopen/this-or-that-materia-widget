@@ -54,6 +54,10 @@ export const onMateriaStart = ($scope, $sce, instance, qset, version) => {
 	_qset = qset
 	_qset.version = version
 
+	console.log(instance.name)
+
+	$scope.gameTitle = instance.name
+
 	if (_qset.options && _qset.options.randomizeOrder === true) {
 		shuffleArray(_qset.items)
 	}
