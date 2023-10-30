@@ -3,7 +3,7 @@ export const DirectiveFocus = ['$timeout', '$parse', ($timeout, $parse) => ({
 		const model = $parse(attrs.focusMe)
 		scope.$watch(model, function(value) {
 			if (value) {
-				$timeout(() => element[0].focus(), 650, true)
+				$timeout(() => element[0].focus(), true)
 			}
 		})
 	}

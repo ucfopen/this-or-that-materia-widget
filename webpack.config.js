@@ -16,6 +16,10 @@ const newCopy = [
 	{
 		from: path.join(__dirname, 'src', '_guides', 'assets'),
 		to: path.join(outputPath, 'guides', 'assets')
+	},
+	{
+		from: path.join(__dirname, 'src', 'assets', 'fonts'),
+		to: path.join(outputPath, 'assets', 'fonts')
 	}
 ]
 
