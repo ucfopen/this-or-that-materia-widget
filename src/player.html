@@ -114,7 +114,8 @@
 							<div class="content-frame"
 								ng-if="answers[0].options.asset.type === 'audio' || answers[0].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
 								data-title="{{answers[0].text}}"
-								aria-label="{{question.selected ? ((question.correct[0] == 'Correct!' || question.correct[1] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[0].options.feedback) : ''}}">
+								aria-label="{{question.selected ? ((question.correct[0] == 'Correct!' || question.correct[1] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[0].options.feedback) : ''}}"
+								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}">
 								<div aria-hidden="true">
 									<span ng-show="question.correct[0] != ''" ng-class="{'overlayFeedback': question.correct[0] != ''}">{{question.correct[0]}}</span>
 									<span ng-show="question.correct[0] != '' && answers[0].options.feedback" class="feedback">{{answers[0].options.feedback}}</span>
@@ -164,10 +165,12 @@
 										alt="{{answers[0].text}}" />
 									</button>
 								<button class="image-expand-into-lightbox"
-								aria-label="{{answers[1].options.asset.type === 'video' ? 'Expand video' : 'Expand image'}}"
-								id="lightbox-button-0"
-								ng-if="answers[0].options.asset.type === 'image'" ng-click="setLightboxTarget(0)" aria-hidden="{{question.selected || lightboxTarget >= 0}}"
-								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}" focus-me="focusThisExpand"><span class="icon icon-enlarge" aria-hidden="true"></span></button>
+									aria-label="{{answers[1].options.asset.type === 'video' ? 'Expand video' : 'Expand image'}}"
+									id="lightbox-button-0"
+									ng-if="answers[0].options.asset.type === 'image'" ng-click="setLightboxTarget(0)" aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+									ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}" focus-me="focusThisExpand">
+									<span class="icon icon-enlarge" aria-hidden="true"></span>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -201,7 +204,8 @@
 							<!-- the div version of the frame: for images, audio and video -->
 							<div class="content-frame"
 								ng-if="answers[1].options.asset.type === 'audio' || answers[1].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
-								data-title="{{answers[1].text}}" aria-label="{{question.selected ? ((question.correct[1] == 'Correct!'  || question.correct[0] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[1].options.feedback) : ''}}">
+								data-title="{{answers[1].text}}" aria-label="{{question.selected ? ((question.correct[1] == 'Correct!'  || question.correct[0] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[1].options.feedback) : ''}}"
+								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}">
 								<div aria-hidden="true">
 									<span ng-show="question.correct[1] != ''" ng-class="{'overlayFeedback': question.correct[1] != ''}">{{question.correct[1]}}</span>
 									<span ng-show="question.correct[1] != '' && answers[1].options.feedback" class="feedback">{{answers[1].options.feedback}}</span>
@@ -250,9 +254,11 @@
 										alt="{{answers[1].text}}" />
 								</button>
 								<button class="image-expand-into-lightbox"
-								aria-label="{{answers[1].options.asset.type === 'video' ? 'Expand video' : 'Expand image'}}"
-								id="lightbox-button-0" ng-if="answers[1].options.asset.type === 'image'" ng-click="setLightboxTarget(1)" aria-hidden="{{question.selected || lightboxTarget >= 0}}"
-								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}" focus-me="focusThatExpand"><span class="icon icon-enlarge" aria-hidden="true"></span></button>
+									aria-label="{{answers[1].options.asset.type === 'video' ? 'Expand video' : 'Expand image'}}"
+									id="lightbox-button-0" ng-if="answers[1].options.asset.type === 'image'" ng-click="setLightboxTarget(1)" aria-hidden="{{question.selected || lightboxTarget >= 0}}"
+									ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}" focus-me="focusThatExpand">
+									<span class="icon icon-enlarge" aria-hidden="true"></span>
+								</button>
 							</div>
 						</div>
 					</div>
