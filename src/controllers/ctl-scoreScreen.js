@@ -1,4 +1,4 @@
-export const ControllerThisOrThatScorescreen = ($scope, $sce) => {
+export const ControllerThisOrThatScorescreen = function($scope, $sce) {
 
 	$scope.items = []
 	

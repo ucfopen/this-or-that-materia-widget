@@ -176,12 +176,14 @@ export const closeIntro = ($scope, $timeout) => {
 	}, 1200)
 }
 
-export const toggleInstructions = $scope => {
+export const toggleInstructions = ($scope, $timeout) => {
 	$scope.instructionsOpen = !$scope.instructionsOpen
 
 	if (!$scope.instructionsOpen && $scope.prevFocus) {
-		$scope.prevFocus.focus()
-		$scope.prevFocus = null
+		$timeout(() => {
+			$scope.prevFocus.focus()
+			$scope.prevFocus = null
+		}, true)
 	}
 }
 
@@ -219,7 +221,7 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	$scope.checkChoice = checkChoice.bind(null, $scope)
 	$scope.nextClicked = nextClicked.bind(null, $scope, $timeout)
 	$scope.closeIntro = closeIntro.bind(null, $scope, $timeout)
-	$scope.toggleInstructions = toggleInstructions.bind(null, $scope)
+	$scope.toggleInstructions = toggleInstructions.bind(null, $scope, $timeout)
 	$scope.instructionsOpen = false
 	$scope.selectedChoice = -1
 
@@ -300,13 +302,13 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 				if (!$scope.instructionsOpen) {
 					$scope.prevFocus = event.target
 				}
-				toggleInstructions($scope);
+				toggleInstructions($scope, $timeout);
 			}
 		} else if (event.key == 'H' || event.key == 'h') {
 			if (!$scope.instructionsOpen) {
 				$scope.prevFocus = event.target
 			}
-			toggleInstructions($scope);
+			toggleInstructions($scope, $timeout);
 		}
 	}
 

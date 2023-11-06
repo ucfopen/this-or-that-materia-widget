@@ -3,9 +3,6 @@
 * {
 	transform-style: flat;
 }
-html {
-	height: 100%;
-}
 
 // Color palette.
 $a: #223863;
@@ -19,7 +16,7 @@ $x: rgba(110, 199, 47, 0.9);
 $y: #ffb743;
 $z: #ffa30f;
 
-$chunky-font: 'Sigmar One', cursive;
+$chunky-font: 'Sigmar One', sans-serif;
 
 body {
 	color: #fff;
@@ -28,17 +25,25 @@ body {
 	background-repeat: no-repeat;
 	padding: 0;
 	margin: 0;
-	width: 800px;
-	min-height: 520px;
+	width: 100%;
+	height: 100%;
+	min-height: 515px;
 	font-family: $chunky-font;
-	overflow-x: hidden;
-	overflow-y: hidden;
 	cursor: default;
 
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+
+	main {
+		position: absolute;
+		top: 0px;
+		width: 100%;
+		height: 515px;
+		overflow-x: hidden;
+		overflow-y: hidden;
+	}
 }
 
 .btn {
@@ -57,7 +62,7 @@ body {
 	border: 0;
 	border-radius: 8px;
 	box-shadow: 0 6px 6px rgba(0, 0, 0, 0.3);
-	outline: none;
+	outline: solid 2px #73d15a;
 
 	cursor: pointer;
 	-webkit-appearance: none;
@@ -133,9 +138,18 @@ body {
 }
 
 #board {
-	text-align: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	margin-bottom: 200px;
+	
 	width: 800px;
-	//height: 520px;
+	height: 515px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+
+	text-align: center;
 
 	#question {
 		margin: 68px auto 20px auto;
@@ -150,9 +164,16 @@ body {
 
 #assistive-alert {
 	position: absolute;
+	display: inline-block;
+	top: 0;
+	left: 0;
 	width: 0;
 	height: 0;
 	opacity: 0;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	transform: translate (-999px,0);
 }
 
 .error-notice-container {
@@ -189,10 +210,10 @@ body {
 
 #splash {
 	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100vh;
 	background-image: url('assets/img/sprites.png');
 	background-position: -56px bottom;
 
@@ -295,11 +316,12 @@ body {
 }
 
 #choices {
+	z-index: 0;
 	display: flex;
 	width: 750px;
 	height: 302px;
 	margin: 0 auto;
-	z-index: 0;
+	
 	transform-style: flat;
 
 	.stand-container {
@@ -365,7 +387,7 @@ body {
 
 				.overlayFeedback {
 					text-shadow: 0 4px 2px rgba(0, 0, 0, 0.6);
-					background-color: $x;
+					background-color: rgba(57, 142, 0, 0.9);
 				}
 			}
 
@@ -692,64 +714,59 @@ body {
 }
 
 #next-container {
+	z-index: 4000;
 	position: absolute;
-	right: 40px;
-
-	bottom: 100px;
-	opacity: 0;
-	height: 75px;
-	width: 95px;
-
-	transition: bottom ease 0.3s;
-
-	&.raised {
-		//animation: bouncy-in-next 0.6s;
-		//animation-fill: forwards;
-		bottom: 0;
-		display: block;
-		opacity: 1;
-	}
-
-	.background-stand {
-		position: absolute;
-		top: 0;
-		left: 50%;
-
-		margin-left: -5px;
-		height: 75px;
-		width: 10px;
-
-		background-image: url('assets/img/sprites.png');
-		background-position: -67px -146px, center top;
-		background-repeat: no-repeat;
-	}
+	bottom: -335px;
+	right: 48px;
+	height: 400px;
+	width: 200px;
 
 	#next {
+		display: block;
+		width: 110px;
+		height: 52px;
+		margin-left: 88px;
+		margin-top: 200px;
 		padding: 6px 14px;
 
 		font-size: 24px;
-
-		//animation: pulse-bg 1s infinite;
-
-		z-index: 4;
-
+	
+		transition: margin-top 0.5s;
+	
+		&.raised {
+			margin-top: 0px;
+		}
+	
+		&:after {
+			position: absolute;
+			display: block;
+			content: '';
+			top: 54px;
+			left: 45px;
+	
+			height: 75px;
+			width: 10px;
+	
+			background-image: url('assets/img/sprites.png');
+			background-position: -67px -146px, center top;
+			background-repeat: no-repeat;
+		}
+	
 		&:focus {
 			outline: solid 2px #fff;
 		}
 	}
 }
 .start-btns {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-	margin-top: 10px;
+	display: block;
+	margin-top: 60px;
 	align-items: center;
 }
 
 #ingame-instructions-btn {
 	position: absolute;
 	top: -100px;
-	left: 25px;
+	left: 15px;
 	z-index: 10;
 	width: 48px;
 	height: 48px;
@@ -779,7 +796,7 @@ body {
 #questions-remaining {
 	position: absolute;
 	top: -100px;
-	right: 25px;
+	right: 15px;
 	z-index: 10;
 	background: none;
 	border: none;
@@ -800,8 +817,6 @@ body {
 		border: none;
 		border-radius: 100%;
 		box-shadow: 0px 5px 10px $a;
-
-		font-family: $chunky-font;
 
 		position: relative;
 		display: flex;
@@ -832,8 +847,6 @@ body {
 		#questions-remaining-inner {
 			transform: rotateX(180deg);
 		}
-
-		cursor: pointer;
 	}
 
 	#remaining-front {

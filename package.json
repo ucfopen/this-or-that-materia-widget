@@ -6,7 +6,7 @@
   "version": "1.1.6",
   "dependencies": {
     "hammerjs": "1.0.5",
-    "materia-widget-development-kit": "2.5.2"
+    "materia-widget-development-kit": "3.0.0"
   },
   "devDependencies": {
     "angular": "~1.7.9",
@@ -19,9 +19,9 @@
     "prettier": "^1.19.1"
   },
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack -p",
-    "build-dev": "webpack",
+    "start": "mwdk-start",
+    "build": "mwdk-build-prod",
+    "build-dev": "mwdk-build-dev",
     "prettier-write": "prettier --write '{src,src/{directives,controllers,services}}/*.{js,scss}'",
     "prettier-check": "prettier -c '{src,src/{directives,controllers,services}}/*.{js,scss}'",
     "test": "TZ='America/New_York' jest --verbose",

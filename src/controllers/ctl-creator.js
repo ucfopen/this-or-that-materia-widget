@@ -1,4 +1,4 @@
-export const ControllerThisOrThatCreator = ($scope, $timeout, $sanitize, CreatorService, $sce) => {
+export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize, CreatorService, $sce) {
 	$scope.title = 'My This or That widget'
 	$scope.randomizeOrder = false
 	$scope.questions = []
