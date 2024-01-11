@@ -24,11 +24,12 @@
 	</head>
 	<body ng-app="ThisOrThatCreator" ng-controller="ThisOrThatCreatorCtrl">
 		<div id="modal"></div>
-
+		<div ng-show= "questionBankDialog" class="overlay"></div>
 		<div id="header">
 			<div class="logo"></div>
 			<h1 id="title" ng-bind="title" ng-click="dialog.edit = true"></h1>
 			<div class="link" ng-click="dialog.edit = true">Edit...</div>
+			<button class="qb-button" ng-click="questionBankDialog = !questionBankDialog"> Question Bank</button>
 			<button
 				aria-label="Randomize Question Order"
 				class="right"
@@ -38,7 +39,29 @@
 				Randomize Question Order: {{randomizeOrder === true ? "On" : "Off"}}
 			</button>
 		</div>
-
+		<div class="questionBankDialog-wrapper" ng-show= "questionBankDialog">
+			<div class="questionBankDialog">
+				<div class="enable-qb-question">
+					<strong>Enable question bank? </strong>
+					<div class="enable-qb-options">
+						<span>
+							<input type="radio" ng-model="enableQuestionBank" ng-value=false> No</input>
+							<input type="radio" ng-model="enableQuestionBank" ng-value=true> Yes</input>
+						</span>
+					</div>
+				</div>
+				<div>
+					<span ng-show="enableQuestionBank" >
+						<strong>How many questions to ask? </strong>
+						<div class="numInput-wrapper">
+							<input class="numInput" type="number" ng-model="questionBankVal" step="1">
+							<span> out of {{questions.length}}</span>
+						</div>
+					</span>
+				</div>
+			</div>
+			<button class="dialogCloseButton" ng-disabled="(questionBankVal < 1 || questionBankVal > questions.length) && enableQuestionBank" ng-click="questionBankDialog = false">Confirm</button>
+		</div>
 		<main class="container" role="main">
 			<div class="question-container">
 				<div class="question-slider" ng-class="{ 'activated': questions[0] }">
