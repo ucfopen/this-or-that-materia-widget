@@ -58,6 +58,23 @@ export const onMateriaStart = ($scope, $sce, instance, qset, version) => {
 		shuffleArray(_qset.items)
 	}
 
+	// if question bank is enabled, slice the qset to the length specified in the qset options
+	if(_qset.options.enableQuestionBank === true) {
+
+		// don't shuffle if the qset's been shuffled already
+		if(_qset.options.randomizeOrder === true) {
+			let qbItemsLength = qset.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (_qset.items.length - qbItemsLength + 1))
+			_qset.items = _qset.items.slice(rndStart, rndStart + qbItemsLength)
+		}
+		else {
+			shuffleArray(_qset.items)
+			let qbItemsLength = qset.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (_qset.items.length - qbItemsLength + 1))
+			_qset.items = _qset.items.slice(rndStart, rndStart + qbItemsLength)
+		}
+	}
+
 	$scope.choices = getAllAnswerChoices($sce, _qset)
 	$scope.questionCount = _qset.items.length
 
