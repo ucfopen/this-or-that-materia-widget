@@ -446,26 +446,58 @@ describe('Player Controller', function() {
 		}
 	})
 
-	test('should shuffle questions when randomize is off but enableQuestionBank is on', () => {
-		publicMethods.start(widgetInfo, qset.data)
-		qset.data.options = { randomizeOrder: true, enableQuestionBank: true, questionBankVal: 3}
+	test('should shuffle questions when randomize is false but enableQuestionBank is true with qb value at 3', () => {
+
+		let widgetInfoCopy = JSON.parse(JSON.stringify(widgetInfo));
+		let qsetCopy = JSON.parse(JSON.stringify(qset));
+		qsetCopy.data.options = { randomizeOrder: false, enableQuestionBank: true, questionBankVal: 3}
+		publicMethods.start(widgetInfoCopy, qsetCopy.data)
 
 		const originalArray = [...qset.data.items];
 
-		if(qset.data.options.randomizeOrder === true) {
-			let qbItemsLength = qset.data.options.questionBankVal
-			let rndStart = Math.floor(Math.random() * (qset.data.items.length - qbItemsLength + 1))
-			qset.data.items = qset.data.items.slice(rndStart, rndStart + qbItemsLength)
+		// qset items haven't been randomized so we must shuffle the items
+		if(qsetCopy.data.options.randomizeOrder === true) {
+			let qbItemsLength = qsetCopy.data.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (qsetCopy.data.items.length - qbItemsLength + 1))
+			qsetCopy.data.items = qsetCopy.data.items.slice(rndStart, rndStart + qbItemsLength)
 		}
 		else {
-			ctlPlayer.shuffleArray(qset.data.items)
-			let qbItemsLength = qset.options.questionBankVal
-			let rndStart = Math.floor(Math.random() * (qset.data.items.length - qbItemsLength + 1))
-			qset.data.items = qset.data.items.slice(rndStart, rndStart + qbItemsLength)
+			ctlPlayer.shuffleArray(qsetCopy.data.items)
+			let qbItemsLength = qsetCopy.data.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (qsetCopy.data.items.length - qbItemsLength + 1))
+			qsetCopy.data.items = qsetCopy.data.items.slice(rndStart, rndStart + qbItemsLength)
 		}
 
 		// array should be smaller since it got sliced
-		expect(originalArray).not.toEqual(qset.data.items);
+		expect(originalArray.length).not.toEqual(qsetCopy.data.items.length);
+
+	})
+
+	test('should shuffle questions when randomize is true and so is enableQuestionBank', () => {
+
+		let widgetInfoCopy = JSON.parse(JSON.stringify(widgetInfo));
+		let qsetCopy = JSON.parse(JSON.stringify(qset));
+		qsetCopy.data.options = { randomizeOrder: true, enableQuestionBank: true, questionBankVal: 3}
+		publicMethods.start(widgetInfoCopy, qsetCopy.data)
+
+		const originalArray = [...qset.data.items];
+
+		// qsetCopy items was randomized earlier in the player code so no need to reshuffle
+		if(qsetCopy.data.options.randomizeOrder === true) {
+			let qbItemsLength = qsetCopy.data.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (qsetCopy.data.items.length - qbItemsLength + 1))
+			qsetCopy.data.items = qsetCopy.data.items.slice(rndStart, rndStart + qbItemsLength)
+		}
+		else {
+			ctlPlayer.shuffleArray(qsetCopy.data.items)
+			let qbItemsLength = qsetCopy.data.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (qsetCopy.data.items.length - qbItemsLength + 1))
+			qsetCopy.data.items = qsetCopy.data.items.slice(rndStart, rndStart + qbItemsLength)
+		}
+
+		// array should be smaller since it got sliced
+		expect(originalArray.length).not.toEqual(qsetCopy.data.items.length);
+
 	})
 
 	test('should not shuffle questions if there are none', () => {
@@ -513,4 +545,5 @@ describe('Player Controller', function() {
 		expect($scope.instructionsOpen).toBe(false)
 
 	})
+
 })
