@@ -5,6 +5,9 @@
 // them quite a bit more complicated, and 'higher'
 // up in the unit -> functional testing ladder
 // in general we should continue to push toward more
+
+const ctlPlayer = require('./controllers/ctl-player');
+
 // direct unit tests as this project continues to evolve
 describe('Player Controller', function() {
 	require('angular/angular.js')
@@ -441,6 +444,28 @@ describe('Player Controller', function() {
 			quickSelect()
 			$timeout.flush()
 		}
+	})
+
+	test('should shuffle questions when randomize is off but enableQuestionBank is on', () => {
+		publicMethods.start(widgetInfo, qset.data)
+		qset.data.options = { randomizeOrder: true, enableQuestionBank: true, questionBankVal: 3}
+
+		const originalArray = [...qset.data.items];
+
+		if(qset.data.options.randomizeOrder === true) {
+			let qbItemsLength = qset.data.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (qset.data.items.length - qbItemsLength + 1))
+			qset.data.items = qset.data.items.slice(rndStart, rndStart + qbItemsLength)
+		}
+		else {
+			ctlPlayer.shuffleArray(qset.data.items)
+			let qbItemsLength = qset.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (qset.data.items.length - qbItemsLength + 1))
+			qset.data.items = qset.data.items.slice(rndStart, rndStart + qbItemsLength)
+		}
+
+		// array should be smaller since it got sliced
+		expect(originalArray).not.toEqual(qset.data.items);
 	})
 
 	test('should not shuffle questions if there are none', () => {

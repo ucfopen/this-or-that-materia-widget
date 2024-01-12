@@ -59,7 +59,7 @@ export const onMateriaStart = ($scope, $sce, instance, qset, version) => {
 	}
 
 	// if question bank is enabled, slice the qset to the length specified in the qset options
-	if(_qset.options.enableQuestionBank === true) {
+	if(_qset.options && _qset.options.enableQuestionBank === true) {
 
 		// don't shuffle if the qset's been shuffled already
 		if(_qset.options.randomizeOrder === true) {

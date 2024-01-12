@@ -52,8 +52,11 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 	materiaCallbacks.initExistingWidget = function(title, widget, qset, version, baseUrl) {
 		$scope.title = title
 		$scope.tutorial.step = null
-		$scope.enableQuestionBank = qset.options.enableQuestionBank ? qset.options.enableQuestionBank : false;
-		$scope.questionBankVal = qset.options.questionBankVal ? qset.options.questionBankVal : 1;
+
+		if(qset.options) {
+			$scope.enableQuestionBank = qset.options.enableQuestionBank ? qset.options.enableQuestionBank : false;
+			$scope.questionBankVal = qset.options.questionBankVal ? qset.options.questionBankVal : 1;
+		}
 		materiaCallbacks.onQuestionImportComplete(qset.items)
 	}
 
@@ -68,10 +71,11 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 			const qset = CreatorService.buildQset(
 				$sanitize($scope.title),
 				$scope.questions,
-				$scope.randomizeOrder
+				$scope.randomizeOrder,
+				$scope.enableQuestionBank,
+				$scope.questionBankVal
 			)
 			if (qset) {
-				qset.options = {enableQuestionBank: $scope.enableQuestionBank, questionBankVal: $scope.questionBankVal}
 				return Materia.CreatorCore.save($sanitize($scope.title), qset, 2)
 			}
 		} else {
