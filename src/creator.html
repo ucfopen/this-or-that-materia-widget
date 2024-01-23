@@ -39,7 +39,7 @@
 				Randomize Question Order: {{randomizeOrder === true ? "On" : "Off"}}
 			</button>
 		</div>
-		<div class="questionBankDialog-wrapper" ng-show= "questionBankDialog">
+		<div class="modal questionBankDialog-wrapper" ng-show= "questionBankDialog">
 			<div class="questionBankDialog">
 				<div class="enable-qb-question">
 					<strong>Enable question bank? </strong>
@@ -60,7 +60,7 @@
 					</span>
 				</div>
 			</div>
-			<button class="dialogCloseButton" ng-disabled="(questionBankVal < 1 || questionBankVal > questions.length) && enableQuestionBank" ng-click="questionBankDialog = false">Confirm</button>
+			<button class="dialogCloseButton btn green" ng-disabled="(questionBankVal < 1 || questionBankVal > questions.length) && enableQuestionBank" ng-click="questionBankDialog = false">CONFIRM</button>
 		</div>
 		<main class="container" role="main">
 			<div class="question-container">
