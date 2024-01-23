@@ -445,7 +445,7 @@ input[type='text'] {
 		text-align: left;
 	}
 
-	&.questionBankDialog-wrapper {
+	&.question-bank-dialog-wrapper {
 		position: fixed;
 		height: 200px;
 		width: 300px;
@@ -459,7 +459,7 @@ input[type='text'] {
 		flex-direction: column;
 		z-index: 200;
 
-		.questionBankDialog {
+		.question-bank-dialog {
 			margin: 15px;
 			width: 100%;
 			position: relative;
@@ -490,7 +490,7 @@ input[type='text'] {
 				}
 			}
 		}
-		.dialogCloseButton {
+		.dialog-close-button {
 			box-shadow: none;
 			text-shadow: none;
 			font-size: 15px;

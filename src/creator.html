@@ -24,12 +24,12 @@
 	</head>
 	<body ng-app="ThisOrThatCreator" ng-controller="ThisOrThatCreatorCtrl">
 		<div id="modal"></div>
-		<div ng-show= "questionBankDialog" class="overlay"></div>
+		<div ng-show= "questionBankModal" class="overlay"></div>
 		<div id="header">
 			<div class="logo"></div>
 			<h1 id="title" ng-bind="title" ng-click="dialog.edit = true"></h1>
 			<div class="link" ng-click="dialog.edit = true">Edit...</div>
-			<button class="qb-button" ng-click="questionBankDialog = !questionBankDialog"> Question Bank: {{enableQuestionBank === true ? "On" : "Off"}}</button>
+			<button class="qb-button" ng-click="questionBankModal = !questionBankModal"> Question Bank: {{enableQuestionBank === true ? "On" : "Off"}}</button>
 			<button
 				aria-label="Randomize Question Order"
 				class="right"
@@ -39,8 +39,8 @@
 				Randomize Question Order: {{randomizeOrder === true ? "On" : "Off"}}
 			</button>
 		</div>
-		<div class="modal questionBankDialog-wrapper" ng-show= "questionBankDialog">
-			<div class="questionBankDialog">
+		<div class="modal question-bank-dialog-wrapper" ng-show= "questionBankModal">
+			<div class="question-bank-dialog">
 				<div class="enable-qb-question">
 					<strong>Enable question bank? </strong>
 					<div class="enable-qb-options">
@@ -60,7 +60,7 @@
 					</span>
 				</div>
 			</div>
-			<button class="dialogCloseButton btn green" ng-disabled="(questionBankVal < 1 || questionBankVal > questions.length) && enableQuestionBank" ng-click="questionBankDialog = false">CONFIRM</button>
+			<button class="dialog-close-button btn green" ng-disabled="(questionBankVal < 1 || questionBankVal > questions.length) && enableQuestionBank" ng-click="questionBankModal = false">CONFIRM</button>
 		</div>
 		<main class="container" role="main">
 			<div class="question-container">
