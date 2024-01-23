@@ -47,7 +47,7 @@
 		<div class="modal question-bank-dialog-wrapper" ng-show= "questionBankModal">
 			<div class="question-bank-dialog">
 				<div class="enable-qb-question">
-					<strong>Enable question bank? </strong>
+					<label>Enable question bank? </label>
 					<div class="enable-qb-options">
 						<span>
 							<input type="radio" ng-model="enableQuestionBank" ng-value=false> No</input>
@@ -57,7 +57,7 @@
 				</div>
 				<div>
 					<span ng-show="enableQuestionBank" >
-						<strong>How many questions to ask? </strong>
+						<label>How many questions to ask? </label>
 						<div class="numInput-wrapper">
 							<input class="numInput" type="number" ng-model="questionBankVal" step="1">
 							<span> out of {{questions.length}}</span>
