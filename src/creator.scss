@@ -437,18 +437,16 @@ input[type='text'] {
 	color: #333;
 	font-weight: 300;
 	font-size: 17px;
-
-	&.intro {
-		margin: 0 auto;
-		padding: 15px;
-		width: 635px;
-		text-align: left;
-	}
+	margin: 0 auto;
+	padding: 15px;
+	width: 635px;
+	text-align: left;
 
 	&.question-bank-dialog-wrapper {
 		position: fixed;
 		height: 200px;
 		width: 300px;
+		padding: 5px;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
