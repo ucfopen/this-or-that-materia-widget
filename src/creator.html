@@ -24,7 +24,6 @@
 	</head>
 	<body ng-app="ThisOrThatCreator" ng-controller="ThisOrThatCreatorCtrl">
 		<div id="modal"></div>
-		<div ng-show= "questionBankModal" class="overlay"></div>
 		<div id="header">
 			<div class="logo"></div>
 			<h1 id="title" ng-bind="title" ng-click="dialog.edit = true"></h1>
@@ -43,29 +42,6 @@
 				ng-disabled="tutorial.step && tutorial.step < 6">
 				Randomize Question Order: {{randomizeOrder === true ? "On" : "Off"}}
 			</button>
-		</div>
-		<div class="modal question-bank-dialog-wrapper" ng-show= "questionBankModal">
-			<div class="question-bank-dialog">
-				<div class="enable-qb-question">
-					<label>Enable question bank? </label>
-					<div class="enable-qb-options">
-						<span>
-							<input type="radio" ng-model="enableQuestionBank" ng-value=false> No</input>
-							<input type="radio" ng-model="enableQuestionBank" ng-change="questionBankVal = questions.length" ng-value=true> Yes</input>
-						</span>
-					</div>
-				</div>
-				<div>
-					<span ng-show="enableQuestionBank" >
-						<label>How many questions to ask? </label>
-						<div class="numInput-wrapper">
-							<input class="numInput" type="number" ng-model="questionBankVal" step="1">
-							<span> out of {{questions.length}}</span>
-						</div>
-					</span>
-				</div>
-			</div>
-			<button class="dialog-close-button btn green" ng-disabled="(questionBankVal < 1 || questionBankVal > questions.length) && enableQuestionBank" ng-click="questionBankModal = false">CONFIRM</button>
 		</div>
 		<main class="container" role="main">
 			<div class="question-container">
@@ -453,8 +429,8 @@
 		</main>
 
 		<div class="modal-bg"
-			ng-class="{ 'show': dialog.intro || dialog.edit || dialog.invalid || dialog.rearrange }"
-			ng-click="hideModal()">
+			ng-class="{ 'show': dialog.intro || dialog.edit || dialog.invalid || dialog.rearrange || questionBankModal }"
+			ng-click="hideModal(); questionBankValTemp = questionBankVal">
 			<div class="modal-container">
 				<!-- Invalid modal -->
 				<div class="modal invalid" ng-show="dialog.invalid" ng-click="$event.stopPropagation()">
@@ -545,6 +521,31 @@
 					<button class="btn green done-btn" ng-click="hideModal()">Done</button>
 				</div>
 				<!-- /Rearrange questions modal -->
+				<!-- Question Bank Modal -->
+				<div class="modal question-bank-dialog-wrapper" ng-click="$event.stopPropagation()" ng-show= "questionBankModal">
+					<div class="question-bank-dialog">
+						<div class="enable-qb-question">
+							<label>Enable question bank? </label>
+							<div class="enable-qb-options">
+								<span>
+									<input type="radio" ng-model="enableQuestionBank" ng-value=false> No</input>
+									<input type="radio" ng-model="enableQuestionBank" ng-change="questionBankVal = questions.length; questionBankValTemp = questions.length" ng-value=true> Yes</input>
+								</span>
+							</div>
+						</div>
+						<div>
+							<span ng-show="enableQuestionBank" >
+								<label>How many questions to ask? </label>
+								<div class="numInput-wrapper">
+									<input class="numInput" type="number" ng-model="questionBankValTemp" ng-change="validateQuestionBankVal()" step="1">
+									<span> out of {{questions.length}}</span>
+								</div>
+							</span>
+						</div>
+					</div>
+					<button class="dialog-close-button btn green" ng-disabled="(questionBankValTemp < 1 || questionBankValTemp > questions.length) && enableQuestionBank" ng-click="questionBankModal = false">CONFIRM</button>
+				</div>
+				<!-- /Question Bank Modal -->
 			</div>
 		</div>
 	</body>

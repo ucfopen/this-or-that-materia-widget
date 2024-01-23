@@ -6,6 +6,7 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 	$scope.dialog = {}
 	$scope.questionBankModal = false
 	$scope.enableQuestionBank = false
+	$scope.questionBankValTemp = 1
 	$scope.questionBankVal = 1
 	$scope.tutorial = {
 		checked: false,
@@ -56,6 +57,7 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 		if(qset.options) {
 			$scope.enableQuestionBank = qset.options.enableQuestionBank ? qset.options.enableQuestionBank : false;
 			$scope.questionBankVal = qset.options.questionBankVal ? qset.options.questionBankVal : 1;
+			$scope.questionBankValTemp = qset.options.questionBankVal ? qset.options.questionBankVal : 1;
 		}
 		materiaCallbacks.onQuestionImportComplete(qset.items)
 	}
@@ -299,6 +301,12 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 
 		if ($scope.currIndex === $scope.questions.length) {
 			$timeout(() => _updateIndex('remove'), 200, true)
+		}
+	}
+
+	$scope.validateQuestionBankVal = function() {
+		if ($scope.questionBankValTemp >= 1 && $scope.questionBankValTemp <= $scope.questions.length) {
+			$scope.questionBankVal = $scope.questionBankValTemp
 		}
 	}
 
@@ -578,7 +586,7 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 	}
 
 	$scope.hideModal = () =>
-		($scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = $scope.dialog.rearrange = false)
+		($scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = $scope.dialog.rearrange = $scope.questionBankModal = false)
 
 	return Materia.CreatorCore.start(materiaCallbacks)
 }
