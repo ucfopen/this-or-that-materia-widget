@@ -152,21 +152,6 @@ ul {
 	padding: 13px 8px;
 	z-index: 100;
 
-	.qb-button {
-		height: 40px;
-		width: 140px;
-		align-content: center;
-		color: black;
-		background-color: #738dc1;
-		box-shadow: 2px 2px 5px white;
-		border-radius: 5px;
-
-		&:hover {
-			background-color: #223863;
-			color: white;
-		}
-	}
-
 	.logo {
 		display: block;
 		background: url(assets/img/materialogo.png) no-repeat;
