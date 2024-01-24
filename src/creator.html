@@ -430,7 +430,7 @@
 
 		<div class="modal-bg"
 			ng-class="{ 'show': dialog.intro || dialog.edit || dialog.invalid || dialog.rearrange || questionBankModal }"
-			ng-click="hideModal(); questionBankValTemp = questionBankVal">
+			ng-click="hideModal()">
 			<div class="modal-container">
 				<!-- Invalid modal -->
 				<div class="modal invalid" ng-show="dialog.invalid" ng-click="$event.stopPropagation()">

@@ -875,4 +875,22 @@ describe('Creator Controller', function() {
 		expect($scope.questionBankVal).toBe(1)
 
 	})
+
+	test('should test changing questionBankVal based on if questionBankValTemp is valid or not', () => {
+		qset.data.options = {questionBankVal: 3}
+
+		publicMethods.initExistingWidget(widgetInfo.name, widgetInfo, qset.data)
+
+		// expect qbVal to update when qbValTemp is valid
+		$scope.questionBankValTemp = 5
+		$scope.validateQuestionBankVal()
+		expect($scope.questionBankVal).toBe(5)
+
+		// expect qbVal to stay the same if qbValTemp is invalid
+		$scope.questionBankValTemp = -2
+		$scope.validateQuestionBankVal()
+		expect($scope.questionBankVal).toBe(5)
+
+	})
+
 })

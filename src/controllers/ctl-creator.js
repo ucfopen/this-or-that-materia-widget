@@ -585,8 +585,10 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 		}
 	}
 
-	$scope.hideModal = () =>
-		($scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = $scope.dialog.rearrange = $scope.questionBankModal = false)
+	$scope.hideModal = () => {
+		$scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = $scope.dialog.rearrange = $scope.questionBankModal = false
+		$scope.questionBankValTemp = $scope.questionBankVal
+	}
 
 	return Materia.CreatorCore.start(materiaCallbacks)
 }
