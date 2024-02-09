@@ -31,7 +31,8 @@
 			<button
 				class="right"
 				ng-click="questionBankModal = !questionBankModal"
-				ng-class="{'btn':true, 'green':enableQuestionBank, 'dark':!enableQuestionBank }">
+				ng-class="{'btn':true, 'green':enableQuestionBank, 'dark':!enableQuestionBank }"
+				ng-disabled="tutorial.step && tutorial.step < 6">
 				Question Bank: {{enableQuestionBank === true ? "On" : "Off"}}
 			</button>
 			<button
@@ -525,7 +526,7 @@
 				<div class="modal question-bank-dialog-wrapper" ng-click="$event.stopPropagation()" ng-show= "questionBankModal">
 					<div class="question-bank-dialog">
 						<div class="enable-qb-question">
-							<label>Enable question bank? </label>
+							<label style="font-weight: bold;">Enable question bank? </label>
 							<div class="enable-qb-options">
 								<span>
 									<input type="radio" ng-model="enableQuestionBank" ng-value=false> No</input>
@@ -535,7 +536,7 @@
 						</div>
 						<div>
 							<span ng-show="enableQuestionBank" >
-								<label>How many questions to ask? </label>
+								<label style="font-weight: bold;">How many questions to ask? </label>
 								<div class="num-input-wrapper">
 									<input class="num-input" type="number" ng-model="questionBankValTemp" ng-change="validateQuestionBankVal()" step="1">
 									<span> out of {{questions.length}}</span>
