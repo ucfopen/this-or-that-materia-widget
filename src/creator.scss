@@ -131,16 +131,6 @@ ul {
 	}
 }
 
-.overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 101;
-	backdrop-filter: blur(3px);
-}
-
 #header {
 	position: relative;
 	top: 0px;
@@ -534,6 +524,7 @@ input[type='text'] {
 			justify-content: center;
 		}
 	}
+
 	.dialog-close-button {
 		margin-top: 10px;
 		box-shadow: none;
