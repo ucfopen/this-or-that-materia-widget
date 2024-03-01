@@ -37,12 +37,20 @@
 			</button>
 			<button
 				aria-label="Randomize Question Order"
-				class="right"
+				class="right randomize-button"
 				ng-click="randomizeOrder=!randomizeOrder"
 				ng-class="{'btn':true, 'green':randomizeOrder, 'dark':!randomizeOrder }"
-				ng-disabled="tutorial.step && tutorial.step < 6">
-				Randomize Question Order: {{randomizeOrder === true ? "On" : "Off"}}
+				ng-disabled="(tutorial.step && tutorial.step < 6) || enableQuestionBank">
+				Randomize Question Order: {{(randomizeOrder === true || enableQuestionBank === true) ? "On" : "Off"}}
 			</button>
+			<div class="question-tip">?
+				<div class="qtip-box">
+					<p>
+						If <b>Question Bank</b> is on then the check to randomize order is disabled. This is because the question bank
+						randomizes the question order already.
+					</p>
+				</div>
+			</div>
 		</div>
 		<main class="container" role="main">
 			<div class="question-container">
