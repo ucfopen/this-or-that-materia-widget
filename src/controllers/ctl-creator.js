@@ -4,6 +4,10 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 	$scope.questions = []
 	$scope.currIndex = -1
 	$scope.dialog = {}
+	$scope.questionBankModal = false
+	$scope.enableQuestionBank = false
+	$scope.questionBankValTemp = 1
+	$scope.questionBankVal = 1
 	$scope.tutorial = {
 		checked: false,
 		step: 1,
@@ -49,6 +53,12 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 	materiaCallbacks.initExistingWidget = function(title, widget, qset, version, baseUrl) {
 		$scope.title = title
 		$scope.tutorial.step = null
+
+		if(qset.options) {
+			$scope.enableQuestionBank = qset.options.enableQuestionBank ? qset.options.enableQuestionBank : false;
+			$scope.questionBankVal = qset.options.questionBankVal ? qset.options.questionBankVal : 1;
+			$scope.questionBankValTemp = qset.options.questionBankVal ? qset.options.questionBankVal : 1;
+		}
 		materiaCallbacks.onQuestionImportComplete(qset.items)
 	}
 
@@ -63,7 +73,9 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 			const qset = CreatorService.buildQset(
 				$sanitize($scope.title),
 				$scope.questions,
-				$scope.randomizeOrder
+				$scope.randomizeOrder,
+				$scope.enableQuestionBank,
+				$scope.questionBankVal
 			)
 			if (qset) {
 				return Materia.CreatorCore.save($sanitize($scope.title), qset, 2)
@@ -289,6 +301,12 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 
 		if ($scope.currIndex === $scope.questions.length) {
 			$timeout(() => _updateIndex('remove'), 200, true)
+		}
+	}
+
+	$scope.validateQuestionBankVal = function() {
+		if ($scope.questionBankValTemp >= 1 && $scope.questionBankValTemp <= $scope.questions.length) {
+			$scope.questionBankVal = $scope.questionBankValTemp
 		}
 	}
 
@@ -567,8 +585,10 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 		}
 	}
 
-	$scope.hideModal = () =>
-		($scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = $scope.dialog.rearrange = false)
+	$scope.hideModal = () => {
+		$scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = $scope.dialog.rearrange = $scope.questionBankModal = false
+		$scope.questionBankValTemp = $scope.questionBankVal
+	}
 
 	return Materia.CreatorCore.start(materiaCallbacks)
 }

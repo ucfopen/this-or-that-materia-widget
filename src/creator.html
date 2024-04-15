@@ -24,21 +24,34 @@
 	</head>
 	<body ng-app="ThisOrThatCreator" ng-controller="ThisOrThatCreatorCtrl">
 		<div id="modal"></div>
-
 		<div id="header">
 			<div class="logo"></div>
 			<h1 id="title" ng-bind="title" ng-click="dialog.edit = true"></h1>
 			<div class="link" ng-click="dialog.edit = true">Edit...</div>
 			<button
-				aria-label="Randomize Question Order"
 				class="right"
+				ng-click="questionBankModal = !questionBankModal"
+				ng-class="{'btn':true, 'green':enableQuestionBank, 'dark':!enableQuestionBank }"
+				ng-disabled="tutorial.step && tutorial.step < 6">
+				Question Bank: {{enableQuestionBank === true ? "On" : "Off"}}
+			</button>
+			<button
+				aria-label="Randomize Question Order"
+				class="right randomize-button"
 				ng-click="randomizeOrder=!randomizeOrder"
 				ng-class="{'btn':true, 'green':randomizeOrder, 'dark':!randomizeOrder }"
-				ng-disabled="tutorial.step && tutorial.step < 6">
-				Randomize Question Order: {{randomizeOrder === true ? "On" : "Off"}}
+				ng-disabled="(tutorial.step && tutorial.step < 6) || enableQuestionBank">
+				Randomize Question Order: {{(randomizeOrder === true || enableQuestionBank === true) ? "On" : "Off"}}
 			</button>
+			<div class="question-tip">?
+				<div class="qtip-box">
+					<p>
+						If <b>Question Bank</b> is on then the check to randomize order is disabled. This is because the question bank
+						randomizes the question order already.
+					</p>
+				</div>
+			</div>
 		</div>
-
 		<main class="container" role="main">
 			<div class="question-container">
 				<div class="question-slider" ng-class="{ 'activated': questions[0] }">
@@ -425,7 +438,7 @@
 		</main>
 
 		<div class="modal-bg"
-			ng-class="{ 'show': dialog.intro || dialog.edit || dialog.invalid || dialog.rearrange }"
+			ng-class="{ 'show': dialog.intro || dialog.edit || dialog.invalid || dialog.rearrange || questionBankModal }"
 			ng-click="hideModal()">
 			<div class="modal-container">
 				<!-- Invalid modal -->
@@ -517,6 +530,33 @@
 					<button class="btn green done-btn" ng-click="hideModal()">Done</button>
 				</div>
 				<!-- /Rearrange questions modal -->
+				<!-- Question Bank Modal -->
+				<div class="modal question-bank-dialog"
+					ng-show= "questionBankModal">
+					<div class="enable-qb-question">
+						<label style="font-weight: bold;">Enable question bank? </label>
+						<div class="enable-qb-options"
+							ng-click="$event.stopPropagation()">
+							<span>
+								<input type="radio" ng-model="enableQuestionBank" ng-value=false> No</input>
+								<input type="radio" ng-model="enableQuestionBank" ng-change="questionBankVal = questions.length; questionBankValTemp = questions.length" ng-value=true> Yes</input>
+							</span>
+						</div>
+					</div>
+					<div>
+						<span ng-show="enableQuestionBank" >
+							<label style="font-weight: bold;">How many questions to ask? </label>
+							<div class="num-input-wrapper"
+								ng-click="$event.stopPropagation()">
+								<input class="num-input" type="number" ng-model="questionBankValTemp" ng-change="validateQuestionBankVal()" step="1">
+								<span> out of {{questions.length}}</span>
+							</div>
+						</span>
+					</div>
+					<p class="qb-warning">If question bank is enabled, questions will be randomized. </p>
+					<button class="dialog-close-button btn green" ng-disabled="(questionBankValTemp < 1 || questionBankValTemp > questions.length) && enableQuestionBank" ng-click="questionBankModal = false">CONFIRM</button>
+				</div>
+				<!-- /Question Bank Modal -->
 			</div>
 		</div>
 	</body>
