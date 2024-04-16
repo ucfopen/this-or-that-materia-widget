@@ -46,7 +46,7 @@
 			<div class="question-tip">?
 				<div class="qtip-box">
 					<p>
-						If <b>Question Bank</b> is on then the check to randomize order is disabled. This is because the question bank
+						If <b>Question Bank</b> is enabled then the randomize order option is disabled. This is because the question bank
 						randomizes the question order already.
 					</p>
 				</div>
@@ -533,6 +533,8 @@
 				<!-- Question Bank Modal -->
 				<div class="modal question-bank-dialog"
 					ng-show= "questionBankModal">
+					<h1>Question Bank</h1>
+					<p>When the question bank is enabled, the widget can use a subset of questions to create a randomized and unique experience every time the student hits play.</p>
 					<div class="enable-qb-question">
 						<label style="font-weight: bold;">Enable question bank? </label>
 						<div class="enable-qb-options"
@@ -553,7 +555,6 @@
 							</div>
 						</span>
 					</div>
-					<p class="qb-warning">If question bank is enabled, questions will be randomized. </p>
 					<button class="dialog-close-button btn green" ng-disabled="(questionBankValTemp < 1 || questionBankValTemp > questions.length) && enableQuestionBank" ng-click="questionBankModal = false">CONFIRM</button>
 				</div>
 				<!-- /Question Bank Modal -->

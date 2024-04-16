@@ -576,17 +576,18 @@ input[type='text'] {
 
 .question-bank-dialog {
 	position: fixed;
-	height: 200px;
-	width: 300px;
-	padding: 5px;
+	height: 380px;
+	width: 400px;
+	padding: 1em;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	flex-direction: column;
+	gap: 1em;
 	margin: 15px;
 
 	.num-input-wrapper {
@@ -602,9 +603,17 @@ input[type='text'] {
 		}
 	}
 
+	p {
+		font-size: 0.9em;
+		margin: 0.5em 1em;
+	}
+
+	label {
+		display: block;
+		margin-bottom: 0.5em;
+	}
+
 	.enable-qb-question {
-		margin-top: 15px;
-		margin-bottom: 15px;
 
 		.enable-qb-options {
 			display: flex;
@@ -612,13 +621,9 @@ input[type='text'] {
 		}
 	}
 
-	.qb-warning {
-		font-size: 14px;
-		margin: 0;
-		text-align: center;
-	}
-
 	.dialog-close-button {
+		position: absolute;
+		bottom: 2em;
 		margin-top: 10px;
 		box-shadow: none;
 		text-shadow: none;
