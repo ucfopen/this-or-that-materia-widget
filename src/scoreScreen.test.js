@@ -145,6 +145,7 @@ describe('Score Screen Controller', function() {
 				start: jest.fn(methods => {
 					publicMethods = methods
 				}),
+				setHeight: jest.fn(),
 				// alert: jest.fn(),
 				// cancelSave: jest.fn(),
 				// save: jest.fn().mockImplementation((title, qset) => {
