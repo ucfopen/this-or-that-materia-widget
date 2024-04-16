@@ -4,6 +4,8 @@ export const ControllerThisOrThatScorescreen = function($scope, $sce) {
 	
 	const materiaCallbacks = {}
 
+	const getHeight = () => Math.ceil(parseFloat(window.getComputedStyle(document.querySelector('html')).height))
+
 	const getQuestionIndex = (qset, id) => {
 		for (let i = 0; i < qset.items.length; i++) {
 			if (qset.items[i].id == id) return i
@@ -21,7 +23,7 @@ export const ControllerThisOrThatScorescreen = function($scope, $sce) {
 		return parseInt((overallDeduction / numIncorrect) * 100)
 	}
 
-	materiaCallbacks.start = (instance, qset, scoreTable, isPreview, qsetVersion) => {
+	materiaCallbacks.update = (qset, scoreTable) => {
 		$scope.$apply(() => {
 			$scope.items = scoreTable.map((question, index) => {
 
@@ -60,6 +62,12 @@ export const ControllerThisOrThatScorescreen = function($scope, $sce) {
 				return item
 			})
 		})
+
+		Materia.ScoreCore.setHeight(getHeight())
+	}
+
+	materiaCallbacks.start = (instance, qset, scoreTable, isPreview, qsetVersion) => {
+		materiaCallbacks.update(qset, scoreTable)
 	}
 
 	Materia.ScoreCore.hideResultsTable()
