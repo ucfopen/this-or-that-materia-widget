@@ -203,7 +203,7 @@
 							</button>
 							<!-- the div version of the frame: for images, audio and video -->
 							<div class="content-frame"
-								ng-if="answers[1].options.asset.type === 'audio' || answers[1].options.asset.type === 'video' || answers[0].options.asset.type === 'image'"
+								ng-if="answers[1].options.asset.type === 'audio' || answers[1].options.asset.type === 'video' || answers[1].options.asset.type === 'image'"
 								data-title="{{answers[1].text}}" aria-label="{{question.selected ? ((question.correct[1] == 'Correct!'  || question.correct[0] == 'Incorrect' ? 'Correct answer, ' : 'Incorrect answer, ') + answers[1].options.feedback) : ''}}"
 								ng-attr-inert="{{question.selected || lightboxTarget >= 0 ? 'true' : undefined}}">
 								<div aria-hidden="true">
