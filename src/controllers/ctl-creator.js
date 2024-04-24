@@ -16,11 +16,9 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 			'Pick the answer type',
 			'CORRECT_ITEM_SELECT',
 			'CORRECT_ITEM_DESCRIPTION',
-			'Enter some optional feedback',
 			'Pick the answer type',
 			'INCORRECT_ITEM_SELECT',
 			'INCORRECT_ITEM_DESCRIPTION',
-			'Enter some optional feedback',
 			'Add another question'
 		]
 	}
@@ -329,11 +327,11 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 			}
 		}
 
-		$scope.tutorialIncrement(sideIndex ? 6 : 2)
+		$scope.tutorialIncrement(sideIndex ? 5 : 2)
 		switch (type) {
 			case 'image':
-				$scope.tutorial.text[sideIndex ? 6 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct image`
-				$scope.tutorial.text[sideIndex ? 7 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct image`
+				$scope.tutorial.text[sideIndex ? 5 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct image`
+				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct image`
 				break
 			case 'text':
 				if (side == $scope.CORRECT) {
@@ -343,16 +341,16 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 				{
 					$scope.questions[currIndex].incorrect.alt = '-'
 				}
-				$scope.tutorial.text[sideIndex ? 6 : 2] = `Enter the ${sideIndex ? 'in' : ''}correct answer`
-				$scope.tutorial.text[sideIndex ? 7 : 3] = ``
+				$scope.tutorial.text[sideIndex ? 5 : 2] = `Enter the ${sideIndex ? 'in' : ''}correct answer`
+				$scope.tutorial.text[sideIndex ? 6 : 3] = ``
 				break
 			case 'audio':
-				$scope.tutorial.text[sideIndex ? 6 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct audio`
-				$scope.tutorial.text[sideIndex ? 7 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct audio`
+				$scope.tutorial.text[sideIndex ? 5 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct audio`
+				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct audio`
 				break
 			case 'video':
-				$scope.tutorial.text[sideIndex ? 6 : 2] = `Link the ${sideIndex ? 'in' : ''}correct video`
-				$scope.tutorial.text[sideIndex ? 7 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct video`
+				$scope.tutorial.text[sideIndex ? 5 : 2] = `Link the ${sideIndex ? 'in' : ''}correct video`
+				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct video`
 				break
 		}
 	}
