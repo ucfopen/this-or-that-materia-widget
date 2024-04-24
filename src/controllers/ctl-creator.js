@@ -537,7 +537,7 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 		if ($scope.tutorial.step > 0) {
 			if (step >= $scope.tutorial.step)
 			{
-				if (step == 11) {
+				if (step == 9) {
 					return $scope.tutorial.step = null
 				}
 				else {

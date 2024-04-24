@@ -189,8 +189,6 @@ describe('Creator Controller', function() {
 		expect($scope.tutorial.step).toBe(2)
 		$scope.tutorialIncrement(1)
 		expect($scope.tutorial.step).toBe(2)
-		$scope.tutorialIncrement(6)
-		expect($scope.tutorial.step).toBe(2)
 
 		$scope.tutorialIncrement(2)
 		expect($scope.tutorial.step).toBe(3)
@@ -228,18 +226,8 @@ describe('Creator Controller', function() {
 		expect($scope.tutorial.step).toBe(9)
 
 		$scope.tutorialIncrement(9)
-		expect($scope.tutorial.step).toBe(10)
-		$scope.tutorialIncrement(9)
-		expect($scope.tutorial.step).toBe(10)
-
-		$scope.tutorialIncrement(10)
-		expect($scope.tutorial.step).toBe(11)
-		$scope.tutorialIncrement(10)
-		expect($scope.tutorial.step).toBe(11)
-
-		$scope.tutorialIncrement(11)
 		expect($scope.tutorial.step).toBeNull()
-		$scope.tutorialIncrement(11)
+		$scope.tutorialIncrement(9)
 		expect($scope.tutorial.step).toBeNull()
 	})
 
