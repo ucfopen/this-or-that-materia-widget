@@ -535,13 +535,13 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 
 	$scope.tutorialIncrement = function(step) {
 		if ($scope.tutorial.step > 0) {
-			if (step == $scope.tutorial.step)
+			if (step >= $scope.tutorial.step)
 			{
 				if (step == 11) {
 					return $scope.tutorial.step = null
 				}
 				else {
-					return $scope.tutorial.step++
+					return $scope.tutorial.step = step + 1
 				}
 			}
 		} else {
