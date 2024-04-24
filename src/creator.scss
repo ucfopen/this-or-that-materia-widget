@@ -366,71 +366,57 @@ input[type='text'] {
 		border-width: 8px;
 		margin: -8px 0 0 0;
 	}
-
+	// question
 	&.step1 {
 		top: 75px;
 		left: 390px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
-
+	// correct item type
 	&.step2 {
 		top: 405px;
 		left: 129px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
-
+	// correct item selection (image | text | audio | video)
 	&.step3 {
 		top: 405px;
 		left: 115px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
-
+	// correct item description
 	&.step4 {
 		top: 465px;
 		left: 105px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
-
+	// incorrect item type
 	&.step5 {
-		top: 530px;
-		left: 105px;
-		opacity: 1;
-		animation: pounce-down 1s infinite;
-	}
-
-	&.step6 {
 		top: 405px;
 		right: 130px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
-
-	&.step7 {
+	// incorrect item selection (image | text | audio | video)
+	&.step6 {
 		top: 405px;
 		right: 105px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
-
-	&.step8 {
+	// incorrect item description
+	&.step7 {
 		top: 465px;
 		right: 105px;
 		opacity: 1;
 		animation: pounce-down 1s infinite;
 	}
-	// Feedback for incorrect
-	&.step9 {
-		top: 530px;
-		right: 105px;
-		opacity: 1;
-		animation: pounce-down 1s infinite;
-	}
 	// Add question
-	&.step10 {
+	&.step8 {
 		right: 135px;
 		opacity: 1;
 		animation: pounce-left 1s infinite;
