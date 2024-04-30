@@ -11,20 +11,22 @@ This or That tasks students with selecting the correct option in response to a q
 1. Widget title
 2. Question text
 3. Correct answer type selection 
-4. Incorrect answer type selection
+4. Incorrect answer (with image selected)
 5. Paginate between questions
-6. Duplicate this question
-7. Question overview/selection
-8. Rearrange questions dialog
-9. Add a new question
-10. Delete this question
-11. Randomize the ordering of questions
+6. Description (alt text) and optional feedback for incorrect choice
+7. Duplicate question
+8. Question selection
+9. Rearrange the order of questions
+10. Add another question
+11. Delete this question
+12. Question bank feature
+13. Randomize questions toggle
 
 Upon initializing the creator, you will be prompted to provide a title for your widget, and can also opt out of the tutorial if desired. The tutorial will walk you through entering the question text, correct and incorrect answer options, and option descriptions.
 
 Note that the correct and incorrect description text is normally not visible to the user - they are intended primarily for accessibility purposes when the widget is played using a screenreader.
 
-By default, questions will be ordered based on their arrangement in the creator - if you wish to randomize the ordering of questions when played, select the **Randomize Question Order** toggle on the top-right.
+By default, questions will be ordered based on their arrangement in the creator. If you wish to randomize the ordering of questions when played, select the **Randomize Question Order** toggle on the top-right. _Note that when the Question Bank feature is enabled, questions will always be randomized. See the Question Bank section below._
 
 ### Answer Options ###
 
@@ -48,4 +50,8 @@ For **audio** choices, the description text is visible alongside the audio contr
 **Video**, if selected, will provide an input box in which you can paste a YouTube or Vimeo URL. Most permutations of these URLs are accepted. When successfully embedded, a player will be visible with a preview of the embedded video.
 
 ![Creator embedded video example](assets/creator_guide_4_video.png "Creator embedded video example")
+
+### Question Bank ###
+
+When enabled, the question bank feature will select a subset of the questions you have authored at random every time a new play is initialized. You can adjust the size of the subset up to the maximum question count. For example, if you create 10 questions, and enable the question bank with 6 questions, the widget will select 6 questions out of the 10 at random whenever a student interacts with your widget. Note that the randomize toggle will be force-enabled when the question bank is turned on, because the question bank feature supersedes it.
 
