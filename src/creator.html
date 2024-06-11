@@ -200,6 +200,7 @@
 											ng-class="{'valid' : questions[currIndex].correct.videoValid == true, 'invalid': questions[currIndex].correct.videoValid == false}"
 											placeholder="Enter a YouTube or Vimeo URL"
 											ng-change="tutorialIncrement(3); questions[currIndex].correct.videoValid = null"
+											ng-blur="questions[currIndex].correct.videoValid = true"
 											required
 											ng-model="questions[currIndex].correct.value"
 											ng-disabled="tutorial.step && tutorial.step < 3" />
@@ -350,6 +351,7 @@
 											ng-class="{'valid' : questions[currIndex].incorrect.videoValid == true, 'invalid': questions[currIndex].incorrect.videoValid == false}"
 											placeholder="Enter a YouTube or Vimeo URL"
 											ng-change="tutorialIncrement(6); questions[currIndex].incorrect.videoValid = null"
+											ng-blur="questions[currIndex].incorrect.videoValid = true"
 											required
 											ng-model="questions[currIndex].incorrect.value"
 											ng-disabled="tutorial.step && tutorial.step < 6" />
