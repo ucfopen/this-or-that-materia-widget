@@ -330,12 +330,12 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	}
 
 	$scope.getAdjustedTextSize = (text) => {
-		if (text.length < 140) return 28
+		if (text.length < 140) return 26
 		else {
-			let offset = text.length - 140
-			let scaleFactor = offset / 12 // adjust this value to increase or decrease the rate of text scaling
+			let offset = text.length - 80
+			let scaleFactor = offset / 4 // adjust this value to increase or decrease the rate of text scaling
 
-			return (28 - Math.ceil(scaleFactor)) > 16 ? 28 - Math.ceil(scaleFactor) : 16
+			return (28 - Math.ceil(scaleFactor)) > 15 ? 28 - Math.ceil(scaleFactor) : 15
 		}
 	}
 
