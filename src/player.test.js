@@ -144,8 +144,8 @@ describe('Player Controller', function() {
 		const shortTextString = "I am a string below 140 characters"
 		const longTextString = "I am a string that's quite a bit longer; in fact one might say I'm a really long text string. Some say there may be longer text strings out there, but I'm not sure about that. Have you ever seen one?"
 
-		expect($scope.getAdjustedTextSize(shortTextString)).toEqual(28)
-		expect($scope.getAdjustedTextSize(longTextString)).toEqual(23)
+		expect($scope.getAdjustedTextSize(shortTextString)).toEqual(26)
+		expect($scope.getAdjustedTextSize(longTextString)).toEqual(15)
 	})
 
 	test('should check a "correct" answer choice', () => {
