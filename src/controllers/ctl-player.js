@@ -58,6 +58,23 @@ export const onMateriaStart = ($scope, $sce, instance, qset, version) => {
 		shuffleArray(_qset.items)
 	}
 
+	// if question bank is enabled, slice the qset to the length specified in the qset options
+	if(_qset.options && _qset.options.enableQuestionBank === true) {
+
+		// don't shuffle if the qset's been shuffled already
+		if(_qset.options.randomizeOrder === true) {
+			let qbItemsLength = qset.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (_qset.items.length - qbItemsLength + 1))
+			_qset.items = _qset.items.slice(rndStart, rndStart + qbItemsLength)
+		}
+		else {
+			shuffleArray(_qset.items)
+			let qbItemsLength = qset.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (_qset.items.length - qbItemsLength + 1))
+			_qset.items = _qset.items.slice(rndStart, rndStart + qbItemsLength)
+		}
+	}
+
 	$scope.choices = getAllAnswerChoices($sce, _qset)
 	$scope.questionCount = _qset.items.length
 
@@ -313,12 +330,12 @@ export const ControllerThisOrThatPlayer = function($scope, $timeout, $sce) {
 	}
 
 	$scope.getAdjustedTextSize = (text) => {
-		if (text.length < 140) return 28
+		if (text.length < 140) return 26
 		else {
-			let offset = text.length - 140
-			let scaleFactor = offset / 12 // adjust this value to increase or decrease the rate of text scaling
+			let offset = text.length - 80
+			let scaleFactor = offset / 4 // adjust this value to increase or decrease the rate of text scaling
 
-			return (28 - Math.ceil(scaleFactor)) > 16 ? 28 - Math.ceil(scaleFactor) : 16
+			return (28 - Math.ceil(scaleFactor)) > 15 ? 28 - Math.ceil(scaleFactor) : 15
 		}
 	}
 

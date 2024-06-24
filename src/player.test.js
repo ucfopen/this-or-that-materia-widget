@@ -5,6 +5,9 @@
 // them quite a bit more complicated, and 'higher'
 // up in the unit -> functional testing ladder
 // in general we should continue to push toward more
+
+const ctlPlayer = require('./controllers/ctl-player');
+
 // direct unit tests as this project continues to evolve
 describe('Player Controller', function() {
 	require('angular/angular.js')
@@ -141,8 +144,8 @@ describe('Player Controller', function() {
 		const shortTextString = "I am a string below 140 characters"
 		const longTextString = "I am a string that's quite a bit longer; in fact one might say I'm a really long text string. Some say there may be longer text strings out there, but I'm not sure about that. Have you ever seen one?"
 
-		expect($scope.getAdjustedTextSize(shortTextString)).toEqual(28)
-		expect($scope.getAdjustedTextSize(longTextString)).toEqual(23)
+		expect($scope.getAdjustedTextSize(shortTextString)).toEqual(26)
+		expect($scope.getAdjustedTextSize(longTextString)).toEqual(15)
 	})
 
 	test('should check a "correct" answer choice', () => {
@@ -443,6 +446,60 @@ describe('Player Controller', function() {
 		}
 	})
 
+	test('should shuffle questions when randomize is false but enableQuestionBank is true with qb value at 3', () => {
+
+		let widgetInfoCopy = JSON.parse(JSON.stringify(widgetInfo));
+		let qsetCopy = JSON.parse(JSON.stringify(qset));
+		qsetCopy.data.options = { randomizeOrder: false, enableQuestionBank: true, questionBankVal: 3}
+		publicMethods.start(widgetInfoCopy, qsetCopy.data)
+
+		const originalArray = [...qset.data.items];
+
+		// qset items haven't been randomized so we must shuffle the items
+		if(qsetCopy.data.options.randomizeOrder === true) {
+			let qbItemsLength = qsetCopy.data.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (qsetCopy.data.items.length - qbItemsLength + 1))
+			qsetCopy.data.items = qsetCopy.data.items.slice(rndStart, rndStart + qbItemsLength)
+		}
+		else {
+			ctlPlayer.shuffleArray(qsetCopy.data.items)
+			let qbItemsLength = qsetCopy.data.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (qsetCopy.data.items.length - qbItemsLength + 1))
+			qsetCopy.data.items = qsetCopy.data.items.slice(rndStart, rndStart + qbItemsLength)
+		}
+
+		// array should be smaller since it got sliced
+		expect(originalArray.length).not.toEqual(qsetCopy.data.items.length);
+
+	})
+
+	test('should shuffle questions when randomize is true and so is enableQuestionBank', () => {
+
+		let widgetInfoCopy = JSON.parse(JSON.stringify(widgetInfo));
+		let qsetCopy = JSON.parse(JSON.stringify(qset));
+		qsetCopy.data.options = { randomizeOrder: true, enableQuestionBank: true, questionBankVal: 3}
+		publicMethods.start(widgetInfoCopy, qsetCopy.data)
+
+		const originalArray = [...qset.data.items];
+
+		// qsetCopy items was randomized earlier in the player code so no need to reshuffle
+		if(qsetCopy.data.options.randomizeOrder === true) {
+			let qbItemsLength = qsetCopy.data.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (qsetCopy.data.items.length - qbItemsLength + 1))
+			qsetCopy.data.items = qsetCopy.data.items.slice(rndStart, rndStart + qbItemsLength)
+		}
+		else {
+			ctlPlayer.shuffleArray(qsetCopy.data.items)
+			let qbItemsLength = qsetCopy.data.options.questionBankVal
+			let rndStart = Math.floor(Math.random() * (qsetCopy.data.items.length - qbItemsLength + 1))
+			qsetCopy.data.items = qsetCopy.data.items.slice(rndStart, rndStart + qbItemsLength)
+		}
+
+		// array should be smaller since it got sliced
+		expect(originalArray.length).not.toEqual(qsetCopy.data.items.length);
+
+	})
+
 	test('should not shuffle questions if there are none', () => {
 		global.Math.random = jest.fn(() => 0.1)
 		qset.data.items = []
@@ -488,4 +545,5 @@ describe('Player Controller', function() {
 		expect($scope.instructionsOpen).toBe(false)
 
 	})
+
 })

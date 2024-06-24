@@ -4,6 +4,10 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 	$scope.questions = []
 	$scope.currIndex = -1
 	$scope.dialog = {}
+	$scope.questionBankModal = false
+	$scope.enableQuestionBank = false
+	$scope.questionBankValTemp = 1
+	$scope.questionBankVal = 1
 	$scope.tutorial = {
 		checked: false,
 		step: 1,
@@ -12,11 +16,9 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 			'Pick the answer type',
 			'CORRECT_ITEM_SELECT',
 			'CORRECT_ITEM_DESCRIPTION',
-			'Enter some optional feedback',
 			'Pick the answer type',
 			'INCORRECT_ITEM_SELECT',
 			'INCORRECT_ITEM_DESCRIPTION',
-			'Enter some optional feedback',
 			'Add another question'
 		]
 	}
@@ -49,6 +51,12 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 	materiaCallbacks.initExistingWidget = function(title, widget, qset, version, baseUrl) {
 		$scope.title = title
 		$scope.tutorial.step = null
+
+		if(qset.options) {
+			$scope.enableQuestionBank = qset.options.enableQuestionBank ? qset.options.enableQuestionBank : false;
+			$scope.questionBankVal = qset.options.questionBankVal ? qset.options.questionBankVal : 1;
+			$scope.questionBankValTemp = qset.options.questionBankVal ? qset.options.questionBankVal : 1;
+		}
 		materiaCallbacks.onQuestionImportComplete(qset.items)
 	}
 
@@ -63,7 +71,9 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 			const qset = CreatorService.buildQset(
 				$sanitize($scope.title),
 				$scope.questions,
-				$scope.randomizeOrder
+				$scope.randomizeOrder,
+				$scope.enableQuestionBank,
+				$scope.questionBankVal
 			)
 			if (qset) {
 				return Materia.CreatorCore.save($sanitize($scope.title), qset, 2)
@@ -292,6 +302,12 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 		}
 	}
 
+	$scope.validateQuestionBankVal = function() {
+		if ($scope.questionBankValTemp >= 1 && $scope.questionBankValTemp <= $scope.questions.length) {
+			$scope.questionBankVal = $scope.questionBankValTemp
+		}
+	}
+
 	$scope.updateAnswerType = function(type, currIndex, side) {
 		let sideIndex = 0
 		if (side == $scope.CORRECT) {
@@ -311,11 +327,11 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 			}
 		}
 
-		$scope.tutorialIncrement(sideIndex ? 6 : 2)
+		$scope.tutorialIncrement(sideIndex ? 5 : 2)
 		switch (type) {
 			case 'image':
-				$scope.tutorial.text[sideIndex ? 6 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct image`
-				$scope.tutorial.text[sideIndex ? 7 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct image`
+				$scope.tutorial.text[sideIndex ? 5 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct image`
+				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct image`
 				break
 			case 'text':
 				if (side == $scope.CORRECT) {
@@ -325,16 +341,16 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 				{
 					$scope.questions[currIndex].incorrect.alt = '-'
 				}
-				$scope.tutorial.text[sideIndex ? 6 : 2] = `Enter the ${sideIndex ? 'in' : ''}correct answer`
-				$scope.tutorial.text[sideIndex ? 7 : 3] = ``
+				$scope.tutorial.text[sideIndex ? 5 : 2] = `Enter the ${sideIndex ? 'in' : ''}correct answer`
+				$scope.tutorial.text[sideIndex ? 6 : 3] = ``
 				break
 			case 'audio':
-				$scope.tutorial.text[sideIndex ? 6 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct audio`
-				$scope.tutorial.text[sideIndex ? 7 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct audio`
+				$scope.tutorial.text[sideIndex ? 5 : 2] = `Upload the ${sideIndex ? 'in' : ''}correct audio`
+				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct audio`
 				break
 			case 'video':
-				$scope.tutorial.text[sideIndex ? 6 : 2] = `Link the ${sideIndex ? 'in' : ''}correct video`
-				$scope.tutorial.text[sideIndex ? 7 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct video`
+				$scope.tutorial.text[sideIndex ? 5 : 2] = `Link the ${sideIndex ? 'in' : ''}correct video`
+				$scope.tutorial.text[sideIndex ? 6 : 3] = `Describe the ${sideIndex ? 'in' : ''}correct video`
 				break
 		}
 	}
@@ -519,13 +535,13 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 
 	$scope.tutorialIncrement = function(step) {
 		if ($scope.tutorial.step > 0) {
-			if (step == $scope.tutorial.step)
+			if (step >= $scope.tutorial.step)
 			{
-				if (step == 11) {
+				if (step == 9) {
 					return $scope.tutorial.step = null
 				}
 				else {
-					return $scope.tutorial.step++
+					return $scope.tutorial.step = step + 1
 				}
 			}
 		} else {
@@ -567,8 +583,10 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 		}
 	}
 
-	$scope.hideModal = () =>
-		($scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = $scope.dialog.rearrange = false)
+	$scope.hideModal = () => {
+		$scope.dialog.invalid = $scope.dialog.edit = $scope.dialog.intro = $scope.dialog.rearrange = $scope.questionBankModal = false
+		$scope.questionBankValTemp = $scope.questionBankVal
+	}
 
 	return Materia.CreatorCore.start(materiaCallbacks)
 }

@@ -1,4 +1,4 @@
-export const buildQset = ($sanitize, title, items, isRandom) => {
+export const buildQset = ($sanitize, title, items, isRandom, enableQuestionBank, questionBankVal) => {
 	const qsetItems = []
 	const qset = {}
 	qset.options = {}
@@ -18,6 +18,9 @@ export const buildQset = ($sanitize, title, items, isRandom) => {
 
 	qset.items = qsetItems
 	qset.options.randomizeOrder = isRandom
+	qset.options.enableQuestionBank = enableQuestionBank
+	qset.options.questionBankVal = questionBankVal
+
 	return qset
 }
 

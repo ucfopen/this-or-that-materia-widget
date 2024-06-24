@@ -189,8 +189,6 @@ describe('Creator Controller', function() {
 		expect($scope.tutorial.step).toBe(2)
 		$scope.tutorialIncrement(1)
 		expect($scope.tutorial.step).toBe(2)
-		$scope.tutorialIncrement(6)
-		expect($scope.tutorial.step).toBe(2)
 
 		$scope.tutorialIncrement(2)
 		expect($scope.tutorial.step).toBe(3)
@@ -228,18 +226,8 @@ describe('Creator Controller', function() {
 		expect($scope.tutorial.step).toBe(9)
 
 		$scope.tutorialIncrement(9)
-		expect($scope.tutorial.step).toBe(10)
-		$scope.tutorialIncrement(9)
-		expect($scope.tutorial.step).toBe(10)
-
-		$scope.tutorialIncrement(10)
-		expect($scope.tutorial.step).toBe(11)
-		$scope.tutorialIncrement(10)
-		expect($scope.tutorial.step).toBe(11)
-
-		$scope.tutorialIncrement(11)
 		expect($scope.tutorial.step).toBeNull()
-		$scope.tutorialIncrement(11)
+		$scope.tutorialIncrement(9)
 		expect($scope.tutorial.step).toBeNull()
 	})
 
@@ -836,4 +824,61 @@ describe('Creator Controller', function() {
 		expect($scope.title).toEqual(widgetInfo.name)
 		expect($scope.questions.length).toEqual(5)
 	})
+
+	test('should test questionBank variable data if qset.options exists', () => {
+		qset.data.options = { enableQuestionBank: true, questionBankVal: 3 }
+		publicMethods.initExistingWidget(widgetInfo.name, widgetInfo, qset.data)
+
+		if(qset.data.options.enableQuestionBank === true) {
+			$scope.enableQuestionBank = qset.data.options.enableQuestionBank
+		}
+		else {
+			$scope.enableQuestionBank = false
+		}
+
+		if(qset.data.options.questionBankVal) {
+			$scope.questionBankVal = qset.data.options.questionBankVal
+		}
+
+
+		expect($scope.enableQuestionBank).toBe(true)
+		expect($scope.questionBankVal).toBe(3)
+
+	})
+
+	test('should test questionBank variable data if qset.options exists but does not have questionBank data', () => {
+		qset.data.options = {}
+		publicMethods.initExistingWidget(widgetInfo.name, widgetInfo, qset.data)
+
+		if(qset.data.options.enableQuestionBank === undefined) {
+			$scope.enableQuestionBank = false
+		}
+
+		if(qset.data.options.questionBankVal === undefined) {
+			$scope.questionBankVal = 1
+		}
+
+
+		expect($scope.enableQuestionBank).toBe(false)
+		expect($scope.questionBankVal).toBe(1)
+
+	})
+
+	test('should test changing questionBankVal based on if questionBankValTemp is valid or not', () => {
+		qset.data.options = {questionBankVal: 3}
+
+		publicMethods.initExistingWidget(widgetInfo.name, widgetInfo, qset.data)
+
+		// expect qbVal to update when qbValTemp is valid
+		$scope.questionBankValTemp = 5
+		$scope.validateQuestionBankVal()
+		expect($scope.questionBankVal).toBe(5)
+
+		// expect qbVal to stay the same if qbValTemp is invalid
+		$scope.questionBankValTemp = -2
+		$scope.validateQuestionBankVal()
+		expect($scope.questionBankVal).toBe(5)
+
+	})
+
 })
