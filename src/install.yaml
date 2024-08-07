@@ -9,6 +9,7 @@ general:
   is_qset_encrypted: Yes
   is_answer_encrypted: Yes
   is_storage_enabled: No
+  is_generable: Yes
   api_version: 2
 files:
   creator: creator.html
@@ -37,3 +38,9 @@ meta_data:
     This or That is a game in which students must answer questions by choosing one of two images.
   excerpt: >
     Students must answer a question by choosing one of two images.
+  generation_prompt: >
+    Each question provides two potential answer options, a correct option and an incorrect option. Answers can either be images or text, but only text answer options
+    are allowed unless images are explicitly requested. Text answers should be as concise as possible and should not include any language indicating the choice's
+    correctness or format. Feedback options for each answer should be used to elaborate on why the selection was correct or incorrect. Within each question,
+    the asset object must contain a key called type that indicates the answer type (text or image).
+
