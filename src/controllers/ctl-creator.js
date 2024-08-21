@@ -64,7 +64,7 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 		if (mode == null) {
 			mode = 'save'
 		}
-		const _isValid = $scope.validation('save')
+		const _isValid = mode == 'history' ? true : $scope.validation('save')
 
 		if (_isValid) {
 			// Create a qset to save
