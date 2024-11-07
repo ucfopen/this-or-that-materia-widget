@@ -11,6 +11,7 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 	$scope.tutorial = {
 		checked: false,
 		step: 1,
+		cachedStep:1,
 		text: [
 			'Enter a question',
 			'Pick the answer type',
@@ -154,6 +155,7 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 					}
 				},
 				isValid: true,
+				isImported: true, //track if imported to disable tutorial
 				id: item.id
 			})
 
@@ -167,8 +169,9 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 				else $scope.questions[$scope.questions.length-1].incorrect.videoValid = false
 			}
 		}
-
-		$scope.currIndex = 0
+		//navigate to the imported question
+		const newIndex = $scope.questions.length - 1;
+		_updateIndex('select', newIndex);
 		$scope.$apply()
 	}
 
@@ -191,27 +194,54 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 		})()
 
 	const _updateIndex = function(action, data) {
+		let updatedIndex = $scope.currIndex;
 		switch (action) {
+			//if we go to an imported question, disable the tutorial
 			case 'prev':
 				if ($scope.currIndex > 0) {
-					return $scope.currIndex--
+					updatedIndex = $scope.currIndex-1;
+					break;
 				} else {
-					return ($scope.currIndex = $scope.questions.length - 1)
+					updatedIndex = $scope.questions.length - 1;
+					break;
 				}
+			//if we go to an imported question, disable the tutorial
 			case 'next':
 				if ($scope.currIndex < $scope.questions.length - 1) {
-					return $scope.currIndex++
+					updatedIndex = $scope.currIndex+1;
+					break;
 				} else {
-					return ($scope.currIndex = 0)
+					updatedIndex = 0;
+					break;
 				}
 			case 'select':
-				return ($scope.currIndex = data)
+				updatedIndex = data;
+				break;
 			case 'add':
 				$scope.questions.push(data)
-				return ($scope.currIndex = $scope.questions.length - 1)
+				updatedIndex = $scope.questions.length - 1;
+				$scope.tutorial.checked = true;
+				break;
 			case 'remove':
-				return $scope.currIndex--
+				updatedIndex = $scope.currIndex-1;
+				break;
 		}
+		//bounds check
+		if (updatedIndex < 0 || updatedIndex >= $scope.questions.length) {
+			updatedIndex = Math.max(0, $scope.questions.length - 1);
+		}
+		//set tutorial visibility based on whether the current question is imported or if the tutorial has been completed
+		if ($scope.questions[updatedIndex]?.isImported) {
+			// disable tutorial if navigating to an imported question
+			$scope.tutorial.step = null;
+		} else if ($scope.tutorial.checked) {
+			//tutorial has been completed
+			$scope.tutorial.step = null;
+		} else {
+			$scope.tutorial.step = $scope.tutorial.cachedStep || 1;
+		}
+		$scope.currIndex = updatedIndex;
+		return updatedIndex;
 	}
 
 	const _copyQuestion = function(original) {
@@ -549,9 +579,12 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 			if (step >= $scope.tutorial.step)
 			{
 				if (step == 9) {
+					$scope.tutorial.checked = true;
 					return $scope.tutorial.step = null
 				}
 				else {
+					//have a cached step incase we go to another question but dont finish the tutorial
+					$scope.tutorial.cachedStep = $scope.tutorial.step+2;
 					return $scope.tutorial.step = step + 1
 				}
 			}
