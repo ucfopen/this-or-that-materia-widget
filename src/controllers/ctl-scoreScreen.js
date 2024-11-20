@@ -1,7 +1,7 @@
 export const ControllerThisOrThatScorescreen = function($scope, $sce) {
 
 	$scope.items = []
-	
+
 	const materiaCallbacks = {}
 
 	const getHeight = () => Math.ceil(parseFloat(window.getComputedStyle(document.querySelector('html')).height))
@@ -12,13 +12,16 @@ export const ControllerThisOrThatScorescreen = function($scope, $sce) {
 		}
 		return -1
 	}
+	if (typeof global !== 'undefined') {
+		global.getQuestionIndex = getQuestionIndex
+	}
 
 	const getIndividualScoreDeduction = (table) => {
 		let numIncorrect = 0
 		table.forEach(item => {
 			if (item.score < 100) numIncorrect++
 		})
-		
+
 		let overallDeduction = numIncorrect / table.length
 		return parseInt((overallDeduction / numIncorrect) * 100)
 	}
@@ -71,6 +74,6 @@ export const ControllerThisOrThatScorescreen = function($scope, $sce) {
 	}
 
 	Materia.ScoreCore.hideResultsTable()
-	
+
 	return Materia.ScoreCore.start(materiaCallbacks)
 }

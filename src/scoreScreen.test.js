@@ -202,5 +202,47 @@ describe('Score Screen Controller', function() {
 		expect($scope.items[1].deduction).toBe(50)
 	})
 
+	test('should return -1 when question ID is not found in qset', () => {
+		const testQset = {
+			items: [
+				{ id: '1', questions: [{ text: 'Question 1' }] },
+				{ id: '2', questions: [{ text: 'Question 2' }] }
+			]
+		}
+
+		expect(global.getQuestionIndex(testQset, 'nonexistent_id')).toBe(-1)
+		expect(global.getQuestionIndex(testQset, '1')).toBe(0)
+		expect(global.getQuestionIndex(testQset, '2')).toBe(1)
+	})
+
+
+	test('should fetch media URL for left asset when value is missing', () => {
+		// Modify the qset for the test case
+		qset.items[0].answers[0].options.asset.value = null
+
+		publicMethods.start({}, qset, scoreTable, false, 1)
+		expect($scope.items[0].left.asset.value).toBe(
+			`MEDIA_URL/assets/img/demo/the_fall_of_phaeton.jpg`
+		)
+	})
+
+	test('should trust mp3 URL for right asset when type is video/mp3 file', () => {
+		publicMethods.start({}, qset, scoreTable, false, 1)
+		expect($scope.items[1].right.asset.value).toBe(
+			'MEDIA_URL/birds.mp3'
+		)
+	})
+	test('should recieve trusted object for video', () => {
+		qset.items[1].answers[1].options.asset.type = 'video'
+		qset.items[1].answers[1].options.asset.value = 'https://materia.com/video.mp4'
+
+		publicMethods.start({}, qset, scoreTable, false, 1)
+
+		expect($scope.items[1].right.asset.value).toEqual(
+			expect.objectContaining({
+				$$unwrapTrustedValue: expect.any(Function)
+			})
+		)
+	})
 
 })
