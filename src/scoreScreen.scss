@@ -41,7 +41,7 @@ body {
 					.left-flag {
 						position: relative;
 						background: #7bc700;
-						/* Create top triangle for flag */
+
 						&::before {
 							content: '';
 							position: absolute;
@@ -54,7 +54,6 @@ body {
 							border-color: transparent #7bc700 transparent transparent;
 						}
 						
-						/* Create bottom triangle for flag */
 						&::after {
 							content: '';
 							position: absolute;
@@ -72,29 +71,27 @@ body {
 						position: relative;
 						background-color: #e42b20;
 						
-						/* Create top triangle for right flag */
 						&::before {
 							content: '';
 							position: absolute;
 							top: 0;
-							right: -20px; /* Extend to the right */
+							right: -20px;
 							width: 0;
 							height: 0;
 							border-style: solid;
-							border-width: 30px 20px 0 0px; /* Flipped triangle */
+							border-width: 30px 20px 0 0px;
 							border-color: #e42b20 transparent transparent #e42b20;
 						}
 						
-						/* Create bottom triangle for right flag */
 						&::after {
 							content: '';
 							position: absolute;
 							bottom: 0;
-							right: -20px; /* Extend to the right */
+							right: -20px;
 							width: 0;
 							height: 0;
 							border-style: solid;
-							border-width: 0px 20px 30px 0px; /* Flipped triangle */
+							border-width: 0px 20px 30px 0px;
 							border-color: #e42b20 transparent #e42b20 transparent;
 						}
 					}
