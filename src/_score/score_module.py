@@ -1,18 +1,15 @@
 from scoring.module import ScoreModule
-from core.models import Question
+from core.models import LogPlay
 
 class ThisOrThat(ScoreModule):
-    
-    def get_question_version(self):
-        qsetId = self.qset["items"][0]["id"]                                                                                                                            
-        question = Question.objects.get(item_id=qsetId)                                                                                                                 
-        version = question.qset.version
-        return int(version)
+
+    def __init__(self, play: LogPlay):
+        super().__init__(play)
+        self.qset_version = int(play.qset.version)
     
     def check_answer(self, log):
         q = self.get_question_by_item_id(log.item_id)
-        version = self.get_question_version()
-        use_answer_text = version < 2
+        use_answer_text = self.qset_version < 2
         if q is not None:
             for answer in q["answers"]:
                 if use_answer_text:
@@ -21,14 +18,11 @@ class ThisOrThat(ScoreModule):
                 else:
                     if log.text == answer['id']:
                         return answer['value']
-
         return 0
 
     def get_ss_answer(self, log, question):
-        version = self.get_question_version()
-        return log.text if version < 2 else log.value
+        return log.text if self.qset_version < 2 else log.value
 
-    
     def details_for_question_answered(self, log):
         question = self.get_question_by_item_id(log.item_id)
         score = self.check_answer(log)
