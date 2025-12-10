@@ -37,3 +37,6 @@ meta_data:
     This or That is a game in which students must answer questions by choosing one of two images.
   excerpt: >
     Students must answer a question by choosing one of two images.
+
+  update_method: github
+  repo: ucfopen/this-or-that-materia-widget
