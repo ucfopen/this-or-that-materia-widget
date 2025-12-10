@@ -13,7 +13,7 @@ body {
 			display: block;
 			width: 90%;
 			margin: 15px 5% 45px 5%;
-	
+
 			color: #fff;
 			font-weight: bold;
 
@@ -159,9 +159,12 @@ body {
 				width: 240px;
 				height: 180px;
 
-	
+				margin-right: 12px;
+
 				padding: 6px;
-	
+
+				border-radius: 6px;
+
 				vertical-align: top;
 
 				.item-image, .item-audio, .item-video {
@@ -173,7 +176,7 @@ body {
 
 				.item-audio {
 					flex-direction: column;
-					
+
 					span {
 						width: 230px;
 						padding: 10px 5px;
@@ -203,8 +206,9 @@ body {
 					font-family: 'Buenard', serif;
 
 					border-radius: 6px;
+					overflow-y: auto;
 				}
-	
+
 				.item-image img {
 					max-width: 240px;
 					max-height: 180px;
@@ -235,5 +239,5 @@ body {
 		}
 	}
 
-	
+
 }
