@@ -43,4 +43,5 @@ meta_data:
     are allowed unless images are explicitly requested. Text answers should be as concise as possible and should not include any language indicating the choice's
     correctness or format. Feedback options for each answer should be used to elaborate on why the selection was correct or incorrect. Within each question,
     the asset object must contain a key called type that indicates the answer type (text or image).
-
+  update_method: github
+  repo: ucfopen/this-or-that-materia-widget

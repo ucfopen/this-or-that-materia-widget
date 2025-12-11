@@ -76,8 +76,14 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 				$scope.questionBankVal
 			)
 			if (qset) {
+				// Ensure the question bank value isn't out of bounds when the widget is saved
+				if($scope.questionBankVal > $scope.questions.length) {
+					$scope.questionBankVal = $scope.questions.length
+				}
+
 				return Materia.CreatorCore.save($sanitize($scope.title), qset, 2)
 			}
+
 		} else {
 			Materia.CreatorCore.cancelSave('Please make sure every question is complete')
 
@@ -297,6 +303,11 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 
 		$timeout(_noTransition, 660, true)
 		$scope.questions.splice(index, 1)
+
+		// Make sure questionBank value is within bounds after removing a question
+		if($scope.questionBankVal > $scope.questions.length) {
+			$scope.questionBankVal = $scope.questionBankValTemp = $scope.questions.length
+		}
 
 		if ($scope.currIndex === $scope.questions.length) {
 			$timeout(() => _updateIndex('remove'), 200, true)
