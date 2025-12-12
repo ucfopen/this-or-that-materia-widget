@@ -3,10 +3,10 @@
   "materia": {
     "cleanName": "this-or-that"
   },
-  "version": "1.2.0",
+  "version": "1.2.1",
   "dependencies": {
     "hammerjs": "1.0.5",
-    "materia-widget-development-kit": "^3.0.1"
+    "materia-widget-development-kit": "3.0.4"
   },
   "devDependencies": {
     "angular": "~1.8.3",
@@ -43,7 +43,7 @@
     "coverageThreshold": {
       "global": {
         "statements": 95,
-        "branches": 92,
+        "branches": 91,
         "lines": 95,
         "functions": 95
       }

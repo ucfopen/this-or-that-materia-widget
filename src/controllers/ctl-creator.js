@@ -64,7 +64,7 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 		if (mode == null) {
 			mode = 'save'
 		}
-		const _isValid = $scope.validation('save')
+		const _isValid = mode == 'history' ? true : $scope.validation('save')
 
 		if (_isValid) {
 			// Create a qset to save
@@ -76,8 +76,14 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 				$scope.questionBankVal
 			)
 			if (qset) {
+				// Ensure the question bank value isn't out of bounds when the widget is saved
+				if($scope.questionBankVal > $scope.questions.length) {
+					$scope.questionBankVal = $scope.questions.length
+				}
+
 				return Materia.CreatorCore.save($sanitize($scope.title), qset, 2)
 			}
+
 		} else {
 			Materia.CreatorCore.cancelSave('Please make sure every question is complete')
 
@@ -106,7 +112,7 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 				else
 				{
 					_ids[0] = null
-					_urls[0] = item.answers[0]?.options.asset?.value
+					_urls[0] = item.answers[0].options.asset?.value?.length > 0 ? item.answers[0].options.asset.value : item.answers[0].text
 				}
 
 				if ( !item.answers[1]?.options.asset.type || item.answers[1].options.asset.type == 'image' || item.answers[1]?.options.asset && item.answers[1].options.asset.type == 'audio' ) {
@@ -118,10 +124,11 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 				else
 				{
 					_ids[1] = null
-					_urls[1] = item.answers[1]?.options.asset?.value
+					_urls[1] = item.answers[1].options.asset?.value?.length > 0 ? item.answers[1].options.asset.value : item.answers[1].text
 				}
 
 			} catch (error) {
+				console.log(error)
 				alert('Uh oh. Something went wrong with uploading your questions.')
 			}
 
@@ -296,6 +303,11 @@ export const ControllerThisOrThatCreator = function($scope, $timeout, $sanitize,
 
 		$timeout(_noTransition, 660, true)
 		$scope.questions.splice(index, 1)
+
+		// Make sure questionBank value is within bounds after removing a question
+		if($scope.questionBankVal > $scope.questions.length) {
+			$scope.questionBankVal = $scope.questionBankValTemp = $scope.questions.length
+		}
 
 		if ($scope.currIndex === $scope.questions.length) {
 			$timeout(() => _updateIndex('remove'), 200, true)
