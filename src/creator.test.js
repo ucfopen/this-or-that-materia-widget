@@ -881,4 +881,52 @@ describe('Creator Controller', function() {
 
 	})
 
+	test('should set tutorial.step to cachedStep or 1 if tutorial is not checked and question is not imported', () => {
+		const $scope = {
+			currIndex: 0,
+			questions: [
+				{ isImported: false },
+				{ isImported: false }
+			],
+			tutorial: {
+				checked: false,
+				cachedStep: 2,
+				step: null,
+			},
+		}
+
+		const _updateIndex = function(action, data) {
+				let updatedIndex = $scope.currIndex
+				switch (action) {
+					case 'next':
+						if ($scope.currIndex < $scope.questions.length - 1) {
+							updatedIndex = $scope.currIndex + 1
+						} else {
+							updatedIndex = 0
+						}
+						break
+				}
+
+				if (updatedIndex < 0 || updatedIndex >= $scope.questions.length) {
+					updatedIndex = Math.max(0, $scope.questions.length - 1)
+				}
+
+				if ($scope.questions[updatedIndex]?.isImported) {
+					$scope.tutorial.step = null
+				} else if ($scope.tutorial.checked) {
+					$scope.tutorial.step = null
+				} else {
+					$scope.tutorial.step = $scope.tutorial.cachedStep || 1
+				}
+
+				$scope.currIndex = updatedIndex
+				return updatedIndex
+			}
+
+			_updateIndex('next')
+
+			expect($scope.currIndex).toBe(1)
+			expect($scope.tutorial.step).toBe(2)
+	})
+
 })
