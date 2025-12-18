@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sigmar+One&display=swap">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Buenard:700">
 		<link rel="stylesheet" href="scoreScreen.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 		<!-- REQUIRED MATERIA JAVASCRIPT -->
 		<script src="materia.scorecore.js"></script>
@@ -27,50 +28,96 @@
 	<body ng-app="ThisOrThatScorescreen" >
 		<div class="content-frame" ng-controller="ThisOrThatScoreCtrl">
 			<section class="question-item" ng-repeat="item in items">
-				<h5>
-					{{$index + 1}}. {{ item.question }}
-					<span class="item-score" ng-class="{'correct' : item.correct, 'incorrect' : !item.correct}">{{ item.correct ? 'Correct!' : '-' + item.deduction + '%' }}</span>
-				</h5>
-				<div class="item-correct" ng-class="{'selected' : item.correct}">
-					<div class="item-image" ng-if="item.left.asset.type == 'image'">
-						<img ng-src="{{item.left.asset.value}}" alt="{{item.left.text}}" />
-					</div>
-					<div class="item-text" ng-if="item.left.asset.type == 'text'">
-						{{ item.left.asset.value }}
-					</div>
-					<div class="item-audio" ng-if="item.left.asset.type == 'audio'">
-						<span>{{item.left.text}}</span>
-						<audio
-							controls
-							ng-src="{{item.left.asset.value}}">
-							Your browser does not support the
-							<code>audio</code> element.
-						</audio>
-					</div>
-					<div class="item-video" ng-if="item.left.asset.type == 'video'">
-						<iframe width="240px" ng-src="{{ item.left.asset.value }}" frameborder="0" allowfullscreen></iframe>
-					</div>
+				<div class = "item-header">
+					<h5>
+						{{$index + 1}}. {{ item.question }}
+						<span class="item-score" ng-class="{'correct' : item.correct, 'incorrect' : !item.correct}">{{ item.correct ? 'Correct!' : '-' + item.deduction + '%' }}</span>
+						<i class="icon check-icon fa-solid fa-check" ng-if="item.correct"></i>
+						<i class="icon wrong-icon fa-solid fa-x" ng-if="!item.correct"></i>
+					</h5>
+
 				</div>
-				<div class="item-incorrect" ng-class="{'selected' : ! item.correct}">
-					<div class="item-image" ng-if="item.right.asset.type == 'image'">
-						<img ng-src="{{item.right.asset.value}}" alt="{{item.right.text}}" />
+
+				<div class="cards-container">
+
+					<div class = "card-container">
+	
+						<div ng-class="{'hide': item.chosen !== 'left'}" class="bookmark-flag left-flag">
+							<span>Your</span>
+							<span>Response</span>
+						</div>
+						
+
+						<div class="item-correct" ng-class="{'selected' : item.correct, 'unanswered' : item.chosen === 'right'}">
+		
+							
+							<div class="item-image" ng-if="item.left.asset.type == 'image'">
+								<img ng-src="{{item.left.asset.value}}" alt="{{item.left.text}}" />
+							</div>
+							<div class="item-text" ng-if="item.left.asset.type == 'text'">
+								{{ item.left.asset.value }}
+							</div>
+							<div class="item-audio" ng-if="item.left.asset.type == 'audio'">
+								<span>{{item.left.text}}</span>
+								<audio
+									controls
+									ng-src="{{item.left.asset.value}}">
+									Your browser does not support the
+									<code>audio</code> element.
+								</audio>
+							</div>
+							<div class="item-video" ng-if="item.left.asset.type == 'video'">
+								<iframe width="240px" ng-src="{{ item.left.asset.value }}" frameborder="0" allowfullscreen></iframe>
+							</div>
+
+							<div class = "item-correctness">
+								<i class="icon fa-solid fa-check"></i>
+								<span>Correct</span>
+							</div>
+						</div>
+	
+	
 					</div>
-					<div class="item-text" ng-if="item.right.asset.type == 'text'">
-						{{ item.right.asset.value }}
+
+					<div class = "card-container">
+
+						<div class="item-incorrect" ng-class="{'selected' : ! item.correct, 'unanswered' : item.chosen === 'left'}">
+							<div class="item-image" ng-if="item.right.asset.type == 'image'">
+								<img ng-src="{{item.right.asset.value}}" alt="{{item.right.text}}" />
+							</div>
+							<div class="item-text" ng-if="item.right.asset.type == 'text'">
+								{{ item.right.asset.value }}
+							</div>
+							<div class="item-audio" ng-if="item.right.asset.type == 'audio'">
+								<span>{{item.right.text}}</span>
+								<audio
+									controls
+									ng-src="{{item.right.asset.value}}">
+									Your browser does not support the
+									<code>audio</code> element.
+								</audio>
+							</div>
+							<div class="item-video" ng-if="item.right.asset.type == 'video'">
+								<iframe width="240px" ng-src="{{ item.right.asset.value }}" frameborder="0" allowfullscreen></iframe>
+							</div>
+
+							<div class = "item-correctness">
+								<i class="icon fa-solid fa-x"></i>
+								Incorrect
+							</div>
+						</div>
+
+						<div ng-class="{'hide': item.chosen !== 'right'}" class="bookmark-flag right-flag">
+							<span>Your</span>
+							<span>Response</span>
+						</div>
+
 					</div>
-					<div class="item-audio" ng-if="item.right.asset.type == 'audio'">
-						<span>{{item.right.text}}</span>
-						<audio
-							controls
-							ng-src="{{item.right.asset.value}}">
-							Your browser does not support the
-							<code>audio</code> element.
-						</audio>
-					</div>
-					<div class="item-video" ng-if="item.right.asset.type == 'video'">
-						<iframe width="240px" ng-src="{{ item.right.asset.value }}" frameborder="0" allowfullscreen></iframe>
-					</div>
+	
+	
+
 				</div>
+
 			</section>
 		</div>
 	</body>

@@ -19,29 +19,137 @@ body {
 
 			text-align: center;
 
-			h5 {
-				position: relative;
-				background: #2e4a87;
-				border-radius: 5px;
-				margin: 10px 0;
-				padding: 5px 10px;
+			.cards-container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-wrap: wrap;
+				gap: 12px;
 
-				font-family: $skinny-font;
-				font-size: 20px;
+				.card-container {
+					display: flex;
 
-				text-align: left;
+					.bookmark-flag {
+						display: flex;
+						flex-direction: column;
+						height: fit-content;
+						color: black;
+						padding: 5px;
+						
+					}
+					
+					.left-flag {
+						position: relative;
+						background: #7bc700;
 
-				.item-score {
-					position: absolute;
-					display: block;
-					right: 10px;
-					top: 6px;
-					margin-right: 10px;
-					font-size: 14px;
-					font-weight: bold;
+						&::before {
+							content: '';
+							position: absolute;
+							top: 0;
+							left: -20px;
+							width: 0;
+							height: 0;
+							border-style: solid;
+							border-width: 0 20px 30px 0;
+							border-color: transparent #7bc700 transparent transparent;
+						}
+						
+						&::after {
+							content: '';
+							position: absolute;
+							bottom: 0;
+							left: -20px;
+							width: 0;
+							height: 0;
+							border-style: solid;
+							border-width: 30px 20px 0 0;
+							border-color: transparent #7bc700 transparent transparent;
+						}
+					}
+
+					.right-flag {
+						position: relative;
+						background-color: #e42b20;
+						
+						&::before {
+							content: '';
+							position: absolute;
+							top: 0;
+							right: -20px;
+							width: 0;
+							height: 0;
+							border-style: solid;
+							border-width: 30px 20px 0 0px;
+							border-color: #e42b20 transparent transparent #e42b20;
+						}
+						
+						&::after {
+							content: '';
+							position: absolute;
+							bottom: 0;
+							right: -20px;
+							width: 0;
+							height: 0;
+							border-style: solid;
+							border-width: 0px 20px 30px 0px;
+							border-color: #e42b20 transparent #e42b20 transparent;
+						}
+					}
+
+					.hide {
+						visibility: hidden;
+					}
 				}
 			}
 
+			.item-header {
+
+				h5 {
+					position: relative;
+					background: #2e4a87;
+					border-radius: 5px;
+					margin: 10px 0;
+					padding: 5px 10px;
+	
+					font-family: $skinny-font;
+					font-size: 20px;
+	
+					text-align: left;
+	
+					.item-score {
+						position: absolute;
+						display: block;
+						right: 10px;
+						top: 6px;
+						margin-right: 10px;
+						font-size: 14px;
+						font-weight: bold;
+					}
+
+					.icon {
+						position: absolute;
+						display: block;
+						right: -10px;
+						top: 0;
+						transform: translate(100%, 50%);
+						
+					}
+				}
+			}
+
+			.item-correct {
+				border-radius: 0 6px 6px 6px;
+			}
+
+			.item-incorrect {
+				border-radius: 6px 0 6px 6px;
+			}
+
+			.unanswered {
+				border-radius: 6px;
+			}
+			
+	
 			.item-correct, .item-incorrect {
 				position: relative;
 				z-index: 2;
@@ -109,14 +217,20 @@ body {
 				.item-audio audio {
 					width: 240px;
 				}
+
+				.item-correctness {
+					margin-top: 10px;
+					font-weight: bold;
+				}
 			}
 
 			.item-correct {
 				&.selected {
 					background: #7bc700;
 				}
-			}
 
+			}
+			
 			.item-incorrect {
 				&.selected {
 					background: #e42b20;

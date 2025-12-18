@@ -58,6 +58,13 @@ export const ControllerThisOrThatScorescreen = function($scope, $sce) {
 				}
 				else if (item.right.asset.type == 'audio') item.right.asset.value = Materia.ScoreCore.getMediaUrl(item.right.asset.id)
 				else if (item.right.asset.type == 'video') item.right.asset.value = $sce.trustAsResourceUrl(item.right.asset.value)
+				
+				// get direction of which card user picked
+				if (item.correct) {
+					item.chosen = "left"
+				}  else if (item.correct === false) {
+					item.chosen = "right"
+				}
 
 				return item
 			})
