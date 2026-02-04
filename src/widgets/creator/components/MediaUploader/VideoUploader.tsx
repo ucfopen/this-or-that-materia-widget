@@ -1,8 +1,8 @@
 import styles from './styles.module.css'
 import clsx from 'clsx'
 import Textbox from '../Textbox/Textbox'
-import { BusinessButton } from '../../../player/PlayerApp/business-game/components/BusinessButton/BusinessButton'
 import { useState } from 'react'
+import { BusinessButton } from '../../../shared/components/BusinessButton/BusinessButton'
 
 interface VideoUploaderProps {
   setMediaUrl: (url: string) => void,

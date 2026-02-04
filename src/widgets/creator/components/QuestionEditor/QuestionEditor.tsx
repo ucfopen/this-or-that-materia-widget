@@ -8,11 +8,11 @@ import {
   deleteCurrentQuestion,
   moveCurrentQuestionDown,
   moveCurrentQuestionUp, selectCurrentQuestionErrors,
-  selectCurrentQuestionIndex, selectErrors, selectQset, selectQuestions,
+  selectCurrentQuestionIndex, selectQuestions,
   setCurrentQuestionText,
 } from '../../redux/creatorSlice'
 import { selectCurrentQuestion } from '../../redux/creatorSlice'
-import { BusinessButton } from '../../../player/PlayerApp/business-game/components/BusinessButton/BusinessButton'
+import { BusinessButton } from '../../../shared/components/BusinessButton/BusinessButton'
 
 export default function QuestionEditor() {
   const dispatch = useThisOrThatCreatorDispatch()

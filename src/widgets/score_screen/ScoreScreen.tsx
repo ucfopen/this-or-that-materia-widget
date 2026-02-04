@@ -1,5 +1,4 @@
-import '../../variables.css'
-import './score_screen_globals.css'
+import './score-screen-globals.css'
 import { useLayoutEffect } from 'react'
 
 interface ScoreScreenProps {

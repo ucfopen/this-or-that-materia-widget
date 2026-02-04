@@ -4,7 +4,6 @@ import LabelledTextbox from '../LabelledTextbox/LabelledTextbox'
 import SelectionButton from '../SelectionButton/SelectionButton'
 import LabelledTextArea from '../LabelledTextbox/LabelledTextArea'
 import MediaUploader from '../MediaUploader/MediaUploader'
-import { BusinessButton } from '../../../player/PlayerApp/business-game/components/BusinessButton/BusinessButton'
 import VideoUploader from '../MediaUploader/VideoUploader'
 import { getEmbeddedVideoUrl } from '../../../../utils'
 import { useThisOrThatCreatorDispatch, useThisOrThatCreatorSelector } from '../../redux/hooks'
@@ -13,6 +12,7 @@ import {
   setCurrentQuestionMediaType,
   setCurrentQuestionMediaUrl,
 } from '../../redux/creatorSlice'
+import { BusinessButton } from '../../../shared/components/BusinessButton/BusinessButton'
 
 interface AnswerEditorProps {
   side: 'correct' | 'incorrect',

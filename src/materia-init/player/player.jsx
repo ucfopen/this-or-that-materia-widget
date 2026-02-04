@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom'
 import { Suspense } from 'react'
 import { processQset } from '../../utils.ts'
 
-const PlayerLayout = React.lazy(() => import('../../widgets/player/PlayerLayout/PlayerLayout'))
+const PlayerRoot = React.lazy(() => import('../../widgets/player/PlayerRoot'))
 
 Materia.Engine.start({
   start: (instance, qset) => {
@@ -11,7 +11,7 @@ Materia.Engine.start({
     const rootElement = document.getElementById('root')
     ReactDOM.createRoot(rootElement).render(
       <Suspense>
-        <PlayerLayout
+        <PlayerRoot
           qset={qset}
           onEnd={() => {
             Materia.Engine.end()

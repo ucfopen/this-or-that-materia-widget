@@ -15,7 +15,7 @@
   transition: background-color 0.1s, color 0.1s;
 
   &.active {
-    background-color: var(--blue);
+    background-color: var(--bright-blue);
     color: white;
   }
 }

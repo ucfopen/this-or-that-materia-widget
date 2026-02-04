@@ -1,0 +1,105 @@
+@property --gold-glow {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  white-space: nowrap;
+  border: none;
+  color: white;
+  font-weight: bold;
+  transition: scale 0.25s var(--bounce-timing);
+
+  &:hover:not(:disabled), &:focus-visible:not(:disabled) {
+    scale: 1.025;
+    cursor: pointer;
+  }
+
+  &:active:not(:disabled) {
+    scale: 0.975;
+  }
+
+  &:focus-visible:not(:disabled) {
+    outline: solid 1px white;
+    outline-offset: 2px;
+  }
+}
+
+.blue {
+  background-color: var(--bright-blue)
+}
+
+.yellow {
+  background-color: var(--yellow);
+  color: black;
+  box-shadow: 0 4px 5px -4px var(--gold-glow), 0 2px 25px var(--gold-glow);
+  transition: --gold-glow 0.25s cubic-bezier(0, 0.55, 0.45, 1), scale 0.25s var(--bounce-timing);
+
+  &:hover:not(:disabled) {
+    --gold-glow: #FFCD2033;
+  }
+}
+
+.translucent {
+  border: solid 1px #5d5d5d;
+  background-color: rgb(0, 0, 0, 0.25);
+  backdrop-filter: blur(5px);
+  transition: border-color 0.1s, scale 0.25s var(--bounce-timing);
+
+  &:hover:not(:disabled) {
+    background-color: rgb(50, 50, 50, 0.25);
+    border-color: #737373;
+  }
+
+  &:disabled {
+    color: var(--alt-text);
+
+    & img {
+      opacity: 67%;
+    }
+  }
+
+  &.active {
+    background-color: rgb(75, 75, 75, 0.25);
+    border-color: #9d9d9d;
+  }
+}
+
+.medium {
+  padding: 15px 30px;
+  border-radius: 5px;
+  font-size: 14px;
+
+  & img {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.square {
+    padding: 10px;
+  }
+}
+
+.small {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+
+  & img {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.square {
+    padding: 5px;
+  }
+}
+
+.fill {
+  width: 100%;
+}

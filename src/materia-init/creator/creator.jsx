@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { processQset } from '../../utils.ts'
 
-const CreatorApp = React.lazy(() => import('../../widgets/creator/CreatorApp.tsx'))
+const CreatorApp = React.lazy(() => import('../../widgets/creator/CreatorRoot'))
 
 // Disable dropping on the window so that the media uploaders work right
 window.addEventListener('drop', (e) => {
@@ -27,13 +27,6 @@ materiaCallbacks.initExistingWidget = (title, instance, _qset, version, newWidge
   processQset(_qset, 'creator')
   const rootElement = document.getElementById('root')
 
-  let generationAvailable
-  if (newWidget) {
-    generationAvailable = instance?.['uses_prompt_generation']
-  } else {
-    generationAvailable = instance?.widget?.['uses_prompt_generation']
-  }
-
   ReactDOM.createRoot(rootElement).render(
     <Suspense>
       <CreatorApp
@@ -41,10 +34,7 @@ materiaCallbacks.initExistingWidget = (title, instance, _qset, version, newWidge
         qset={_qset}
         updateTitle={(newTitle) => currentTitle = newTitle}
         registerSaver={(s) => saver = s}
-        submitPrompt={(prompt) => Materia.CreatorCore.submitPrompt(prompt)}
-        registerPromptHandler={(h) => promptHandler = h}
         registerMediaHandler={(h) => mediaHandler = h}
-        generationAvailable={generationAvailable}
       />
     </Suspense>,
   )
@@ -67,10 +57,6 @@ materiaCallbacks.onSaveClicked = () => {
 
 materiaCallbacks.onPromptResponse = (status, resp) => {
   promptHandler(status, resp)
-}
-
-materiaCallbacks.onQuestionImportComplete = (arrayOfQuestions) => {
-  console.log(arrayOfQuestions)
 }
 
 materiaCallbacks.onMediaImportComplete = (arrayOfMedia) => {

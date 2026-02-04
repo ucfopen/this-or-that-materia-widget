@@ -1,8 +1,6 @@
 import styles from './styles.module.css'
 import clsx from 'clsx'
 import { ChangeEvent, DragEvent, MouseEvent, useId, useRef, useState } from 'react'
-import { BusinessButton } from '../../../player/PlayerApp/business-game/components/BusinessButton/BusinessButton'
-import Textbox from '../Textbox/Textbox'
 import { useRegisterMediaHandler } from '../../media-handler-util'
 
 interface MediaUploaderProps {

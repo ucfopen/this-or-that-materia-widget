@@ -30,6 +30,6 @@
 
   &.checked {
     border-color: #847ffa;
-    background-color: var(--blue);
+    background-color: var(--bright-blue);
   }
 }

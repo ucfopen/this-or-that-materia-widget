@@ -4,14 +4,14 @@ export function getEmbeddedVideoUrl(url: string): string {
     if (stringMatch != null && stringMatch.length > 1) {
       return url.includes('/embed/') ? url : ('https://www.youtube.com/embed/' + (stringMatch && stringMatch[1]))
     } else {
-      // TODO set invalid
+      // TODO set invalid to show error
     }
   } else if (url.includes('vimeo')) {
     const stringMatch = url.match(/(?:vimeo)\.com.*(?:videos|video|channels|)\/([\d]+)/i)
     if (stringMatch != null && stringMatch.length > 1) {
       return url.includes('player.vimeo.com') ? url : 'https://player.vimeo.com/video/' + (stringMatch && stringMatch[1])
     } else {
-      // TODO set invalid
+      // TODO set invalid to show error
     }
   }
 }
