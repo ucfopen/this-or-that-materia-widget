@@ -1,0 +1,6 @@
+node_modules
+.env
+build
+ts-out
+.DS_store
+**/.idea

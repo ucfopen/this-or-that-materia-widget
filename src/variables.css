@@ -1,0 +1,9 @@
+body {
+  --blue: #2d4885;
+  --green: rgba(110, 199, 47, 0.9);
+  --gold: #FFA30FFF;
+  --gold-light: #FFB743FF;
+
+  --chunky-font: 'Sigmar One';
+  --regular-font: 'Buenard', serif;
+}

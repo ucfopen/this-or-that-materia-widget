@@ -1,0 +1,39 @@
+---
+general:
+  name: This Or That
+  height: 700
+  width: 1000
+  in_catalog: Yes
+  is_editable: Yes
+  is_playable: Yes
+  is_qset_encrypted: Yes
+  is_answer_encrypted: Yes
+  is_storage_enabled: No
+  api_version: 2
+files:
+  creator: creator.html
+  player: player.html
+  flash_version: 10
+  creator_guide: guides/creator.html
+  player_guide: guides/player.html
+score:
+  is_scorable: True
+  score_module: ThisOrThat
+  score_screen: scoreScreen.html
+meta_data:
+  features:
+    - Customizable
+    - Media
+    - Scorable
+    - Mobile Friendly
+  accessibility_keyboard: Full # values can be Full | Limited | None
+  accessibility_reader: Full # values can be Full | Limited | None
+  accessibility_description: >
+    Supports standard navigation. Includes custom controls to supplement standard navigation.
+    These controls are communicated visually and to screenreaders.
+  supported_data:
+    - Multiple Choice
+  about: >
+    This or That is a game in which students must answer questions by choosing one of two images.
+  excerpt: >
+    Students must answer a question by choosing one of two images.

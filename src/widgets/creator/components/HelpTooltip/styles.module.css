@@ -1,0 +1,18 @@
+.tooltipRevealer {
+  position: relative;
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  align-items: center;
+  justify-content: center;
+  background-color: #00000088;
+  border: solid 0.05rem #ffffff44;
+  font-weight: normal;
+  border-radius: 1000px;
+
+  & img {
+    opacity: 0.75;
+    width: 16px;
+  }
+}

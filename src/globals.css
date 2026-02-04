@@ -1,0 +1,12 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  --image-aspect-ratio: 342 / 299;
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}

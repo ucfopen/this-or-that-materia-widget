@@ -1,0 +1,55 @@
+.outroScreenContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.25s, scale 0.25s var(--bounce-timing);
+  z-index: 10000;
+
+  &.hide {
+    opacity: 0;
+    scale: 0.9;
+    pointer-events: none;
+  }
+}
+
+.outroScreen {
+  padding: 0;
+  width: 300px;
+  gap: 0;
+}
+
+.outerScreenInnerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 30px;
+  align-items: center;
+  text-align: center;
+}
+
+.yellowBar {
+  height: 5px;
+  width: 100%;
+  background-color: var(--yellow);
+  border-top-left-radius: var(--inset-box-border-radius);
+  border-top-right-radius: var(--inset-box-border-radius);
+}
+
+.bullet {
+  display: flex;
+  padding: 16px;
+  border-radius: 1000px;
+  background-color: #1B2633;
+  border: solid 1px color-mix(in srgb, var(--yellow) 30%, transparent);
+  box-shadow: 0 0 20px -4px #FFFFFF55;
+}
+
+.bulletIcon {
+  width: 42px;
+  height: 42px;
+}

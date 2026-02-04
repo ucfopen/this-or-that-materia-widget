@@ -1,0 +1,11 @@
+.textbox {
+  all: unset;
+  background-color: var(--border-color);
+  padding: 15px;
+  border-radius: 5px;
+  resize: none;
+
+  &.error {
+    border: solid 1px red;
+  }
+}

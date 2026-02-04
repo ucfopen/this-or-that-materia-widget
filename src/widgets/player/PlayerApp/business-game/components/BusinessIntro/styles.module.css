@@ -1,0 +1,78 @@
+.introScreenContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.25s, scale 0.25s var(--reverse-bounce-timing);
+  z-index: 10000;
+
+  &.hide {
+    opacity: 0;
+    scale: 0.9;
+    pointer-events: none;
+  }
+}
+
+.introScreen {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  width: 400px;
+  text-align: center;
+}
+
+.introInnerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.logo {
+  width: 90px;
+  height: 90px;
+  transition: opacity 0.25s, scale 0.25s var(--bounce-timing);
+  transition-delay: 0.25s;
+
+  @starting-style {
+    opacity: 0;
+    scale: 0.9;
+  }
+}
+
+.title {
+  font-size: 38px;
+  transition: opacity 0.25s, scale 0.25s var(--bounce-timing);
+  transition-delay: 0.3s;
+
+  @starting-style {
+    opacity: 0;
+    scale: 0.9;
+  }
+}
+
+.gameDescription {
+  color: var(--alt-text);
+  transition: opacity 0.25s, scale 0.25s var(--bounce-timing);
+  transition-delay: 0.35s;
+
+  @starting-style {
+    opacity: 0;
+    scale: 0.9;
+  }
+}
+
+.startButtonContainer {
+  transition: opacity 0.25s, scale 0.25s var(--bounce-timing);
+  transition-delay: 0.5s;
+
+  @starting-style {
+    opacity: 0;
+    scale: 0.9;
+  }
+}

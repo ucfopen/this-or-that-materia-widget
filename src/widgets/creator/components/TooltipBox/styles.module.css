@@ -1,0 +1,39 @@
+.tooltipContainer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  translate: -50% -100%;
+  transition: opacity 0.1s, scale 0.1s var(--bounce-timing);
+  padding-bottom: 5px;
+  z-index: 1000000;
+
+  @starting-style {
+    opacity: 0;
+    scale: 0.95;
+  }
+
+  &.closing {
+    opacity: 0;
+    scale: 0.95;
+  }
+
+  &.left {
+    left: unset;
+    right: 0;
+    translate: 0 -100%;
+  }
+}
+
+.tooltipBox {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background-color: #000000aa;
+  backdrop-filter: blur(5px);
+  border: solid 0.05rem #ffffff44;
+  padding: 8px;
+  border-radius: 5px;
+  z-index: 100000;
+  min-width: 200px;
+  font-size: 14px;
+}

@@ -1,0 +1,45 @@
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 30px;
+  border-radius: calc(var(--choice-border-radius) - var(--border-width));
+  color: white;
+  transition: opacity 0.1s;
+
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+.bullet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+  border-radius: 1000px;
+  border: solid 1px #ffffff66;
+
+  & img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.correct {
+  background-color: var(--correct);
+}
+
+.incorrect {
+  background-color: var(--incorrect);
+}

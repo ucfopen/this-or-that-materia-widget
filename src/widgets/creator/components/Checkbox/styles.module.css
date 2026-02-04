@@ -1,0 +1,35 @@
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  cursor: pointer;
+  flex: 1;
+  transition: opacity 0.1s;
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  border: solid 1px var(--border-color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.1s, border-color 0.1s;
+
+  & img {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.checked {
+    border-color: #847ffa;
+    background-color: var(--blue);
+  }
+}
