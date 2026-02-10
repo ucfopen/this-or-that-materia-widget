@@ -1,0 +1,66 @@
+.hands {
+  position: relative;
+  width: 326px;
+  height: 75px;
+  pointer-events: none;
+  translate: 0 150%;
+  transition: translate 0.75s;
+
+  &.raised {
+    translate: 0 0;
+  }
+
+  & .hand {
+    width: 172px;
+    height: 150px;
+    position: absolute;
+    bottom: -20px;
+    background-repeat: no-repeat;
+    background-position-y: bottom;
+    transition: transform ease 0.5s, top ease 0.5s, left ease 0.5s, right ease 0.5s;
+    transform-style: flat;
+
+    &.left {
+      left: 0;
+      transform-origin: 163px 117px;
+      background-image: url('/src/assets/left-hand-point.png');
+      background-position-x: right;
+
+      &.raised {
+        transform: rotate(30deg);
+      }
+
+      &.correct {
+        background-image: url('/src/assets/left-hand-correct.png');
+      }
+
+      &.incorrect {
+        background-image: url('/src/assets/left-hand-incorrect.png');
+        background-position-y: 70px;
+        height: 200px;
+        bottom: -70px;
+      }
+    }
+
+    &.right {
+      right: 0;
+      background-image: url('/src/assets/right-hand-point.png');
+      transform-origin: 11px 117px;
+
+      &.raised {
+        transform: rotate(-30deg);
+      }
+
+      &.correct {
+        background-image: url('/src/assets/right-hand-correct.png');
+      }
+
+      &.incorrect {
+        background-image: url('/src/assets/right-hand-incorrect.png');
+        background-position-y: 70px;
+        height: 200px;
+        bottom: -70px;
+      }
+    }
+  }
+}

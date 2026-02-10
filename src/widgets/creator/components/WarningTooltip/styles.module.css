@@ -1,0 +1,12 @@
+.tooltipRevealer {
+  position: relative;
+  display: flex;
+  width: 16px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+
+  & img {
+    width: 16px;
+  }
+}

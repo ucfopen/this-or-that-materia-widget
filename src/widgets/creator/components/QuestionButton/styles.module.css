@@ -1,0 +1,67 @@
+.button {
+  all: unset;
+  background-color: var(--border-color);
+  border-radius: 8px;
+  padding: 15px 15px 15px 10px;
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+  border: solid 1px transparent;
+  user-select: none;
+  align-items: center;
+
+  &.active {
+    border-color: var(--yellow);
+  }
+
+  &.highlight {
+    animation: highlight-outline 0.4s ease-in-out infinite alternate;
+  }
+
+  &::view-transition-new(*), &::view-transition-old(*) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+}
+
+.drag {
+  cursor: grab;
+  align-self: center;
+  user-select: none;
+}
+
+.questionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.questionNumber {
+  color: var(--alt-text);
+  font-size: 14px;
+
+  &.error {
+  }
+}
+
+.warning {
+  width: 16px;
+}
+
+.noQuestionText {
+  color: var(--incorrect);
+  font-style: italic;
+}
+
+@keyframes highlight-outline {
+  0% {
+    outline: solid 1px var(--yellow);
+    outline-offset: 0;
+  }
+
+  100% {
+    outline: solid 1px var(--yellow);
+    outline-offset: 3px;
+  }
+}

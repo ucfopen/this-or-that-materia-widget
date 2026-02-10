@@ -1,0 +1,227 @@
+body {
+  font-family: 'Sigmar One', sans-serif;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  overflow-x: clip;
+
+  background: radial-gradient(circle at 50% 60%, var(--blue) 58%, #233867 60%);
+}
+
+.gameBoard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.leftCurtain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 5;
+}
+
+.rightCurtain {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  z-index: 5;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  text-align: center;
+  margin-top: 50px;
+  z-index: 10;
+  translate: 0 -200%;
+  transition: translate 0.75s;
+  height: 70px;
+
+  &.lowered {
+    translate: 0 0;
+  }
+
+  @media (max-width: 900px)  {
+    margin-top: 30px;
+  }
+}
+
+.inGameInstructionsButton {
+  min-width: 50px;
+  min-height: 50px;
+  width: 50px;
+  height: 50px;
+  margin: 0 0 0 25px;
+
+  background-color: var(--gold);
+  color: #fff;
+  border: none;
+  border-radius: 100%;
+
+  font-size: 32px;
+  font-family: var(--chunky-font), sans-serif;
+
+  &:hover, &:focus {
+    background-color: var(--gold-light);
+    /*box-shadow: 0px 5px 10px $a;*/
+    cursor: pointer;
+  }
+}
+
+.questionsRemainingContainer {
+  display: flex;
+  align-items: center;
+
+  &:hover .puckContainer {
+    transform: translateX(25px) rotateX(180deg);
+  }
+
+  &:hover .pole {
+    transform: rotateX(180deg);
+  }
+
+  .puckContainer {
+    width: 50px;
+    height: 50px;
+    transform-style: preserve-3d;
+    transition: transform 0.8s;
+    transform-origin: center;
+    transform: translateX(25px);
+    z-index: 10;
+
+    & .puck {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      background-color: var(--gold);
+      color: white;
+      border: none;
+      border-radius: 100%;
+      backface-visibility: hidden;
+
+      &.front {
+        font-size: 24px;
+      }
+
+      &.back {
+        font-size: 14px;
+        transform: rotateX(180deg);
+        transform-origin: top;
+      }
+    }
+  }
+
+  .pole {
+    transition: transform 0.8s;
+  }
+}
+
+.choices {
+  display: flex;
+  justify-content: space-between;
+  gap: 5%;
+  padding: 0 2%;
+  width: 100%;
+
+  @media (max-width: 900px)  {
+    padding: 0 0;
+    gap: 3%;
+  }
+}
+
+.nextButtonContainer {
+  position: absolute;
+  display: flex;
+  bottom: 20px;
+  right: 20px;
+  z-index: 15;
+  transition: transform 0.5s;
+  transform: translateY(calc(100% + 25px));
+
+  &.raised {
+    transform: translateY(0);
+  }
+}
+
+.questionText {
+  transition: transform 0.25s, opacity 0.25s;
+  font-family: var(--regular-font), serif;
+  font-size: 32px;
+
+  &.lowered {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  @media (max-width: 900px)  {
+    font-size: 30px;
+  }
+}
+
+.lightboxBackground {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.67);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  transition: opacity 0.25s;
+
+  &.close {
+    opacity: 0;
+  }
+
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+.lightbox {
+  position: relative;
+  padding: 10px;
+  background-color: #333333;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  animation: bounce-in 0.25s var(--bounce-timing);
+}
+
+.lightboxCloseButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateY(-25%) translateX(25%);
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.8);
+  }
+  100%  {
+    transform: scale(1);
+  }
+}
+

@@ -1,0 +1,37 @@
+.mediaTypeSelectionButtons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.videoUploadBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  width: 100%;
+  height: 300px;
+  border: dashed 4px var(--border-color);
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.imagePreview {
+  aspect-ratio: var(--image-aspect-ratio);
+  width: 100%;
+  height: unset;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.audioPreview {
+  border-radius: 5px;
+}
+
+.videoPreview {
+  border-radius: 10px;
+  border: none;
+  aspect-ratio: var(--image-aspect-ratio);
+  width: 100%;
+}

@@ -1,9 +1,6 @@
-.DS_Store
-*/.DS_Store
-.sass-cache
 node_modules
-bower_components
-*build
-coverage
-*.log
-uglify_cache
+.env
+build
+ts-out
+.DS_store
+**/.idea
