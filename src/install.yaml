@@ -17,7 +17,7 @@ files:
   creator_guide: guides/creator.html
   player_guide: guides/player.html
 score:
-  is_scorable: True
+  is_scorable: Yes
   score_module: ThisOrThat
   score_screen: scoreScreen.html
 meta_data:
