@@ -20,7 +20,6 @@ export default function QuestionEditor() {
   const curQuestionIndex = useThisOrThatCreatorSelector(selectCurrentQuestionIndex)
   const curQuestion = useThisOrThatCreatorSelector(selectCurrentQuestion)
   const errors = useThisOrThatCreatorSelector(selectCurrentQuestionErrors)
-  console.log(errors)
 
   return (
     <div className={styles.questionEditorContainer}>

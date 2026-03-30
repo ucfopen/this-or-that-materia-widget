@@ -23,7 +23,7 @@ export default function CreatorRoot(
           initialQset={qset}
           registerSaver={registerSaver}
           title={title}
-          setTitle={updateTitle}
+          updateTitle={updateTitle}
         />
       </MediaHandlerContext.Provider>
     </Provider>

@@ -1,8 +1,8 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import { processQset } from '../../utils.ts'
 
-const CreatorApp = React.lazy(() => import('../../widgets/creator/CreatorRoot'))
+import CreatorApp from '../../widgets/creator/CreatorRoot'
 
 // Disable dropping on the window so that the media uploaders work right
 window.addEventListener('drop', (e) => {
@@ -28,21 +28,18 @@ materiaCallbacks.initExistingWidget = (title, instance, _qset, version, newWidge
   const rootElement = document.getElementById('root')
 
   ReactDOM.createRoot(rootElement).render(
-    <Suspense>
-      <CreatorApp
-        title={title}
-        qset={_qset}
-        updateTitle={(newTitle) => currentTitle = newTitle}
-        registerSaver={(s) => saver = s}
-        registerMediaHandler={(h) => mediaHandler = h}
-      />
-    </Suspense>,
+    <CreatorApp
+      title={title}
+      qset={_qset}
+      updateTitle={(newTitle) => currentTitle = newTitle}
+      registerSaver={(s) => saver = s}
+      registerMediaHandler={(h) => mediaHandler = h}
+    />
   )
 }
 
 materiaCallbacks.onSaveClicked = () => {
   const saverResult = saver()
-  console.log(saverResult)
 
   if (typeof saverResult === 'string') {
     Materia.CreatorCore.cancelSave(saverResult)
@@ -61,7 +58,7 @@ materiaCallbacks.onPromptResponse = (status, resp) => {
 
 materiaCallbacks.onMediaImportComplete = (arrayOfMedia) => {
   const url = Materia.CreatorCore.getMediaUrl(arrayOfMedia[0].id)
-  mediaHandler?.(url)
+  mediaHandler?.(arrayOfMedia[0].id, url)
 }
 
 materiaCallbacks.manualResize = false

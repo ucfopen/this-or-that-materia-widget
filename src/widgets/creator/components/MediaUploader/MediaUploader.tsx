@@ -7,11 +7,12 @@ interface MediaUploaderProps {
   icon: string,
   iconAlt: string,
   type: Exclude<Materia.CreatorCore.ImporterMediaTypes, 'video'>,
+  setMediaId: (id: string) => void,
   setMediaUrl: (url: string) => void,
   error: boolean,
 }
 
-export default function MediaUploader({ icon, iconAlt, type, setMediaUrl, error }: MediaUploaderProps) {
+export default function MediaUploader({ icon, iconAlt, type, setMediaId, setMediaUrl, error }: MediaUploaderProps) {
   const [draggingOver, setDraggingOver] = useState(false)
   const uploaderRef = useRef<HTMLLabelElement>()
   const inputId = useId()
@@ -27,7 +28,10 @@ export default function MediaUploader({ icon, iconAlt, type, setMediaUrl, error 
 
   const uploadMediaToMateria = (file: File) => {
     Materia.CreatorCore.directUploadMedia(file)
-    registerMediaHandler((url: string) => setMediaUrl(url))
+    registerMediaHandler((assetID: string, mediaUrl: string) => {
+      setMediaId(assetID)
+      setMediaUrl(mediaUrl)
+    })
   }
 
   const handleOnDrop = (e: DragEvent<HTMLLabelElement>) => {
@@ -59,8 +63,9 @@ export default function MediaUploader({ icon, iconAlt, type, setMediaUrl, error 
   const handleMediaLibraryUpload = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     Materia.CreatorCore.showMediaImporter([type])
-    registerMediaHandler((url: string) => {
-      setMediaUrl(url)
+    registerMediaHandler((assetID: string, mediaUrl: string) => {
+      setMediaId(assetID)
+      setMediaUrl(mediaUrl)
     })
   }
 

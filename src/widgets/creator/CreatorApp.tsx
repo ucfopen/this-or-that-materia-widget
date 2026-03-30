@@ -4,10 +4,17 @@ import QuestionEditor from './components/QuestionEditor/QuestionEditor'
 import { useThisOrThatCreatorDispatch, useThisOrThatCreatorSelector } from './redux/hooks'
 import {
   createNewQuestion,
-  initCreator, markErrors, moveQuestion, selectCurrentQuestion,
-  selectCurrentQuestionIndex, selectErrors, selectQset,
-  selectQuestions, selectTitle,
+  initCreator,
+  markErrors,
+  moveQuestion,
+  selectCurrentQuestion,
+  selectCurrentQuestionIndex,
+  selectErrors,
+  selectQset,
+  selectQuestions,
+  selectTitle,
   setCurrentQuestion,
+  setTitle
 } from './redux/creatorSlice'
 import { useEffect, useState, DragEvent } from 'react'
 import { flushSync } from 'react-dom'
@@ -18,10 +25,10 @@ interface CreatorContentProps {
   initialQset: ThisOrThatQset,
   registerSaver: (saver: () => ThisOrThatQset | string) => void,
   title: string,
-  setTitle: (title: string) => void,
+  updateTitle: (title: string) => void,
 }
 
-export default function CreatorApp({ initialQset, registerSaver, title, setTitle }: CreatorContentProps) {
+export default function CreatorApp({ initialQset, registerSaver, title, updateTitle }: CreatorContentProps) {
   const qset = useThisOrThatCreatorSelector(selectQset)
   const curQuestionIndex = useThisOrThatCreatorSelector(selectCurrentQuestionIndex)
   const curQuestion = useThisOrThatCreatorSelector(selectCurrentQuestion)
@@ -34,6 +41,9 @@ export default function CreatorApp({ initialQset, registerSaver, title, setTitle
   // Initialize game with initial qset
   useEffect(() => {
     dispatch(initCreator(initialQset))
+    // instance title isn't part of the qset, have to update the
+    //  corresponding state in a separate step
+    dispatch(setTitle(title))
   }, [initialQset])
 
   // Update saver with latest qset
@@ -43,8 +53,8 @@ export default function CreatorApp({ initialQset, registerSaver, title, setTitle
       // return 'Errors found'
       return qset
     })
-    setTitle(localTitle)
-  }, [qset, registerSaver, localTitle, setTitle])
+    updateTitle(localTitle)
+  }, [qset, registerSaver, localTitle, updateTitle])
 
   // Question drag/drop reordering
   const [currentlyDragging, setCurrentlyDragging] = useState<string>(null)

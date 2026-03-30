@@ -1,7 +1,7 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 
-const ScoreScreen = React.lazy(() => import('../../widgets/score_screen/ScoreScreen'))
+import ScoreScreen from '../../widgets/score_screen/ScoreScreen'
 
 let name = ''
 
@@ -12,7 +12,6 @@ const renderScoreScreen = (qset, scoreTable, title = undefined) => {
 
   const rootElement = document.getElementById('root')
   ReactDOM.createRoot(rootElement).render(
-    <Suspense>
       <ScoreScreen
         qset={qset}
         rawScoreTable={scoreTable}
@@ -20,11 +19,8 @@ const renderScoreScreen = (qset, scoreTable, title = undefined) => {
           Materia.ScoreCore.setHeight(newHeight)
         }}
       />
-    </Suspense>,
   )
 }
-
-Materia.ScoreCore.hideResultsTable()
 
 Materia.ScoreCore.start({
   start: (instance, qset, scoreTable, isPreview, qsetVersion) => {

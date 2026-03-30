@@ -93,6 +93,11 @@ export const creatorStateSlice = createSlice({
       const answerIndex = side === 'correct' ? 0 : 1
       state.qset.items[state.currentQuestion].answers[answerIndex].options.asset.type = type
     },
+    setCurrentQuestionMediaId: (state, action: PayloadAction<{ side: AnswerSide, id: string }>) => {
+      const { side, id } = action.payload
+      const answerIndex = side === 'correct' ? 0 : 1
+      state.qset.items[state.currentQuestion].answers[answerIndex].options.asset.id = id
+    },
     setCurrentQuestionMediaUrl: (state, action: PayloadAction<{ side: AnswerSide, url: string }>) => {
       const { side, url } = action.payload
       const answerIndex = side === 'correct' ? 0 : 1
@@ -205,6 +210,7 @@ export const {
   createNewQuestion,
   setCurrentQuestionText,
   setCurrentQuestionMediaType,
+  setCurrentQuestionMediaId,
   setCurrentQuestionMediaUrl,
   setCurrentQuestionDescription,
   setCurrentQuestionFeedback,

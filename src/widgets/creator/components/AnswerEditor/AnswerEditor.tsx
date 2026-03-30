@@ -10,6 +10,7 @@ import { useThisOrThatCreatorDispatch, useThisOrThatCreatorSelector } from '../.
 import {
   selectCurrentQuestionAnswer, selectCurrentQuestionErrors, setCurrentQuestionDescription, setCurrentQuestionFeedback,
   setCurrentQuestionMediaType,
+  setCurrentQuestionMediaId,
   setCurrentQuestionMediaUrl,
 } from '../../redux/creatorSlice'
 import { BusinessButton } from '../../../shared/components/BusinessButton/BusinessButton'
@@ -84,6 +85,7 @@ export default function AnswerEditor({ side }: AnswerEditorProps) {
           icon="assets/image.svg"
           iconAlt="Upload Image"
           type="image"
+          setMediaId={(id) => dispatch(setCurrentQuestionMediaId({ side, id }))}
           setMediaUrl={(url) => dispatch(setCurrentQuestionMediaUrl({ side, url }))}
           error={isUrlErrored}
         />
@@ -103,6 +105,7 @@ export default function AnswerEditor({ side }: AnswerEditorProps) {
           icon="assets/audio.svg"
           iconAlt="Upload Audio"
           type="audio"
+          setMediaId={(id) => dispatch(setCurrentQuestionMediaId({ side, id }))}
           setMediaUrl={(url) => dispatch(setCurrentQuestionMediaUrl({ side, url }))}
           error={isUrlErrored}
         />
