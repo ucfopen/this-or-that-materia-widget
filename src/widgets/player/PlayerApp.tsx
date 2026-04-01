@@ -88,6 +88,8 @@ export default function PlayerApp({ onEnd, submitQuestionForScoring }: PlayerApp
 
   // Submit a question to Materia for scoring
   const submitQuestion = (choice: 'left' | 'right') => {
+    if (questionPhase === 'answered') return
+
     const choiceIndex = choice === 'left' ? leftChoiceIndex : rightChoiceIndex
     const curAnswer = currentQuestion.answers[choiceIndex]
     switch (qset.version) {

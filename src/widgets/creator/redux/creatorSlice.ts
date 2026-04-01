@@ -72,12 +72,34 @@ export const creatorStateSlice = createSlice({
         type: 'MC',
         questions: [{ text: '' }],
         answers: [
-          { id: 'left', text: '', value: 100, options: {
-            asset: { materiaType: 'asset', id: '', type: 'image', value: '' },
-          } },
-          { id: 'right', text: '', value: 0, options: {
-            asset: { materiaType: 'asset', id: '', type: 'image', value: '' },
-          } },
+          {
+            id: 'left',
+            text: '',
+            value: 100,
+            options: {
+              asset: {
+                materiaType: 'asset',
+                id: '',
+                type: 'image',
+                value: ''
+              },
+              feedback: ''
+            }
+          },
+          {
+            id: 'right',
+            text: '',
+            value: 0,
+            options: {
+              asset: {
+                materiaType: 'asset',
+                id: '',
+                type: 'image',
+                value: ''
+              },
+              feedback: ''
+            }
+          },
         ],
       })
     },

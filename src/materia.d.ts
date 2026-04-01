@@ -25,9 +25,9 @@ type ThisOrThatQsetAnswer = {
 
 type ThisOrThatAnswerOptions = {
   asset: {
-    materiaType: string,
+    materiaType: string, // maybe hard-require 'asset' here?
     id: string,
-    type?: 'text' | 'image' | 'video' | 'audio',
+    type?: MediaType,
     value?: string,
   },
   feedback?: string,

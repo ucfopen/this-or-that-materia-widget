@@ -49,6 +49,7 @@ materiaCallbacks.onSaveClicked = () => {
   Materia.CreatorCore.save(
     currentTitle,
     saverResult,
+    saverResult.version
   )
 }
 
