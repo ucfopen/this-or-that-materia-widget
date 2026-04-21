@@ -117,3 +117,9 @@
   height: 100%;
   border-radius: 5px;
 }
+
+@media (max-width: 800px) {
+	.choice {
+		padding: 4% 4%;
+	}
+}
