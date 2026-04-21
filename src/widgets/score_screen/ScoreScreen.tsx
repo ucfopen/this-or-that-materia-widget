@@ -1,6 +1,6 @@
 import './score-screen-globals.css'
 import { useLayoutEffect } from 'react'
-
+import { getEmbeddedVideoUrl } from '../../utils'
 interface ScoreScreenProps {
 	qset: ThisOrThatQset,
 	rawScoreTable: any, // TODO
@@ -46,8 +46,9 @@ export default function ScoreScreen({ qset, rawScoreTable, reportHeight }: Score
 			case 'video':
 				return <div className='item-video'>
 					<iframe
-						width="240px"
-						src={ itemSide.asset.value }
+						width="100%"
+						height="100%"
+						src={ getEmbeddedVideoUrl(itemSide.asset.value) }
 						frameBorder="0"
 						allowFullScreen></iframe>
 				</div>
@@ -113,23 +114,27 @@ export default function ScoreScreen({ qset, rawScoreTable, reportHeight }: Score
 
 		// this should probably be a separate component but why bother, it's simple enough
 		return <section key={'question-' + questionIndex} className='question-item'>
-			<h5>
-				{questionIndex + 1}. {item.question}
-				<span className={headingClasses.join(' ')}>
-					{ item.correct ? 'Correct!' : '-' + incorrectQuestionDeduction + '%' }
-				</span>
-			</h5>
-			<div className={leftClasses.join(' ')}>
-				{leftSide}
-			</div>
-			<div className={rightClasses.join(' ')}>
-				{rightSide}
-			</div>
+			<h3 data-index={ 'Question ' + (questionIndex + 1) }>
+				{item.question}
+			</h3>
+			<span className={headingClasses.join(' ')}>
+				{ item.correct ? 'Correct' : 'Incorrect' }
+			</span>
+			<section className='cards'>
+				<div className={leftClasses.join(' ')}>
+					{leftSide}
+				</div>
+				<div className={rightClasses.join(' ')}>
+					{rightSide}
+				</div>
+			</section>
 		</section>
 	})
 
 	return (
 		<div className='content-frame'>
+			<h2>Assessment Complete</h2>
+			<h5>Review your answers below</h5>
 			{items}
 		</div>
 	)
