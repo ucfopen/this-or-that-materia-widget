@@ -39,7 +39,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 0;
+  padding: 0;
   height: 450px;
   transition: opacity 1s;
 }

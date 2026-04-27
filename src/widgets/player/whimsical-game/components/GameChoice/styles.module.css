@@ -3,13 +3,24 @@
   align-items: center;
   width: 100%;
 
+  &:first-child {
+    justify-content: flex-end;
+  }
+
+  &:last-child {
+    justify-content: flex-start;
+  }
+
   & .frame {
     position: relative;
     display: flex;
-    width: 100%;
+    flex-basis: 90%;
+    max-width: 480px;
     aspect-ratio: var(--image-aspect-ratio);
     padding: 5% 5% 7.5% 5%;
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 
     &.unpicked {
       background-image: url('/src/assets/choice-frame.png');
@@ -72,11 +83,24 @@
 }
 
 .audioFigure {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1em;
+  padding: 2em 0.5em;
+  background-color: #fcf3e3;
+  color: #000;
+
+  border-radius: 1em;
+
+  audio {
+    margin: 0 auto;
+  }
+
   & figcaption {
-    margin-top: 10px;
-    font-weight: bold;
-    text-align: center;
-    font-family: sans-serif;
+    padding: 1em 1.5em;
+    font-weight: 400;
+    font-family: var(--regular-font);
   }
 }
 
@@ -92,10 +116,10 @@
 }
 
 .textChoice {
-  font-family: sans-serif;
+  font-family: var(--regular-font);
   font-weight: bold;
   text-align: center;
-  font-size: 18px;
+  font-size: 21px;
   padding: 10px;
 }
 

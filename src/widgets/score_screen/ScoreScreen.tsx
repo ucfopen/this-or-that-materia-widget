@@ -1,5 +1,5 @@
 import './score-screen-globals.css'
-import { useLayoutEffect } from 'react'
+import { useEffect } from 'react'
 import { getEmbeddedVideoUrl } from '../../utils'
 interface ScoreScreenProps {
 	qset: ThisOrThatQset,
@@ -8,10 +8,47 @@ interface ScoreScreenProps {
 }
 
 export default function ScoreScreen({ qset, rawScoreTable, reportHeight }: ScoreScreenProps) {
-	// Get height right before screen gets painted, report it to the height reporter
-	useLayoutEffect(() => {
-		const htmlCompStyle = window.getComputedStyle(document.querySelector('html'))
-		reportHeight(Math.ceil(parseFloat(htmlCompStyle.height)))
+	// Report height after all images and media have loaded
+	useEffect(() => {
+		const calculateAndReportHeight = () => {
+			const htmlCompStyle = window.getComputedStyle(document.querySelector('html'))
+			reportHeight(Math.ceil(parseFloat(htmlCompStyle.height)))
+		}
+
+		const images = Array.from(document.querySelectorAll('img'))
+		
+		let loadedCount = 0
+		const totalImages = images.length
+
+		if (totalImages === 0) {
+			calculateAndReportHeight()
+			return
+		}
+
+		const handleImageLoad = () => {
+			loadedCount++
+			if (loadedCount === totalImages) {
+				requestAnimationFrame(() => {
+					calculateAndReportHeight()
+				})
+			}
+		}
+
+		images.forEach(img => {
+			if (img.complete) {
+				handleImageLoad()
+			} else {
+				img.addEventListener('load', handleImageLoad)
+				img.addEventListener('error', handleImageLoad) // Count errors too to avoid hanging
+			}
+		})
+
+		return () => {
+			images.forEach(img => {
+				img.removeEventListener('load', handleImageLoad)
+				img.removeEventListener('error', handleImageLoad)
+			})
+		}
 	}, [reportHeight])
 
 	const getQuestionIndex = (qset, id) => {
@@ -19,6 +56,16 @@ export default function ScoreScreen({ qset, rawScoreTable, reportHeight }: Score
 			if (qset.items[i].id == id) return i
 		}
 		return -1
+	}
+
+	// Calculate dynamic font size based on text length
+	const getTextFontSize = (text: string): string => {
+		const length = text.length
+		if (length < 100) return '1.2em'
+		if (length < 200) return '1.1em'
+		if (length < 300) return '1em'
+		if (length < 500) return '0.95em'
+		return '0.85em'
 	}
 
 	// left and right side rendered elements will be handled basically identically
@@ -30,7 +77,7 @@ export default function ScoreScreen({ qset, rawScoreTable, reportHeight }: Score
 					<img src={itemSide.asset.value} alt={itemSide.text} />
 				</div>
 			case 'text':
-				return <div className='item-text'>
+				return <div className='item-text' style={{ fontSize: getTextFontSize(itemSide.asset.value) }}>
 					{ itemSide.asset.value }
 				</div>
 			case 'audio':
@@ -114,7 +161,7 @@ export default function ScoreScreen({ qset, rawScoreTable, reportHeight }: Score
 
 		// this should probably be a separate component but why bother, it's simple enough
 		return <section key={'question-' + questionIndex} className='question-item'>
-			<h3 data-index={ 'Question ' + (questionIndex + 1) }>
+			<h3 data-question-count={ 'Question ' + (questionIndex + 1) } data-index={questionIndex + 1}>
 				{item.question}
 			</h3>
 			<span className={headingClasses.join(' ')}>
@@ -132,7 +179,7 @@ export default function ScoreScreen({ qset, rawScoreTable, reportHeight }: Score
 	})
 
 	return (
-		<div className='content-frame'>
+		<div className={`content-frame ${qset.options?.theme ?? 'whimsical'}`}>
 			<h2>Assessment Complete</h2>
 			<h5>Review your answers below</h5>
 			{items}
