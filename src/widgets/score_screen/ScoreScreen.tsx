@@ -8,13 +8,16 @@ interface ScoreScreenProps {
 }
 
 export default function ScoreScreen({ qset, rawScoreTable, reportHeight }: ScoreScreenProps) {
-	// Report height after all images and media have loaded
-	useEffect(() => {
-		const calculateAndReportHeight = () => {
-			const htmlCompStyle = window.getComputedStyle(document.querySelector('html'))
+
+	const calculateAndReportHeight = () => {
+		const html = document.querySelector('html')
+		if (html) {
+			const htmlCompStyle = window.getComputedStyle(html)
 			reportHeight(Math.ceil(parseFloat(htmlCompStyle.height)))
 		}
+	}
 
+	useEffect(() => {
 		const images = Array.from(document.querySelectorAll('img'))
 		
 		let loadedCount = 0
@@ -48,6 +51,30 @@ export default function ScoreScreen({ qset, rawScoreTable, reportHeight }: Score
 				img.removeEventListener('load', handleImageLoad)
 				img.removeEventListener('error', handleImageLoad)
 			})
+		}
+	}, [reportHeight])
+
+	useEffect(() => {
+		let resizeTimeout: number | undefined
+
+		const handleResize = () => {
+			if (resizeTimeout) {
+				clearTimeout(resizeTimeout)
+			}
+			resizeTimeout = window.setTimeout(() => {
+				requestAnimationFrame(() => {
+					calculateAndReportHeight()
+				})
+			}, 150)
+		}
+
+		window.addEventListener('resize', handleResize)
+
+		return () => {
+			window.removeEventListener('resize', handleResize)
+			if (resizeTimeout) {
+				clearTimeout(resizeTimeout)
+			}
 		}
 	}, [reportHeight])
 
