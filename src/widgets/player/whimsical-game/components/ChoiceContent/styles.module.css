@@ -31,6 +31,10 @@
   }
 }
 
+.button:has(p) {
+  overflow-y: auto;
+}
+
 .expandButton {
   position: absolute;
   top: 10px;
