@@ -21,7 +21,7 @@
   width: 100%;
   height: 100%;
   cursor: pointer;
-  background-color: white;
+  background-color: var(--whimsical-frame-bg-color);
   color: black;
 
   & img {

@@ -17,33 +17,51 @@
     flex-basis: 90%;
     max-width: 480px;
     aspect-ratio: var(--image-aspect-ratio);
-    padding: 5% 5% 7.5% 5%;
+    padding: 5.25% 5% 5.75% 5%;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 
     &.unpicked {
-      background-image: url('/src/assets/choice-frame.png');
+      background-color: #f8a844;
+      mask-image: url('/src/assets/player-frame.svg');
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
 
       &:hover {
-        background-image: url('/src/assets/choice-frame-highlighted.png');
+        background-color: #ffc280;
+      }
+    }
+
+    @media (max-width: 900px) {
+      & {
+        padding: 6.25% 6% 7% 6%;
       }
     }
 
     &.correct {
-      background-image: url('/src/assets/choice-frame-correct.png');
+        background-color: rgb(122,199,2);
+        mask-image: url('/src/assets/player-frame.svg');
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
 
-      &:hover:not(.disabled) {
-        background-image: url('/src/assets/choice-frame-correct-highlighted.png');
-      }
+        &:hover:not(.disabled) {
+          background-color: rgb(161, 237, 37);
+        }
     }
 
     &.incorrect {
-      background-image: url('/src/assets/choice-frame-incorrect.png');
+        background-color: rgb(228, 44, 32);
+        mask-image: url('/src/assets/player-frame.svg');
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
 
-      &:hover:not(.disabled) {
-        background-image: url('/src/assets/choice-frame-incorrect-highlighted.png');
-      }
+        &:hover:not(.disabled) {
+          background-color: rgb(247, 82, 70);
+        }
     }
   }
 

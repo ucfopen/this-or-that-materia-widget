@@ -69,8 +69,8 @@ export default function WhimsicalGame({
       />
 
       {/* Curtains */}
-      <img className={styles.leftCurtain} src="assets/left-curtain.png" alt="" />
-      <img className={styles.rightCurtain} src="assets/right-curtain.png" alt="" />
+      <img className={styles.leftCurtain} src="assets/left-curtain.svg" alt="" />
+      <img className={styles.rightCurtain} src="assets/right-curtain.svg" alt="" />
 
       {/* Render only if qset is loaded */}
       {currentQuestion && (
