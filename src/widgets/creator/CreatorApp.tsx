@@ -101,7 +101,6 @@ export default function CreatorApp({ initialQset, registerSaver, title, updateTi
     <main className={styles.main}>
       <div className={styles.questions}>
         <div className={styles.logoContainer}>
-          <img className={styles.logo} src="assets/logo.svg" alt="Logo" />
           {localTitle && <h1 className={styles.title}>{localTitle}</h1>}
           {!localTitle && <h1 className={styles.noTitle}>No Title</h1>}
         </div>
