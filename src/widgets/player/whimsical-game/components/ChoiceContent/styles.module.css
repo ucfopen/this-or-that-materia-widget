@@ -1,7 +1,6 @@
 .choice {
   position: relative;
   width: 100%;
-  height: 100%;
   border-radius: 4px;
   border: 0;
   outline: none;
@@ -22,7 +21,7 @@
   width: 100%;
   height: 100%;
   cursor: pointer;
-  background-color: white;
+  background-color: var(--whimsical-frame-bg-color);
   color: black;
 
   & img {
@@ -30,6 +29,10 @@
     height: 100%;
     object-fit: cover;
   }
+}
+
+.button:has(p) {
+  overflow-y: auto;
 }
 
 .expandButton {

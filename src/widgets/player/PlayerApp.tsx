@@ -131,9 +131,9 @@ export default function PlayerApp({ onEnd, submitQuestionForScoring }: PlayerApp
     setDoMidPhaseAnimations(true)
   }, [isGameFinished])
 
-  if (qset.options?.['theme'] === 'whimsical') {
+  if (qset.options?.['theme'] === 'business') {
     return (
-      <WhimsicalGame
+      <BusinessGame
         gameInProgress={gameInProgress}
         isGameFinished={isGameFinished}
         onStart={startGame}
@@ -154,7 +154,7 @@ export default function PlayerApp({ onEnd, submitQuestionForScoring }: PlayerApp
     )
   } else {
     return (
-      <BusinessGame
+      <WhimsicalGame
         gameInProgress={gameInProgress}
         isGameFinished={isGameFinished}
         onStart={startGame}

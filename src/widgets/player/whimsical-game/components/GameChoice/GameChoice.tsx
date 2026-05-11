@@ -4,6 +4,7 @@ import ChoiceContent from '../ChoiceContent/ChoiceContent'
 import ChoiceContentWithButton from '../ChoiceContentWithButton/ChoiceContentWithButton'
 import { ReactNode } from 'react'
 import ImageLightboxContents from '../../../../shared/components/ImageLightboxContents/ImageLightboxContents'
+import { getEmbeddedVideoUrl } from '../../../../../utils'
 
 export type ChoiceState = 'unpicked' | 'correct' | 'incorrect'
 
@@ -67,7 +68,7 @@ export default function GameChoice({
     )
   } else if (choiceType === 'video') {
     const lightboxRender = (
-      <iframe className={styles.lightboxVideoFrame} width="100%" src={mediaUrl} allowFullScreen />
+      <iframe className={styles.lightboxVideoFrame} width="100%" src={getEmbeddedVideoUrl(mediaUrl)} allowFullScreen />
     )
     mediaRender = (
       <ChoiceContentWithButton
@@ -81,7 +82,7 @@ export default function GameChoice({
           className={styles.videoFrame}
           width="100%"
           height="100%"
-          src={mediaUrl}
+          src={getEmbeddedVideoUrl(mediaUrl)}
           allowFullScreen
         />
       </ChoiceContentWithButton>

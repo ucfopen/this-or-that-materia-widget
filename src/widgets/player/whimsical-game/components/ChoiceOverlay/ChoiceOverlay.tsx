@@ -23,7 +23,7 @@ export default function ChoiceOverlay({
   return (
     <div className={clsx([styles.overlay, stateStyle])}>
       <h3 className={styles.title}>{stateText}</h3>
-      <p className={styles.feedback}>{answerFeedback}</p>
+      { !!answerFeedback ? <p className={styles.feedback}>{answerFeedback}</p> : <></> }
     </div>
   )
 }

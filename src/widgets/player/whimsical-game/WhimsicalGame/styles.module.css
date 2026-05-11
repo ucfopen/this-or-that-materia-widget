@@ -47,7 +47,7 @@ body {
   width: 100%;
   gap: 20px;
   text-align: center;
-  margin-top: 50px;
+  margin-top: 2rem;
   z-index: 10;
   translate: 0 -200%;
   transition: translate 0.75s;
@@ -104,11 +104,11 @@ body {
     transform-origin: center;
     transform: translateX(25px);
     z-index: 10;
+    font-family: var(--regular-font);
 
     & .puck {
       display: flex;
       justify-content: center;
-      align-items: center;
       width: 50px;
       height: 50px;
       background-color: var(--gold);
@@ -116,13 +116,15 @@ body {
       border: none;
       border-radius: 100%;
       backface-visibility: hidden;
+      font-weight: 700;
 
       &.front {
-        font-size: 24px;
+        font-size: 2rem;
       }
 
       &.back {
-        font-size: 14px;
+        align-items: center;
+        font-size: 1.2rem;
         transform: rotateX(180deg);
         transform-origin: top;
       }
@@ -136,7 +138,7 @@ body {
 
 .choices {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 5%;
   padding: 0 2%;
   width: 100%;

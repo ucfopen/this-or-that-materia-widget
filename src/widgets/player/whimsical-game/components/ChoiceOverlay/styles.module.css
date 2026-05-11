@@ -27,7 +27,12 @@
   }
 
   & .feedback {
+    padding: 0.5em;
+    background-color: rgba(0, 0, 0, 0.45);
+    border-radius: 0.5em;
+
     font-family: var(--regular-font), serif;
     font-size: 16px;
+    font-weight: 400;
   }
 }

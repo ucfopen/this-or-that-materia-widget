@@ -7,6 +7,7 @@ import BusinessChoiceContentWithButton from '../BusinessChoiceContentWithButton/
 import { ChoiceState } from '../../../whimsical-game/components/GameChoice/GameChoice'
 import ImageLightboxContents from '../../../../shared/components/ImageLightboxContents/ImageLightboxContents'
 import { BusinessButton } from '../../../../shared/components/BusinessButton/BusinessButton'
+import { getEmbeddedVideoUrl } from '../../../../../utils'
 
 interface BusinessGameChoiceProps {
   choiceType: 'text' | 'image' | 'video' | 'audio',
@@ -55,13 +56,13 @@ export default function BusinessGameChoice({
           className={styles.videoFrame}
           width="100%"
           height="100%"
-          src={mediaUrl}
+          src={getEmbeddedVideoUrl(mediaUrl)}
           allowFullScreen
         />
       </BusinessChoiceContentWithButton>
     )
     lightboxContent = (
-      <iframe className={styles.lightboxVideoFrame} width="100%" src={mediaUrl} allowFullScreen />
+      <iframe className={styles.lightboxVideoFrame} width="100%" src={getEmbeddedVideoUrl(mediaUrl)} allowFullScreen />
     )
   } else if (choiceType === 'audio') {
     expandable = false

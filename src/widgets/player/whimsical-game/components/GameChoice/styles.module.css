@@ -3,36 +3,65 @@
   align-items: center;
   width: 100%;
 
+  &:first-child {
+    justify-content: flex-end;
+  }
+
+  &:last-child {
+    justify-content: flex-start;
+  }
+
   & .frame {
     position: relative;
     display: flex;
-    width: 100%;
+    flex-basis: 90%;
+    max-width: 480px;
     aspect-ratio: var(--image-aspect-ratio);
-    padding: 5% 5% 7.5% 5%;
-    background-size: cover;
+    padding: 5.25% 5% 5.75% 5%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 
     &.unpicked {
-      background-image: url('/src/assets/choice-frame.png');
+      background-color: #f8a844;
+      mask-image: url('/src/assets/player-frame.svg');
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
 
       &:hover {
-        background-image: url('/src/assets/choice-frame-highlighted.png');
+        background-color: #ffc280;
+      }
+    }
+
+    @media (max-width: 900px) {
+      & {
+        padding: 6.25% 6% 7% 6%;
       }
     }
 
     &.correct {
-      background-image: url('/src/assets/choice-frame-correct.png');
+        background-color: rgb(122,199,2);
+        mask-image: url('/src/assets/player-frame.svg');
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
 
-      &:hover:not(.disabled) {
-        background-image: url('/src/assets/choice-frame-correct-highlighted.png');
-      }
+        &:hover:not(.disabled) {
+          background-color: rgb(161, 237, 37);
+        }
     }
 
     &.incorrect {
-      background-image: url('/src/assets/choice-frame-incorrect.png');
+        background-color: rgb(228, 44, 32);
+        mask-image: url('/src/assets/player-frame.svg');
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
 
-      &:hover:not(.disabled) {
-        background-image: url('/src/assets/choice-frame-incorrect-highlighted.png');
-      }
+        &:hover:not(.disabled) {
+          background-color: rgb(247, 82, 70);
+        }
     }
   }
 
@@ -72,11 +101,24 @@
 }
 
 .audioFigure {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1em;
+  padding: 2em 0.5em;
+  background-color: #fcf3e3;
+  color: #000;
+
+  border-radius: 1em;
+
+  audio {
+    margin: 0 auto;
+  }
+
   & figcaption {
-    margin-top: 10px;
-    font-weight: bold;
-    text-align: center;
-    font-family: sans-serif;
+    padding: 1em 1.5em;
+    font-weight: 400;
+    font-family: var(--regular-font);
   }
 }
 
@@ -92,10 +134,10 @@
 }
 
 .textChoice {
-  font-family: sans-serif;
+  font-family: var(--regular-font);
   font-weight: bold;
   text-align: center;
-  font-size: 18px;
+  font-size: 21px;
   padding: 10px;
 }
 
