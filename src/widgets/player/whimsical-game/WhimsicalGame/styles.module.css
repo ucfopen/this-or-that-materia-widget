@@ -147,6 +147,11 @@ body {
     padding: 0 0;
     gap: 3%;
   }
+
+  @media (max-width: 660px) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .nextButtonContainer {
@@ -175,6 +180,10 @@ body {
 
   @media (max-width: 900px)  {
     font-size: 30px;
+  }
+
+  @media (max-width: 660px) {
+    font-size: 24px;
   }
 }
 

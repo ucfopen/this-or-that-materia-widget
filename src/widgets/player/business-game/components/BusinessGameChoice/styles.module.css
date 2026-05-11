@@ -23,6 +23,14 @@
     --gradient-color-1: #5E7FBA;
     --gradient-color-2: #41577e
   }
+
+  @media (max-width: 680px) {
+	width: 52%;
+  }
+
+  @media (max-width: 600px) {
+	width: 58%;
+  }
 }
 
 .choice {

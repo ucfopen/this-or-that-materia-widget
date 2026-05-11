@@ -74,6 +74,11 @@ body {
     opacity: 0;
     scale: 0.9;
   }
+
+  @media (max-width: 680px) {
+	padding: 15px 10px;
+	font-size: 12px;
+  }
 }
 
 .choicesContainer {
@@ -86,6 +91,11 @@ body {
   @starting-style {
     opacity: 0;
     scale: 0.9;
+  }
+
+  @media (max-width: 660px) {
+	  flex-direction: column;
+	  align-items: center;
   }
 }
 
