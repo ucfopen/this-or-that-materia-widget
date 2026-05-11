@@ -207,7 +207,7 @@ export default function ScoreScreen({ qset, rawScoreTable, reportHeight }: Score
 
 	return (
 		<div className={`content-frame ${qset.options?.theme ?? 'whimsical'}`}>
-			<h2>Assessment Complete</h2>
+			<h2>Activity Complete</h2>
 			<h5>Review your answers below</h5>
 			{items}
 		</div>
