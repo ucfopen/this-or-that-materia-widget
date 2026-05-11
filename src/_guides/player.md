@@ -2,7 +2,7 @@
 
 ## Overview ##
 
-This or That tasks students with selecting the correct option in response to a question. Options are provided in pairs with a correct choice and an incorrect choice. Options can be an **image**, **plain text**, **audio** (with accompanying description), and **video**.
+This or That tasks students with selecting the correct option in response to a questionText. Options are provided in pairs with a correct choice and an incorrect choice. Options can be an **image**, **plain text**, **audio** (with accompanying description), and **video**.
 
 ![This or That player](assets/player_guide_1.png "This or That player")
 

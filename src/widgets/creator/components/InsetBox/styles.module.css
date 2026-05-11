@@ -1,0 +1,19 @@
+.insetBox {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: var(--inset-color);
+  padding: 25px;
+  border-radius: var(--inset-box-border-radius);
+  width: 100%;
+  border: solid 1px var(--inset-border);
+
+  &.alignCenter {
+    align-items: center;
+  }
+
+  & .insetBox {
+    background-color: var(--border-color);
+    border-radius: 5px;
+  }
+}
