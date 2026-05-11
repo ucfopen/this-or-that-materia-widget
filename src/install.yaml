@@ -34,6 +34,7 @@ meta_data:
   supported_data:
     - Multiple Choice
   about: >
-    This or That is a game in which students must answer questions by choosing one of two images.
+    This or That is a game-like activity in which students answer a series of questions by selecting between two choices. Freely choose between
+    text, image, audio, or embedded video for each answer choice.
   excerpt: >
-    Students must answer a question by choosing one of two images.
+    Select between a pair of answer choices that may contain images, text, audio, or video.
