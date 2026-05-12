@@ -57,7 +57,7 @@ export const creatorStateSlice = createSlice({
       if (state.qset.options['enableQuestionBank'] == undefined) state.qset.options.enableQuestionBank = false
       if (state.qset.options['questionBankVal'] == undefined) state.qset.options.questionBankVal = 1
       if (state.qset.options['randomizeOrder'] == undefined) state.qset.options.randomizeOrder = false
-      if (state.qset.options['theme'] == undefined) state.qset.options.theme = 'business'
+      if (state.qset.options['theme'] == undefined) state.qset.options.theme = 'whimsical'
 
       // Set initial randomize order cached value
       state.randomizeOrderCached = state.qset.options.randomizeOrder
