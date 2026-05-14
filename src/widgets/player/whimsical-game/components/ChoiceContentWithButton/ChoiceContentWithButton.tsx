@@ -10,13 +10,14 @@ interface ChoiceContentWithButtonProps {
   onSelect: () => void,
   state: ChoiceState,
   answerFeedback: string,
+  answerText?: string,
   expandable: boolean,
   onExpand?: () => void,
   children: ReactNode,
 }
 
 export default function ChoiceContentWithButton({
-  onHover, onSelect, state, answerFeedback, expandable, onExpand, children,
+  onHover, onSelect, state, answerFeedback, answerText = '', expandable, onExpand, children,
 }: ChoiceContentWithButtonProps) {
   return (
     <div
@@ -37,7 +38,7 @@ export default function ChoiceContentWithButton({
         )}
       </div>
       <div className={styles.choiceButtons}>
-        <Button style="secondary" onClick={onSelect} disabled={state != 'unpicked'}>Select</Button>
+        <Button style="secondary" onClick={onSelect} disabled={state != 'unpicked'} aria-label={answerText ? `Select answer: ${answerText}` : undefined}>Select</Button>
       </div>
       <ChoiceOverlay state={state} answerFeedback={answerFeedback} />
     </div>

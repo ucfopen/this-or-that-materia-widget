@@ -40,7 +40,8 @@ export default function BusinessGameChoice({
         onSelect={onSelect}
         disabled={disabled}
         onHover={setHovered}
-		onFocus={setFocused}>
+		onFocus={setFocused}
+        answerText={answerText}>
         <img className={styles.imgChoice} src={mediaUrl} alt={answerText} />
       </BusinessChoiceContent>
     )
@@ -53,7 +54,8 @@ export default function BusinessGameChoice({
       <BusinessChoiceContentWithButton
         onSelect={onSelect}
         disabled={disabled}
-        onHover={setHovered}>
+        onHover={setHovered}
+        answerText={answerText}>
         <iframe
           className={styles.videoFrame}
           width="100%"
@@ -72,7 +74,8 @@ export default function BusinessGameChoice({
       <BusinessChoiceContentWithButton
         onSelect={onSelect}
         disabled={disabled}
-        onHover={setHovered}>
+        onHover={setHovered}
+        answerText={answerText}>
         <figcaption className={styles.audioDescription}>
           <p className={styles.audioDescLabel}>AUDIO DESCRIPTION</p>
           <p>{answerText}</p>
@@ -92,7 +95,8 @@ export default function BusinessGameChoice({
         onSelect={onSelect}
         disabled={disabled}
         onHover={setHovered}
-		onFocus={setFocused}>
+		onFocus={setFocused}
+        answerText={answerText}>
         <p>{mediaUrl}</p>
       </BusinessChoiceContent>
     )

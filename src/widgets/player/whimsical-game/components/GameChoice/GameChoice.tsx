@@ -61,6 +61,7 @@ export default function GameChoice({
         onSelect={onSelect}
         state={state}
         answerFeedback={answerFeedback}
+        answerText={answerText}
         expandable
         onExpand={() => openLightbox(lightboxRender)}>
         <img src={mediaUrl} alt={answerText} draggable={false} />
@@ -76,6 +77,7 @@ export default function GameChoice({
         onSelect={onSelect}
         state={state}
         answerFeedback={answerFeedback}
+        answerText={answerText}
         expandable
         onExpand={() => openLightbox(lightboxRender)}>
         <iframe
@@ -94,6 +96,7 @@ export default function GameChoice({
         onSelect={onSelect}
         state={state}
         answerFeedback={answerFeedback}
+        answerText={answerText}
         expandable={false}>
         <figure className={styles.audioFigure}>
           <audio controls src={mediaUrl}>
@@ -113,7 +116,8 @@ export default function GameChoice({
         onHover={onHover}
         onSelect={onSelect}
         state={state}
-        answerFeedback={answerFeedback}>
+        answerFeedback={answerFeedback}
+        answerText={answerText}>
         <div className={styles.textChoice}>
           <p>{mediaUrl}</p>
         </div>

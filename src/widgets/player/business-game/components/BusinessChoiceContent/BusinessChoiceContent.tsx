@@ -7,10 +7,11 @@ interface BusinessChoiceContentProps {
   onHover: (hovered: boolean) => void,
   children: ReactNode,
   onFocus: (focused: boolean) => void,
+  answerText?: string,
 }
 
 export default function BusinessChoiceContent(
-  { onSelect, disabled, onHover, children, onFocus }: BusinessChoiceContentProps,
+  { onSelect, disabled, onHover, children, onFocus, answerText = '' }: BusinessChoiceContentProps,
 ) {
   return (
     <button
@@ -20,7 +21,8 @@ export default function BusinessChoiceContent(
       onMouseEnter={() => onHover(true)}
       onMouseLeave={() => onHover(false)}
 	  onFocus={() => onFocus(true)}
-	  onBlur={() => onFocus(false)}>
+	  onBlur={() => onFocus(false)}
+      aria-label={answerText ? `Select answer: ${answerText}` : undefined}>
       {children}
     </button>
   )
