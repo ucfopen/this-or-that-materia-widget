@@ -26,6 +26,7 @@ export default function BusinessGameChoice({
   choiceType, mediaUrl, answerText, answerFeedback, onSelect, state, highlightCorrectOnFail, disabled, animationState, openLightbox,
 }: BusinessGameChoiceProps) {
   const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
 
   // Render media
   let mediaRender = null
@@ -38,7 +39,8 @@ export default function BusinessGameChoice({
       <BusinessChoiceContent
         onSelect={onSelect}
         disabled={disabled}
-        onHover={setHovered}>
+        onHover={setHovered}
+		onFocus={setFocused}>
         <img className={styles.imgChoice} src={mediaUrl} alt={answerText} />
       </BusinessChoiceContent>
     )
@@ -89,7 +91,8 @@ export default function BusinessGameChoice({
       <BusinessChoiceContent
         onSelect={onSelect}
         disabled={disabled}
-        onHover={setHovered}>
+        onHover={setHovered}
+		onFocus={setFocused}>
         <p>{mediaUrl}</p>
       </BusinessChoiceContent>
     )
@@ -100,6 +103,7 @@ export default function BusinessGameChoice({
       className={clsx({
         [styles.choiceBorder]: true,
         [styles.hovered]: hovered,
+		[styles.focused]: focused,
       })}
       >
       <div

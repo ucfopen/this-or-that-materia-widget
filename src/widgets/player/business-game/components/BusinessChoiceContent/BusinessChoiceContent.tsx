@@ -6,10 +6,11 @@ interface BusinessChoiceContentProps {
   disabled: boolean,
   onHover: (hovered: boolean) => void,
   children: ReactNode,
+  onFocus: (focused: boolean) => void,
 }
 
 export default function BusinessChoiceContent(
-  { onSelect, disabled, onHover, children }: BusinessChoiceContentProps,
+  { onSelect, disabled, onHover, children, onFocus }: BusinessChoiceContentProps,
 ) {
   return (
     <button
@@ -17,7 +18,9 @@ export default function BusinessChoiceContent(
       onClick={onSelect}
       disabled={disabled}
       onMouseEnter={() => onHover(true)}
-      onMouseLeave={() => onHover(false)}>
+      onMouseLeave={() => onHover(false)}
+	  onFocus={() => onFocus(true)}
+	  onBlur={() => onFocus(false)}>
       {children}
     </button>
   )

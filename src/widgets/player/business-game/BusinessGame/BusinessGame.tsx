@@ -78,7 +78,7 @@ export default function BusinessGame({
             className={clsx({
               [styles.questionContainer]: true,
               [styles.outro]: doMidPhaseAnims,
-            })}>
+            })} aria-live="polite">
             <h2>{currentQuestion?.questions[0].text}</h2>
           </div>
 
