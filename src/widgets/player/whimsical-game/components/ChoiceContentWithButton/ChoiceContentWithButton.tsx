@@ -37,7 +37,7 @@ export default function ChoiceContentWithButton({
         )}
       </div>
       <div className={styles.choiceButtons}>
-        <Button style="secondary" onClick={onSelect}>Select</Button>
+        <Button style="secondary" onClick={onSelect} disabled={state != 'unpicked'}>Select</Button>
       </div>
       <ChoiceOverlay state={state} answerFeedback={answerFeedback} />
     </div>

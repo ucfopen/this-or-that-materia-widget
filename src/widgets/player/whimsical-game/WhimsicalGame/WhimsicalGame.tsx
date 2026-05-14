@@ -83,13 +83,14 @@ export default function WhimsicalGame({
             })}>
             <button
               className={styles.inGameInstructionsButton}
+              aria-label="Open Keyboard Controls"
               onClick={() => { setTutorialModalOpen(true) }}>
               ?
             </button>
             <h2 className={clsx({
               [styles.questionText]: true,
               [styles.lowered]: doMidPhaseAnims,
-            })}>
+            })} aria-live="polite">
               {currentQuestion.questions[0].text}
             </h2>
             <div
@@ -97,7 +98,11 @@ export default function WhimsicalGame({
               onClick={() => {}}
               onMouseEnter={() => {}}
               onMouseLeave={() => {}}>
-              <div className={styles.puckContainer}>
+              <div
+                className={styles.puckContainer}
+                tabIndex={0}
+                aria-label={`Question ${currentQuestionIndex + 1} of ${totalNumberOfQuestions}: ${currentQuestion.questions[0].text}`}
+            >
                 <p className={clsx([styles.puck, styles.front])}>{currentQuestionIndex + 1}</p>
                 <p className={clsx([styles.puck, styles.back])}>{`of ${totalNumberOfQuestions}`}</p>
               </div>

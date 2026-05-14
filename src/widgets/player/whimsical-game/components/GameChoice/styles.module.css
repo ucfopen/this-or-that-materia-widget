@@ -38,20 +38,20 @@
     flex-basis: 90%;
     max-width: 480px;
     aspect-ratio: var(--image-aspect-ratio);
-    padding: 5.25% 5% 5.75% 5%;
+    padding: 2rem 1.75rem;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 
     &.unpicked {
-      background-color: #f8a844;
+      background-color: var(--whimsical-frame-bg-color);
       mask-image: url('/src/assets/player-frame.svg');
       mask-size: contain;
       mask-repeat: no-repeat;
       mask-position: center;
 
       &:hover {
-        background-color: #ffc280;
+        background-color: var(--whimsical-frame-highlight-color);
       }
     }
 
@@ -104,6 +104,12 @@
     &.right {
       animation: bouncy-out-thatimg 0.5s forwards;
     }
+  }
+}
+
+.container:has(button:focus) {
+  .frame.unpicked {
+    background-color: var(--whimsical-frame-highlight-color);
   }
 }
 

@@ -33,6 +33,7 @@ export default function ChoiceContent({
         onMouseEnter={() => onHover(true)}
         onMouseLeave={() => onHover(false)}
         onClick={onSelect}
+        disabled={state != 'unpicked'}
       >
         {children}
         <ChoiceOverlay state={state} answerFeedback={answerFeedback} />
@@ -45,6 +46,7 @@ export default function ChoiceContent({
           icon="assets/expand.svg"
           onClick={onExpand}
           square
+		  aria-label="Click to enlarge this content in a modal"
         />
       )}
     </div>

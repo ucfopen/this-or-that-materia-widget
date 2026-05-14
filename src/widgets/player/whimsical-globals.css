@@ -7,6 +7,10 @@ body {
   --gold: #FFA30FFF;
   --gold-light: #FFB743FF;
 
+  --whimsical-frame-bg-color: #f8a844;
+  --whimsical-frame-highlight-color: #ffc280;
+  --whimsical-frame-text-bg-color: rgba(251, 242, 219, 1);
+
   --chunky-font: 'Sigmar One';
   --regular-font: 'Buenard', serif;
   --bounce-timing: cubic-bezier(0.34, 1.56, 0.64, 1);
