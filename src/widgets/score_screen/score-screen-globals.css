@@ -310,11 +310,9 @@ div.content-frame {
 		position: relative;
 		width: calc(100% - 100px);
 		padding: 70px 50px 50px 50px;
-		background-image:	url('/src/assets/score-screen-curtains-top.svg'),
-							url('/src/assets/score-screen-curtains-side.svg'),
-							url('/src/assets/score-screen-curtains-side-mirrored.svg');
-		background-repeat: repeat-x, repeat-y, repeat-y;
-		background-position: calc(50% - 5px) -5px, -25px 0, calc(100% + 25px) 0;
+		background-image: url('/src/assets/score-screen-curtains-top.svg');
+		background-repeat: repeat-x;
+		background-position: calc(50% - 5px) -5px;
 
 		background-color: var(--whimsical-background-color);
 

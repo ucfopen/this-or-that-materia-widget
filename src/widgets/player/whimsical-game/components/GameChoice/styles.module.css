@@ -132,6 +132,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 1em;
+  width: 100%;
   padding: 2em 0.5em;
   background-color: #fcf3e3;
   color: #000;
