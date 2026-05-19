@@ -64,3 +64,9 @@
     }
   }
 }
+
+@media (max-width: 660px) {
+  .hands {
+    visibility: hidden;
+  }
+}

@@ -14,6 +14,27 @@ export default function BusinessGame({
 }: GameProps) {
   // Intro/outro
   const [introClosed, setIntroClosed] = useState(false)
+  const [announcementText, setAnnouncementText] = useState('')
+
+  useEffect(() => {
+    if (leftChoiceState !== 'unpicked') {
+      const stateText = leftChoiceState === 'correct' ? 'CORRECT' : 'INCORRECT'
+      const feedback = leftChoice.options.feedback
+      const announcement = feedback ? `${stateText} ${feedback}` : stateText
+
+      setAnnouncementText('')
+      setTimeout(() => setAnnouncementText(announcement), 100)
+    } else if (rightChoiceState !== 'unpicked') {
+      const stateText = rightChoiceState === 'correct' ? 'CORRECT' : 'INCORRECT'
+      const feedback = rightChoice.options.feedback
+      const announcement = feedback ? `${stateText} ${feedback}` : stateText
+
+      setAnnouncementText('')
+      setTimeout(() => setAnnouncementText(announcement), 100)
+    } else {
+      setAnnouncementText('')
+    }
+  }, [leftChoiceState, rightChoiceState, leftChoice, rightChoice])
 
   // Lightbox
   const [lightboxContent, setLightboxContent] = useState<ReactNode>(null)
@@ -42,6 +63,19 @@ export default function BusinessGame({
 
   return (
     <main className={styles.main}>
+      <div 
+        aria-live="polite" 
+        role="status"
+        style={{
+          position: 'absolute',
+          left: '-10000px',
+          width: '1px',
+          height: '1px',
+          overflow: 'hidden',
+        }}>
+        {announcementText}
+      </div>
+
       <BusinessIntro
         hide={introClosed}
         onNext={() => {
@@ -78,7 +112,7 @@ export default function BusinessGame({
             className={clsx({
               [styles.questionContainer]: true,
               [styles.outro]: doMidPhaseAnims,
-            })}>
+            })} aria-live="polite">
             <h2>{currentQuestion?.questions[0].text}</h2>
           </div>
 
@@ -94,7 +128,7 @@ export default function BusinessGame({
               key={leftChoice.id}
               choiceType={leftChoice.options.asset.type}
               mediaUrl={leftChoice.options.asset.value}
-              answerText={leftChoice.text}
+              answerText={leftChoice.options.asset.type != 'text' ? leftChoice.text : leftChoice.options.asset.value}
               answerFeedback={leftChoice.options.feedback}
               onSelect={() => submitQuestion('left')}
               state={leftChoiceState}
@@ -108,7 +142,7 @@ export default function BusinessGame({
               key={rightChoice.id}
               choiceType={rightChoice.options.asset.type}
               mediaUrl={rightChoice.options.asset.value}
-              answerText={rightChoice.text}
+              answerText={rightChoice.options.asset.type != 'text' ? rightChoice.text : rightChoice.options.asset.value}
               answerFeedback={rightChoice.options.feedback}
               onSelect={() => submitQuestion('right')}
               state={rightChoiceState}

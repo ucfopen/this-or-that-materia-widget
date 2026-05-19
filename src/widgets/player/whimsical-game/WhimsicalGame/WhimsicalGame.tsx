@@ -26,6 +26,27 @@ export default function WhimsicalGame({
   const [lightboxContent, setLightboxContent] = useState<ReactNode | null>(null)
   const [lightboxClosing, setLightboxClosing] = useState(false)
   const [tutorialModalOpen, setTutorialModalOpen] = useState(false)
+  const [announcementText, setAnnouncementText] = useState('')
+
+  useEffect(() => {
+    if (leftChoiceState !== 'unpicked') {
+      const stateText = leftChoiceState === 'correct' ? 'Correct!' : 'Incorrect!'
+      const feedback = leftChoice.options.feedback
+      const announcement = feedback ? `${stateText} ${feedback}` : stateText
+
+      setAnnouncementText('')
+      setTimeout(() => setAnnouncementText(announcement), 100)
+    } else if (rightChoiceState !== 'unpicked') {
+      const stateText = rightChoiceState === 'correct' ? 'Correct!' : 'Incorrect!'
+      const feedback = rightChoice.options.feedback
+      const announcement = feedback ? `${stateText} ${feedback}` : stateText
+
+      setAnnouncementText('')
+      setTimeout(() => setAnnouncementText(announcement), 100)
+    } else {
+      setAnnouncementText('')
+    }
+  }, [leftChoiceState, rightChoiceState, leftChoice, rightChoice])
 
   // Calculate hand states
   useEffect(() => {
@@ -54,7 +75,18 @@ export default function WhimsicalGame({
 
   return (
     <main className={styles.main}>
-      <div aria-live="assertive" role="status" />
+      <div 
+        aria-live="polite" 
+        role="status"
+        style={{
+          position: 'absolute',
+          left: '-10000px',
+          width: '1px',
+          height: '1px',
+          overflow: 'hidden',
+        }}>
+        {announcementText}
+      </div>
 
       <SplashScreen
         isRaised={gameInProgress}
@@ -83,13 +115,14 @@ export default function WhimsicalGame({
             })}>
             <button
               className={styles.inGameInstructionsButton}
+              aria-label="Open Keyboard Controls"
               onClick={() => { setTutorialModalOpen(true) }}>
               ?
             </button>
             <h2 className={clsx({
               [styles.questionText]: true,
               [styles.lowered]: doMidPhaseAnims,
-            })}>
+            })} aria-live="polite">
               {currentQuestion.questions[0].text}
             </h2>
             <div
@@ -97,7 +130,11 @@ export default function WhimsicalGame({
               onClick={() => {}}
               onMouseEnter={() => {}}
               onMouseLeave={() => {}}>
-              <div className={styles.puckContainer}>
+              <div
+                className={styles.puckContainer}
+                tabIndex={0}
+                aria-label={`Question ${currentQuestionIndex + 1} of ${totalNumberOfQuestions}: ${currentQuestion.questions[0].text}`}
+            >
                 <p className={clsx([styles.puck, styles.front])}>{currentQuestionIndex + 1}</p>
                 <p className={clsx([styles.puck, styles.back])}>{`of ${totalNumberOfQuestions}`}</p>
               </div>
@@ -115,7 +152,7 @@ export default function WhimsicalGame({
               side="left"
               choiceType={leftChoice.options.asset.type}
               mediaUrl={leftChoice.options.asset.value}
-              answerText={leftChoice.text}
+              answerText={leftChoice.options.asset.type != 'text' ? leftChoice.text : leftChoice.options.asset.value}
               answerFeedback={leftChoice.options.feedback}
               onHover={setLeftChoiceHovered}
               onSelect={() => { submitQuestion('left') }}
@@ -128,7 +165,7 @@ export default function WhimsicalGame({
               side="right"
               choiceType={rightChoice.options.asset.type}
               mediaUrl={rightChoice.options.asset.value}
-              answerText={rightChoice.text}
+              answerText={rightChoice.options.asset.type != 'text' ? rightChoice.text : rightChoice.options.asset.value}
               answerFeedback={rightChoice.options.feedback}
               onHover={setRightChoiceHovered}
               onSelect={() => { submitQuestion('right') }}

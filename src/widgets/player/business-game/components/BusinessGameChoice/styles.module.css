@@ -21,6 +21,11 @@
 
   &.hovered {
     --gradient-color-1: #5E7FBA;
+    --gradient-color-2: #41577e;
+  }
+
+  &.focused {
+    --gradient-color-1: #5E7FBA;
     --gradient-color-2: #41577e
   }
 

@@ -21,13 +21,17 @@
   width: 100%;
   height: 100%;
   cursor: pointer;
-  background-color: var(--whimsical-frame-bg-color);
   color: black;
+  background: var(--whimsical-frame-text-bg-color);
 
   & img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  &:disabled {
+	cursor: auto;
   }
 }
 

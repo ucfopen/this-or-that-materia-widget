@@ -12,7 +12,7 @@ window.addEventListener('drop', (e) => {
 })
 
 // State
-let currentTitle = ''
+let currentTitle = 'My This or That Widget'
 let saver = null
 let promptHandler = null
 let mediaHandler = null
@@ -47,7 +47,7 @@ materiaCallbacks.onSaveClicked = () => {
   }
 
   Materia.CreatorCore.save(
-    currentTitle,
+    currentTitle === '' ? 'My This or That Widget' : currentTitle,
     saverResult,
     saverResult.version
   )

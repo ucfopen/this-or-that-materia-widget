@@ -38,7 +38,15 @@ const cssLoader = {
 		"style-loader",
 		{
 			loader: "css-loader",
-			options: { esModule: false },
+			options: { 
+				esModule: false,
+				modules: {
+					auto: true,
+					localIdentName: process.env.NODE_ENV === 'production'
+						? '[hash:base64:5]'
+						: '[path][name]__[local]'
+				}
+			},
 		},
 		{
 			loader: "postcss-loader",

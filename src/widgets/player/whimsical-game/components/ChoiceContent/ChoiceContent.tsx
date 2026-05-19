@@ -10,6 +10,7 @@ interface ChoiceContentProps {
   onSelect: () => void,
   state: ChoiceState,
   answerFeedback: string,
+  answerText?: string,
   expandable?: boolean,
   onExpand?: () => void,
   children: ReactNode,
@@ -20,6 +21,7 @@ export default function ChoiceContent({
   onSelect,
   state,
   answerFeedback,
+  answerText = '',
   expandable = false,
   onExpand = () => {},
   children,
@@ -33,6 +35,8 @@ export default function ChoiceContent({
         onMouseEnter={() => onHover(true)}
         onMouseLeave={() => onHover(false)}
         onClick={onSelect}
+        disabled={state != 'unpicked'}
+        aria-label={answerText ? `Select answer: ${answerText}` : undefined}
       >
         {children}
         <ChoiceOverlay state={state} answerFeedback={answerFeedback} />
@@ -45,6 +49,7 @@ export default function ChoiceContent({
           icon="assets/expand.svg"
           onClick={onExpand}
           square
+		  aria-label="Click to enlarge this content in a modal"
         />
       )}
     </div>

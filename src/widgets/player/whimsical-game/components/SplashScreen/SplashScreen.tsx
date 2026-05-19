@@ -1,6 +1,7 @@
 import styles from './styles.module.css'
 import clsx from 'clsx'
 import { Button } from '../Button/Button'
+import { useRef, useEffect } from 'react'
 
 type SplashScreenProps = {
   closeIntro: () => void,
@@ -13,6 +14,14 @@ export default function SplashScreen({
   isRaised,
   mode,
 }: SplashScreenProps) {
+  const endButtonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (mode === 'end' && !isRaised && endButtonRef.current) {
+      endButtonRef.current.focus()
+    }
+  }, [mode, isRaised])
+
   return (
     <div className={clsx({
       [styles.splashScreen]: true,
@@ -50,8 +59,9 @@ export default function SplashScreen({
 
         {mode === 'end' && (
           <Button
+            ref={endButtonRef}
             className={styles.startButton}
-            aria-label="TODO CHANGE"
+            aria-label="Game complete! Continue to the score screen to view your results."
             aria-hidden={false}
             size="l"
             onClick={closeIntro}>

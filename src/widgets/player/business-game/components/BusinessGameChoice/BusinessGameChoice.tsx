@@ -26,6 +26,7 @@ export default function BusinessGameChoice({
   choiceType, mediaUrl, answerText, answerFeedback, onSelect, state, highlightCorrectOnFail, disabled, animationState, openLightbox,
 }: BusinessGameChoiceProps) {
   const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
 
   // Render media
   let mediaRender = null
@@ -38,7 +39,9 @@ export default function BusinessGameChoice({
       <BusinessChoiceContent
         onSelect={onSelect}
         disabled={disabled}
-        onHover={setHovered}>
+        onHover={setHovered}
+		onFocus={setFocused}
+        answerText={answerText}>
         <img className={styles.imgChoice} src={mediaUrl} alt={answerText} />
       </BusinessChoiceContent>
     )
@@ -51,7 +54,8 @@ export default function BusinessGameChoice({
       <BusinessChoiceContentWithButton
         onSelect={onSelect}
         disabled={disabled}
-        onHover={setHovered}>
+        onHover={setHovered}
+        answerText={answerText}>
         <iframe
           className={styles.videoFrame}
           width="100%"
@@ -70,7 +74,8 @@ export default function BusinessGameChoice({
       <BusinessChoiceContentWithButton
         onSelect={onSelect}
         disabled={disabled}
-        onHover={setHovered}>
+        onHover={setHovered}
+        answerText={answerText}>
         <figcaption className={styles.audioDescription}>
           <p className={styles.audioDescLabel}>AUDIO DESCRIPTION</p>
           <p>{answerText}</p>
@@ -89,7 +94,9 @@ export default function BusinessGameChoice({
       <BusinessChoiceContent
         onSelect={onSelect}
         disabled={disabled}
-        onHover={setHovered}>
+        onHover={setHovered}
+		onFocus={setFocused}
+        answerText={answerText}>
         <p>{mediaUrl}</p>
       </BusinessChoiceContent>
     )
@@ -100,6 +107,7 @@ export default function BusinessGameChoice({
       className={clsx({
         [styles.choiceBorder]: true,
         [styles.hovered]: hovered,
+		[styles.focused]: focused,
       })}
       >
       <div
