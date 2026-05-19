@@ -37,6 +37,7 @@
     display: flex;
     flex-basis: 90%;
     max-width: 480px;
+    min-height: 0; /* addresses flexbox child collapse bug in Safari */
     aspect-ratio: var(--image-aspect-ratio);
     padding: 2rem 1.75rem;
     background-size: contain;
